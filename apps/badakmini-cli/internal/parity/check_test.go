@@ -1,17 +1,19 @@
 package parity
 
 import (
-	"os"
-	"path/filepath"
+	"errors"
+	"fmt"
+	"io/fs"
 	"strings"
 	"testing"
+	"testing/fstest"
 )
 
 func TestCheckAcceptsHarnessesThatExposeTheSameEntries(t *testing.T) {
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer", "repo-explorer")
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer", "repo-explorer")
 
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a successful check, got %v", err)
 	}
@@ -21,13 +23,11 @@ func TestCheckAcceptsHarnessesThatExposeTheSameEntries(t *testing.T) {
 }
 
 func TestCheckReportsAHarnessMissingASubagent(t *testing.T) {
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
-	// Adding an agent for one tool and forgetting the others is the mistake
-	// this check exists to catch.
-	writeFile(t, filepath.Join(root, ".claude/agents/planner.md"), "planner")
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer")
+	putParityFile(fileSystem, ".claude/agents/planner.md", "planner")
 
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
@@ -38,37 +38,37 @@ func TestCheckReportsAHarnessMissingASubagent(t *testing.T) {
 		if finding.Capability != "subagent" || len(finding.Missing) != 1 || finding.Missing[0] != "planner" {
 			t.Fatalf("unexpected finding: %#v", finding)
 		}
-		if finding.Harness == "Claude Code" {
+		if finding.Harness == claudeHarness {
 			t.Fatalf("the harness that has the agent must not be reported: %#v", finding)
 		}
 	}
 }
 
-func TestCheckIgnoresDirectoryIndexes(t *testing.T) {
-	// Every harness directory carries a README index. Counting it would report
-	// a difference for a file that defines no capability.
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
-	writeFile(t, filepath.Join(root, ".claude/agents/README.md"), "index")
-	writeFile(t, filepath.Join(root, ".opencode/agents/README.md"), "index")
-	writeFile(t, filepath.Join(root, ".codex/agents/README.md"), "index")
+func TestCheckIgnoresIndexesAndNonCapabilities(t *testing.T) {
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer")
+	putParityFile(fileSystem, ".claude/agents/README.md", "index")
+	putParityFile(fileSystem, ".opencode/agents/README.md", "index")
+	putParityFile(fileSystem, ".codex/agents/README.md", "index")
+	putParityFile(fileSystem, ".claude/agents/notes.txt", "notes")
+	putParityFile(fileSystem, ".claude/agents/nested/planner.md", "nested")
+	putParityFile(fileSystem, ".claude/skills/reference/notes.md", "support")
+	putParityFile(fileSystem, ".claude/skills/standalone.md", "not a skill")
 
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
 	if len(findings) != 0 {
-		t.Fatalf("expected no findings, got %#v", findings)
+		t.Fatalf("expected indexes and non-capabilities to be ignored, got %#v", findings)
 	}
 }
 
 func TestCheckSkipsCapabilitiesNoHarnessUses(t *testing.T) {
-	// A repository with no skills has not decided to have any, so demanding
-	// them everywhere would invent work rather than report a gap.
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer")
 
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
@@ -80,50 +80,27 @@ func TestCheckSkipsCapabilitiesNoHarnessUses(t *testing.T) {
 }
 
 func TestCheckRequiresASkillInEveryHarnessDirectory(t *testing.T) {
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
-	writeFile(t, filepath.Join(root, ".claude/skills/review/SKILL.md"), "review")
-	// A directory without the manifest is supporting material, not a skill.
-	writeFile(t, filepath.Join(root, ".claude/skills/review/reference.md"), "notes")
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer")
+	putParityFile(fileSystem, ".claude/skills/review/SKILL.md", "review")
+	putParityFile(fileSystem, ".claude/skills/review/reference.md", "notes")
 
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
-	if len(findings) != 1 {
+	if len(findings) != 1 || findings[0].Harness != codexHarness || findings[0].Missing[0] != "review" {
 		t.Fatalf("expected only Codex to be missing the skill, got %#v", findings)
 	}
-	if findings[0].Harness != "Codex" || findings[0].Missing[0] != "review" {
-		t.Fatalf("unexpected finding: %#v", findings[0])
-	}
 }
 
-func TestCheckIgnoresNonCapabilitiesInHarnessDirectories(t *testing.T) {
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
-	writeFile(t, filepath.Join(root, ".claude/agents/notes.txt"), "notes")
-	writeFile(t, filepath.Join(root, ".claude/agents/nested/planner.md"), "nested")
-	writeFile(t, filepath.Join(root, ".claude/skills/reference/notes.md"), "supporting material")
-	writeFile(t, filepath.Join(root, ".claude/skills/standalone.md"), "not a skill directory")
+func TestCheckReadsOpencodeSkillsFromSharedDirectories(t *testing.T) {
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer")
+	putParityFile(fileSystem, ".claude/skills/review/SKILL.md", "review")
+	putParityFile(fileSystem, ".agents/skills/review/SKILL.md", "review")
 
-	findings, err := Check(root)
-	if err != nil {
-		t.Fatalf("expected a completed check, got %v", err)
-	}
-	if len(findings) != 0 {
-		t.Fatalf("expected non-capability entries to be ignored, got %#v", findings)
-	}
-}
-
-func TestCheckReadsOpencodeSkillsFromTheSharedDirectories(t *testing.T) {
-	// opencode loads .claude/skills and .agents/skills as well as its own, so a
-	// skill mirrored for the other two harnesses already reaches it.
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
-	writeFile(t, filepath.Join(root, ".claude/skills/review/SKILL.md"), "review")
-	writeFile(t, filepath.Join(root, ".agents/skills/review/SKILL.md"), "review")
-
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
@@ -133,16 +110,15 @@ func TestCheckReadsOpencodeSkillsFromTheSharedDirectories(t *testing.T) {
 }
 
 func TestCheckExemptsCodexFromCommands(t *testing.T) {
-	// Codex has no project command directory, so it cannot be counted for one.
-	root := t.TempDir()
-	writeSubagents(t, root, "drill-reviewer")
-	writeFile(t, filepath.Join(root, ".claude/commands/review.md"), "review")
+	fileSystem := fstest.MapFS{}
+	putSubagents(fileSystem, "drill-reviewer")
+	putParityFile(fileSystem, ".claude/commands/review.md", "review")
 
-	findings, err := Check(root)
+	findings, err := CheckFS(fileSystem)
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
-	if len(findings) != 1 || findings[0].Harness != "opencode" {
+	if len(findings) != 1 || findings[0].Harness != opencodeHarness {
 		t.Fatalf("expected only opencode to be reported, got %#v", findings)
 	}
 	if notes := UnsupportedNotes(); len(notes) == 0 || !strings.Contains(notes[0], "Codex") {
@@ -150,58 +126,56 @@ func TestCheckExemptsCodexFromCommands(t *testing.T) {
 	}
 }
 
-func TestFindingMessageNamesTheCapabilityAndHarness(t *testing.T) {
-	message := Finding{Capability: "subagent", Harness: "Codex", Missing: []string{"planner"}}.Message()
+func TestFindingMessageNamesAndPluralizesTheDifference(t *testing.T) {
+	singular := Finding{Capability: "subagent", Harness: codexHarness, Missing: []string{"planner"}}.Message()
+	if !strings.Contains(singular, "subagent") ||
+		!strings.Contains(singular, codexHarness) ||
+		!strings.Contains(singular, "planner") {
+		t.Fatalf("expected the capability, harness, and entry, got %q", singular)
+	}
 
-	if !strings.Contains(message, "subagent") || !strings.Contains(message, "Codex") ||
-		!strings.Contains(message, "planner") {
-		t.Fatalf("expected the capability, harness, and entry, got %q", message)
+	plural := Finding{Capability: "command", Harness: opencodeHarness, Missing: []string{"plan", "review"}}.Message()
+	if !strings.Contains(plural, "commands") || !strings.Contains(plural, "plan, review") {
+		t.Fatalf("expected a plural capability and both entries, got %q", plural)
 	}
 }
 
-func TestFindingMessagePluralizesMultipleEntries(t *testing.T) {
-	message := Finding{
-		Capability: "command",
-		Harness:    "opencode",
-		Missing:    []string{"plan", "review"},
-	}.Message()
+func TestCheckReportsInjectedHarnessDirectoryReadFailure(t *testing.T) {
+	injectedErr := errors.New("injected read failure")
+	fileSystem := failingFS{FS: fstest.MapFS{}, path: ".claude/agents", err: injectedErr}
 
-	if !strings.Contains(message, "commands") || !strings.Contains(message, "plan, review") {
-		t.Fatalf("expected a plural capability and both entries, got %q", message)
+	_, err := CheckFS(fileSystem)
+	if err == nil || !strings.Contains(err.Error(), "read .claude/agents") || !errors.Is(err, injectedErr) {
+		t.Fatalf("expected a contextualized harness directory read error, got %v", err)
 	}
 }
 
-func TestCheckReportsHarnessDirectoryReadFailure(t *testing.T) {
-	root := t.TempDir()
-	if err := os.Mkdir(filepath.Join(root, ".claude"), 0o750); err != nil {
-		t.Fatalf("create Claude harness directory: %v", err)
-	}
-	agentsPath := filepath.Join(root, ".claude", "agents")
-	if err := os.Symlink(agentsPath, agentsPath); err != nil {
-		t.Fatalf("create cyclic agents symlink: %v", err)
-	}
+type failingFS struct {
+	fs.FS
 
-	_, err := Check(root)
-	if err == nil || !strings.Contains(err.Error(), "read .claude/agents") {
-		t.Fatalf("expected a harness directory read error, got %v", err)
-	}
+	path string
+	err  error
 }
 
-func writeSubagents(t *testing.T, root string, names ...string) {
-	t.Helper()
+func (fileSystem failingFS) Open(name string) (fs.File, error) {
+	if name == fileSystem.path {
+		return nil, fileSystem.err
+	}
+	file, err := fileSystem.FS.Open(name)
+	if err != nil {
+		return nil, fmt.Errorf("open %s: %w", name, err)
+	}
+	return file, nil
+}
+
+func putSubagents(fileSystem fstest.MapFS, names ...string) {
 	for _, name := range names {
-		writeFile(t, filepath.Join(root, ".claude/agents", name+".md"), name)
-		writeFile(t, filepath.Join(root, ".codex/agents", name+".toml"), name)
-		writeFile(t, filepath.Join(root, ".opencode/agents", name+".md"), name)
+		putParityFile(fileSystem, ".claude/agents/"+name+".md", name)
+		putParityFile(fileSystem, ".codex/agents/"+name+".toml", name)
+		putParityFile(fileSystem, ".opencode/agents/"+name+".md", name)
 	}
 }
 
-func writeFile(t *testing.T, path, contents string) {
-	t.Helper()
-	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
-		t.Fatalf("create the directory for %s: %v", path, err)
-	}
-	if err := os.WriteFile(path, []byte(contents), 0o600); err != nil {
-		t.Fatalf("write %s: %v", path, err)
-	}
+func putParityFile(fileSystem fstest.MapFS, path, contents string) {
+	fileSystem[path] = &fstest.MapFile{Data: []byte(contents)}
 }

@@ -44,9 +44,19 @@ linters:
         standard-library-only:
           files:
             - $all
+            - "!$test"
+            - "!**/tests/bdd/*.go"
           allow:
             - $gostd
             - github.com/wahidyankf/grind-in-public/apps/badakmini-cli
+        test-support:
+          files:
+            - $test
+            - "**/tests/bdd/*.go"
+          allow:
+            - $gostd
+            - github.com/wahidyankf/grind-in-public/apps/badakmini-cli
+            - github.com/cucumber/godog
     goconst:
       # Test literals should state their input directly instead of hiding it behind production constants.
       ignore-tests: true

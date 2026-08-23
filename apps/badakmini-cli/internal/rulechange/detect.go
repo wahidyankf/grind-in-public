@@ -5,7 +5,6 @@ package rulechange
 import (
 	"encoding/json"
 	"fmt"
-	"os/exec"
 	"path/filepath"
 	"slices"
 	"sort"
@@ -83,24 +82,16 @@ func selectPaths(paths, files, directories []string) []string {
 	return matches
 }
 
-// StagedPaths lists the paths staged for the next commit. Staged content is
-// what a commit will record, so it is the honest input for a pre-commit check.
-func StagedPaths(root string) ([]string, error) {
-	// -z keeps paths intact when a name contains a space or a newline, which
-	// splitting on plain newlines would corrupt.
-	// #nosec G204 -- the executable and operation are fixed; root is only a Git working-directory argument.
-	output, err := exec.Command("git", "-C", root, "diff", "--cached", "--name-only", "-z").Output()
-	if err != nil {
-		return nil, fmt.Errorf("list staged paths: %w", err)
-	}
-
+// ParseStagedPaths decodes the NUL-delimited paths emitted by Git for the next
+// commit. The production entrypoint owns the Git process itself.
+func ParseStagedPaths(output []byte) []string {
 	var paths []string
 	for path := range strings.SplitSeq(string(output), "\x00") {
 		if path != "" {
 			paths = append(paths, path)
 		}
 	}
-	return paths, nil
+	return paths
 }
 
 // HookEvent is the part of a harness pre-edit hook payload this tool needs.

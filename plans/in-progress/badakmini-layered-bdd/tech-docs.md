@@ -19,7 +19,7 @@ The shared driver exposes scenario setup, command invocation, exit code, stdout,
 
 ## Production Boundary
 
-Move command orchestration into `apps/badakmini-cli/internal/cli`. `Run(context.Context, Runtime, []string) int` owns parsing, repository discovery, dispatch, streams, and exit behavior. `Runtime` supplies repository discovery, stdin/stdout/stderr, and command operations. The production constructor adapts the existing standard-library packages; `cmd/badak-mini/main.go` only constructs it and exits.
+Move command orchestration into `apps/badakmini-cli/internal/cli`. `Run(context.Context, Runtime, []string) int` owns parsing, repository discovery, dispatch, streams, and exit behavior. `Runtime` supplies repository discovery, stdin/stdout/stderr, validator results, and staged paths so every internal handler executes through doubles in unit tests. The thin `cmd/badak-mini/main.go` owns standard-library filesystem and Git-process adapter construction, passes those adapters to the production-used internal policy seams, and exits; no untestable host adapter remains inside the unit-owned `internal/...` denominator.
 
 Governance, Markdown-link, parity, rule-change, and CLI tests are reclassified before the final unit target is accepted. Pure helpers and collaborator-double cases remain beside their owning production files. Cases requiring real files, directories, symlinks, Git repositories, staged indexes, subprocesses, or working-directory changes move into one responsibility-named file below `tests/integration`. Production gains narrow filesystem, Git/process, or working-directory collaborators only where needed to establish the boundary; no symbol is exported solely to make a test possible.
 

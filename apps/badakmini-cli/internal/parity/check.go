@@ -3,9 +3,10 @@
 package parity
 
 import (
+	"errors"
 	"fmt"
-	"os"
-	"path/filepath"
+	"io/fs"
+	"path"
 	"slices"
 	"sort"
 	"strings"
@@ -105,9 +106,9 @@ func (finding Finding) Message() string {
 	)
 }
 
-// Check compares every capability across the harnesses that support it. It
-// returns each difference rather than the first, so one pass can fix them all.
-func Check(root string) ([]Finding, error) {
+// CheckFS compares every capability across the harnesses supplied by the
+// production filesystem adapter and returns every difference in one pass.
+func CheckFS(fileSystem fs.FS) ([]Finding, error) {
 	var findings []Finding
 
 	for _, capability := range capabilities {
@@ -115,7 +116,7 @@ func Check(root string) ([]Finding, error) {
 		union := map[string]struct{}{}
 
 		for _, surface := range capability.surfaces {
-			names, err := surfaceNames(root, surface)
+			names, err := surfaceNames(fileSystem, surface)
 			if err != nil {
 				return nil, err
 			}
@@ -159,10 +160,10 @@ func UnsupportedNotes() []string {
 	return notes
 }
 
-func surfaceNames(root string, surface surface) ([]string, error) {
+func surfaceNames(fileSystem fs.FS, surface surface) ([]string, error) {
 	var names []string
 	for _, source := range surface.sources {
-		sourceNames, err := sourceEntries(root, source)
+		sourceNames, err := sourceEntries(fileSystem, source)
 		if err != nil {
 			return nil, err
 		}
@@ -176,12 +177,12 @@ func surfaceNames(root string, surface surface) ([]string, error) {
 	return names, nil
 }
 
-func sourceEntries(root string, source source) ([]string, error) {
-	entries, err := os.ReadDir(filepath.Join(root, source.directory))
+func sourceEntries(fileSystem fs.FS, source source) ([]string, error) {
+	entries, err := fs.ReadDir(fileSystem, source.directory)
 	if err != nil {
 		// A directory a harness never received is the same as an empty one for
 		// this comparison, and the difference is reported against its peers.
-		if os.IsNotExist(err) {
+		if errors.Is(err, fs.ErrNotExist) {
 			return nil, nil
 		}
 		return nil, fmt.Errorf("read %s: %w", source.directory, err)
@@ -189,7 +190,7 @@ func sourceEntries(root string, source source) ([]string, error) {
 
 	var names []string
 	for _, entry := range entries {
-		name, ok := entryName(root, source, entry)
+		name, ok := entryName(fileSystem, source, entry)
 		if !ok {
 			continue
 		}
@@ -198,20 +199,20 @@ func sourceEntries(root string, source source) ([]string, error) {
 	return names, nil
 }
 
-func entryName(root string, source source, entry os.DirEntry) (string, bool) {
+func entryName(fileSystem fs.FS, source source, entry fs.DirEntry) (string, bool) {
 	if source.extension == "" {
 		if !entry.IsDir() {
 			return "", false
 		}
 		// Only a directory carrying the manifest is a skill; anything else is
 		// supporting material.
-		if _, err := os.Stat(filepath.Join(root, source.directory, entry.Name(), skillManifest)); err != nil {
+		if _, err := fs.Stat(fileSystem, path.Join(source.directory, entry.Name(), skillManifest)); err != nil {
 			return "", false
 		}
 		return entry.Name(), true
 	}
 
-	if entry.IsDir() || filepath.Ext(entry.Name()) != source.extension {
+	if entry.IsDir() || path.Ext(entry.Name()) != source.extension {
 		return "", false
 	}
 	name := strings.TrimSuffix(entry.Name(), source.extension)

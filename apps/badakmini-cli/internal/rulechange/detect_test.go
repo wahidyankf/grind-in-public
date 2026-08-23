@@ -1,10 +1,7 @@
 package rulechange
 
 import (
-	"os"
-	"os/exec"
 	"path/filepath"
-	"slices"
 	"strings"
 	"testing"
 )
@@ -62,44 +59,15 @@ func TestRulePathsIgnoresLookalikePrefixes(t *testing.T) {
 }
 
 func TestStagedPathsPreservesUnusualFilenames(t *testing.T) {
-	root := t.TempDir()
-	// #nosec G204 -- the executable and operation are fixed; root is a test-owned temporary directory.
-	command := exec.Command("git", "init", "--quiet", root)
-	if output, err := command.CombinedOutput(); err != nil {
-		t.Fatalf("initialize test repository: %s: %v", output, err)
-	}
 	paths := []string{"ordinary.md", "space name.md", "line\nbreak.md"}
-	for _, path := range paths {
-		if err := os.WriteFile(filepath.Join(root, path), []byte("content"), 0o600); err != nil {
-			t.Fatalf("write staged fixture %q: %v", path, err)
-		}
-	}
-	slices.Sort(paths)
-	arguments := append([]string{"-C", root, "add", "--"}, paths...)
-	// #nosec G204 -- the test controls the fixed Git operation and every temporary fixture path.
-	command = exec.Command("git", arguments...)
-	if output, err := command.CombinedOutput(); err != nil {
-		t.Fatalf("stage fixtures: %s: %v", output, err)
-	}
-
-	staged, err := StagedPaths(root)
-	if err != nil {
-		t.Fatalf("list staged paths: %v", err)
-	}
+	staged := ParseStagedPaths([]byte(strings.Join(paths, "\x00") + "\x00"))
 	if strings.Join(staged, "|") != strings.Join(paths, "|") {
 		t.Fatalf("expected %q, got %q", paths, staged)
 	}
 }
 
-func TestStagedPathsReportsGitFailure(t *testing.T) {
-	_, err := StagedPaths(t.TempDir())
-	if err == nil || !strings.Contains(err.Error(), "list staged paths") {
-		t.Fatalf("expected a staged-path Git error, got %v", err)
-	}
-}
-
 func TestHookPathsReadsEditPayload(t *testing.T) {
-	root := t.TempDir()
+	root := virtualRoot()
 	payload := []byte(`{"tool_name":"Edit","tool_input":{"file_path":"` +
 		filepath.ToSlash(filepath.Join(root, "AGENTS.md")) + `"}}`)
 
@@ -117,7 +85,7 @@ func TestHookPathsReadsAnApplyPatchPayload(t *testing.T) {
 		`"*** Begin Patch\n*** Update File: AGENTS.md\n-old\n+new\n` +
 		`*** Add File: .claude/agents/planner.md\n+text\n*** End Patch\n"}}`)
 
-	paths := RulePaths(HookPaths(payload, t.TempDir()))
+	paths := RulePaths(HookPaths(payload, virtualRoot()))
 
 	expected := []string{".claude/agents/planner.md", "AGENTS.md"}
 	if strings.Join(paths, ",") != strings.Join(expected, ",") {
@@ -126,7 +94,7 @@ func TestHookPathsReadsAnApplyPatchPayload(t *testing.T) {
 }
 
 func TestHookPathsReadsNotebookMoveAndDeletePaths(t *testing.T) {
-	root := t.TempDir()
+	root := virtualRoot()
 	payload := []byte(`{"tool_input":{"notebook_path":"` +
 		filepath.ToSlash(filepath.Join(root, ".codex", "notes.ipynb")) +
 		`","command":"*** Move to: .claude/agents/moved.md\n*** Delete File: AGENTS.md\n*** Add File:   \n"}}`)
@@ -142,7 +110,7 @@ func TestHookPathsIgnoresAShellCommandPayload(t *testing.T) {
 	// The same field carries shell commands, and ordinary work must stay silent.
 	payload := []byte(`{"tool_name":"Bash","tool_input":{"command":"npm test"}}`)
 
-	if paths := RulePaths(HookPaths(payload, t.TempDir())); len(paths) != 0 {
+	if paths := RulePaths(HookPaths(payload, virtualRoot())); len(paths) != 0 {
 		t.Fatalf("expected no paths, got %v", paths)
 	}
 }
@@ -150,7 +118,7 @@ func TestHookPathsIgnoresAShellCommandPayload(t *testing.T) {
 func TestHookPathsIgnoresUnreadablePayload(t *testing.T) {
 	// A notice must never break the edit it comments on, so malformed input
 	// yields nothing to report instead of an error.
-	if paths := HookPaths([]byte("not json"), t.TempDir()); paths != nil {
+	if paths := HookPaths([]byte("not json"), virtualRoot()); paths != nil {
 		t.Fatalf("expected no paths, got %v", paths)
 	}
 }
@@ -221,7 +189,7 @@ func TestNormalizeHandlesEmptyAndWindowsStylePaths(t *testing.T) {
 }
 
 func TestRelativeToLeavesRelativeAndOutsidePathsUnmatched(t *testing.T) {
-	root := t.TempDir()
+	root := virtualRoot()
 	if got := relativeTo(root, "AGENTS.md"); got != "AGENTS.md" {
 		t.Fatalf("expected a relative path to remain unchanged, got %q", got)
 	}
@@ -229,4 +197,8 @@ func TestRelativeToLeavesRelativeAndOutsidePathsUnmatched(t *testing.T) {
 	if got := relativeTo(root, outside); got != filepath.Join("..", "outside.md") {
 		t.Fatalf("expected an outside path to remain visibly outside, got %q", got)
 	}
+}
+
+func virtualRoot() string {
+	return filepath.Join(string(filepath.Separator), "root", "repository")
 }

@@ -2,10 +2,10 @@
 package markdownlinks
 
 import (
+	"errors"
 	"fmt"
+	"io/fs"
 	"net/url"
-	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -32,14 +32,22 @@ type link struct {
 	line        int
 }
 
+// Runtime supplies the filesystem and tracked-tree boundaries used by Check.
+type Runtime struct {
+	ReadFile     func(string) ([]byte, error)
+	Stat         func(string) (fs.FileInfo, error)
+	EvalSymlinks func(string) (string, error)
+	TrackedFiles func(string) (map[string]struct{}, error)
+}
+
 // Check validates every Git-tracked Markdown file beneath root. Using Git's
 // tracked tree excludes metadata, dependency installs, and generated output,
 // while still detecting links left dangling by a committed file deletion.
 // External URLs are deliberately ignored.
-func Check(root string) ([]Finding, error) {
+func Check(root string, runtime Runtime) ([]Finding, error) {
 	// Git defines the repository's document set. That avoids traversing ignored
 	// installs and build artifacts while still seeing staged deletions.
-	trackedFiles, err := findTrackedFiles(root)
+	trackedFiles, err := runtime.TrackedFiles(root)
 	if err != nil {
 		return nil, err
 	}
@@ -48,13 +56,13 @@ func Check(root string) ([]Finding, error) {
 	findings := make([]Finding, 0)
 	for _, sourcePath := range markdownFiles {
 		// #nosec G304 -- sourcePath comes from Git's tracked paths inside root.
-		contents, err := os.ReadFile(filepath.Join(root, sourcePath))
+		contents, err := runtime.ReadFile(filepath.Join(root, sourcePath))
 		if err != nil {
 			return nil, fmt.Errorf("read %s: %w", sourcePath, err)
 		}
 
 		for _, candidate := range extractLinks(string(contents)) {
-			finding := checkLink(root, sourcePath, candidate)
+			finding := checkLink(runtime, root, sourcePath, candidate)
 			if finding != nil {
 				findings = append(findings, *finding)
 			}
@@ -76,14 +84,10 @@ func Check(root string) ([]Finding, error) {
 	return findings, nil
 }
 
-func findTrackedFiles(root string) (map[string]struct{}, error) {
+// ParseTrackedFiles decodes the NUL-delimited output of Git ls-files.
+func ParseTrackedFiles(output []byte) map[string]struct{} {
 	// NUL delimiters preserve unusual but valid filenames that contain spaces or
 	// newlines; splitting ordinary line output would corrupt those paths.
-	// #nosec G204 -- the executable and operation are fixed; root is only a Git working-directory argument.
-	output, err := exec.Command("git", "-C", root, "ls-files", "-z").Output()
-	if err != nil {
-		return nil, fmt.Errorf("list tracked repository files: %w", err)
-	}
 	paths := strings.Split(strings.TrimSuffix(string(output), "\x00"), "\x00")
 	files := make(map[string]struct{}, len(paths))
 	for _, path := range paths {
@@ -91,7 +95,7 @@ func findTrackedFiles(root string) (map[string]struct{}, error) {
 			files[filepath.ToSlash(path)] = struct{}{}
 		}
 	}
-	return files, nil
+	return files
 }
 
 func filterMarkdownFiles(trackedFiles map[string]struct{}) []string {
@@ -316,7 +320,7 @@ func unbracketedDestination(value string, start int) (string, int, bool) {
 	return "", 0, false
 }
 
-func checkLink(root, sourcePath string, candidate link) *Finding {
+func checkLink(runtime Runtime, root, sourcePath string, candidate link) *Finding {
 	// Network validation would make pre-push slow and nondeterministic; this
 	// checker owns only repository-local references.
 	if isExternal(candidate.destination) {
@@ -335,7 +339,7 @@ func checkLink(root, sourcePath string, candidate link) *Finding {
 		return finding(sourcePath, candidate, "points outside this repository")
 	}
 
-	info, resolvedRoot, problem := inspectLocalTarget(root, targetPath)
+	info, resolvedRoot, problem := inspectLocalTarget(runtime, root, targetPath)
 	if problem != "" {
 		return finding(sourcePath, candidate, problem)
 	}
@@ -345,7 +349,7 @@ func checkLink(root, sourcePath string, candidate link) *Finding {
 		return nil
 	}
 
-	problem = checkFragmentTarget(targetPath, fragment, info, resolvedRoot)
+	problem = checkFragmentTarget(runtime, targetPath, fragment, info, resolvedRoot)
 	if problem != "" {
 		return finding(sourcePath, candidate, problem)
 	}
@@ -386,10 +390,10 @@ func localTargetPath(root, sourcePath, path string) string {
 	return filepath.Clean(filepath.Join(filepath.Dir(sourceFile), filepath.FromSlash(path)))
 }
 
-func inspectLocalTarget(root, targetPath string) (os.FileInfo, string, string) {
-	info, err := os.Stat(targetPath)
+func inspectLocalTarget(runtime Runtime, root, targetPath string) (fs.FileInfo, string, string) {
+	info, err := runtime.Stat(targetPath)
 	if err != nil {
-		if os.IsNotExist(err) {
+		if errors.Is(err, fs.ErrNotExist) {
 			return nil, "", "targets a file that does not exist"
 		}
 
@@ -397,11 +401,11 @@ func inspectLocalTarget(root, targetPath string) (os.FileInfo, string, string) {
 	}
 	// Lexical containment is not enough: a symlink inside the repository could
 	// resolve outside it, so validate both root and target after resolution.
-	resolvedRoot, err := filepath.EvalSymlinks(root)
+	resolvedRoot, err := runtime.EvalSymlinks(root)
 	if err != nil {
 		return nil, "", "cannot resolve the repository root"
 	}
-	resolvedTarget, err := filepath.EvalSymlinks(targetPath)
+	resolvedTarget, err := runtime.EvalSymlinks(targetPath)
 	if err != nil {
 		return nil, "", "cannot resolve its target"
 	}
@@ -412,10 +416,10 @@ func inspectLocalTarget(root, targetPath string) (os.FileInfo, string, string) {
 	return info, resolvedRoot, ""
 }
 
-func checkFragmentTarget(targetPath, fragment string, info os.FileInfo, resolvedRoot string) string {
+func checkFragmentTarget(runtime Runtime, targetPath, fragment string, info fs.FileInfo, resolvedRoot string) string {
 	if info.IsDir() {
 		var problem string
-		targetPath, info, problem = directoryFragmentTarget(targetPath, resolvedRoot)
+		targetPath, info, problem = directoryFragmentTarget(runtime, targetPath, resolvedRoot)
 		if problem != "" {
 			return problem
 		}
@@ -424,7 +428,7 @@ func checkFragmentTarget(targetPath, fragment string, info os.FileInfo, resolved
 		return "uses a fragment on a non-Markdown target"
 	}
 	// #nosec G304 -- targetPath passed lexical and resolved containment checks above.
-	contents, err := os.ReadFile(targetPath)
+	contents, err := runtime.ReadFile(targetPath)
 	if err != nil {
 		return "cannot read its fragment target"
 	}
@@ -435,14 +439,14 @@ func checkFragmentTarget(targetPath, fragment string, info os.FileInfo, resolved
 	return ""
 }
 
-func directoryFragmentTarget(targetPath, resolvedRoot string) (string, os.FileInfo, string) {
+func directoryFragmentTarget(runtime Runtime, targetPath, resolvedRoot string) (string, fs.FileInfo, string) {
 	// Repository directory links render README.md, so fragments use that file.
 	readmePath := filepath.Join(targetPath, "README.md")
-	info, err := os.Stat(readmePath)
+	info, err := runtime.Stat(readmePath)
 	if err != nil {
 		return "", nil, "targets a directory without README.md for its fragment"
 	}
-	resolvedTarget, err := filepath.EvalSymlinks(readmePath)
+	resolvedTarget, err := runtime.EvalSymlinks(readmePath)
 	if err != nil {
 		return "", nil, "cannot resolve its target"
 	}
