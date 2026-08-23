@@ -6,4 +6,4 @@ Execution reads and ticks `delivery.md` in place, following the [plan-execution]
 
 ## Active Plans
 
-None yet.
+- [Badak Mini Layered BDD](badakmini-layered-bdd/README.md) — adopt BeaverNest-style executable specs and layered testing for Badak Mini, then make the model compulsory for applications and libraries.

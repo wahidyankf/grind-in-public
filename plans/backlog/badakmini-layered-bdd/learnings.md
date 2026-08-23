@@ -1,3 +1,0 @@
-# Learnings
-
-No entries yet.
