@@ -4,18 +4,18 @@ Tags: `[AI]` means an agent completes the item, `[HUMAN]` means the owner comple
 
 ## Phase 0: Baseline
 
-- [ ] [AI] Run `npm install` — acceptance: locked workspace dependencies install successfully without changing `package-lock.json`.
-- [ ] [AI] Run `npm run test:quick` — acceptance: the pre-change quick gate exits 0.
-- [ ] [AI] Run `npm run format:check` — acceptance: the pre-change format gate exits 0.
-- [ ] [AI] Run `npm run check:markdown-links` — acceptance: the pre-change Markdown-link gate exits 0.
-- [ ] [AI] Record the four baseline commands, exit statuses, and concise results in `plans/in-progress/badakmini-layered-bdd/learnings.md` — acceptance: each preceding command has one non-secret result entry. No separate command applies because this action records evidence from the preceding shell output.
+- [x] [AI] Run `npm install` — acceptance: locked workspace dependencies install successfully without changing `package-lock.json`.
+- [x] [AI] Run `npm run test:quick` — acceptance: the pre-change quick gate exits 0.
+- [x] [AI] Run `npm run format:check` — acceptance: the pre-change format gate exits 0.
+- [x] [AI] Run `npm run check:markdown-links` — acceptance: the pre-change Markdown-link gate exits 0.
+- [x] [AI] Record the four baseline commands, exit statuses, and concise results in `plans/in-progress/badakmini-layered-bdd/learnings.md` — acceptance: each preceding command has one non-secret result entry. No separate command applies because this action records evidence from the preceding shell output.
 
 ### Phase 0 Gate
 
 > Every check below passes before Phase 1 begins. If any baseline check fails, stop without repairing the repository and record the command, exit status, and observed failure in `learnings.md` for owner direction.
 
-- [ ] [AI] Run `git status --short` — acceptance: only the plan and its stage index are modified.
-- [ ] [AI] Run `npm run test:quick` — acceptance: the existing Badak quick gate exits 0.
+- [x] [AI] Run `git status --short` — acceptance: only the plan and its stage index are modified.
+- [x] [AI] Run `npm run test:quick` — acceptance: the existing Badak quick gate exits 0.
 
 > **Pause Safety**: The validated plan is the only repository change and the existing application remains green. Safe to stop. Resume with `npm run test:quick`.
 
