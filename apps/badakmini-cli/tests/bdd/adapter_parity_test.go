@@ -59,29 +59,66 @@ func TestAdaptersShareCanonicalCatalogAndBindings(t *testing.T) {
 	if err != nil {
 		t.Fatalf("locate module root: %v", err)
 	}
-	adapterSources := map[string]string{
+	ownerAdapterSources := map[string]string{
 		"unit":        filepath.Join(root, "tests", "unit", "features_test.go"),
 		"integration": filepath.Join(root, "tests", "integration", "features_test.go"),
-		"e2e":         filepath.Join(root, "..", "badakmini-cli-e2e", "tests", "features_test.go"),
 	}
-	adapters := make(map[string]Catalog, len(adapterSources))
-	for name, sourcePath := range adapterSources {
-		// #nosec G304 -- source paths are fixed adapter locations under the checked repository.
-		source, readErr := os.ReadFile(sourcePath)
-		if readErr != nil {
-			t.Fatalf("read %s adapter: %v", name, readErr)
-		}
-		if !strings.Contains(string(source), "bdd.CanonicalCatalog()") {
-			t.Errorf("%s adapter must load bdd.CanonicalCatalog", name)
-		}
+	adapters := make(map[string]Catalog, len(ownerAdapterSources)+1)
+	for name, sourcePath := range ownerAdapterSources {
+		assertOwnerAdapterSource(t, name, sourcePath)
 		adapters[name] = catalog
 	}
+	e2eSourcePath := filepath.Join(root, "..", "badakmini-cli-e2e", "tests", "features_test.go")
+	assertE2EAdapterSource(t, e2eSourcePath)
+	adapters["e2e"] = catalog
 	if err := ValidateAdapterParity(adapters); err != nil {
 		t.Fatalf("validate adapter catalog parity: %v", err)
 	}
-	if findings := CanonicalRegistry().Validate(catalog.Steps()); len(findings) != 0 {
-		t.Fatalf("validate shared bindings: %v", findings)
+	if findings := validateBindings(canonicalBindings(t), catalog.Steps()); len(findings) != 0 {
+		t.Fatalf("validate owner bindings: %v", findings)
 	}
+	if findings := validateBindings(e2eBindings(t), catalog.Steps()); len(findings) != 0 {
+		t.Fatalf("validate E2E bindings: %v", findings)
+	}
+}
+
+func assertOwnerAdapterSource(t *testing.T, name, sourcePath string) {
+	t.Helper()
+	source := readAdapterSource(t, name, sourcePath)
+	if !strings.Contains(source, "bdd.CanonicalCatalog()") {
+		t.Errorf("%s adapter must load bdd.CanonicalCatalog", name)
+	}
+	if strings.Contains(source, "ScenarioInitializer:") {
+		t.Errorf("%s adapter must use the shared direct Godog initializer", name)
+	}
+}
+
+func assertE2EAdapterSource(t *testing.T, sourcePath string) {
+	t.Helper()
+	source := readAdapterSource(t, "E2E", sourcePath)
+	for _, required := range []string{
+		`"github.com/cucumber/godog"`,
+		"godog.TestSuite{",
+		"ScenarioInitializer:",
+		"InitializeScenario(scenarioContext)",
+	} {
+		if !strings.Contains(source, required) {
+			t.Errorf("E2E adapter must directly own %q", required)
+		}
+	}
+	if strings.Contains(source, "badakmini-cli/tests/bdd") {
+		t.Error("E2E adapter must not execute through the owner BDD suite")
+	}
+}
+
+func readAdapterSource(t *testing.T, name, sourcePath string) string {
+	t.Helper()
+	// #nosec G304 -- callers pass fixed adapter locations under the checked repository.
+	source, err := os.ReadFile(sourcePath)
+	if err != nil {
+		t.Fatalf("read %s adapter: %v", name, err)
+	}
+	return string(source)
 }
 
 func TestAdapterParityAddedFeatureFixture(t *testing.T) {

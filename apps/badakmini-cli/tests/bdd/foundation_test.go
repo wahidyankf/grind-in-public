@@ -4,6 +4,9 @@ import (
 	"context"
 	"path/filepath"
 	"testing"
+	"testing/fstest"
+
+	"github.com/cucumber/godog"
 )
 
 type fixtureDriver struct {
@@ -39,29 +42,46 @@ func TestFoundationExecutesFixtureFeature(t *testing.T) {
 	if err != nil {
 		t.Fatalf("discover fixture feature: %v", err)
 	}
-	registry := NewRegistry(
-		Definition{Kind: GivenStep, Expression: "a foundation fixture", Handler: func(state *State) any {
-			return func() error { return state.Driver().Prepare(context.Background(), "foundation") }
-		}},
-		Definition{Kind: WhenStep, Expression: "the fixture runs", Handler: func(state *State) any {
-			return func() error { return state.Driver().Invoke(context.Background(), nil) }
-		}},
-		Definition{Kind: ThenStep, Expression: "the fixture succeeds", Handler: func(_ *State) any {
-			return func() error { return nil }
-		}},
-	)
-	if findings := registry.Validate(catalog.Steps()); len(findings) != 0 {
-		t.Fatalf("validate fixture bindings: %v", findings)
+	initializeScenario := func(scenarioContext *godog.ScenarioContext) {
+		scenarioContext.Given(`^a foundation fixture$`, prepareFixture("foundation"))
+		scenarioContext.When(`^the fixture runs$`, invokeCommand())
+		scenarioContext.Then(`^the fixture succeeds$`, func(context.Context) error { return nil })
 	}
 
 	suite := Suite{
-		Name:     "foundation",
-		Catalog:  catalog,
-		Factory:  func() Driver { return &fixtureDriver{} },
-		Registry: registry,
+		Name:                "foundation",
+		Catalog:             catalog,
+		Factory:             func() Driver { return &fixtureDriver{} },
+		ScenarioInitializer: initializeScenario,
 	}
 	if status := suite.Run(t); status != 0 {
 		t.Fatalf("expected fixture suite success, got status %d", status)
+	}
+}
+
+func TestFoundationRegistersBindingsByGherkinKeyword(t *testing.T) {
+	feature := "Feature: Keyword bindings\nScenario: Shared text\n" +
+		"Given the shared phrase\nWhen the fixture runs\nThen the shared phrase\n"
+	filesystem := fstest.MapFS{"keyword.feature": &fstest.MapFile{Data: []byte(feature)}}
+	catalog, err := DiscoverFS(filesystem, ".")
+	if err != nil {
+		t.Fatalf("discover keyword feature: %v", err)
+	}
+	initializeScenario := func(scenarioContext *godog.ScenarioContext) {
+		scenarioContext.Given(`^the shared phrase$`, func(context.Context) error { return nil })
+		scenarioContext.When(`^the fixture runs$`, func(context.Context) error { return nil })
+		scenarioContext.Then(`^the shared phrase$`, func(context.Context) error { return nil })
+	}
+
+	suite := Suite{
+		Name:                "keyword-bindings",
+		Catalog:             catalog,
+		Factory:             func() Driver { return &fixtureDriver{} },
+		ScenarioInitializer: initializeScenario,
+		FS:                  filesystem,
+	}
+	if status := suite.Run(t); status != 0 {
+		t.Fatalf("expected keyword-specific Godog bindings to pass, got status %d", status)
 	}
 }
 

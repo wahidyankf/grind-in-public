@@ -11,8 +11,6 @@ import (
 	"strings"
 	"testing"
 	"time"
-
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/tests/bdd"
 )
 
 const processTimeout = 30 * time.Second
@@ -23,7 +21,13 @@ type processDriver struct {
 	root     string
 	setupErr error
 	stdin    string
-	result   bdd.Result
+	result   commandResult
+}
+
+type commandResult struct {
+	ExitCode int
+	Stdout   string
+	Stderr   string
 }
 
 func newProcessDriver(t *testing.T) *processDriver {
@@ -55,7 +59,7 @@ func (driver *processDriver) Prepare(_ context.Context, fixture string) error {
 		return driver.setupErr
 	}
 	driver.stdin = ""
-	driver.result = bdd.Result{}
+	driver.result = commandResult{}
 	if fixture != "repository-discovery-fails" {
 		driver.initializeGit()
 	}
@@ -110,7 +114,7 @@ func (driver *processDriver) Invoke(parent context.Context, arguments []string) 
 	command.Stdout = &stdout
 	command.Stderr = &stderr
 	err := command.Run()
-	driver.result = bdd.Result{Stdout: stdout.String(), Stderr: stderr.String()}
+	driver.result = commandResult{Stdout: stdout.String(), Stderr: stderr.String()}
 	if ctx.Err() != nil {
 		return fmt.Errorf("Badak Mini exceeded %s: %w", processTimeout, ctx.Err())
 	}
@@ -125,7 +129,7 @@ func (driver *processDriver) Invoke(parent context.Context, arguments []string) 
 	return nil
 }
 
-func (driver *processDriver) Result() bdd.Result {
+func (driver *processDriver) Result() commandResult {
 	return driver.result
 }
 

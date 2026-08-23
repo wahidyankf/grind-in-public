@@ -23,4 +23,6 @@ Applications and libraries use `specs/apps/<name>/behavior/` and `specs/libs/<na
 
 Unit tests use doubles for external collaborators. Integration tests use only owned local boundaries such as local filesystems, databases, or subprocesses; they never use network services. A dedicated E2E app invokes only the owning application's built public executable or API and observes public results.
 
+Godog is the execution base for Go behavior tests. A Go subject's binding set, and the separate binding set in each dedicated Go E2E application, registers `Given`, `When`, and `Then` directly on `*godog.ScenarioContext` and executes through `godog.TestSuite`; repository compliance tooling may inspect the corpus and bindings but must not replace Godog's runtime registration, matching, lifecycle, or execution.
+
 Each project README names its corpus, adapters, targets, and any justified inapplicable layer. See [Specs](specs-policy.md), [TDD](tdd-policy.md), and [Testing](testing-policy.md) for the complementary requirements.

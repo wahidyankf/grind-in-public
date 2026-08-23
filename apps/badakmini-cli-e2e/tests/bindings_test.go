@@ -1,14 +1,21 @@
-package bdd
+package e2e_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/cucumber/godog"
 )
 
-// InitializeScenario registers Badak Mini's step definitions directly with Godog.
+type scenarioStateKey struct{}
+
+type scenarioState struct {
+	driver *processDriver
+}
+
+// InitializeScenario registers the process E2E step definitions directly with Godog.
 //
 //nolint:funlen // One explicit catalog makes duplicate and missing Gherkin expressions reviewable.
 func InitializeScenario(context *godog.ScenarioContext) {
@@ -109,13 +116,25 @@ func InitializeScenario(context *godog.ScenarioContext) {
 	)
 }
 
+func contextWithState(ctx context.Context, state *scenarioState) context.Context {
+	return context.WithValue(ctx, scenarioStateKey{}, state)
+}
+
+func stateFromContext(ctx context.Context) (*scenarioState, error) {
+	state, ok := ctx.Value(scenarioStateKey{}).(*scenarioState)
+	if !ok {
+		return nil, errors.New("godog scenario context has no Badak Mini E2E state")
+	}
+	return state, nil
+}
+
 func prepareFixture(fixture string) func(context.Context) error {
 	return func(ctx context.Context) error {
 		state, err := stateFromContext(ctx)
 		if err != nil {
 			return err
 		}
-		return state.Driver().Prepare(ctx, fixture)
+		return state.driver.Prepare(ctx, fixture)
 	}
 }
 
@@ -125,7 +144,7 @@ func invokeCommand(arguments ...string) func(context.Context) error {
 		if err != nil {
 			return err
 		}
-		return state.Driver().Invoke(ctx, arguments)
+		return state.driver.Invoke(ctx, arguments)
 	}
 }
 
@@ -135,7 +154,7 @@ func expectResult(exitCode int, stdoutContains, stderrContains string) func(cont
 		if err != nil {
 			return err
 		}
-		result := state.Driver().Result()
+		result := state.driver.Result()
 		if result.ExitCode != exitCode || !matchesOutput(result.Stdout, stdoutContains) ||
 			!matchesOutput(result.Stderr, stderrContains) {
 			return fmt.Errorf(
@@ -163,7 +182,7 @@ func expectStdoutContains(expected ...string) func(context.Context) error {
 		if err != nil {
 			return err
 		}
-		result := state.Driver().Result()
+		result := state.driver.Result()
 		if result.ExitCode != 0 || result.Stderr != "" {
 			return fmt.Errorf("expected successful stdout-only result, got %#v", result)
 		}

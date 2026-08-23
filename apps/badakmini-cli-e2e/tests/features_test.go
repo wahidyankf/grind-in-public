@@ -2,29 +2,51 @@ package e2e_test
 
 import (
 	"bytes"
+	"context"
+	"errors"
+	"path/filepath"
+	"runtime"
 	"testing"
 
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/tests/bdd"
+	"github.com/cucumber/godog"
 )
 
 func TestE2EFeatures(t *testing.T) {
-	catalog, err := bdd.CanonicalCatalog()
+	behaviorRoot, err := canonicalBehaviorRoot()
 	if err != nil {
-		t.Fatalf("discover canonical behavior: %v", err)
-	}
-	registry := bdd.CanonicalRegistry()
-	if findings := registry.Validate(catalog.Steps()); len(findings) != 0 {
-		t.Fatalf("validate canonical bindings: %v", findings)
+		t.Fatalf("locate canonical behavior: %v", err)
 	}
 	var output bytes.Buffer
-	suite := bdd.Suite{
-		Name:     "badakmini-e2e",
-		Catalog:  catalog,
-		Factory:  func() bdd.Driver { return newProcessDriver(t) },
-		Registry: registry,
-		Output:   &output,
+	suite := godog.TestSuite{
+		Name: "badakmini-e2e",
+		ScenarioInitializer: func(scenarioContext *godog.ScenarioContext) {
+			scenarioContext.Before(func(ctx context.Context, _ *godog.Scenario) (context.Context, error) {
+				return contextWithState(ctx, &scenarioState{driver: newProcessDriver(t)}), nil
+			})
+			InitializeScenario(scenarioContext)
+		},
+		Options: &godog.Options{
+			Format:      "progress",
+			NoColors:    true,
+			Output:      &output,
+			Paths:       []string{behaviorRoot},
+			Strict:      true,
+			Concurrency: 1,
+		},
 	}
-	if status := suite.Run(t); status != 0 {
+	if status := suite.Run(); status != 0 {
 		t.Fatalf("E2E behavior suite failed with status %d:\n%s", status, output.String())
 	}
+}
+
+func canonicalBehaviorRoot() (string, error) {
+	_, sourcePath, _, ok := runtime.Caller(0)
+	if !ok {
+		return "", errors.New("locate E2E feature suite source")
+	}
+	return filepath.Clean(filepath.Join(
+		filepath.Dir(sourcePath),
+		"..", "..", "..",
+		"specs", "apps", "badakmini-cli", "behavior",
+	)), nil
 }

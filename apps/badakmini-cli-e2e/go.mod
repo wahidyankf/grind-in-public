@@ -4,7 +4,7 @@ go 1.26.6
 
 tool github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 
-require github.com/wahidyankf/grind-in-public/apps/badakmini-cli v0.0.0
+require github.com/cucumber/godog v0.16.0
 
 require (
 	4d63.com/gocheckcompilerdirectives v1.3.0 // indirect
@@ -59,7 +59,6 @@ require (
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/cucumber/gherkin/go/v42 v42.0.0 // indirect
-	github.com/cucumber/godog v0.16.0 // indirect
 	github.com/cucumber/messages/go/v34 v34.2.0 // indirect
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
 	github.com/daixiang0/gci v0.13.7 // indirect
@@ -227,5 +226,3 @@ require (
 	mvdan.cc/gofumpt v0.9.2 // indirect
 	mvdan.cc/unparam v0.0.0-20251027182757-5beb8c8f8f15 // indirect
 )
-
-replace github.com/wahidyankf/grind-in-public/apps/badakmini-cli => ../badakmini-cli

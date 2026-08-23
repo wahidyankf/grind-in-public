@@ -3,6 +3,7 @@ package bdd
 import (
 	"context"
 	"io"
+	"io/fs"
 	"testing"
 
 	"github.com/cucumber/godog"
@@ -10,11 +11,12 @@ import (
 
 // Suite executes one canonical corpus through one adapter factory.
 type Suite struct {
-	Name     string
-	Catalog  Catalog
-	Factory  DriverFactory
-	Registry Registry
-	Output   io.Writer
+	Name                string
+	Catalog             Catalog
+	Factory             DriverFactory
+	ScenarioInitializer func(*godog.ScenarioContext)
+	Output              io.Writer
+	FS                  fs.FS
 }
 
 // Run executes every recursively discovered scenario serially and strictly.
@@ -24,20 +26,22 @@ func (suite Suite) Run(t *testing.T) int {
 	if output == nil {
 		output = io.Discard
 	}
+	initializer := suite.ScenarioInitializer
+	if initializer == nil {
+		initializer = InitializeScenario
+	}
 
 	return godog.TestSuite{
 		Name: suite.Name,
 		ScenarioInitializer: func(scenarioContext *godog.ScenarioContext) {
-			var state *State
 			scenarioContext.Before(func(ctx context.Context, _ *godog.Scenario) (context.Context, error) {
-				state = NewState(suite.Factory)
-
-				return ctx, nil
+				return contextWithState(ctx, NewState(suite.Factory)), nil
 			})
-			suite.Registry.Register(scenarioContext, &state)
+			initializer(scenarioContext)
 		},
 		Options: &godog.Options{
 			Format:      "progress",
+			FS:          suite.FS,
 			NoColors:    true,
 			Output:      output,
 			Paths:       suite.Catalog.Paths(),

@@ -2,7 +2,6 @@
 package bdd
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"io/fs"
@@ -10,8 +9,9 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
-	"sort"
 	"strings"
+
+	"github.com/cucumber/godog"
 )
 
 // CanonicalCatalog discovers the single behavior corpus every Badak Mini adapter must execute.
@@ -110,33 +110,28 @@ func Discover(root string) (Catalog, error) {
 	return catalog, nil
 }
 
-// DiscoverFS recursively loads a corpus from an injected filesystem.
+// DiscoverFS asks Godog to recursively parse and compile a corpus from an injected filesystem.
 func DiscoverFS(filesystem fs.FS, root string) (Catalog, error) {
-	paths := make([]string, 0)
-	err := fs.WalkDir(filesystem, root, func(path string, entry fs.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			return walkErr
-		}
-		if entry.IsDir() || filepath.Ext(entry.Name()) != ".feature" {
-			return nil
-		}
-		paths = append(paths, path)
-
-		return nil
-	})
+	parsedFeatures, err := godog.TestSuite{
+		Name: "badakmini-catalog",
+		Options: &godog.Options{
+			FS:    filesystem,
+			Paths: []string{root},
+		},
+	}.RetrieveFeatures()
 	if err != nil {
-		return Catalog{}, fmt.Errorf("discover behavior features: %w", err)
+		return Catalog{}, fmt.Errorf("parse behavior features with Godog: %w", err)
 	}
-	if len(paths) == 0 {
-		return Catalog{}, fmt.Errorf("no feature files found below %q", root)
+	if len(parsedFeatures) == 0 {
+		return Catalog{}, emptyCatalogError(filesystem, root)
 	}
-	sort.Strings(paths)
 
-	features := make([]Feature, 0, len(paths))
-	for _, path := range paths {
-		feature, parseErr := parseFeature(filesystem, path)
-		if parseErr != nil {
-			return Catalog{}, parseErr
+	features := make([]Feature, 0, len(parsedFeatures))
+	for _, parsedFeature := range parsedFeatures {
+		primarySteps := indexPrimarySteps(parsedFeature.GherkinDocument)
+		feature, conversionErr := catalogFeature(parsedFeature.GherkinDocument, parsedFeature.Pickles, primarySteps)
+		if conversionErr != nil {
+			return Catalog{}, conversionErr
 		}
 		features = append(features, feature)
 	}
@@ -144,195 +139,169 @@ func DiscoverFS(filesystem fs.FS, root string) (Catalog, error) {
 	return Catalog{Features: features}, nil
 }
 
-func parseFeature(filesystem fs.FS, path string) (Feature, error) {
-	contents, err := fs.ReadFile(filesystem, path)
-	if err != nil {
-		return Feature{}, fmt.Errorf("open behavior feature %q: %w", path, err)
-	}
-	state := featureParser{path: path, feature: Feature{Path: path}}
-	scanner := bufio.NewScanner(strings.NewReader(string(contents)))
+type primaryStepCounts struct {
+	scenario string
+	counts   map[StepKind]int
+}
 
-	for scanner.Scan() {
-		if err := state.consume(strings.TrimSpace(scanner.Text())); err != nil {
+func catalogFeature(
+	document *godog.GherkinDocument,
+	pickles []*godog.Scenario,
+	primarySteps map[string]primaryStepCounts,
+) (Feature, error) {
+	if document.Feature == nil || strings.TrimSpace(document.Feature.Name) == "" {
+		return Feature{}, fmt.Errorf("%s: missing non-empty Feature declaration", document.Uri)
+	}
+	if len(pickles) == 0 {
+		return Feature{}, fmt.Errorf("%s: feature must contain at least one scenario", document.Uri)
+	}
+
+	feature := Feature{Path: document.Uri, ScenarioCount: len(pickles)}
+	for _, pickle := range pickles {
+		if err := validateLayerTags(document.Uri, pickle); err != nil {
 			return Feature{}, err
 		}
+		if len(pickle.AstNodeIds) == 0 {
+			return Feature{}, fmt.Errorf("%s: locate scenario %q parsed by Godog", document.Uri, pickle.Name)
+		}
+		primary, present := primarySteps[pickle.AstNodeIds[0]]
+		if !present {
+			return Feature{}, fmt.Errorf("%s: locate scenario %q parsed by Godog", document.Uri, pickle.Name)
+		}
+		if err := validatePrimarySteps(document.Uri, primary); err != nil {
+			return Feature{}, err
+		}
+		steps, err := catalogSteps(document.Uri, pickle)
+		if err != nil {
+			return Feature{}, err
+		}
+		feature.Steps = append(feature.Steps, steps...)
 	}
-	if err := scanner.Err(); err != nil {
-		return Feature{}, fmt.Errorf("read behavior feature %q: %w", path, err)
-	}
-	if err := state.finishScenario(); err != nil {
-		return Feature{}, err
-	}
-	if !state.hasFeature {
-		return Feature{}, fmt.Errorf("%s: missing non-empty Feature declaration", path)
-	}
-	if state.feature.ScenarioCount == 0 {
-		return Feature{}, fmt.Errorf("%s: feature must contain at least one scenario", path)
-	}
-
-	return state.feature, nil
+	return feature, nil
 }
 
-type featureParser struct {
-	path            string
-	feature         Feature
-	scenario        string
-	inherited       StepKind
-	primary         map[StepKind]int
-	scenarioSteps   []Step
-	outline         bool
-	insideExamples  bool
-	exampleRows     int
-	exampleHeader   bool
-	insideDocString bool
-	hasFeature      bool
+func indexPrimarySteps(document *godog.GherkinDocument) map[string]primaryStepCounts {
+	index := make(map[string]primaryStepCounts)
+	if document.Feature == nil {
+		return index
+	}
+	for _, child := range document.Feature.Children {
+		if child.Scenario != nil {
+			keywordTypes := make([]string, 0, len(child.Scenario.Steps))
+			for _, step := range child.Scenario.Steps {
+				keywordTypes = append(keywordTypes, string(step.KeywordType))
+			}
+			index[child.Scenario.Id] = countPrimarySteps(child.Scenario.Name, keywordTypes)
+		}
+		if child.Rule == nil {
+			continue
+		}
+		for _, ruleChild := range child.Rule.Children {
+			if ruleChild.Scenario != nil {
+				keywordTypes := make([]string, 0, len(ruleChild.Scenario.Steps))
+				for _, step := range ruleChild.Scenario.Steps {
+					keywordTypes = append(keywordTypes, string(step.KeywordType))
+				}
+				index[ruleChild.Scenario.Id] = countPrimarySteps(
+					ruleChild.Scenario.Name,
+					keywordTypes,
+				)
+			}
+		}
+	}
+	return index
 }
 
-func (state *featureParser) consume(line string) error {
-	handled, err := state.consumeDirective(line)
-	if handled || err != nil {
-		return err
+func countPrimarySteps(scenario string, keywordTypes []string) primaryStepCounts {
+	primary := primaryStepCounts{scenario: scenario, counts: map[StepKind]int{}}
+	for _, keywordType := range keywordTypes {
+		switch keywordType {
+		case "Context":
+			primary.counts[GivenStep]++
+		case "Action":
+			primary.counts[WhenStep]++
+		case "Outcome":
+			primary.counts[ThenStep]++
+		}
 	}
-	if state.scenario == "" {
-		return nil
-	}
-	if strings.HasPrefix(line, "Examples:") {
-		state.insideExamples = true
-		state.exampleHeader = false
-		return nil
-	}
-	if state.insideExamples && strings.HasPrefix(line, "|") {
-		state.recordExampleRow()
-		return nil
-	}
-	state.recordStep(line)
-	return nil
+	return primary
 }
 
-func (state *featureParser) consumeDirective(line string) (bool, error) {
-	if line == `"""` {
-		state.insideDocString = !state.insideDocString
-		return true, nil
-	}
-	if state.insideDocString || line == "" || strings.HasPrefix(line, "#") {
-		return true, nil
-	}
-	if strings.HasPrefix(line, "@") {
-		return true, state.validateTags(line)
-	}
-	if featureName, ok := strings.CutPrefix(line, "Feature:"); ok {
-		state.hasFeature = strings.TrimSpace(featureName) != ""
-		return true, nil
-	}
-	if name, isOutline, ok := scenarioName(line); ok {
-		return true, state.startScenario(name, isOutline)
-	}
-	return false, nil
-}
-
-func (state *featureParser) validateTags(line string) error {
-	for tag := range strings.FieldsSeq(line) {
-		switch strings.ToLower(tag) {
+func validateLayerTags(path string, pickle *godog.Scenario) error {
+	for _, tag := range pickle.Tags {
+		switch strings.ToLower(tag.Name) {
 		case "@unit", "@integration", "@e2e":
-			return fmt.Errorf("%s: layer-filter tag %q is forbidden", state.path, tag)
+			return fmt.Errorf("%s: layer-filter tag %q is forbidden", path, tag.Name)
 		}
 	}
 	return nil
 }
 
-func (state *featureParser) startScenario(name string, outline bool) error {
-	if err := state.finishScenario(); err != nil {
-		return err
+func validatePrimarySteps(path string, primary primaryStepCounts) error {
+	for _, kind := range []StepKind{GivenStep, WhenStep, ThenStep} {
+		if primary.counts[kind] != 1 {
+			return fmt.Errorf("%s: scenario %q requires exactly one primary %s step", path, primary.scenario, kind)
+		}
 	}
-	state.scenario = name
-	state.outline = outline
-	state.inherited = ""
-	state.primary = map[StepKind]int{}
-	state.scenarioSteps = nil
-	state.insideExamples = false
-	state.exampleRows = 0
-	state.exampleHeader = false
 	return nil
 }
 
-func (state *featureParser) recordExampleRow() {
-	if state.exampleHeader {
-		state.exampleRows++
-		return
+func catalogSteps(path string, pickle *godog.Scenario) ([]Step, error) {
+	steps := make([]Step, 0, len(pickle.Steps))
+	for _, pickleStep := range pickle.Steps {
+		kind, err := pickleStepKind(string(pickleStep.Type))
+		if err != nil {
+			return nil, fmt.Errorf("%s: scenario %q: %w", path, pickle.Name, err)
+		}
+		steps = append(steps, Step{
+			Feature:  path,
+			Scenario: pickle.Name,
+			Kind:     kind,
+			Text:     pickleStep.Text,
+		})
 	}
-	state.exampleHeader = true
+	return steps, nil
 }
 
-func (state *featureParser) recordStep(line string) {
-	kind, text, primaryStep := scenarioStep(line, state.inherited)
-	if kind == "" {
-		return
+func emptyCatalogError(filesystem fs.FS, root string) error {
+	hasFeatureFile, err := containsFeatureFile(filesystem, root)
+	if err != nil {
+		return fmt.Errorf("discover behavior features: %w", err)
 	}
-	if primaryStep {
-		state.primary[kind]++
-		state.inherited = kind
+	if hasFeatureFile {
+		return fmt.Errorf("feature below %q must contain at least one scenario", root)
 	}
-	state.scenarioSteps = append(
-		state.scenarioSteps,
-		Step{Feature: state.path, Scenario: state.scenario, Kind: kind, Text: text},
-	)
+	return fmt.Errorf("no feature files found below %q", root)
 }
 
-func (state *featureParser) finishScenario() error {
-	if state.scenario == "" {
+func containsFeatureFile(filesystem fs.FS, root string) (bool, error) {
+	found := false
+	err := fs.WalkDir(filesystem, root, func(_ string, entry fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if !entry.IsDir() && filepath.Ext(entry.Name()) == ".feature" {
+			found = true
+		}
 		return nil
+	})
+	if err != nil {
+		return false, fmt.Errorf("walk %q: %w", root, err)
 	}
-	for _, kind := range []StepKind{GivenStep, WhenStep, ThenStep} {
-		if state.primary[kind] != 1 {
-			return fmt.Errorf(
-				"%s: scenario %q requires exactly one primary %s step",
-				state.path,
-				state.scenario,
-				kind,
-			)
-		}
-	}
-	expansions := 1
-	if state.outline {
-		if state.exampleRows == 0 {
-			return fmt.Errorf("%s: scenario outline %q requires at least one example row", state.path, state.scenario)
-		}
-		expansions = state.exampleRows
-	}
-	state.feature.ScenarioCount += expansions
-	for range expansions {
-		state.feature.Steps = append(state.feature.Steps, state.scenarioSteps...)
-	}
-	return nil
+	return found, nil
 }
 
-func scenarioName(line string) (string, bool, bool) {
-	if name, ok := strings.CutPrefix(line, "Scenario:"); ok {
-		return strings.TrimSpace(name), false, true
+func pickleStepKind(stepType string) (StepKind, error) {
+	switch stepType {
+	case "Context":
+		return GivenStep, nil
+	case "Action":
+		return WhenStep, nil
+	case "Outcome":
+		return ThenStep, nil
+	default:
+		return "", fmt.Errorf("unsupported Godog step type %q", stepType)
 	}
-	for _, prefix := range []string{"Scenario Outline:", "Scenario Template:"} {
-		if name, ok := strings.CutPrefix(line, prefix); ok {
-			return strings.TrimSpace(name), true, true
-		}
-	}
-
-	return "", false, false
-}
-
-func scenarioStep(line string, inherited StepKind) (StepKind, string, bool) {
-	for _, kind := range []StepKind{GivenStep, WhenStep, ThenStep} {
-		prefix := string(kind) + " "
-		if text, ok := strings.CutPrefix(line, prefix); ok {
-			return kind, strings.TrimSpace(text), true
-		}
-	}
-	for _, prefix := range []string{"And ", "But "} {
-		if text, ok := strings.CutPrefix(line, prefix); ok && inherited != "" {
-			return inherited, strings.TrimSpace(text), false
-		}
-	}
-
-	return "", "", false
 }
 
 // RepositoryRoot returns the nearest ancestor containing the workspace specs directory.

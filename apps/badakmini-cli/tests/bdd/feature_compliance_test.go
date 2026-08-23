@@ -8,7 +8,7 @@ import (
 
 func TestFeatureComplianceRejectsMalformedFeature(t *testing.T) {
 	_, err := discoverSource("Scenario: Orphan\n  Given a fixture\n  When it runs\n  Then it succeeds\n")
-	if err == nil || !strings.Contains(err.Error(), "missing non-empty Feature declaration") {
+	if err == nil || !strings.Contains(err.Error(), "parse behavior features with Godog") {
 		t.Fatalf("expected malformed feature rejection, got %v", err)
 	}
 }
@@ -54,6 +54,17 @@ func TestFeatureComplianceCountsExpandedScenarioOutlineRows(t *testing.T) {
 	}
 	if len(catalog.Features[0].Steps) != 6 {
 		t.Fatalf("expected six expanded steps, got %d", len(catalog.Features[0].Steps))
+	}
+	if catalog.Features[0].Steps[0].Text != "a first" || catalog.Features[0].Steps[3].Text != "a second" {
+		t.Fatalf("expected Godog-expanded outline steps, got %#v", catalog.Features[0].Steps)
+	}
+}
+
+func TestFeatureComplianceUsesGodogParserForMalformedExamples(t *testing.T) {
+	source := "Feature: Outline\nScenario Outline: Expand\nGiven a <fixture>\n" +
+		"When it runs\nThen it succeeds\nExamples:\n| fixture |\n| first | extra |\n"
+	if _, err := discoverSource(source); err == nil {
+		t.Fatal("expected Godog to reject an examples row with the wrong cell count")
 	}
 }
 
