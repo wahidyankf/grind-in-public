@@ -6,4 +6,4 @@ A plan is never executed out of this folder. Move it to [`in-progress/`](../in-p
 
 ## Current Plans
 
-None yet.
+- [Badak Mini Layered BDD](badakmini-layered-bdd/README.md) — adopt BeaverNest-style executable specs and layered testing for Badak Mini, then make the model compulsory for applications and libraries.
