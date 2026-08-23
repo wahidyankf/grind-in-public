@@ -100,7 +100,7 @@ func assertE2EAdapterSource(t *testing.T, sourcePath string) {
 		`"github.com/cucumber/godog"`,
 		"godog.TestSuite{",
 		"ScenarioInitializer:",
-		"InitializeScenario(scenarioContext)",
+		"InitializeScenario(sc)",
 	} {
 		if !strings.Contains(source, required) {
 			t.Errorf("E2E adapter must directly own %q", required)

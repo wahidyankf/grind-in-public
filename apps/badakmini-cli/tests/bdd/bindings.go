@@ -10,97 +10,97 @@ import (
 
 // InitializeScenario registers Badak Mini's step definitions directly with Godog.
 //
-//nolint:funlen // One explicit catalog makes duplicate and missing Gherkin expressions reviewable.
-func InitializeScenario(context *godog.ScenarioContext) {
-	context.Given(`^repository discovery would fail$`, prepareFixture("repository-discovery-fails"))
-	context.When(`^Badak Mini runs with "--help"$`, invokeCommand("--help"))
-	context.Then(`^the command succeeds and prints usage$`, expectResult(0, "Usage:", ""))
-	context.Given(
+//nolint:funlen,varnamelen // The explicit catalog exposes drift; sc consistently means scenario context.
+func InitializeScenario(sc *godog.ScenarioContext) {
+	sc.Given(`^repository discovery would fail$`, prepareFixture("repository-discovery-fails"))
+	sc.When(`^Badak Mini runs with "--help"$`, invokeCommand("--help"))
+	sc.Then(`^the command succeeds and prints usage$`, expectResult(0, "Usage:", ""))
+	sc.Given(
 		`^a repository whose governance documents fit the word limit$`,
 		prepareFixture("governance-documents-fit"),
 	)
-	context.When(
+	sc.When(
 		`^Badak Mini runs instruction-size validation$`,
 		invokeCommand("harness", "instruction-size", "validate"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command succeeds with the word-limit confirmation$`,
 		expectResult(0, "Governance word counts are within", ""),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository with an oversized agent instruction file$`,
 		prepareFixture("oversized-agent-instruction"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command fails with the oversized document diagnostic$`,
 		expectResult(1, "", "AGENTS.md contains 501 words"),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository whose tracked Markdown links resolve$`,
 		prepareFixture("tracked-markdown-links-resolve"),
 	)
-	context.When(
+	sc.When(
 		`^Badak Mini runs Markdown-link validation$`,
 		invokeCommand("harness", "markdown-links", "validate"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command succeeds with the link confirmation$`,
 		expectResult(0, "Repository-local Markdown links are valid", ""),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository with a broken tracked Markdown link$`,
 		prepareFixture("broken-tracked-markdown-link"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command fails with the missing-target diagnostic$`,
 		expectResult(1, "", "targets a file that does not exist"),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository whose harness capabilities match$`,
 		prepareFixture("harness-capabilities-match"),
 	)
-	context.When(
+	sc.When(
 		`^Badak Mini runs capability-parity validation$`,
 		invokeCommand("harness", "capability-parity", "validate"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command succeeds with the parity confirmation$`,
 		expectResult(0, "Every harness exposes the same", ""),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository with a harness missing a shared subagent$`,
 		prepareFixture("harness-missing-shared-subagent"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command fails with the parity diagnostic$`,
 		expectResult(1, "", "subagent parity"),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository with a staged rule-bearing file$`,
 		prepareFixture("staged-rule-bearing-file"),
 	)
-	context.When(
+	sc.When(
 		`^Badak Mini runs staged rule-change detection$`,
 		invokeCommand("harness", "rule-change", "validate"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command succeeds with the rules-propagation notice$`,
 		expectResult(0, "repo-governance/workflows/rules-propagation.md", ""),
 	)
-	context.Given(
+	sc.Given(
 		`^a repository with only an ordinary staged file$`,
 		prepareFixture("ordinary-staged-file"),
 	)
-	context.Then(`^the command succeeds without output$`, expectResult(0, "", ""))
-	context.Given(
+	sc.Then(`^the command succeeds without output$`, expectResult(0, "", ""))
+	sc.Given(
 		`^a pre-edit payload for a harness instruction file$`,
 		prepareFixture("harness-instruction-pre-edit"),
 	)
-	context.When(
+	sc.When(
 		`^Badak Mini runs hook rule-change detection$`,
 		invokeCommand("harness", "rule-change", "hook"),
 	)
-	context.Then(
+	sc.Then(
 		`^the command succeeds with both workflow notices$`,
 		expectStdoutContains(
 			"repo-governance/workflows/rules-propagation.md",

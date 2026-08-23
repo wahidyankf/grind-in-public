@@ -99,11 +99,11 @@ func (driver *processDriver) Prepare(_ context.Context, fixture string) error {
 	return nil
 }
 
-func (driver *processDriver) Invoke(parent context.Context, arguments []string) error {
+func (driver *processDriver) Invoke(ctx context.Context, arguments []string) error {
 	if driver.setupErr != nil {
 		return driver.setupErr
 	}
-	ctx, cancel := context.WithTimeout(parent, processTimeout)
+	ctx, cancel := context.WithTimeout(ctx, processTimeout)
 	defer cancel()
 
 	// #nosec G204 -- resolveBinary permits only the configured absolute executable.

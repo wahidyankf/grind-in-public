@@ -33,11 +33,11 @@ func (suite Suite) Run(t *testing.T) int {
 
 	return godog.TestSuite{
 		Name: suite.Name,
-		ScenarioInitializer: func(scenarioContext *godog.ScenarioContext) {
-			scenarioContext.Before(func(ctx context.Context, _ *godog.Scenario) (context.Context, error) {
+		ScenarioInitializer: func(sc *godog.ScenarioContext) {
+			sc.Before(func(ctx context.Context, _ *godog.Scenario) (context.Context, error) {
 				return contextWithState(ctx, NewState(suite.Factory)), nil
 			})
-			initializer(scenarioContext)
+			initializer(sc)
 		},
 		Options: &godog.Options{
 			Format:      "progress",

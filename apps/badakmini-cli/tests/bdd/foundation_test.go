@@ -42,10 +42,10 @@ func TestFoundationExecutesFixtureFeature(t *testing.T) {
 	if err != nil {
 		t.Fatalf("discover fixture feature: %v", err)
 	}
-	initializeScenario := func(scenarioContext *godog.ScenarioContext) {
-		scenarioContext.Given(`^a foundation fixture$`, prepareFixture("foundation"))
-		scenarioContext.When(`^the fixture runs$`, invokeCommand())
-		scenarioContext.Then(`^the fixture succeeds$`, func(context.Context) error { return nil })
+	initializeScenario := func(sc *godog.ScenarioContext) {
+		sc.Given(`^a foundation fixture$`, prepareFixture("foundation"))
+		sc.When(`^the fixture runs$`, invokeCommand())
+		sc.Then(`^the fixture succeeds$`, func(context.Context) error { return nil })
 	}
 
 	suite := Suite{
@@ -67,10 +67,10 @@ func TestFoundationRegistersBindingsByGherkinKeyword(t *testing.T) {
 	if err != nil {
 		t.Fatalf("discover keyword feature: %v", err)
 	}
-	initializeScenario := func(scenarioContext *godog.ScenarioContext) {
-		scenarioContext.Given(`^the shared phrase$`, func(context.Context) error { return nil })
-		scenarioContext.When(`^the fixture runs$`, func(context.Context) error { return nil })
-		scenarioContext.Then(`^the shared phrase$`, func(context.Context) error { return nil })
+	initializeScenario := func(sc *godog.ScenarioContext) {
+		sc.Given(`^the shared phrase$`, func(context.Context) error { return nil })
+		sc.When(`^the fixture runs$`, func(context.Context) error { return nil })
+		sc.Then(`^the shared phrase$`, func(context.Context) error { return nil })
 	}
 
 	suite := Suite{

@@ -19,11 +19,11 @@ func TestE2EFeatures(t *testing.T) {
 	var output bytes.Buffer
 	suite := godog.TestSuite{
 		Name: "badakmini-e2e",
-		ScenarioInitializer: func(scenarioContext *godog.ScenarioContext) {
-			scenarioContext.Before(func(ctx context.Context, _ *godog.Scenario) (context.Context, error) {
+		ScenarioInitializer: func(sc *godog.ScenarioContext) {
+			sc.Before(func(ctx context.Context, _ *godog.Scenario) (context.Context, error) {
 				return contextWithState(ctx, &scenarioState{driver: newProcessDriver(t)}), nil
 			})
-			InitializeScenario(scenarioContext)
+			InitializeScenario(sc)
 		},
 		Options: &godog.Options{
 			Format:      "progress",
