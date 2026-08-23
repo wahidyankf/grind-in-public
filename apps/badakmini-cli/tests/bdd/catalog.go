@@ -9,9 +9,20 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"runtime"
 	"sort"
 	"strings"
 )
+
+// CanonicalCatalog discovers the single behavior corpus every Badak Mini adapter must execute.
+func CanonicalCatalog() (Catalog, error) {
+	_, sourcePath, _, ok := runtime.Caller(0)
+	if !ok {
+		return Catalog{}, errors.New("locate canonical behavior catalog source")
+	}
+	workspaceRoot := filepath.Clean(filepath.Join(filepath.Dir(sourcePath), "..", "..", "..", ".."))
+	return Discover(filepath.Join(workspaceRoot, "specs", "apps", "badakmini-cli", "behavior"))
+}
 
 // StepKind identifies the primary Gherkin keyword a step inherits.
 type StepKind string

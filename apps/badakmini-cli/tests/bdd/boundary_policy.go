@@ -24,6 +24,11 @@ var forbiddenUnitImports = []string{
 
 var forbiddenUnitMethods = []string{"Chdir", "Setenv", "TempDir"}
 
+var allowedUnitImportsByFile = map[string][]string{
+	// Adapter parity statically reads Nx target inputs to prove E2E changes invalidate the behavior gate.
+	"adapter_parity_test.go": {"os"},
+}
+
 var integrationOwners = map[string]string{
 	"cli_test.go":           "TestIntegrationCLI",
 	"governance_test.go":    "TestIntegrationGovernance",
@@ -79,6 +84,52 @@ func integrationBoundaryFindings() ([]string, error) {
 	return findings, nil
 }
 
+//nolint:cyclop // The policy intentionally lists every process-boundary prohibition in one audit.
+func e2eBoundaryFindings() ([]string, error) {
+	root, err := moduleRoot()
+	if err != nil {
+		return nil, err
+	}
+	e2eRoot := filepath.Join(root, "..", "badakmini-cli-e2e", "tests")
+	var findings []string
+	err = filepath.WalkDir(e2eRoot, func(path string, entry fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() {
+			return nil
+		}
+		if filepath.Ext(entry.Name()) == ".feature" {
+			findings = append(findings, path+" must consume canonical specs instead of owning a feature")
+			return nil
+		}
+		if !strings.HasSuffix(entry.Name(), "_test.go") {
+			return nil
+		}
+		parsed, parseErr := parser.ParseFile(token.NewFileSet(), path, nil, 0)
+		if parseErr != nil {
+			return fmt.Errorf("parse %s: %w", path, parseErr)
+		}
+		for _, imported := range parsed.Imports {
+			importPath, unquoteErr := strconv.Unquote(imported.Path.Value)
+			if unquoteErr != nil {
+				continue
+			}
+			if strings.Contains(importPath, "/apps/badakmini-cli/internal/") {
+				findings = append(findings, fmt.Sprintf("%s imports owner internal package %q", path, importPath))
+			}
+			if importPath == "os/exec" && filepath.Base(path) != "driver_test.go" {
+				findings = append(findings, path+" imports process boundary outside driver_test.go")
+			}
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, fmt.Errorf("inspect E2E tests below %s: %w", e2eRoot, err)
+	}
+	return findings, nil
+}
+
 func inspectTestFiles(root string, inspect func(string, *ast.File) []string) ([]string, error) {
 	var findings []string
 	err := filepath.WalkDir(root, func(path string, entry fs.DirEntry, walkErr error) error {
@@ -105,7 +156,8 @@ func inspectUnitTest(path string, file *ast.File) []string {
 	var findings []string
 	for _, imported := range file.Imports {
 		importPath, err := strconv.Unquote(imported.Path.Value)
-		if err == nil && slices.Contains(forbiddenUnitImports, importPath) {
+		if err == nil && slices.Contains(forbiddenUnitImports, importPath) &&
+			!slices.Contains(allowedUnitImportsByFile[filepath.Base(path)], importPath) {
 			findings = append(findings, fmt.Sprintf("%s imports system boundary %q", path, importPath))
 		}
 	}

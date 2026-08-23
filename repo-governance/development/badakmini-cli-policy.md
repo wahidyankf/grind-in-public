@@ -15,9 +15,9 @@ Badak Mini is this repository's small, standard-library-only Go CLI for reposito
 - When an approved recurring repository-local check truly needs custom executable code, add it to Badak Mini rather than creating a standalone shell checker.
 - Keep validation deterministic and offline so it can run in pre-push. Inspect the Git-tracked repository state when the check concerns committed content.
 - Keep Badak Mini's production imports standard-library-only. Owner-approved, exact-pinned Go `tool` dependencies may support build, lint, test, or vulnerability checks, but must not become runtime dependencies.
-- For each new check, add a focused command, an Nx target, unit tests, and human-facing usage documentation.
+- For each new check, add a focused command, an Nx target, executable Gherkin, unit and local integration coverage, public-process E2E coverage in the dedicated E2E app, and human-facing usage documentation.
 - Wire a check that blocks into pre-push, scoped to the paths that can break it, so a push that cannot fail the check does not pay for it. A check that no path narrows runs on every push.
 - Wire a check that only reports into pre-commit, where the author can still act on what it says. A notice that arrives at push time asks for an amend rather than an edit.
 - State the hook and its scope in the [workspace commands](workspace-commands.md) hook summary, which is canonical for what each hook runs.
 
-See [Badak Mini's README](../../apps/badakmini-cli/README.md) for its current command surface and local verification commands.
+Badak Mini owns `test:unit`, `test:integration`, `test:coverage:unit`, `test:coverage:integration`, `test:coverage:behavior`, `test:coverage`, and `test:quick`. The dedicated `badakmini-cli-e2e` application owns process E2E. See [Badak Mini's README](../../apps/badakmini-cli/README.md) for its current command surface and local verification commands.

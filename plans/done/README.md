@@ -6,4 +6,4 @@ Do not casually rewrite an archived plan. If a defect surfaces later, reopen it:
 
 ## Archived Plans
 
-None yet.
+- [2026-08-23 — Badak Mini Layered BDD](2026-08-23__badakmini-layered-bdd/README.md) — adopted BeaverNest-style executable specs and layered tests for Badak Mini, then made the model compulsory for applications and libraries.

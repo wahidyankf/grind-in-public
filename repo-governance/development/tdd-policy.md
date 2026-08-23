@@ -11,7 +11,7 @@ This policy covers how behavior gets implemented: test first, one scenario at a 
 
 ## The Cycle
 
-Each behavior is delivered as a RED → GREEN → REFACTOR cycle:
+Each behavior starts Gherkin-first: add or update exactly one canonical scenario before its RED test, then deliver it as a RED → GREEN → REFACTOR cycle:
 
 1. **RED** — write the test that expresses the scenario, and run it. It must fail, and it must fail for the stated reason. A test that passes on first run tested nothing.
 2. **GREEN** — write the smallest change that makes it pass. Not the elegant version; the passing version.
@@ -44,7 +44,7 @@ Every `plan-checker` prompt states this rule in the imperative, because a subage
 
 ## Regression Tests
 
-Every bug fix begins with a test that reproduces the bug and fails. A fix without one asserts that the bug is gone without ever having shown that it was there.
+See [TDD Policy Details](tdd-policy/README.md).
 
 ## Verification
 

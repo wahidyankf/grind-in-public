@@ -3,6 +3,8 @@ package unit_test
 import (
 	"bytes"
 	"context"
+	"errors"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -40,11 +42,58 @@ func newDriver() *driver {
 	return driver
 }
 
-func (driver *driver) Prepare(_ context.Context, _ string) error {
+func (driver *driver) Prepare(_ context.Context, fixture string) error {
 	driver.stdout.Reset()
 	driver.stderr.Reset()
 	driver.result = bdd.Result{}
-	return nil
+	switch fixture {
+	case "foundation", "governance-documents-fit", "tracked-markdown-links-resolve", "harness-capabilities-match":
+		return nil
+	case "repository-discovery-fails":
+		driver.runtime.FindRepositoryRoot = func() (string, error) {
+			return "", errors.New("repository discovery failed")
+		}
+		return nil
+	case "oversized-agent-instruction":
+		driver.runtime.CheckGovernance = func(string) ([]governance.Finding, error) {
+			return []governance.Finding{{Path: "AGENTS.md", WordCount: governance.MaxWords + 1}}, nil
+		}
+		return nil
+	case "broken-tracked-markdown-link":
+		driver.runtime.CheckMarkdownLinks = func(string) ([]markdownlinks.Finding, error) {
+			return []markdownlinks.Finding{{
+				Path:        "README.md",
+				Line:        1,
+				Destination: "missing.md",
+				Problem:     "targets a file that does not exist",
+			}}, nil
+		}
+		return nil
+	case "harness-missing-shared-subagent":
+		driver.runtime.CheckParity = func(string) ([]parity.Finding, error) {
+			return []parity.Finding{{
+				Capability: "subagent",
+				Harness:    "Codex",
+				Missing:    []string{"review"},
+			}}, nil
+		}
+		return nil
+	case "staged-rule-bearing-file":
+		driver.runtime.ListStagedPaths = func(string) ([]string, error) {
+			return []string{"repo-governance/development/testing-policy.md"}, nil
+		}
+		return nil
+	case "ordinary-staged-file":
+		driver.runtime.ListStagedPaths = func(string) ([]string, error) {
+			return []string{"README.md"}, nil
+		}
+		return nil
+	case "harness-instruction-pre-edit":
+		driver.runtime.Stdin = strings.NewReader(`{"tool_input":{"file_path":"AGENTS.md"}}`)
+		return nil
+	default:
+		return fmt.Errorf("unsupported unit fixture %q", fixture)
+	}
 }
 
 func (driver *driver) Invoke(ctx context.Context, args []string) error {

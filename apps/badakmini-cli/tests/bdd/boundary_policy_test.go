@@ -25,3 +25,15 @@ func TestIntegrationBoundaryPolicy(t *testing.T) {
 		}
 	}
 }
+
+func TestE2EBoundaryPolicy(t *testing.T) {
+	findings, err := e2eBoundaryFindings()
+	if err != nil {
+		t.Fatalf("inspect E2E test boundary: %v", err)
+	}
+	if len(findings) != 0 {
+		for _, finding := range findings {
+			t.Error(finding)
+		}
+	}
+}

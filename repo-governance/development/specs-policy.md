@@ -48,8 +48,8 @@ A scenario is not documentation: it binds to a test that fails when the behavior
 
 ## When Specs Are Required
 
-A plan that adds or changes behavior in `apps/` or `libs/` writes the scenarios into its `prd.md` and lands them in `specs/` as part of delivery. Existing projects gain specs when a plan next touches them, not through a retrofit pass. Drills are exempt: a drill is practice, not repository behavior.
+A plan that adds or changes behavior in `apps/` or `libs/` writes the scenarios into its `prd.md` and lands them in `specs/` as part of delivery. Every existing app and library has executable Gherkin under its mirrored `behavior/` directory; a missing corpus is a policy failure, not deferred retrofit work. Drills are exempt: a drill is practice, not repository behavior.
 
 ## Verification
 
-No automated check reads `specs/` yet. `plan-checker` verifies that a plan's Gherkin follows the cardinality rule above, that every RED step inlines its scenario verbatim from `prd.md`, and that every scenario in `prd.md` is inlined by some RED step. It does not check that a scenario names the test that binds it, so the binding above holds by review.
+Each subject's behavior gate recursively discovers its corpus, rejects malformed features, and fails for undefined, ambiguous, or unused bindings. It also proves every required adapter consumes the same catalog, so adding, editing, renaming, nesting, or deleting a feature or binding cannot silently bypass verification. `plan-checker` additionally verifies that a plan's Gherkin follows the cardinality rule above and that every planned scenario is represented by a RED step.

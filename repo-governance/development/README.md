@@ -8,6 +8,7 @@ when_to_use: "Use when changing executable code, development tooling, tests, or 
 This directory contains rules for building, testing, validating, and maintaining the repository's executable code. Read only the policy that matches the work at hand:
 
 - [Badak Mini](badakmini-cli-policy.md) for repository-local validation checks.
+- [Behavior-Driven Development](behavior-driven-development-policy.md) for mandatory canonical corpus and adapter roles.
 - [Code Commentary](code-commentary-policy.md) for learning-oriented comments.
 - [Code Style](code-style-policy.md) for the language target, naming, indentation, and import style.
 - [Commit Hooks](commit-hook-policy.md) for required Git-hook behavior.
@@ -16,7 +17,9 @@ This directory contains rules for building, testing, validating, and maintaining
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow it.
 - [Specs](specs-policy.md) for Gherkin acceptance criteria and the `specs/` tree.
 - [TDD](tdd-policy.md) for red-green-refactor cycles bound to scenarios.
+- [TDD Policy Details](tdd-policy/README.md) for focused TDD requirements.
 - [Testing](testing-policy.md) for quick and integration-test responsibilities.
+- [Testing Policy Details](testing-policy/README.md) for focused testing requirements.
 - [Workspace Commands](workspace-commands.md) for the canonical command, check, and hook reference.
 
 Foundational principles remain in [`../principles/`](../principles/README.md), and repeatable procedures remain in [`../workflows/`](../workflows/README.md).

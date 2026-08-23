@@ -28,17 +28,67 @@
       "command": "go -C apps/badakmini-cli tool golangci-lint run"
     },
     "test:unit": {
-      "command": "go -C apps/badakmini-cli test ./cmd/... ./internal/... ./tests/bdd ./tests/unit"
+      "command": "go -C apps/badakmini-cli test -count=1 ./cmd/... ./internal/... ./tests/bdd ./tests/unit",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
+      ]
+    },
+    "test:integration": {
+      "cache": false,
+      "command": "go -C apps/badakmini-cli test -count=1 ./tests/integration",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
+      ]
     },
     "test:coverage:unit": {
-      "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
+      "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
+      ]
+    },
+    "test:coverage:behavior": {
+      "cache": false,
+      "command": "go -C apps/badakmini-cli test -count=1 ./tests/bdd",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/project.json"
+      ]
+    },
+    "test:coverage:integration": {
+      "cache": false,
+      "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/cli -coverprofile=../../local-tmp/badakmini-integration.out ./tests/integration && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-integration.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"integration statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
       ]
     },
     "test:coverage": {
-      "command": "npm exec nx -- run badakmini-cli:test:coverage:unit"
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm exec nx -- run badakmini-cli:test:coverage:unit",
+          "npm exec nx -- run badakmini-cli:test:coverage:integration",
+          "npm exec nx -- run badakmini-cli:test:coverage:behavior"
+        ],
+        "parallel": false
+      },
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/project.json"
+      ]
     },
     "test:quick": {
       "executor": "nx:run-commands",
@@ -47,13 +97,27 @@
           "npm exec nx -- run badakmini-cli:typecheck",
           "npm exec nx -- run badakmini-cli:lint",
           "npm exec nx -- run badakmini-cli:test:unit",
-          "npm exec nx -- run badakmini-cli:test:coverage"
+          "npm exec nx -- run badakmini-cli:test:coverage:unit",
+          "npm exec nx -- run badakmini-cli:test:coverage:behavior"
         ],
         "parallel": false
-      }
+      },
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/project.json"
+      ]
     },
     "typecheck": {
-      "command": "go -C apps/badakmini-cli vet ./..."
+      "command": "go -C apps/badakmini-cli vet ./...",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
+      ]
     }
   }
 }

@@ -39,6 +39,6 @@ Comments must explain intent, flow, and non-obvious decisions without narrating 
 
 ## Testing and Commits
 
-Each Nx project follows the [testing policy](repo-governance/development/testing-policy.md). Behavior is specified as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the [specs policy](repo-governance/development/specs-policy.md) and the [TDD policy](repo-governance/development/tdd-policy.md).
+Each Nx project follows the [testing policy](repo-governance/development/testing-policy.md) and the compulsory [BDD policy](repo-governance/development/behavior-driven-development-policy.md). Behavior is specified as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the [specs policy](repo-governance/development/specs-policy.md) and the [TDD policy](repo-governance/development/tdd-policy.md).
 
 Use Conventional Commits and split unrelated work into thematic commits. Follow the [commit hook policy](repo-governance/development/commit-hook-policy.md) for public-repository safety, attribution, and hook requirements. Do not commit `node_modules/` or unreviewed dependency updates.

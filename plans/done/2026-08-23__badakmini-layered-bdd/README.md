@@ -17,3 +17,5 @@ The canonical corpus will live below `specs/apps/badakmini-cli/behavior/`. Unit,
 - 2026-08-23 — strict — 2 cycles — pass (0 findings on two consecutive runs after rewriting the affected checklist section)
 - 2026-08-23 — strict — 2 cycles — pass (0 findings on two consecutive runs after correcting Phase 1 boundary-enforcement ordering)
 - 2026-08-23 — strict — 6 cycles — pass (0 findings on two consecutive runs after moving the all-runtime unit coverage slice and host-adapter boundary into Phase 1)
+- 2026-08-23 — strict — 3 cycles — pass (0 findings on two consecutive runs after making external-spec cache invalidation explicit)
+- 2026-08-23 — strict — 4 cycles — pass (0 findings on two consecutive runs after resolving the application integration rule, restoring word-limit headroom, and indexing relocated policies)
