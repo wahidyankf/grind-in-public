@@ -29,17 +29,19 @@ State the rule in one sentence: its scope, trigger, and required behavior. Keep 
 
 1. Inventory applicable guidance before editing; see [inventory](rules-propagation/01-inventory.md).
 
-2. Choose one canonical home for the rule; see [canonical home](rules-propagation/02-canonical-home.md).
+2. Run the [idempotency gate](rules-propagation/04-idempotency-gate.md). When the existing rule passes its objective criteria, stop without changing any rule-bearing file.
 
-3. Merge equivalent, overlapping, or inverse rules into that source; see [conflict resolution](rules-propagation/03-conflict-resolution.md).
+3. Choose one canonical home for the rule; see [canonical home](rules-propagation/02-canonical-home.md).
 
-4. Resolve contradictions before writing, and never settle one alone; same document.
+4. Merge equivalent, overlapping, or inverse rules into that source; see [conflict resolution](rules-propagation/03-conflict-resolution.md).
 
-5. Integrate the approved rule using direct, testable language. Link from a concise document to its detailed source instead of copying the same rule. When creating or editing Markdown, follow the [Markdown style policy](../conventions/markdown-style-policy.md).
+5. Resolve contradictions before writing, and never settle one alone; same document.
+
+6. Integrate the approved rule using direct, testable language. Link from a concise document to its detailed source instead of copying the same rule. When creating or editing Markdown, follow the [Markdown style policy](../conventions/markdown-style-policy.md).
 
 ## Verification
 
-Confirm the rule has one canonical source and accurate references, and that no contradictory guidance remains. When the change touched many documents, run the [rules-quality-gate](rules-quality-gate.md) workflow to check the corpus rather than the diff. Run:
+Confirm the idempotency decision against its criteria, the rule has one canonical source and accurate references, and no contradictory guidance remains. When the change touched many documents, run the [rules-quality-gate](rules-quality-gate.md) workflow to check the corpus rather than the diff. Run:
 
 ```sh
 npm run format:check
