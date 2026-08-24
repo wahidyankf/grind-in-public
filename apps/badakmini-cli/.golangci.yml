@@ -46,8 +46,16 @@ linters:
             - $all
             - "!$test"
             - "!**/tests/bdd/*.go"
+            - "!**/internal/cli/command.go"
           allow:
             - $gostd
+            - github.com/wahidyankf/grind-in-public/apps/badakmini-cli
+        cobra-command-tree:
+          files:
+            - "**/internal/cli/command.go"
+          allow:
+            - $gostd
+            - github.com/spf13/cobra
             - github.com/wahidyankf/grind-in-public/apps/badakmini-cli
         test-support:
           files:

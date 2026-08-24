@@ -20,7 +20,7 @@ type scenarioState struct {
 //nolint:funlen,varnamelen // The explicit catalog exposes drift; sc consistently means scenario context.
 func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Given(`^repository discovery would fail$`, prepareFixture("repository-discovery-fails"))
-	sc.When(`^Badak Mini runs with "--help"$`, invokeCommand("--help"))
+	sc.When(`^Badak Mini runs with "([^"]+)"$`, invokeCommandLine)
 	sc.Then(`^the command succeeds and prints usage$`, expectResult(0, "Usage:", ""))
 	sc.Given(
 		`^a repository whose governance documents fit the word limit$`,
@@ -114,6 +114,10 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 			"repo-governance/workflows/harness-alignment.md",
 		),
 	)
+}
+
+func invokeCommandLine(ctx context.Context, arguments string) error {
+	return invokeCommand(strings.Fields(arguments)...)(ctx)
 }
 
 func contextWithState(ctx context.Context, state *scenarioState) context.Context {

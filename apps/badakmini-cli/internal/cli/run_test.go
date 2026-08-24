@@ -13,6 +13,22 @@ import (
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/parity"
 )
 
+const (
+	instructionSizeCommand    = "harness instruction-size validate"
+	markdownLinksCommand      = "harness markdown-links validate"
+	ruleChangeValidateCommand = "harness rule-change validate"
+	ruleChangeHookCommand     = "harness rule-change hook"
+	capabilityParityCommand   = "harness capability-parity validate"
+)
+
+var supportedCommands = []string{
+	instructionSizeCommand,
+	markdownLinksCommand,
+	ruleChangeValidateCommand,
+	ruleChangeHookCommand,
+	capabilityParityCommand,
+}
+
 func TestRunPrintsHelpWithoutRepositoryDiscovery(t *testing.T) {
 	runtime, stdout, stderr := runtimeDouble(t)
 	runtime.FindRepositoryRoot = func() (string, error) {
@@ -32,15 +48,31 @@ func TestRunPrintsHelpWithoutRepositoryDiscovery(t *testing.T) {
 }
 
 func TestRunRejectsUnsupportedCommandsBeforeRepositoryDiscovery(t *testing.T) {
-	runtime, _, stderr := runtimeDouble(t)
-	runtime.FindRepositoryRoot = func() (string, error) {
-		t.Fatal("invalid usage must not discover the repository")
-		return "", nil
+	tests := []struct {
+		name string
+		args []string
+	}{
+		{name: "unknown command", args: []string{"unknown"}},
+		{name: "unknown flag", args: []string{"--unknown"}},
+		{
+			name: "excess leaf argument",
+			args: []string{"harness", "markdown-links", "validate", "unexpected"},
+		},
 	}
 
-	exitCode := Run(context.Background(), runtime, []string{"unknown"})
-	if exitCode != invalidInvocationExitCode || !strings.Contains(stderr.String(), "Usage:") {
-		t.Fatalf("expected usage failure, got exit %d and stderr %q", exitCode, stderr.String())
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			runtime, _, stderr := runtimeDouble(t)
+			runtime.FindRepositoryRoot = func() (string, error) {
+				t.Fatal("invalid usage must not discover the repository")
+				return "", nil
+			}
+
+			exitCode := Run(context.Background(), runtime, test.args)
+			if exitCode != invalidInvocationExitCode || !strings.Contains(stderr.String(), "Usage:") {
+				t.Fatalf("expected usage failure, got exit %d and stderr %q", exitCode, stderr.String())
+			}
+		})
 	}
 }
 
@@ -374,15 +406,6 @@ func TestWritefWrapsWriterFailure(t *testing.T) {
 	err := writef(writeFailure{}, "message %d", 1)
 	if err == nil || !strings.Contains(err.Error(), "write formatted output") {
 		t.Fatalf("expected contextualized writer failure, got %v", err)
-	}
-}
-
-func TestMatchesCommandRequiresAnExactSupportedInvocation(t *testing.T) {
-	if !matchesCommand(strings.Fields(instructionSizeCommand)) {
-		t.Fatal("expected supported command to match")
-	}
-	if matchesCommand([]string{"harness", "instruction-size"}) {
-		t.Fatal("expected incomplete command not to match")
 	}
 }
 

@@ -5,6 +5,8 @@ Badak Mini is a deliberately small Go governance CLI. Its name means “rhinocer
 ## Current Command
 
 ```sh
+badak-mini --help
+badak-mini harness --help
 badak-mini harness instruction-size validate
 badak-mini harness markdown-links validate
 badak-mini harness rule-change validate
@@ -43,6 +45,6 @@ npx nx run badakmini-cli:test:coverage
 npx nx run badakmini-cli:test:quick
 ```
 
-Badak Mini's application code is standard-library-only and pinned to Go 1.26.6. Its development module also pins GolangCI-Lint and govulncheck; run them through `go -C apps/badakmini-cli tool <name>`. Lint starts from every applicable nondeprecated check, uses strict Go formatters, and treats every finding as blocking. Unit coverage owns every `internal/...` validator and orchestration package; integration coverage owns only `internal/cli`; both exact numeric gates require at least 99% statements. The thin `cmd/badak-mini` process entrypoint is owned by the co-located [`tests/e2e`](tests/e2e/) package and is outside both numeric denominators. `tests/unit` is the Gherkin unit adapter. Badak Mini is an intentional replacement for the former shell governance checker, not a general Rhino CLI port.
+Badak Mini is pinned to Go 1.26.6. Its command tree uses exact-pinned Cobra as its only direct production library, while its production validators remain standard-library-only; the dependency guard confines Cobra to the command adapter. Its development module also pins GolangCI-Lint and govulncheck; run them through `go -C apps/badakmini-cli tool <name>`. Lint starts from every applicable nondeprecated check, uses strict Go formatters, and treats every finding as blocking. Unit coverage owns every `internal/...` validator and orchestration package; integration coverage owns only `internal/cli`; both exact numeric gates require at least 99% statements. The thin `cmd/badak-mini` process entrypoint is owned by the co-located [`tests/e2e`](tests/e2e/) package and is outside both numeric denominators. `tests/unit` is the Gherkin unit adapter. Badak Mini is an intentional replacement for the former shell governance checker, not a general Rhino CLI port.
 
 Its [canonical behavior corpus](../../specs/apps/badakmini-cli/README.md) is executed by unit, local-integration, and process E2E adapters. The owner module pins Actionlint and owns `npm run check:workflows`, which validates the scheduled GitHub Actions workflow before it is relied on.

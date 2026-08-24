@@ -2,50 +2,15 @@
 package cli
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
-	"slices"
-	"strings"
 
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/governance"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/markdownlinks"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/parity"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/rulechange"
 )
-
-// Each supported invocation is spelled out, so an unknown command fails with
-// usage rather than falling through to a check the caller did not ask for.
-const (
-	instructionSizeCommand    = "harness instruction-size validate"
-	markdownLinksCommand      = "harness markdown-links validate"
-	ruleChangeValidateCommand = "harness rule-change validate"
-	ruleChangeHookCommand     = "harness rule-change hook"
-	capabilityParityCommand   = "harness capability-parity validate"
-	invalidInvocationExitCode = 2
-)
-
-var supportedCommands = []string{
-	instructionSizeCommand,
-	markdownLinksCommand,
-	ruleChangeValidateCommand,
-	ruleChangeHookCommand,
-	capabilityParityCommand,
-}
-
-const usage = `Usage:
-  badak-mini harness instruction-size validate
-  badak-mini harness markdown-links validate
-  badak-mini harness rule-change validate
-  badak-mini harness rule-change hook
-  badak-mini harness capability-parity validate
-
-Validate governance Markdown word limits, repository-local Markdown links, the
-subagents, skills, and commands every harness exposes, or announce the
-rules-propagation workflow when a rule changes. The rule-change validate form
-reads the staged paths; its hook form reads a pre-edit payload on stdin.
-`
 
 // Runtime supplies the process and repository boundaries used by command orchestration.
 type Runtime struct {
@@ -57,67 +22,6 @@ type Runtime struct {
 	CheckMarkdownLinks func(string) ([]markdownlinks.Finding, error)
 	ListStagedPaths    func(string) ([]string, error)
 	CheckParity        func(string) ([]parity.Finding, error)
-}
-
-// Run parses one invocation and returns the public process exit code.
-func Run(ctx context.Context, runtime Runtime, args []string) int {
-	if exitCode, handled := handleUsage(args, runtime.Stdout, runtime.Stderr); handled {
-		return exitCode
-	}
-
-	root, err := runtime.FindRepositoryRoot()
-	if err != nil {
-		writeErr := writef(runtime.Stderr, "ERROR: could not find the Git repository root: %v\n", err)
-		if writeErr != nil {
-			return 1
-		}
-		return 1
-	}
-
-	return executeCommand(ctx, runtime, strings.Join(args, " "), root)
-}
-
-// handleUsage separates invocations that need no repository from validation.
-func handleUsage(args []string, stdout, stderr io.Writer) (int, bool) {
-	// Help is successful even outside a repository because it does not inspect
-	// files; invalid commands fail before doing an unnecessary root lookup.
-	if len(args) == 1 && (args[0] == "--help" || args[0] == "-h") {
-		if err := writef(stdout, usage); err != nil {
-			return 1, true
-		}
-
-		return 0, true
-	}
-	if matchesCommand(args) {
-		return 0, false
-	}
-	if err := writef(stderr, usage); err != nil {
-		return 1, true
-	}
-
-	// Exit status 2 distinguishes invalid input from a failed validation.
-	return invalidInvocationExitCode, true
-}
-
-// executeCommand keeps command routing separate from repository discovery and
-// usage handling, so each stage has one failure domain.
-func executeCommand(
-	_ context.Context,
-	runtime Runtime,
-	command, root string,
-) int {
-	switch command {
-	case instructionSizeCommand:
-		return validateInstructionSize(runtime, root)
-	case ruleChangeValidateCommand:
-		return announceStagedRuleChange(runtime, root)
-	case ruleChangeHookCommand:
-		return announceHookRuleChange(root, runtime.Stdin, runtime.Stdout)
-	case capabilityParityCommand:
-		return validateCapabilityParity(runtime, root)
-	default:
-		return validateMarkdownLinks(runtime, root)
-	}
 }
 
 // announceStagedRuleChange reports a staged rule change to a contributor. It
@@ -304,8 +208,4 @@ func writef(writer io.Writer, format string, arguments ...any) error {
 	}
 
 	return nil
-}
-
-func matchesCommand(args []string) bool {
-	return slices.Contains(supportedCommands, strings.Join(args, " "))
 }

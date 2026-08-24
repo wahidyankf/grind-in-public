@@ -11,7 +11,7 @@ This policy covers how source code is written: the language target, naming, inde
 
 ## Language Target
 
-Use strict TypeScript with CommonJS-compatible Node output. Badak Mini is the standard-library Go CLI for repository-local validation; follow the [Badak Mini policy](badakmini-cli-policy.md) before extending it.
+Use strict TypeScript with CommonJS-compatible Node output. Badak Mini is the Go CLI for repository-local validation; follow the [Badak Mini policy](badakmini-cli-policy.md) before extending it.
 
 ## Naming and Layout
 
@@ -25,7 +25,7 @@ A descriptive file name is one a reader can act on without opening the file. `pa
 
 Import internal TypeScript libraries by package name, not by relative cross-project paths. A relative path across a project boundary compiles, so nothing stops it, and it hides the dependency from Nx — which then cannot tell that the importing project is affected when the imported one changes.
 
-Let `goimports` group and order Go imports. Badak Mini production code remains standard-library-only under the [Badak Mini policy](badakmini-cli-policy.md); tool dependencies in its Go module do not authorize runtime imports.
+Let `goimports` group and order Go imports. The [Badak Mini policy](badakmini-cli-policy.md) owns its production dependency boundary; tool dependencies in its Go module do not authorize runtime imports.
 
 ## Verification
 

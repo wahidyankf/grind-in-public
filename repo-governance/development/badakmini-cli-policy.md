@@ -7,14 +7,14 @@ when_to_use: "Use when adding or changing recurring repository validation checks
 
 ## Scope
 
-Badak Mini is this repository's small, standard-library-only Go CLI for repository-local validation. Its production code owns recurring checks that protect repository health, such as instruction-size and Markdown-link validation; pinned Go `tool` dependencies support development validation only.
+Badak Mini is this repository's small Go CLI for repository-local validation. Cobra owns its command tree, while its production validators use only the standard library. Its production code owns recurring checks that protect repository health, such as instruction-size and Markdown-link validation; pinned Go `tool` dependencies support development validation only.
 
 ## Rules
 
 - Do not create a Badak Mini command merely because a rule can be automated. First reuse an existing command, hook, standard tool, or clear manual review. A new command requires explicit repository-owner approval plus evidence that the failure is recurring, materially affects repository-wide correctness, and that centralized enforcement returns more value than its code, tests, documentation, execution time, false positives, upgrades, and eventual removal will cost.
 - When an approved recurring repository-local check truly needs custom executable code, add it to Badak Mini rather than creating a standalone shell checker.
 - Keep validation deterministic and offline so it can run in pre-push. Inspect the Git-tracked repository state when the check concerns committed content.
-- Keep Badak Mini's production imports standard-library-only. Owner-approved, exact-pinned Go `tool` dependencies may support build, lint, test, or vulnerability checks, but must not become runtime dependencies.
+- Keep Badak Mini's production validator imports standard-library-only. The command-tree adapter in `internal/cli/command.go` may import the exact-pinned Cobra module as Badak Mini's sole direct runtime library; do not import Viper into production, add `cobra-cli` generation, or add another direct runtime library without explicit owner direction. The project's dependency guard enforces this file boundary. Owner-approved, exact-pinned Go `tool` dependencies may support build, lint, test, or vulnerability checks, but must not become runtime dependencies.
 - For each new check, add a focused command, an Nx target, executable Gherkin, unit and local integration coverage, public-process E2E coverage in `tests/e2e`, and human-facing usage documentation.
 - Wire a check that blocks into pre-push, scoped to the paths that can break it, so a push that cannot fail the check does not pay for it. A check that no path narrows runs on every push.
 - Wire a check that only reports into pre-commit, where the author can still act on what it says. A notice that arrives at push time asks for an amend rather than an edit.

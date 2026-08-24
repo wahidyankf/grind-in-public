@@ -8,7 +8,10 @@ tool (
 	golang.org/x/vuln/cmd/govulncheck
 )
 
-require github.com/cucumber/godog v0.16.0
+require (
+	github.com/cucumber/godog v0.16.0
+	github.com/spf13/cobra v1.10.2
+)
 
 require (
 	4d63.com/gocheckcompilerdirectives v1.3.0 // indirect
@@ -189,7 +192,6 @@ require (
 	github.com/sourcegraph/go-diff v0.8.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
-	github.com/spf13/cobra v1.10.2 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/spf13/viper v1.12.0 // indirect
