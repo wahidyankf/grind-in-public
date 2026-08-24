@@ -46,7 +46,7 @@ func canonicalBehaviorRoot() (string, error) {
 	}
 	return filepath.Clean(filepath.Join(
 		filepath.Dir(sourcePath),
-		"..", "..", "..",
+		"..", "..", "..", "..",
 		"specs", "apps", "badakmini-cli", "behavior",
 	)), nil
 }

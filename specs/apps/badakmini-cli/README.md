@@ -1,6 +1,6 @@
 # Badak Mini Specifications
 
-Badak Mini's canonical executable behavior lives in [behavior/](behavior/). Every feature is run unchanged by its unit, local-integration, and dedicated public-process E2E adapters.
+Badak Mini's canonical executable behavior lives in [behavior/](behavior/). Every feature is run unchanged by its unit, local-integration, and public-process E2E adapters.
 
 | Feature | Covers |
 | --- | --- |
@@ -10,4 +10,4 @@ Badak Mini's canonical executable behavior lives in [behavior/](behavior/). Ever
 | [Capability parity](behavior/capability-parity.feature) | Matching and missing harness capabilities. |
 | [Rule change](behavior/rule-change.feature) | Staged notices and pre-edit hook notices. |
 
-The owner application's `test:coverage:behavior` target verifies recursive discovery, expression binding, and adapter parity. The dedicated E2E app uses the same corpus and owns no features of its own.
+The owner's `test:coverage:behavior` target verifies recursive discovery, expression binding, and adapter parity. Its co-located E2E package uses the same corpus and owns no features of its own.

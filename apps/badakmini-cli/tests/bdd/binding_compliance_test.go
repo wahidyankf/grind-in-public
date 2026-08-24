@@ -111,7 +111,7 @@ func e2eBindings(t *testing.T) []sourceBinding {
 	if err != nil {
 		t.Fatalf("locate module root: %v", err)
 	}
-	return bindingsAt(t, filepath.Join(root, "..", "badakmini-cli-e2e", "tests", "bindings_test.go"))
+	return bindingsAt(t, filepath.Join(root, "tests", "e2e", "bindings_test.go"))
 }
 
 func bindingsAt(t *testing.T, path string) []sourceBinding {

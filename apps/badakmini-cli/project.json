@@ -42,6 +42,15 @@
         "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
       ]
     },
+    "test:e2e": {
+      "cache": false,
+      "command": "BADAKMINI_BIN=\"$PWD/apps/badakmini-cli/dist/badak-mini\" go -C apps/badakmini-cli test -count=1 ./tests/e2e",
+      "dependsOn": ["build", "test:coverage:behavior"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
+      ]
+    },
     "test:coverage:unit": {
       "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
       "inputs": [
@@ -55,11 +64,7 @@
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/project.json"
+        "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
       ]
     },
     "test:coverage:integration": {
@@ -83,11 +88,7 @@
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/project.json"
+        "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
       ]
     },
     "test:quick": {
@@ -105,11 +106,7 @@
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
-        "{workspaceRoot}/apps/badakmini-cli-e2e/project.json"
+        "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
       ]
     },
     "typecheck": {

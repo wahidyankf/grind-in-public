@@ -35,6 +35,7 @@ npx nx run badakmini-cli:typecheck
 npx nx run badakmini-cli:lint
 npx nx run badakmini-cli:test:unit
 npx nx run badakmini-cli:test:integration
+npx nx run badakmini-cli:test:e2e
 npx nx run badakmini-cli:test:coverage:unit
 npx nx run badakmini-cli:test:coverage:integration
 npx nx run badakmini-cli:test:coverage:behavior
@@ -42,6 +43,6 @@ npx nx run badakmini-cli:test:coverage
 npx nx run badakmini-cli:test:quick
 ```
 
-Badak Mini's application code is standard-library-only and pinned to Go 1.26.6. Its development module also pins GolangCI-Lint and govulncheck; run them through `go -C apps/badakmini-cli tool <name>`. Lint starts from every applicable nondeprecated check, uses strict Go formatters, and treats every finding as blocking. Unit coverage owns every `internal/...` validator and orchestration package; integration coverage owns only `internal/cli`; both exact numeric gates require at least 99% statements. The thin `cmd/badak-mini` process entrypoint is owned by the dedicated E2E app and is outside both numeric denominators. `tests/unit` is the Gherkin unit adapter. Badak Mini is an intentional replacement for the former shell governance checker, not a general Rhino CLI port.
+Badak Mini's application code is standard-library-only and pinned to Go 1.26.6. Its development module also pins GolangCI-Lint and govulncheck; run them through `go -C apps/badakmini-cli tool <name>`. Lint starts from every applicable nondeprecated check, uses strict Go formatters, and treats every finding as blocking. Unit coverage owns every `internal/...` validator and orchestration package; integration coverage owns only `internal/cli`; both exact numeric gates require at least 99% statements. The thin `cmd/badak-mini` process entrypoint is owned by the co-located [`tests/e2e`](tests/e2e/) package and is outside both numeric denominators. `tests/unit` is the Gherkin unit adapter. Badak Mini is an intentional replacement for the former shell governance checker, not a general Rhino CLI port.
 
-Its [canonical behavior corpus](../../specs/apps/badakmini-cli/README.md) is executed by unit, local-integration, and dedicated E2E adapters. The owner module pins Actionlint and owns `npm run check:workflows`, which validates the scheduled GitHub Actions workflow before it is relied on.
+Its [canonical behavior corpus](../../specs/apps/badakmini-cli/README.md) is executed by unit, local-integration, and process E2E adapters. The owner module pins Actionlint and owns `npm run check:workflows`, which validates the scheduled GitHub Actions workflow before it is relied on.

@@ -68,7 +68,7 @@ func TestAdaptersShareCanonicalCatalogAndBindings(t *testing.T) {
 		assertOwnerAdapterSource(t, name, sourcePath)
 		adapters[name] = catalog
 	}
-	e2eSourcePath := filepath.Join(root, "..", "badakmini-cli-e2e", "tests", "features_test.go")
+	e2eSourcePath := filepath.Join(root, "tests", "e2e", "features_test.go")
 	assertE2EAdapterSource(t, e2eSourcePath)
 	adapters["e2e"] = catalog
 	if err := ValidateAdapterParity(adapters); err != nil {
@@ -171,22 +171,15 @@ func TestAdapterParityDeletedFeatureFixture(t *testing.T) {
 
 func TestE2EBindingInputRegression(t *testing.T) {
 	inputs := behaviorTargetInputs(t)
-	if !slicesContain(inputs, "{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*") {
+	if !slicesContain(inputs, "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*") {
 		t.Fatalf("behavior target must invalidate for E2E binding changes: %v", inputs)
 	}
 }
 
 func TestE2EConfigurationInputRegression(t *testing.T) {
 	inputs := behaviorTargetInputs(t)
-	for _, required := range []string{
-		"{workspaceRoot}/apps/badakmini-cli-e2e/go.mod",
-		"{workspaceRoot}/apps/badakmini-cli-e2e/go.sum",
-		"{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml",
-		"{workspaceRoot}/apps/badakmini-cli-e2e/project.json",
-	} {
-		if !slicesContain(inputs, required) {
-			t.Errorf("behavior target must invalidate for %s", required)
-		}
+	if !slicesContain(inputs, "default") {
+		t.Fatalf("behavior target must invalidate for owner configuration changes: %v", inputs)
 	}
 }
 
@@ -211,7 +204,7 @@ func behaviorTargetInputs(t *testing.T) []string {
 	if err != nil {
 		t.Fatalf("locate module root: %v", err)
 	}
-	// #nosec G304 -- this is the fixed owner project descriptor adjacent to the test module.
+	// #nosec G304 -- this is the fixed owner project descriptor adjacent to the test package.
 	contents, err := os.ReadFile(filepath.Join(root, "project.json"))
 	if err != nil {
 		t.Fatalf("read owner project: %v", err)

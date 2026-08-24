@@ -11,19 +11,19 @@ This policy applies to every Nx project in this repository.
 
 ## Quick Tests
 
-Each application and library exposes cacheable `typecheck`, `lint`, `test:unit`, `test:coverage`, and `test:quick` targets. A dedicated E2E application exposes only meaningful `typecheck`, `lint`, behavior-completeness, E2E, and quick targets. `test:quick` is an ordered `nx:run-commands` aggregate with parallel execution disabled; it invokes its required fast target entry points without copying their underlying commands.
+Each application and library exposes cacheable `typecheck`, `lint`, `test:unit`, `test:coverage`, and `test:quick` targets. An application's process E2E target is uncached and outside `test:quick`. The [BDD policy](behavior-driven-development-policy.md) owns its placement: a co-located package uses the owner's `typecheck`, `lint`, and `test:e2e` targets, while a permitted dedicated project owns equivalent targets. `test:quick` is an ordered `nx:run-commands` aggregate with parallel execution disabled; it invokes its required fast target entry points without copying their underlying commands.
 
 ```text
 typecheck -> lint -> test:unit -> test:coverage
 ```
 
-Unit tests are deterministic and replace external collaborators with test doubles. Coverage uses the language's native instrumentation and fails below the project role's documented threshold. Do not duplicate an executable threshold as metadata, omit runtime code, lower the threshold, or add broad exclusions to make the gate pass; an unavoidable generated-code exclusion requires the repository owner's explicit approval and a documented reason.
+Coverage uses the language's native instrumentation and fails below the project role's documented threshold. Do not duplicate an executable threshold as metadata, omit runtime code, lower the threshold, or add broad exclusions to make the gate pass; an unavoidable generated-code exclusion requires the repository owner's explicit approval and a documented reason.
 
 Pre-push invokes Nx affected with `origin/main` as the base and each pushed local commit as the head. Nx uses the project graph to run `test:quick` only for affected projects under `apps/` and `libs/`, so unrelated documentation changes do not run project tests and shared changes still reach every project they affect. The hook intentionally uses Nx's local task cache.
 
 ## Integration Tests
 
-Use an uncached `test:integration` target for an owned local boundary. It may use real local collaborators but never a network service, and is not enforced by pre-push because it can be slow. A library has this target only when it owns such a boundary; every application has it. A dedicated E2E app holds public process or API proof instead of an integration layer. Run applicable integration suites explicitly:
+Use an uncached `test:integration` target for the local-integration layer the [BDD policy](behavior-driven-development-policy.md) requires. It is not enforced by pre-push because it can be slow. A library has this target only when its BDD role requires the layer; every application has it. Run applicable integration suites explicitly:
 
 ```sh
 npm run test:integration

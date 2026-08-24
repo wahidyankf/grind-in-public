@@ -90,7 +90,7 @@ func e2eBoundaryFindings() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	e2eRoot := filepath.Join(root, "..", "badakmini-cli-e2e", "tests")
+	e2eRoot := filepath.Join(root, "tests", "e2e")
 	var findings []string
 	err = filepath.WalkDir(e2eRoot, func(path string, entry fs.DirEntry, walkErr error) error {
 		if walkErr != nil {

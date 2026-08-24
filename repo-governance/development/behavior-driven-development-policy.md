@@ -13,16 +13,16 @@ Every application and library owns executable Gherkin behavior under its mirrore
 
 | Project role | Required behavior adapters |
 | --- | --- |
-| Application | Unit, local-only integration, and process E2E in a dedicated E2E application. |
+| Application | Unit, local-only integration, and process E2E co-located in the owner project. Use a dedicated E2E project only when its adapter requires a different toolchain. |
 | Library | Unit; local-only integration only when the library owns a real local boundary. Never E2E. |
-| Dedicated E2E application | Its owner's corpus through the public process boundary; no separate corpus, unit layer, or numeric coverage gate. |
+| Dedicated E2E project | Only a different-toolchain exception; its owner's corpus through the public process boundary, with no separate corpus, unit layer, or numeric coverage gate. |
 
 Applications and libraries use `specs/apps/<name>/behavior/` and `specs/libs/<name>/behavior/`. Every adapter recursively discovers the same canonical corpus, validates every expression exactly once, and uses uncached test execution when the language cannot include external specs in its native test cache key. Nx inputs include that recursive corpus and every E2E binding and configuration that influences behavior completeness.
 
 ## Required Layers
 
-Unit tests use doubles for external collaborators. Integration tests use only owned local boundaries such as local filesystems, databases, or subprocesses; they never use network services. A dedicated E2E app invokes only the owning application's built public executable or API and observes public results.
+Unit tests use doubles for external collaborators. Integration tests use only owned local boundaries such as local filesystems, databases, or subprocesses; they never use network services. An E2E adapter invokes only the owning application's built public executable or API and observes public results.
 
-Godog is the execution base for Go behavior tests. A Go subject's binding set, and the separate binding set in each dedicated Go E2E application, registers `Given`, `When`, and `Then` directly on `*godog.ScenarioContext` and executes through `godog.TestSuite`; repository compliance tooling may inspect the corpus and bindings but must not replace Godog's runtime registration, matching, lifecycle, or execution.
+Godog is the execution base for Go behavior tests. A Go subject's binding set and its separate E2E binding set each register `Given`, `When`, and `Then` directly on `*godog.ScenarioContext` and execute through `godog.TestSuite`; repository compliance tooling may inspect the corpus and bindings but must not replace Godog's runtime registration, matching, lifecycle, or execution.
 
 Each project README names its corpus, adapters, targets, and any justified inapplicable layer. See [Specs](specs-policy.md), [TDD](tdd-policy.md), and [Testing](testing-policy.md) for the complementary requirements.

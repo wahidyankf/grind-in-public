@@ -31,7 +31,7 @@ npx nx run badakmini-cli:test:coverage:unit
 npx nx run badakmini-cli:test:coverage:integration
 npx nx run badakmini-cli:test:coverage:behavior
 npx nx run badakmini-cli:test:coverage
-npx nx run badakmini-cli-e2e:test:e2e
+npx nx run badakmini-cli:test:e2e
 npx nx affected -t test:quick --base=origin/main --head=HEAD
 ```
 
