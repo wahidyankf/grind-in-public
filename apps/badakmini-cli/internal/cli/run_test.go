@@ -219,7 +219,7 @@ func TestAnnounceStagedRuleChangeCoversResultsAndStreamFailures(t *testing.T) {
 		runtime, stdout, _ := runtimeDouble(t)
 		runtime.ListStagedPaths = func(string) ([]string, error) { return []string{"AGENTS.md"}, nil }
 		exitCode := announceStagedRuleChange(runtime, "repository")
-		if exitCode != 0 || !strings.Contains(stdout.String(), "Rule change detected") {
+		if exitCode != 0 || !strings.Contains(stdout.String(), "Rules Propagation automatically triggered") {
 			t.Fatalf("expected rule notice, got exit %d and stdout %q", exitCode, stdout.String())
 		}
 	})

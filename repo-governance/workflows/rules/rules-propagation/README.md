@@ -5,7 +5,7 @@ when_to_use: "Use when looking up the run's inventory command, where a rule belo
 
 # Rules Propagation Details
 
-Detail behind the [rules-propagation](../rules-propagation.md) workflow. Filenames are numbered; the [document naming policy](../../conventions/document-naming-policy.md) says why.
+Detail behind the [rules-propagation](../rules-propagation.md) workflow. Filenames are numbered; the [document naming policy](../../../conventions/document-naming-policy.md) says why.
 
 ## Contents
 

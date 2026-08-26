@@ -11,7 +11,7 @@ Two consecutive clean runs end the loop; seven cycles end it with findings open.
 
 ## A Contradiction
 
-A contradiction between two rules is not the fixer's to settle. When one is found, present both texts, their practical effect, and a recommended resolution to the owner, and wait. [Conflict resolution](../rules-propagation/03-conflict-resolution.md) requires that wait for a substantive conflict; the gate waits on every contradiction it finds.
+A contradiction between two rules is not the fixer's to settle. When one is found, present both texts, their practical effect, and a recommended resolution to the owner, and wait. [Conflict resolution](../rules/rules-propagation/03-conflict-resolution.md) requires that wait for a substantive conflict; the gate waits on every contradiction it finds.
 
 ## A Loop That Will Not Converge
 

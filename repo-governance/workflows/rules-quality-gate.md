@@ -11,7 +11,7 @@ Find and resolve the ways written guidance decays: two documents that contradict
 
 ## When to Use
 
-Run it on demand — after a large rule change, when a contradiction is suspected, or periodically to check drift. It is deliberately not mandatory: [rules-propagation](rules-propagation.md) integrates one rule correctly on its own, and gating every one-line edit behind a full corpus review would make small corrections expensive enough to skip.
+Run it on demand — after a large rule change, when a contradiction is suspected, or periodically to check drift. It is deliberately not mandatory: [rules-propagation](rules/rules-propagation.md) integrates one rule correctly on its own, and gating every one-line edit behind a full corpus review would make small corrections expensive enough to skip.
 
 Running the gate needs no plan, but resolving a finding can. Create a plan for a rule change only when the owner explicitly requests one; the [plans organization policy](../conventions/plans-organization-policy.md) owns that authorization boundary and the `rules-fixer` exemption.
 

@@ -38,7 +38,7 @@ The [commit hook policy](repo-governance/development/commit-hook-policy.md) forb
 
 ## Quality Gates
 
-Pre-commit formats staged files and announces the [Rules Propagation](repo-governance/workflows/rules-propagation.md) workflow, plus [Harness Alignment](repo-governance/workflows/harness-alignment.md) where it applies; a `PreToolUse` hook says the same before an edit. The [rule change trigger policy](repo-governance/development/rule-change-trigger-policy.md) owns which paths announce which. Commit messages go through commitlint. [Workspace commands](repo-governance/development/workspace-commands.md#hooks) lists what each hook runs and the caveats of running those checks locally; the [commit hook policy](repo-governance/development/commit-hook-policy.md) governs bypasses.
+Pre-commit automatically triggers [Rules Propagation](repo-governance/workflows/rules/rules-propagation.md), plus [Harness Alignment](repo-governance/workflows/harness-alignment.md) where it applies; a `PreToolUse` hook does so before an edit. The [rule change trigger policy](repo-governance/development/rule-change-trigger-policy.md) owns which paths trigger which. Commit messages go through commitlint. [Workspace commands](repo-governance/development/workspace-commands.md#hooks) lists what each hook runs and the caveats of running those checks locally; the [commit hook policy](repo-governance/development/commit-hook-policy.md) governs bypasses.
 
 ## Writing Here
 

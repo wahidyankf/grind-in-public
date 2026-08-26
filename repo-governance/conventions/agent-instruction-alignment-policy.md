@@ -21,7 +21,7 @@ The [agent harness support policy](agent-harness-support.md) records which harne
 
 ## Required Alignment
 
-An assistant-specific file must not contradict `AGENTS.md` or any document in `repo-governance/`. When guidance would conflict, resolve the conflict at the canonical source using the [Rules Propagation](../workflows/rules-propagation.md) workflow instead of writing a divergent local instruction.
+An assistant-specific file must not contradict `AGENTS.md` or any document in `repo-governance/`. When guidance would conflict, resolve the conflict at the canonical source using the [Rules Propagation](../workflows/rules/rules-propagation.md) workflow instead of writing a divergent local instruction.
 
 Do not restate a rule that `AGENTS.md` or `repo-governance/` already owns. Link to it instead, so a single edit at the canonical source stays true everywhere. A short pointer that names the rule and links to its home is acceptable when the assistant needs the rule at the point of work; a paraphrase that could drift out of date is not.
 

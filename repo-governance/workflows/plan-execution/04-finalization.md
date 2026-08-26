@@ -9,7 +9,7 @@ when_to_use: "Use when a plan's delivery phases are complete, or when resuming a
 
 The last phase before archival triages `learnings.md`. Every entry is routed to exactly one durable home — a governance rule, a document, a subagent instruction, code, a test, or a new two-pager — or discarded with a one-line reason. Both safety checks run first: no secret leaves the plan, and the lesson generalizes beyond this one incident. The [knowledge capture rules](../../conventions/plans-organization-policy/knowledge-capture.md) hold the full routing.
 
-Routing a rule into `repo-governance/` runs the [rules-propagation](../rules-propagation.md) workflow, and touching a harness path runs [harness-alignment](../harness-alignment.md) as well.
+Routing a rule into `repo-governance/` automatically triggers the [rules-propagation](../rules/rules-propagation.md) workflow, and touching a harness path triggers [harness-alignment](../harness-alignment.md) as well.
 
 Archival is blocked until every entry is terminal, or the plan records `No generalizable learnings — <reason>`.
 

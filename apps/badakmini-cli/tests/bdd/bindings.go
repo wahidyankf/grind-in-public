@@ -84,8 +84,8 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 		invokeCommand("harness", "rule-change", "validate"),
 	)
 	sc.Then(
-		`^the command succeeds with the rules-propagation notice$`,
-		expectResult(0, "repo-governance/workflows/rules-propagation.md", ""),
+		`^the command succeeds with the automatically triggered rules-propagation workflow$`,
+		expectResult(0, "repo-governance/workflows/rules/rules-propagation.md", ""),
 	)
 	sc.Given(
 		`^a repository with only an ordinary staged file$`,
@@ -103,7 +103,7 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Then(
 		`^the command succeeds with both workflow notices$`,
 		expectStdoutContains(
-			"repo-governance/workflows/rules-propagation.md",
+			"repo-governance/workflows/rules/rules-propagation.md",
 			"repo-governance/workflows/harness-alignment.md",
 		),
 	)

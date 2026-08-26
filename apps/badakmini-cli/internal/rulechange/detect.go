@@ -1,5 +1,5 @@
-// Package rulechange detects edits to the repository's rules so the
-// rules-propagation workflow is announced instead of being remembered.
+// Package rulechange detects edits to the repository's rules so Rules
+// Propagation starts automatically instead of being remembered.
 package rulechange
 
 import (
@@ -13,7 +13,7 @@ import (
 
 // Workflow is the procedure every rule change must follow. The notice points
 // at it rather than restating its steps, so the workflow stays the one source.
-const Workflow = "repo-governance/workflows/rules-propagation.md"
+const Workflow = "repo-governance/workflows/rules/rules-propagation.md"
 
 // HarnessWorkflow proves the harnesses stayed equal after a change to one of
 // them. A harness change is also a rule change, so both workflows can apply.
@@ -159,12 +159,12 @@ func patchPaths(command string) []string {
 	return paths
 }
 
-// Notice describes the detected rule change and names the workflows to follow.
+// Notice describes the detected rule change and starts the applicable workflow.
 // It names a workflow only when its paths changed, so a notice that always
 // listed both would teach readers to ignore the second line.
 func Notice(paths []string) string {
 	notice := fmt.Sprintf(
-		"Rule change detected in %s.\nRead and follow %s before completing this change.",
+		"Rules Propagation automatically triggered by %s.\nFollow %s before completing this change.",
 		strings.Join(paths, ", "),
 		Workflow,
 	)

@@ -7,7 +7,7 @@ when_to_use: "Use when changing the rule paths, the pre-commit announcement, or 
 
 ## Scope
 
-This policy covers the automation that announces the [Rules Propagation](../workflows/rules-propagation.md) and [Harness Alignment](../workflows/harness-alignment.md) workflows. Each workflow owns what to do once announced.
+This policy covers the automation that triggers [Rules Propagation](../workflows/rules/rules-propagation.md) and [Harness Alignment](../workflows/harness-alignment.md). Each workflow owns what to do once triggered.
 
 ## Rule Paths
 
@@ -17,9 +17,9 @@ A harness path is the narrower set the tools read: the instruction files, `openc
 
 ## Guaranteed Trigger
 
-The pre-commit hook runs `npm run check:rule-change`, which names the applicable workflows when a staged path carries rules. It runs for every editor, harness, and human, so the trigger never depends on which tool made the change.
+The pre-commit hook runs `npm run check:rule-change`, which automatically triggers the applicable workflows when a staged path carries rules. It runs for every editor, harness, and human, so no contributor or agent waits for an owner to name the workflow.
 
-It reports and exits zero. A hook can tell that the workflow applies; it cannot tell whether it was followed, and a gate that cannot judge its own condition only teaches people to bypass it. The mechanical parts stay enforced elsewhere, by the word limits and the link check.
+It reports and exits zero. A hook can detect that the workflow applies, but cannot judge its semantic decisions; a gate that cannot judge its own condition only teaches people to bypass it. The mechanical parts stay enforced elsewhere, by the word limits and the link check.
 
 ## Harness Pre-Edit Triggers
 

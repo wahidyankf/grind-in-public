@@ -17,7 +17,7 @@ Each entry is one short paragraph: what happened, and what a future reader shoul
 
 The final phase of every substantive plan, immediately before archival, is Knowledge Capture. It triages every entry in `learnings.md` and routes each to exactly one durable home:
 
-- a rule that belongs in `repo-governance/`, integrated through the [rules-propagation](../../workflows/rules-propagation.md) workflow
+- a rule that belongs in `repo-governance/`, integrated through the automatically triggered [rules-propagation](../../workflows/rules/rules-propagation.md) workflow
 - a document under `docs/` when the lesson helps a reader rather than binding an agent
 - a subagent or skill instruction, when the lesson changes how a role behaves
 - code or a test, when the lesson is executable — a regression test is the strongest form of capture

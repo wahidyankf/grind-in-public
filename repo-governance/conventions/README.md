@@ -23,4 +23,4 @@ This directory contains stable, cross-cutting standards that make repository wor
 
 ## Adding a Convention
 
-Add a focused convention here when a standard applies broadly across the repository and is not a foundational principle, executable-development policy, or repeatable procedure. Keep the canonical rule in one document, link to it from concise entry points, and use the [Rules Propagation](../workflows/rules-propagation.md) workflow before changing governance.
+Add a focused convention here when a standard applies broadly across the repository and is not a foundational principle, executable-development policy, or repeatable procedure. Keep the canonical rule in one document, link to it from concise entry points, and let the [Rules Propagation](../workflows/rules/rules-propagation.md) workflow trigger before changing governance.

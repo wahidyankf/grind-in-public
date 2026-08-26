@@ -72,7 +72,7 @@ func cliAdapterCases() []cliAdapterCase {
 				runRuleChangeGit(t, root, "add", "AGENTS.md")
 				return root
 			},
-			expectText: "Rule change detected",
+			expectText: "Rules Propagation automatically triggered",
 		},
 		{
 			name: "capability parity",
