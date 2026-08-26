@@ -7,6 +7,7 @@ when_to_use: "Use when changing executable code, development tooling, tests, or 
 
 This directory contains rules for building, testing, validating, and maintaining the repository's executable code. Read only the policy that matches the work at hand:
 
+- [Architecture Specifications](architecture-specifications.md) for each application's canonical as-built C4 model and its maintenance.
 - [Badak Mini](badakmini-cli-policy.md) for repository-local validation checks.
 - [Behavior-Driven Development](behavior-driven-development-policy.md) for mandatory canonical corpus and adapter roles.
 - [Code Commentary](code-commentary-policy.md) for learning-oriented comments.
@@ -15,7 +16,7 @@ This directory contains rules for building, testing, validating, and maintaining
 - [Harness Pre-Edit Triggers](harness-pre-edit-triggers.md) for what each harness wires before an edit, and how far it is verified.
 - [Nx Workspace](nx-workspace-policy.md) for raw-Nx boundaries and verification.
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow it.
-- [Specs](specs-policy.md) for Gherkin acceptance criteria and the `specs/` tree.
+- [Specs](specs-policy.md) for Gherkin acceptance criteria and the `specs/` tree; its [detail index](specs-policy/README.md) holds focused structural guidance.
 - [TDD](tdd-policy.md) for red-green-refactor cycles bound to scenarios.
 - [TDD Policy Details](tdd-policy/README.md) for focused TDD requirements.
 - [Testing](testing-policy.md) for quick and integration-test responsibilities.

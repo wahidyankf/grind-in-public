@@ -1,29 +1,17 @@
 ---
-tldr: "Requires Gherkin acceptance criteria in specs/, separate from the code that implements them."
-when_to_use: "Use when adding or changing behavior in an app or library, or when writing a plan's prd.md."
+tldr: "Requires Gherkin behavior and current application architecture in specs/, separate from implementation code."
+when_to_use: "Use when adding or changing an app or library's behavior or architecture, or when writing a plan's prd.md."
 ---
 
 # Specs Policy
 
 ## Scope
 
-This policy covers `specs/`, the repository's description of what its software should do. Specs state intent and observable behavior; `apps/` and `libs/` state how that behavior is delivered. Keeping them apart means a behavior discussion can start from one source of truth instead of from an implementation.
+This policy covers `specs/`, the repository's description of what its software should do and, for applications, its current architectural boundaries. Specs state intent, observable behavior, and as-built architecture; `apps/` and `libs/` contain the implementation that delivers them. Keeping them apart means a behavior or boundary discussion can start from one source of truth instead of from implementation detail.
 
 ## Structure
 
-Specs mirror the workspace: `specs/apps/<name>/` and `specs/libs/<name>/`. Each carries the folders its subject actually needs, and no others:
-
-```text
-specs/apps/<name>/
-+-- README.md          index for this subject
-+-- product/           the problem, its users, and scope
-+-- system-context/    the boundary with the outside world
-+-- containers/        the running parts
-+-- components/        the internals of a part
-+-- behavior/          Gherkin acceptance scenarios
-```
-
-`behavior/` is the only mandatory folder. Add another when the subject is complex enough to need it, not in advance.
+Read [Specs Structure](specs-policy/structure.md) for the mirrored tree, the mandatory application C4 model, and when a detail folder is warranted.
 
 ## Gherkin
 

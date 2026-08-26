@@ -1,6 +1,11 @@
 # Badak Mini Specifications
 
-Badak Mini's canonical executable behavior lives in [behavior/](behavior/). Every feature is run unchanged by its unit, local-integration, and public-process E2E adapters.
+Badak Mini's canonical as-built boundaries live in [architecture.md](architecture.md), and its executable behavior lives in [behavior/](behavior/). Every feature is run unchanged by its unit, local-integration, and public-process E2E adapters.
+
+## Directory Map
+
+- [Architecture](architecture.md) is the current as-built C4 model, its constraints, and behavior traceability.
+- [Behavior](behavior/) contains the canonical executable Gherkin corpus.
 
 | Feature | Covers |
 | --- | --- |

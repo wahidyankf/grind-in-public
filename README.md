@@ -50,7 +50,7 @@ Build all projects with `npm run build` and run quick checks with `npm test`. Se
 
 ## Plans and Specs
 
-Which work is planned before it starts, and which — drills among them — is not, is set by the [plans organization policy](repo-governance/conventions/plans-organization-policy.md). A plan is five documents in [`plans/`](plans/README.md), moving from `ideas/` through `backlog/` and `in-progress/` to `done/`, and delivering directly to `main` at each phase gate. What the software should do is described as Gherkin in [`specs/`](specs/README.md), separate from the code that implements it.
+Which work is planned before it starts, and which — drills among them — is not, is set by the [plans organization policy](repo-governance/conventions/plans-organization-policy.md). A plan is five documents in [`plans/`](plans/README.md), moving from `ideas/` through `backlog/` and `in-progress/` to `done/`, and delivering directly to `main` at each phase gate. What the software should do is described as Gherkin in [`specs/`](specs/README.md), alongside each non-drill application's current as-built architecture and separate from the code that implements them.
 
 ## Documentation
 

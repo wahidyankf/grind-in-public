@@ -19,7 +19,7 @@ This directory contains shared repository governance for human contributors and 
 ## Delivery Directories
 
 - [Plans](../plans/README.md) — the working record of change, staged from idea to archive. Use it when planning, executing, or reviewing a piece of work.
-- [Specifications](../specs/README.md) — Gherkin behavior for the workspace's apps and libraries. Use it when adding or changing what the software does.
+- [Specifications](../specs/README.md) — Gherkin behavior and as-built application architecture. Use it when changing what the software does or its documented boundaries.
 
 ## Gate History
 
