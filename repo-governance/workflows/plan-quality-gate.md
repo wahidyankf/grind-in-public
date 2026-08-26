@@ -7,7 +7,7 @@ when_to_use: "Use after authoring or changing a plan, and before executing one."
 
 ## Purpose
 
-Validate that a plan is complete, accurate, and executable, then fix what is not. The gate exists because a plan is executed literally: an ambiguous checkbox does not produce a question at execution time, it produces a wrong action.
+Validate that a plan is complete, accurate, and executable against the current repository, then fix what is not. The gate exists because a plan is executed literally: an ambiguous checkbox does not produce a question at execution time, it produces a wrong action.
 
 ## When to Use
 
@@ -15,7 +15,7 @@ Use it after [plan-planning](plan-planning.md) authors a plan, after any edit to
 
 ## Prerequisites
 
-The plan exists with all five documents and has been through the [structural review](plan-planning/04-structural-review.md). Choose a severity level; see [severity and modes](plan-quality-gate/01-severity-and-modes.md). Strict is the default.
+The plan exists with all five core documents and has been through the [structural review](plan-planning/04-structural-review.md). Choose a severity level; see [severity and modes](plan-quality-gate/01-severity-and-modes.md). Strict is the default.
 
 ## Steps
 

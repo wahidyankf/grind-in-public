@@ -4,6 +4,6 @@ Completed plans, named `YYYY-MM-DD__<identifier>/` using the date the final comm
 
 Do not casually rewrite an archived plan. If a defect surfaces later, reopen it: move the folder back to [`in-progress/`](../in-progress/README.md), strip the date prefix, and add a dated note explaining what broke.
 
-## Archived Plans
+## Directory Map
 
 - [2026-08-23 — Badak Mini Layered BDD](2026-08-23__badakmini-layered-bdd/README.md) — adopted BeaverNest-style executable specs and layered tests for Badak Mini, then made the model compulsory for applications and libraries.

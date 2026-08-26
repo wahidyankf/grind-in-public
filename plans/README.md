@@ -4,9 +4,9 @@ Plans are this repository's working record of change: why work exists, what it d
 
 Plan documents are created only when the owner explicitly requests a plan. When no plan is requested, work proceeds without creating a plan folder; the [plans organization policy](../repo-governance/conventions/plans-organization-policy.md) owns that authorization boundary.
 
-## Stages
+## Directory Map
 
-- [`ideas/`](ideas/README.md) — two-pager briefs for problems not yet worth a plan.
+- [`ideas/`](ideas/README.md) — quadrant-classified two-pager briefs for problems not yet worth a plan.
 - [`backlog/`](backlog/README.md) — full plans prepared but not started.
 - [`in-progress/`](in-progress/README.md) — plans under active execution.
 - [`done/`](done/README.md) — completed plans, kept as history.
@@ -15,7 +15,7 @@ Plan documents are created only when the owner explicitly requests a plan. When 
 
 Three workflows drive the lifecycle:
 
-1. [plan-planning](../repo-governance/workflows/plan-planning.md) turns a prompt into a five-document plan.
+1. [plan-planning](../repo-governance/workflows/plan-planning.md) turns a prompt into a five-core-document plan with a mapped technical set.
 2. [plan-quality-gate](../repo-governance/workflows/plan-quality-gate.md) validates it until no findings remain.
 3. [plan-execution](../repo-governance/workflows/plan-execution.md) executes it phase by phase and archives it.
 

@@ -1,5 +1,5 @@
 ---
-tldr: "Turns a described change into a validated five-document plan under plans/."
+tldr: "Turns a described change into a validated five-core-document plan under plans/."
 when_to_use: "Use only after the owner explicitly requests a plan."
 ---
 
@@ -7,7 +7,7 @@ when_to_use: "Use only after the owner explicitly requests a plan."
 
 ## Purpose
 
-Turn a described change into a five-document plan that another session could execute without asking a question. The plan lands in `plans/backlog/` or `plans/in-progress/` and leaves this workflow only after the [plan-quality-gate](plan-quality-gate.md) workflow reports no findings.
+Turn a described change into a five-core-document plan that another session could execute without asking a question. The plan lands in `plans/backlog/` or `plans/in-progress/` and leaves this workflow only after the [plan-quality-gate](plan-quality-gate.md) workflow reports no findings.
 
 ## When to Use
 
@@ -21,7 +21,7 @@ Know which stage the plan targets. `backlog/` means prepared but not started, an
 
 1. [Explore before asking](plan-planning/01-exploration.md). Read the code, the governance documents, and the Git history that bear on the change. A question the repository already answers must not reach the owner.
 2. [Grill the open decisions](plan-planning/02-grilling.md) with structured options, as the [grilling-with-options policy](../conventions/grilling-with-options-policy.md) requires. Unresolved decisions become guesses baked into a checklist.
-3. [Author the five documents](plan-planning/03-plan-authoring.md) into `plans/<stage>/<identifier>/`, following the [five-document structure](../conventions/plans-organization-policy/five-document-structure.md).
+3. [Author the five core documents](plan-planning/03-plan-authoring.md) into `plans/<stage>/<identifier>/`, following the [five-document structure](../conventions/plans-organization-policy/five-document-structure.md).
 4. [Review the structure](plan-planning/04-structural-review.md) against the checks listed there before handing off.
 5. Run the [plan-quality-gate](plan-quality-gate.md) workflow. Fix what it reports; re-run until it is clean.
 6. Update the stage's `README.md` index, then commit and push the plan to `main`. A plan that exists only locally cannot be picked up by a later session.

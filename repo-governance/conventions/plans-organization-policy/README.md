@@ -14,7 +14,11 @@ Filenames carry no number; the [document naming policy](../document-naming-polic
 - [Folder Structure](folder-structure.md) — `ideas/`, `backlog/`, `in-progress/`, `done/`.
 - [Plan Naming](plan-naming.md) — kebab-case identifiers and the completion-date prefix.
 - [Two-Pager Template](two-pager-template.md) — the eight sections of an idea brief.
-- [Five-Document Structure](five-document-structure.md) — `README`, `brd`, `prd`, `tech-docs`, `delivery`.
+- [Five-Document Structure](five-document-structure.md) — `README`, `brd`, `prd`, `tech-docs/README`, `delivery`.
+- [Specification Changes](specification-changes.md) — prospective C4, Gherkin, test, and File Impact deltas.
+- [Plan Migrations](plan-migrations.md) — preservation and recovery for data-bearing transitions.
+- [Plan UI Design](plan-ui-design.md) — responsive, accessible alternatives and selected-device proof.
+- [Plan Document Safety](plan-document-safety.md) — ASCII-only diagrams and secret-free plan records.
 - [Delivery Checklists](delivery-checklists.md) — one action per checkbox, execution-grade clarity, executor tags.
 - [Phases and Gates](phases-and-gates.md) — phase gates and Pause Safety notes.
 - [Knowledge Capture](knowledge-capture.md) — `learnings.md` and the capture phase that blocks archival.

@@ -4,12 +4,13 @@ Adopt BeaverNest's executable-specification model for `apps/badakmini-cli`, add 
 
 The canonical corpus will live below `specs/apps/badakmini-cli/behavior/`. Unit, local-only integration, and process E2E adapters will consume that same recursive corpus. A fast static behavior gate will reject malformed features, corpus drift, undefined or ambiguous steps, unused bindings, incomplete drivers, and layer filtering.
 
-## Documents
+## Directory Map
 
 - [Business Requirements](brd.md)
 - [Product Requirements](prd.md)
-- [Technical Design](tech-docs.md)
+- [Technical Design](tech-docs/README.md)
 - [Delivery Checklist](delivery.md)
+- [Learnings](learnings.md)
 
 ## Quality Gate
 

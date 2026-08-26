@@ -15,7 +15,7 @@ plan-checker --> findings --> plan-fixer --> plan-checker --> clean twice --> pa
 
 Reads every document in the plan folder and reports findings with a severity, a `file:line` citation, and the specific rule the finding violates. It edits nothing. A finding without a cited rule is an opinion, and the checker does not report opinions.
 
-The checker verifies the plan against itself as well as against the rules: a command named in `delivery.md` must exist, every path the checklist names must appear in the file-impact tree, and scenarios must bind both ways — one in `delivery.md` matching the one in `prd.md` verbatim, and one in `prd.md` inlined by a RED step.
+The checker verifies the plan against itself and the current repository: a command named in `delivery.md` must exist; every checklist path appears in `tech-docs/file-impact.md`; durable scenarios bind both ways between `prd.md`, `specs/`, and a matching RED step; and a plan-only outcome has a reason and delivery proof. It compares planned C4 and Gherkin claims with current specifications, implementation, governance, and active plans.
 
 Every `plan-checker` prompt states this reporting rule and these internal-consistency checks in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
 
@@ -28,8 +28,8 @@ It may:
 - add a missing file path, verbatim command, acceptance criterion, or executor tag
 - split a checkbox that hides several actions, or a behavior cycle binding several scenarios
 - add a missing `### Phase N Gate`, gate item, or Pause Safety note
-- inline a Gherkin scenario verbatim from `prd.md`
-- correct a file-impact tree that omits a path the checklist touches
+- inline a durable Gherkin scenario verbatim from `prd.md`
+- correct a `tech-docs/file-impact.md` entry that omits a path the checklist touches
 - fix a link, a heading, or a diagram that uses Mermaid instead of ASCII
 
 It may not:

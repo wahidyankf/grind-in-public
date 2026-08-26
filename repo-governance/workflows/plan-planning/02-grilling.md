@@ -24,7 +24,7 @@ Do not grill what the repository already answers, what the owner has already dec
 
 ## Recording the Outcome
 
-Every answer is written into the plan: the decision, the option chosen, and the reason. `brd.md` carries the scope and rationale decisions; `tech-docs.md` carries the design decisions. A decision the owner cannot trace back to a question is one they never really made, and a decision recorded without its reason is one that gets reversed by the next reader who disagrees.
+Every answer is written into the plan: the decision, the option chosen, and the reason. `brd.md` carries the scope and rationale decisions; `tech-docs/README.md` carries the design decisions. A decision the owner cannot trace back to a question is one they never really made, and a decision recorded without its reason is one that gets reversed by the next reader who disagrees.
 
 ## Second Pass
 

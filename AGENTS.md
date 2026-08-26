@@ -27,7 +27,7 @@ Keep implementation and tests under `src/`; use lowercase-hyphenated project dir
 
 ## Planning
 
-Create plan documents only when the owner explicitly requests a plan. A requested plan is five documents in `plans/`, promoted from an idea in `ideas/` and staged through `backlog/`, `in-progress/`, and `done/`; see the [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with [plan-planning](repo-governance/workflows/plan-planning.md), validate with [plan-quality-gate](repo-governance/workflows/plan-quality-gate.md), and run with [plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`.
+Create plan documents only when the owner explicitly requests a plan. A requested plan has five core documents, including `tech-docs/README.md`, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with [plan-planning](repo-governance/workflows/plan-planning.md), validate with [plan-quality-gate](repo-governance/workflows/plan-quality-gate.md), and run with [plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`.
 
 ## Nx and Coding Conventions
 

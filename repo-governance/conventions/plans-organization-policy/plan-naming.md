@@ -45,4 +45,4 @@ Every `plan-checker` prompt states this stage-aware naming rule in the imperativ
 
 ## Ideas
 
-An idea is a file, not a folder: `plans/ideas/<slug>.md`, kebab-case, no date. It gains a folder only when promoted to `backlog/`.
+An idea is a file, not a folder: `plans/ideas/q<1-4>-<priority>/<slug>.md`, kebab-case, no date. Its quadrant directory is one of `q1-urgent-important`, `q2-not-urgent-important`, `q3-urgent-not-important`, or `q4-not-urgent-not-important`. It gains a plan folder only when promoted to `backlog/`.

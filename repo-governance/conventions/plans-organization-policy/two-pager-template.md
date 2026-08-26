@@ -5,11 +5,11 @@ when_to_use: "Use when capturing a new idea or judging whether one is ready for 
 
 # Two-Pager Template
 
-An idea lives in `plans/ideas/<slug>.md` and stays at roughly two printed pages. It argues that a problem is worth solving; it does not design the solution.
+An idea lives in `plans/ideas/q<1-4>-<priority>/<slug>.md` and stays at roughly two printed pages. Classify it from dated urgency and importance evidence before writing. It argues that a problem is worth solving; it does not design the solution.
 
 ## Sections
 
-1. **Title and one-line summary** — one sentence a stranger understands, telling a reader whether to continue. Add provenance: `> Idea, added YYYY-MM-DD.` or `> Surfaced YYYY-MM-DD during <plan-identifier> execution.`
+1. **Title and one-line summary** — one sentence a stranger understands, telling a reader whether to continue. Add provenance and the dated evidence behind its quadrant: `> Idea, added YYYY-MM-DD.` or `> Surfaced YYYY-MM-DD during <plan-identifier> execution.`
 2. **Problem and context** — one specific example of how the status quo fails, grounded in counts, sizes, or measurements where they exist. A data-pointed problem is promotable; a vague complaint is not.
 3. **Why now** — the urgency, dependency, or opening that makes this timely rather than eventual.
 4. **Prior art** — two to five named precedents with links: a tool, a pattern, a standard, or an earlier plan. Nothing here is new under the sun, and naming the precedent kills reinvention. Zero prior art on a substantial idea means the search was not done.
@@ -20,6 +20,6 @@ An idea lives in `plans/ideas/<slug>.md` and stays at roughly two printed pages.
 
 ## Discipline
 
-Two pages is the point. An idea that needs five pages to be understood is a plan wearing an idea's clothes: promote it and write the five documents, or cut it until the core argument stands alone.
+Two pages is the point. An idea that needs five pages to be understood is a plan wearing an idea's clothes: promote it and write the five core documents, or cut it until the core argument stands alone.
 
 No `plan-checker` rule restates these sections, because the checker reads plans rather than ideas, so nothing here has a harness copy to keep in step. That is checked rather than overlooked: a rule that gains one gets the notice its siblings carry.

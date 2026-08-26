@@ -15,11 +15,10 @@ Archival is blocked until every entry is terminal, or the plan records `No gener
 
 ## Archival
 
-1. Confirm every checkbox is ticked and every gate passed.
-2. Rename the folder to `YYYY-MM-DD__<identifier>` with the completion date.
-3. Move it to `plans/done/`.
-4. Update `plans/in-progress/README.md` and `plans/done/README.md`.
-5. Commit and push the move.
+1. Re-run the plan quality gate and reconcile every acceptance criterion, specification, README, gate, learning, and conditional task with the delivered system.
+2. Record a dated, evidence-backed `Not triggered` disposition for every dormant recovery task.
+3. Refuse an existing `plans/done/YYYY-MM-DD__<identifier>/` destination; rename the folder with the completion date and move it there only once.
+4. Update maps, resolve archived internal links directly, confirm the source is absent, and then commit and push the move.
 
 ## Resuming
 

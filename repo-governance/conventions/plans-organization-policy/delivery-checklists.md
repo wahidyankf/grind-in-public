@@ -18,6 +18,7 @@ Each checkbox carries every element that applies:
 - **The file path**, exactly, when it is known. When a new file's location is implementation-dependent, give the parent directory, the naming pattern, and a sibling to imitate.
 - **The command**, verbatim — `npx nx run badakmini-cli:test:quick`, not "run the tests".
 - **An acceptance criterion** stating the observable outcome that proves it done. No bare "implement", "set up", or "configure".
+- **Relevant `[AC-…]` labels** that trace the work to `prd.md`; a purely mechanical task carries none only when it cannot implement or prove an acceptance criterion.
 - **One Gherkin scenario** per behavior cycle, inlined verbatim, as the [TDD policy](../../development/tdd-policy.md) requires.
 
 Bad, because it names no file, no command, and no observable outcome:
@@ -41,5 +42,7 @@ Every checkbox states who can execute it. The tags are `[AI]`, `[HUMAN]`, and `[
 - **`[AI+HUMAN]`** — an agent prepares, the owner approves or performs the irreversible step.
 
 Tag toward `[AI]`. Git-mechanical steps such as committing, pushing, or moving a plan folder are `[AI]` unless a specific reason says otherwise. A `delivery.md` opens with a one-line legend naming the three tags, so a reader meets them before the first checkbox.
+
+Recovery or rollback work names its trigger and remains dormant until triggered. During final reconciliation, a dormant item receives a dated, evidence-backed `Not triggered` disposition instead of a false completion mark.
 
 Every `plan-checker` prompt states one action per checkbox, execution-grade clarity, and the executor tags with their legend in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.

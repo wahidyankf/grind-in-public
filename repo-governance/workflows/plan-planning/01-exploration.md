@@ -29,4 +29,4 @@ List every question the repository could not answer. These become the grilling a
 
 ## Record What Was Read
 
-The plan's `tech-docs.md` states what was inspected and what it showed. A reader who disagrees with a design decision can then check the evidence rather than relitigate the reasoning.
+The plan's `tech-docs/README.md` states what was inspected and what it showed. A reader who disagrees with a design decision can then check the evidence rather than relitigate the reasoning.

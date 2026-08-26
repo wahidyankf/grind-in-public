@@ -15,7 +15,7 @@ ideas/ --promote--> backlog/ --start--> in-progress/ --complete--> done/
 
 ## Promoting an Idea
 
-After the owner explicitly requests a plan and its open questions are answered, create `plans/backlog/<identifier>/`, author the five documents through the [plan-planning](../../workflows/plan-planning.md) workflow, delete the idea file, and update both indexes. The idea's prior art and non-goals carry into `brd.md` rather than being rewritten from scratch.
+After the owner explicitly requests a plan and its open questions are answered, create `plans/backlog/<identifier>/`, author the five core documents through the [plan-planning](../../workflows/plan-planning.md) workflow, delete the idea file, and update both maps. The idea's prior art and non-goals carry into `brd.md` rather than being rewritten from scratch.
 
 ## Starting Work
 
@@ -27,11 +27,11 @@ A plan is never executed out of `backlog/`.
 
 ## Completing Work
 
-1. Confirm every checklist item is ticked and every phase gate passed.
-2. Run the Knowledge Capture phase; see [knowledge capture](knowledge-capture.md).
-3. Rename the folder to `YYYY-MM-DD__<identifier>` using the completion date and move it to `done/`.
-4. Update `in-progress/README.md` and `done/README.md`.
-5. Commit the move with a message naming the plan.
+1. Re-run the quality gate and reconcile every acceptance criterion, specification, README, gate, learning, and conditional task with the delivered system.
+2. Record a dated, evidence-backed `Not triggered` disposition for every dormant recovery task, then run the Knowledge Capture phase; see [knowledge capture](knowledge-capture.md).
+3. Refuse an already-existing `plans/done/YYYY-MM-DD__<identifier>/` destination; never merge, overwrite, or invent a suffix.
+4. Rename the folder to `YYYY-MM-DD__<identifier>` using the completion date and move it to `done/`.
+5. Update maps, resolve archived internal links directly, confirm the source is absent and the destination occurs once, then commit the move with a message naming the plan.
 
 ## Checkbox Lockstep
 

@@ -7,3 +7,7 @@ Execution reads and ticks `delivery.md` in place, following the [plan-execution]
 ## Active Plans
 
 None.
+
+## Directory Map
+
+No plan folders yet.

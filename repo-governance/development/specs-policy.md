@@ -36,7 +36,7 @@ A scenario is not documentation: it binds to a test that fails when the behavior
 
 ## When Specs Are Required
 
-A plan that adds or changes behavior in `apps/` or `libs/` writes the scenarios into its `prd.md` and lands them in `specs/` as part of delivery. Every existing app and library has executable Gherkin under its mirrored `behavior/` directory; a missing corpus is a policy failure, not deferred retrofit work. Drills are exempt: a drill is practice, not repository behavior.
+A plan that adds or changes behavior in `apps/` or `libs/` selects the affected durable Gherkin in `tech-docs/specification-changes.md`, writes those scenarios into its `prd.md`, and lands them in `specs/` as part of delivery. A plan may retain rollout or operational acceptance outcomes only when that document labels them plan-only, gives a reason, and names the delivery proof. Architectural changes similarly name the affected C4 view and update `specs/` only to the final as-built state. Every existing app and library has executable Gherkin under its mirrored `behavior/` directory; a missing corpus is a policy failure, not deferred retrofit work. Drills are exempt: a drill is practice, not repository behavior.
 
 ## Verification
 

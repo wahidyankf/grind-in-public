@@ -5,14 +5,17 @@ when_to_use: "Use when scaffolding a plan folder or deciding which file a sectio
 
 # Five-Document Structure
 
-Every plan uses five documents. Each owns one concern, so a reader looking for the technical approach never has to skim the rationale.
+Every plan uses five core documents. Each owns one concern, so a reader looking for the technical approach never has to skim the rationale.
 
 ```text
 plans/<stage>/<identifier>/
 +-- README.md        overview, scope, links to the rest
 +-- brd.md           why this matters
 +-- prd.md           what it must do, in user stories and Gherkin
-+-- tech-docs.md     how it is built
++-- tech-docs/       how it is built; a mapped technical set
+|   +-- README.md    technical entry point and map
+|   +-- file-impact.md
+|   +-- ...          conditional companion documents
 +-- delivery.md      the phased checklist that drives execution
 +-- learnings.md     (transient) running log, drained before archival
 +-- evidence/        (optional) command output and artifacts referenced from delivery.md
@@ -26,7 +29,7 @@ plans/<stage>/<identifier>/
 
 **`prd.md`** — product requirements: user stories in `As a … I want … So that …` form and acceptance criteria in Gherkin, per the [specs policy](../../development/specs-policy.md). In-scope and out-of-scope features live here.
 
-**`tech-docs.md`** — architecture, design decisions with their rationale, the annotated file-impact tree, dependencies, risks, and the rollback path. No checklist.
+**`tech-docs/README.md`** — the technical entry point: context, architecture, selected decisions, dependencies, risks, reading order, and links to each companion. It owns no checklist. Every non-archived plan has `file-impact.md`, listing every expected path exactly as `[E]` edit, `[N]` new, `[M]` moved, or `[D]` deleted. Add the applicable companion documents named by the [specification-change](specification-changes.md), [migration](plan-migrations.md), and [UI-design](plan-ui-design.md) rules; do not create an empty companion.
 
 **`delivery.md`** — the phased, ticked checklist that execution reads and `plan-checker` verifies; see [delivery checklists](delivery-checklists.md).
 
@@ -34,6 +37,6 @@ plans/<stage>/<identifier>/
 
 ## No Single-File Exception
 
-An owner-requested plan uses all five documents. Do not delete or skip a requested plan because its size appears small; ask the owner whether to amend or cancel it instead.
+An owner-requested plan uses all five core documents. Do not delete or skip a requested plan because its size appears small; ask the owner whether to amend or cancel it instead.
 
 Every `plan-checker` prompt names these documents and requires all five in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.

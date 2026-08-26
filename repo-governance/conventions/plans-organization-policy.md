@@ -21,6 +21,10 @@ Read the rule you need rather than the whole set:
 - [Plan Naming](plans-organization-policy/plan-naming.md) — stage-aware folder names.
 - [Two-Pager Template](plans-organization-policy/two-pager-template.md) — what an idea contains.
 - [Five-Document Structure](plans-organization-policy/five-document-structure.md) — the plan files.
+- [Specification Changes](plans-organization-policy/specification-changes.md) — planned C4, Gherkin, binding, and File Impact deltas.
+- [Plan Migrations](plans-organization-policy/plan-migrations.md) — safe data, configuration, and dependency transitions.
+- [Plan UI Design](plans-organization-policy/plan-ui-design.md) — selected UI direction, accessible assets, and device proof.
+- [Plan Document Safety](plans-organization-policy/plan-document-safety.md) — ASCII diagrams and secret-free plan records.
 - [Delivery Checklists](plans-organization-policy/delivery-checklists.md) — granularity, clarity, executor tags.
 - [Phases and Gates](plans-organization-policy/phases-and-gates.md) — natural pauses.
 - [Knowledge Capture](plans-organization-policy/knowledge-capture.md) — draining `learnings.md`.
@@ -29,12 +33,6 @@ Read the rule you need rather than the whole set:
 ## Delivery
 
 Plans deliver directly to `main`. This repository runs no pull-request flow, no worktrees, and no delivery modes: a phase ends, its gate passes, and the work is committed and pushed. The [commit hook policy](../development/commit-hook-policy.md) still governs every commit.
-
-## Diagrams and Secrets
-
-Plans follow the [Markdown style policy](markdown-style-policy.md) without exception, so diagrams are terminal-first ASCII, never Mermaid. Plan documents are committed, so they never carry a secret: name the variable and its location instead of its value.
-
-Every `plan-checker` prompt states this ASCII-diagram rule and this secrets rule in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
 
 ## Verification
 

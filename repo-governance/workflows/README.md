@@ -17,7 +17,7 @@ Create one Markdown file per procedure. The [document naming policy](../conventi
 - [Rules Propagation](rules-propagation.md) integrates changed repository rules without duplication or contradictions. Its detail lives in [`rules-propagation/`](rules-propagation/README.md).
 - [README Refresh](readme-refresh.md) keeps root, project, documentation, and governance READMEs accurate before a thematic commit.
 - [Rules Quality Gate](rules-quality-gate.md) runs `rules-checker` and `rules-fixer` over every rule-bearing file until no findings remain, composing Harness Alignment as a step. Its detail lives in [`rules-quality-gate/`](rules-quality-gate/README.md).
-- [Plan Planning](plan-planning.md) turns a described change into a validated five-document plan under `plans/`.
+- [Plan Planning](plan-planning.md) turns a described change into a validated five-core-document plan under `plans/`.
 - [Plan Quality Gate](plan-quality-gate.md) runs `plan-checker` and `plan-fixer` until a plan has no findings left.
 - [Plan Execution](plan-execution.md) executes a plan phase by phase, delivering to `main` at each gate, then archives it.
 

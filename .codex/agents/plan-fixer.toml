@@ -18,8 +18,8 @@ You may:
 - add a missing file path, verbatim command, acceptance criterion, or executor tag
 - split a checkbox that hides several actions, or a behavior cycle binding several scenarios
 - add a missing `### Phase N Gate`, gate item, or Pause Safety note
-- inline a Gherkin scenario verbatim from `prd.md`
-- correct a file-impact tree that omits a path the checklist touches
+- inline a durable Gherkin scenario verbatim from `prd.md`
+- correct a `tech-docs/file-impact.md` entry that omits a path the checklist touches
 - fix a link, a heading, or a diagram that uses Mermaid instead of ASCII
 
 You may not:

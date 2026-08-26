@@ -127,9 +127,9 @@ Each project README states its corpus path, required adapters, Nx targets, and a
 +-- specs/apps/badakmini-cli/behavior/rule-change.feature
 +-- plans/backlog/README.md
 +-- plans/in-progress/README.md
-+-- plans/in-progress/badakmini-layered-bdd/{README.md,brd.md,prd.md,tech-docs.md,delivery.md,learnings.md}
++-- plans/in-progress/badakmini-layered-bdd/{README.md,brd.md,prd.md,tech-docs/README.md,delivery.md,learnings.md}
 +-- plans/done/README.md
-+-- plans/done/YYYY-MM-DD__badakmini-layered-bdd/{README.md,brd.md,prd.md,tech-docs.md,delivery.md,learnings.md}
++-- plans/done/YYYY-MM-DD__badakmini-layered-bdd/{README.md,brd.md,prd.md,tech-docs/README.md,delivery.md,learnings.md}
 ```
 
 ## Dependency and Compatibility Decisions
@@ -153,3 +153,7 @@ The `test:scheduled` script expands to `nx run badakmini-cli:test:quick && nx ru
 ## Rollback
 
 Each phase lands as a coherent commit. Revert the latest phase commit to return to the previous green boundary. The production orchestration refactor preserves behavior and can remain even if the BDD adapters are reverted. Removing the dependency also removes its `go.sum` entries and test-only allowlist.
+
+## Directory Map
+
+No companion documents were added to this archived technical set.
