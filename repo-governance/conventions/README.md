@@ -9,6 +9,7 @@ This directory contains stable, cross-cutting standards that make repository wor
 
 ## Available Conventions
 
+- [Drill Practice Policy](drill-practice-policy.md) — owner-solved, single-skill drills and useful reasoning records.
 - [Agent Harness Support Policy](agent-harness-support.md) — which harnesses are supported and where each reads its instructions and config. Use it when adding or configuring a harness; its per-harness tables live in [`agent-harness-support/`](agent-harness-support/README.md).
 - [Harness Capability Parity Policy](harness-capability-parity-policy.md) — the subagents, skills, and commands every harness must expose alike, and where each lives. Use it when adding, renaming, or removing one.
 - [Agent Vocabulary](agent-vocabulary.md) — what harness, agent, instruction file, and subagent mean here. Use it when writing or reviewing any text about agents.

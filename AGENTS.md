@@ -2,7 +2,7 @@
 
 ## Purpose and Working Style
 
-Grind in Public is a personal lifelong-learning workspace for software engineering. Complete drills yourself before using tools for review, formatting, or feedback. Keep each exercise focused on one skill; record reasoning when useful. Before starting any task, create a granular task list and keep it synchronized as each item resolves; see the [task tracking policy](repo-governance/conventions/task-tracking-policy.md). Treat maintained code and tooling as liabilities that must prove net recurring value; see [maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with options, not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
+Grind in Public is a personal lifelong-learning workspace for software engineering. Follow the [drill practice](repo-governance/conventions/drill-practice-policy.md) and [task tracking](repo-governance/conventions/task-tracking-policy.md) policies. Use the smallest responsible task change; maintained surfaces must prove net recurring value. See [minimum sufficiency](repo-governance/principles/minimum-sufficiency.md) and [maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with options, not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
 
 ## Reference Repositories
 

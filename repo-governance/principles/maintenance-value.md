@@ -10,3 +10,5 @@ Every maintained line and tool surface is a liability. Before adding code, scrip
 Prefer deleting, simplifying, or reusing over creating. Do not automate a rare action merely because it can be automated, duplicate an executable rule as metadata, or create a repository command for a check whose false confidence or upkeep costs more than running the underlying standard tool directly.
 
 Review the net value again when a surface grows or its original need disappears. Passing tests prove behavior, not that the behavior deserves permanent maintenance.
+
+[Minimum Sufficiency](minimum-sufficiency.md) governs the scope and stopping point of every task; this principle independently tests whether a maintained surface earns its recurring cost. Apply both.

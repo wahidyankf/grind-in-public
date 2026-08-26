@@ -37,7 +37,7 @@ State the rule in one sentence: its scope, trigger, and required behavior. Keep 
 
 5. Resolve contradictions before writing, and never settle one alone; same document.
 
-6. Integrate the approved rule using direct, testable language. Link from a concise document to its detailed source instead of copying the same rule. When creating or editing Markdown, follow the [Markdown style policy](../../conventions/markdown-style-policy.md).
+6. Apply [Minimum Sufficiency](../../principles/minimum-sufficiency.md): add only rules, links, files, and enforcement that the outcome, another rule, or demonstrated risk requires. Then integrate the approved rule using direct, testable language. Link from a concise document to its detailed source instead of copying the same rule. When creating or editing Markdown, follow the [Markdown style policy](../../conventions/markdown-style-policy.md).
 
 ## Verification
 

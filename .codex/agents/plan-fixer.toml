@@ -21,6 +21,7 @@ You may:
 - inline a durable Gherkin scenario verbatim from `prd.md`
 - correct a `tech-docs/file-impact.md` entry that omits a path the checklist touches
 - fix a link, a heading, or a diagram that uses Mermaid instead of ASCII
+- remove a redundant or orphaned non-core plan artifact only when checker evidence shows it has no unique required content
 
 You may not:
 

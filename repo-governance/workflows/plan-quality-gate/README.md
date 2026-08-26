@@ -13,3 +13,4 @@ Detail behind the [plan-quality-gate](../plan-quality-gate.md) workflow. Filenam
 - [Check and Fix Loop](02-check-fix-loop.md) — how `plan-checker` and `plan-fixer` divide the work.
 - [Role Separation](03-role-separation.md) — why checking and fixing are two subagents rather than one.
 - [Findings Report](04-findings-report.md) — what the gate records when it finishes.
+- [Plan Minimum Sufficiency](05-minimum-sufficiency.md) — retaining only plan artifacts needed for scope, safety, correctness, or execution.
