@@ -21,7 +21,7 @@ The five cases are defined here, and the [Harness Alignment](../harness-alignmen
 
 ## The Mechanical Checks
 
-**Word limit** — the [document word limit policy](../../conventions/document-word-limit-policy.md) sets the cap and how a document that reaches it is fixed. `npm run check:governance` is the authority, and it reports only breaches, so the gate measures headroom itself and reports every governed document of 475 words or more.
+**Word limit** — the [document word limit policy](../../conventions/document-word-limit-policy.md) sets the cap and how a document that reaches it is fixed. `npm run check:governance` is the authority, and it reports only breaches, so the gate measures headroom itself and reports every governed document of 700 words or more.
 
 **Index freshness** — every directory's README registers its immediate documents and child directories, per the [documentation index policy](../../documentation-index-policy.md). A missing entry hides work.
 

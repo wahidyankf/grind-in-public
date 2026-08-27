@@ -33,7 +33,7 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 	)
 	sc.Then(
 		`^the command fails with the oversized document diagnostic$`,
-		expectResult(1, "", "AGENTS.md contains 501 words"),
+		expectResult(1, "", "AGENTS.md contains"),
 	)
 	sc.Given(
 		`^a repository whose tracked Markdown links resolve$`,

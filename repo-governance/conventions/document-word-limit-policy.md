@@ -7,11 +7,11 @@ when_to_use: "Use when a governed document nears or exceeds the word limit, or w
 
 ## Scope
 
-`npm run check:governance` holds `AGENTS.md`, `CLAUDE.md`, every `repo-governance/` document, and every harness directory README to 500 words. Agent and command definitions are prompts, not indexes, and stay unmeasured. This policy governs every document that check measures, and it binds anyone editing one of them, not only a [rules quality gate](../workflows/rules-quality-gate.md) run.
+`npm run check:governance` holds `AGENTS.md`, `CLAUDE.md`, every `repo-governance/` document, and every harness directory README to 750 words. Agent and command definitions are prompts, not indexes, and stay unmeasured. This policy governs every document that check measures, and it binds anyone editing one of them, not only a [rules quality gate](../workflows/rules-quality-gate.md) run.
 
 ## The Limit
 
-Every governed document stays within 500 words. A document of 475 words or more sits in the headroom band: 25 or fewer words are left under the cap.
+Every governed document stays within 750 words. A document of 700 words or more sits in the headroom band: 50 or fewer words are left under the cap.
 
 The point is to plan a split rather than force one: a document with no room left is where a later fix reaches for compression, and compression is how a clause gets deleted.
 

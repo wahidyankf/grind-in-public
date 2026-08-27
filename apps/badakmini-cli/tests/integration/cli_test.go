@@ -88,12 +88,12 @@ func cliAdapterCases() []cliAdapterCase {
 
 func TestIntegrationCLIReportsRealValidationFinding(t *testing.T) {
 	root := t.TempDir()
-	writeGovernanceFile(t, root, "AGENTS.md", strings.Repeat("word ", 501))
+	writeGovernanceFile(t, root, "AGENTS.md", strings.Repeat("word ", governance.MaxWords+1))
 	writeGovernanceFile(t, root, "CLAUDE.md", "short")
 	writeGovernanceFile(t, root, "repo-governance/policy.md", "short")
 
 	exitCode, _, stderr := runCLIAtRoot([]string{"harness", "instruction-size", "validate"}, root)
-	if exitCode != 1 || !strings.Contains(stderr, "contains 501 words") {
+	if exitCode != 1 || !strings.Contains(stderr, fmt.Sprintf("contains %d words", governance.MaxWords+1)) {
 		t.Fatalf("expected validation diagnostic, got exit %d and stderr %q", exitCode, stderr)
 	}
 }

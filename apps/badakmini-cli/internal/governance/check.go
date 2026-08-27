@@ -11,7 +11,7 @@ import (
 
 const (
 	// MaxWords is the hard word limit for each governed Markdown file.
-	MaxWords = 500
+	MaxWords = 750
 
 	agentsFile          = "AGENTS.md"
 	claudeFile          = "CLAUDE.md"

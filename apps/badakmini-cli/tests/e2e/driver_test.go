@@ -69,7 +69,7 @@ func (driver *processDriver) Prepare(_ context.Context, fixture string) error {
 	case "governance-documents-fit":
 		driver.writeGovernance("short")
 	case "oversized-agent-instruction":
-		driver.writeGovernance(strings.Repeat("word ", 501))
+		driver.writeGovernance(strings.Repeat("word ", 751))
 	case "tracked-markdown-links-resolve":
 		driver.writeFile("README.md", "[Guide](docs/guide.md)\n")
 		driver.writeFile("docs/guide.md", "# Guide\n")
