@@ -33,6 +33,21 @@ Good:
 - [ ] [AI] Edit `apps/badakmini-cli/internal/rulechange/detect.go`: preserve one rule-change path after normalization. Verify with `npx nx run badakmini-cli:test:quick` — the suite exits 0.
 ```
 
+## Execution Record
+
+`delivery.md` opens with a dated Execution Record, above the tag legend. A checkbox states what was intended and a tick states that it eventually held; neither states what happened in between.
+
+Add a line when a phase completes, when a gate passes or fails, when a retry proves something the first attempt did not, and when execution changed the plan. Date each line and write it as the event happens: reconstructed at archival, the record says what the author already believed.
+
+```markdown
+## Execution Record
+
+- 2026-08-31: Phase 1 gate passed; `npx nx run badakmini-cli:test:quick` green.
+- 2026-08-31: Phase 2 stopped at the link check — a renamed policy left two dead links in `docs/`. Fixed at the source, reran green.
+```
+
+A plan that has not started carries the heading and no lines. Everything else keeps its record for good: `learnings.md` is drained and may be deleted, and inline notes scatter the sequence across the file, so this is the one place a reader of an archived plan can see the order, the failures, and the retries.
+
 ## Executor Tags
 
 Every checkbox states who can execute it. The tags are `[AI]`, `[HUMAN]`, and `[AI+HUMAN]`, matching `ose-public` so a migrated plan needs no translation.
@@ -45,4 +60,4 @@ Tag toward `[AI]`. Git-mechanical steps such as committing, pushing, or moving a
 
 Recovery or rollback work names its trigger and remains dormant until triggered. During final reconciliation, a dormant item receives a dated, evidence-backed `Not triggered` disposition instead of a false completion mark.
 
-Every `plan-checker` prompt states one action per checkbox, execution-grade clarity, and the executor tags with their legend in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
+Every `plan-checker` prompt states one action per checkbox, execution-grade clarity, the dated Execution Record, and the executor tags with their legend in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.

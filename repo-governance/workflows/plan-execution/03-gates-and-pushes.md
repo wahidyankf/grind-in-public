@@ -11,7 +11,7 @@ A phase ends at its gate. The gate is the only thing that decides whether the ne
 
 Run every gate item as written, in order, and record the observable result. A gate item is not satisfied by a command that was run earlier in the phase: the gate exists to prove the phase's combined state, not each item separately.
 
-If a gate item fails, fix it inside this phase. Do not start the next phase, and do not mark the gate passed with an exception noted. The [phase and gate rules](../../conventions/plans-organization-policy/phases-and-gates.md) hold the shape.
+If a gate item fails, fix it inside this phase. Do not start the next phase, and do not mark the gate passed with an exception noted. Add a dated Execution Record line for the pass or the failure either way, since a gate that failed and was fixed is exactly the history the record exists to keep. The [phase and gate rules](../../conventions/plans-organization-policy/phases-and-gates.md) hold the shape.
 
 ## Delivering to main
 

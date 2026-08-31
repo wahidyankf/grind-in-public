@@ -27,6 +27,8 @@ Each of the three is its own checkbox, so a half-finished cycle is visible.
 
 When reality differs from the plan — a different path, an extra step, a command that needed a flag — record it inline under the checkbox in one line. The archived plan is then a record of what happened rather than what was intended.
 
+Phase-level events go to the dated Execution Record at the top of `delivery.md` instead: a phase completing, a gate result, a failure and what its retry proved. [Delivery checklists](../../conventions/plans-organization-policy/delivery-checklists.md#execution-record) owns its shape. An inline note qualifies the checkbox above it; the record is what keeps the sequence readable once the plan is archived.
+
 ## Learnings
 
 When something surprises you, append it to `learnings.md` in the moment. Written later from memory, it records what you already believed rather than what actually happened.
