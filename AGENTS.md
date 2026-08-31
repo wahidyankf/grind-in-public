@@ -31,7 +31,7 @@ Create plan documents only when the owner explicitly requests a plan. A requeste
 
 ## Nx and Coding Conventions
 
-Use Nx only as a raw task runner with `command` targets. Add no plugin, executor, or generator without explicit owner direction; see the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md).
+Prefer the standard library and mechanisms this repository already owns; the [dependency selection policy](repo-governance/development/dependency-selection-policy.md) states when an external dependency may be added. Use Nx only as a raw task runner with `command` targets. Add no plugin, executor, or generator without explicit owner direction; see the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md).
 
 Prettier is the source of truth; Markdown uses unwrapped paragraphs and terminal-first ASCII diagrams—see the [Markdown style policy](repo-governance/conventions/markdown-style-policy.md). The language target, naming, indentation, and import style follow the [code style policy](repo-governance/development/code-style-policy.md).
 
