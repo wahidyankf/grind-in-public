@@ -9,7 +9,12 @@
 import path from "path";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
-import { resolvePort, type EnvRecord } from "@/features/env/core/port-resolver";
+import { resolvePort } from "@/features/env/core/port-resolver";
+// The resolver declares its own `process.env`-shaped type privately, so that it can import
+// nothing at all; `EnvRecord` is the exported name for the same shape and comes from its
+// sibling. The import is type-only, so it is erased and does not pull that module — or the
+// `dotenv` it depends on — into this test at runtime.
+import type { EnvRecord } from "@/features/env/core/tier-env";
 
 const feature = await loadFeature(
   path.resolve(

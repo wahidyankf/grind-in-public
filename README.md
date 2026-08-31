@@ -48,6 +48,8 @@ Build all projects with `npm run build` and run quick checks with `npm test`. Se
 
 [Badak Mini](apps/badakmini-cli/README.md) is a small Go CLI behind the repository checks: governance-document word limits, repository-local Markdown links, rule-change announcements, and harness capability parity. [Workspace commands](repo-governance/development/workspace-commands.md) lists the `npm run check:` command for each one.
 
+Two applications live here. [Badak Mini](apps/badakmini-cli/README.md) is the Go CLI above. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds the repository's single authoritative CV record — the practice workspace and its public face maintained under one set of rules. Both are held to the same gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99% line-coverage floor.
+
 ## Plans and Specs
 
 Which work is planned before it starts, and which — drills among them — is not, is set by the [plans organization policy](repo-governance/conventions/plans-organization-policy.md). A plan has five core documents, with `tech-docs/README.md` as its technical entry point, moving from quadrant-classified `ideas/` through `backlog/` and `in-progress/` to `done/`, and delivering directly to `main` at each phase gate. What the software should do is described as Gherkin in [`specs/`](specs/README.md), alongside each non-drill application's current as-built architecture and separate from the code that implements them.

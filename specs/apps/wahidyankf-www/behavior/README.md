@@ -1,8 +1,10 @@
 # wahidyankf-www Behavior
 
-The canonical Gherkin corpus for `wahidyankf-www`. Eleven feature files carry 53 scenarios, and each file is loaded by exactly one binding, so a scenario added here has to be bound or `test:coverage:behavior` fails.
+The canonical Gherkin corpus for `wahidyankf-www`. Twelve feature files carry 55 scenarios, and each file is loaded by exactly one binding, so a scenario added here has to be bound or `test:coverage:behavior` fails.
 
-Nine of the eleven describe the site itself and bind under `apps/wahidyankf-www/tests/bdd/`. The other two describe the environment loader that was inlined into the application during the migration and would otherwise have arrived with no corpus at all: `tier-env-loading.feature` and `port-resolver.feature`. They are here rather than under a `libs/` corpus because this repository publishes no libraries and the module they specify now lives inside the app.
+Nine of the twelve describe the site itself and bind under `apps/wahidyankf-www/tests/bdd/`. Two more describe the environment loader that was inlined into the application during the migration and would otherwise have arrived with no corpus at all: `tier-env-loading.feature` and `port-resolver.feature`. They are here rather than under a `libs/` corpus because this repository publishes no libraries and the module they specify now lives inside the app.
+
+The twelfth, `cv-export.feature`, is the only one that binds outside `tests/bdd/`. Its two scenarios write a real PDF to a real directory, so they belong to the `integration` project, which runs under `node` against the filesystem rather than under jsdom. Binding it beside the other eleven would put those writes into every quick gate.
 
 Scenario shape and cardinality belong to the [specs policy](../../../../repo-governance/development/specs-policy.md); how a scenario reaches a test belongs to the [TDD policy](../../../../repo-governance/development/tdd-policy.md). The as-built boundaries these scenarios exercise live in [architecture.md](../architecture.md).
 
@@ -11,6 +13,7 @@ Four of these features carry scenarios the Playwright adapter deliberately does 
 ## Directory Map
 
 - [accessibility.feature](accessibility.feature) — keyboard reachability and assistive-technology labelling across the site.
+- [cv-export.feature](cv-export.feature) — the CV PDF export at the filesystem boundary; bound from `apps/wahidyankf-www/tests/integration/`, not `tests/bdd/`.
 - [cv.feature](cv.feature) — the CV page and its rendered record.
 - [env-loader.feature](env-loader.feature) — the application's own tier-aware environment loading.
 - [home.feature](home.feature) — the landing page and its entry points.

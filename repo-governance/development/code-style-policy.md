@@ -11,7 +11,7 @@ This policy covers how source code is written: the language target, naming, inde
 
 ## Language Target
 
-Use strict TypeScript with CommonJS-compatible Node output. Badak Mini is the Go CLI for repository-local validation; follow the [Badak Mini policy](badakmini-cli-policy.md) before extending it.
+Use strict TypeScript with CommonJS-compatible Node output. A project that cannot reach that target records the deviation and its reason under [testing tooling](testing-policy/tooling.md), which is the one register for them; a deviation that is not recorded there is a defect rather than an exception. Badak Mini is the Go CLI for repository-local validation; follow the [Badak Mini policy](badakmini-cli-policy.md) before extending it.
 
 ## Naming and Layout
 

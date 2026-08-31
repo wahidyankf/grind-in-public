@@ -32,6 +32,15 @@ npx nx run badakmini-cli:test:coverage:integration
 npx nx run badakmini-cli:test:coverage:behavior
 npx nx run badakmini-cli:test:coverage
 npx nx run badakmini-cli:test:e2e
+npx nx run wahidyankf-www:test:unit
+npx nx run wahidyankf-www:test:integration
+npx nx run wahidyankf-www:test:coverage:unit
+npx nx run wahidyankf-www:test:coverage:integration
+npx nx run wahidyankf-www:test:coverage:behavior
+npx nx run wahidyankf-www:test:coverage
+npx nx run wahidyankf-www:test:quick
+npx nx run wahidyankf-www:static-routes:validation
+npx nx run wahidyankf-www:generate:cv-pdf
 npx nx affected -t test:quick --base=origin/main --head=HEAD
 ```
 

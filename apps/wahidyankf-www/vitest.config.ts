@@ -9,10 +9,25 @@ import tsconfigPaths from "vite-tsconfig-paths";
 // plugins from the root config.
 const sharedPlugins = [react(), tsconfigPaths()];
 
+// Vitest's 5s default is measured from when a test starts, not from when its
+// worker is ready, so the first test in a file absorbs that file's jsdom setup
+// and module import alongside its own work. Rendering `CvContent` — the whole
+// CV in one component — under the contention of a full parallel run crossed 5s
+// intermittently: green in isolation, red roughly one run in four. A flaky gate
+// is worse than a slow one, and this raises the limit rather than narrowing the
+// test, because the render being measured is the behavior under test.
+//
+// Spelled on each project below rather than once at the root, for the same
+// reason `sharedPlugins` is: a project's own `test` block is what the project
+// runs with, and relying on inheritance here would leave the fix in place only
+// where it happened to reach.
+const TEST_TIMEOUT_MS = 20_000;
+
 export default defineConfig({
   plugins: sharedPlugins,
   test: {
     passWithNoTests: true,
+    testTimeout: TEST_TIMEOUT_MS,
     coverage: {
       provider: "v8",
       // Vitest 4 reports only the files a test actually covered. Naming the
@@ -36,6 +51,7 @@ export default defineConfig({
         plugins: sharedPlugins,
         test: {
           name: "unit",
+          testTimeout: TEST_TIMEOUT_MS,
           include: ["src/**/*.unit.test.{ts,tsx}"],
           exclude: ["node_modules"],
           environment: "jsdom",
@@ -46,6 +62,7 @@ export default defineConfig({
         plugins: sharedPlugins,
         test: {
           name: "behavior",
+          testTimeout: TEST_TIMEOUT_MS,
           include: ["tests/bdd/**/*.{ts,tsx}"],
           exclude: ["node_modules"],
           environment: "jsdom",
@@ -59,6 +76,7 @@ export default defineConfig({
         plugins: sharedPlugins,
         test: {
           name: "integration",
+          testTimeout: TEST_TIMEOUT_MS,
           include: ["tests/integration/**/*.{ts,tsx}"],
           exclude: ["node_modules"],
           environment: "node",
