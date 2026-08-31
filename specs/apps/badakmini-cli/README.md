@@ -5,7 +5,7 @@ Badak Mini's canonical as-built boundaries live in [architecture.md](architectur
 ## Directory Map
 
 - [Architecture](architecture.md) is the current as-built C4 model, its constraints, and behavior traceability.
-- [Behavior](behavior/) contains the canonical executable Gherkin corpus.
+- [Behavior](behavior/README.md) contains the canonical executable Gherkin corpus.
 
 | Feature | Covers |
 | --- | --- |

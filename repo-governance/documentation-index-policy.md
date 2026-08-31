@@ -7,7 +7,7 @@ when_to_use: "Use when adding, moving, renaming, or reviewing Markdown in docs/,
 
 ## Scope
 
-Every directory in `docs/`, `repo-governance/`, `cv/`, `scripts/`, and each agent harness directory — `.agents/`, `.claude/`, `.codex/`, and `.opencode/` — at every depth, must contain a `README.md`. The README is the directory's concise entry point for both people and agents.
+Every directory in `docs/`, `repo-governance/`, `cv/`, `scripts/`, `plans/`, `specs/`, and each agent harness directory — `.agents/`, `.claude/`, `.codex/`, and `.opencode/` — at every depth, must contain a `README.md`. The README is the directory's concise entry point for both people and agents.
 
 A harness directory holds tool configuration rather than prose, so its README indexes what the directory contains and what each entry does. The `tldr` and `when_to_use` requirement below does not apply there, because those files carry the frontmatter their tool defines.
 
@@ -17,11 +17,15 @@ Two exemptions apply. A skill directory needs none: its `SKILL.md` names the ski
 
 Each README must register its immediate Markdown documents, excluding itself, with a descriptive relative link. It must also register each immediate child directory through that directory's README. Child READMEs own their descendants; do not repeat the full recursive tree.
 
+In `specs/`, an index registers every immediate entry whatever its file type, because the Gherkin corpus is the content there and a `.feature` file left out of the map is behavior nobody can find. Elsewhere the requirement covers Markdown and child directories.
+
+`plans/` and `specs/` gain the index and nothing else: no word limit reaches either tree, and neither needs the frontmatter below. An archived plan keeps the index it was delivered with, and reopening one restores the duty to update it.
+
 Every Markdown document under `docs/` or `repo-governance/`, except `repo-governance/README.md`, must begin with YAML frontmatter containing `tldr` and `when_to_use`. Keep both values short enough to help a reader decide whether to open the document.
 
 `repo-governance/README.md` is the exception because it is the governance entry index.
 
-Every `rules-checker` prompt states this indexing rule and this frontmatter rule, with its one exception, in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
+`rules-checker` sweeps the index across every tree in scope; `plan-checker` checks the same property inside the plan folder it is reviewing. Every `rules-checker` prompt states this indexing rule and this frontmatter rule, with its one exception, in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
 
 ## When an Index Reaches the Word Limit
 

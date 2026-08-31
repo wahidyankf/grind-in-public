@@ -6,6 +6,10 @@ The tree mirrors the workspace — `specs/apps/<name>/` and `specs/libs/<name>/`
 
 For the structure, the Gherkin cardinality rule, and when specs are required, read the [specs policy](../repo-governance/development/specs-policy.md). For how scenarios bind to tests, read the [TDD policy](../repo-governance/development/tdd-policy.md) and the [BDD policy](../repo-governance/development/behavior-driven-development-policy.md).
 
+## Directory Map
+
+- [Applications](apps/README.md) — the per-application C4 models and behavior corpora.
+
 ## Current Specifications
 
-- [Badak Mini](apps/badakmini-cli/README.md) has a canonical [C4 model](apps/badakmini-cli/architecture.md) and an executable five-feature corpus. Unit, local integration, and public-process E2E adapters recursively consume it and fail when a feature, step, binding, or adapter drifts.
+[Badak Mini](apps/badakmini-cli/README.md) is the only subject so far: a canonical [C4 model](apps/badakmini-cli/architecture.md) and an executable five-feature corpus. Unit, local integration, and public-process E2E adapters recursively consume it and fail when a feature, step, binding, or adapter drifts.
