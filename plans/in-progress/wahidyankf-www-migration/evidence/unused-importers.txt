@@ -1,0 +1,47 @@
+Importer search, 2026-09-01, Phase 3.
+
+Search roots: the ported tree `apps/wahidyankf-www/src`, plus `$SRC/apps/wahidyankf-www/src` and
+`$SRC/apps/wahidyankf-www/test` in the source repository. The source `test/` directory is included
+because the nine step files land later in this phase and could hold the only importer of a subject;
+searching the ported tree alone at this point would prove nothing.
+
+Absolute machine paths are rewritten to the literal `$SRC` before this file is committed.
+
+VERDICT PER SUBJECT
+-------------------
+lucide-react              KEEP    — 7 importers in the ported tree: app-shell/shell/Navigation.tsx,
+                                    cv/shell/CvContent.tsx,
+                                    personal-projects/shell/PersonalProjectsContent.tsx,
+                                    home/shell/HomeContent.tsx, and the three inlined components
+                                    ui/shell/theme-toggle.tsx, search-component.tsx, scroll-to-top.tsx.
+react-icons               REMOVE  — no importer in either tree. Zero matches.
+class-variance-authority  REMOVE  — no importer in either tree. Zero matches.
+search/shell/SearchSection.tsx
+                          REMOVE  — the only two matches are the file declaring its own
+                                    SEARCH_PLACEHOLDER constant, once in each tree. Nothing imports
+                                    the file and nothing imports the constant.
+SEARCH_PLACEHOLDER        REMOVE  — declared only in SearchSection.tsx; goes with that file.
+search/shell/search-section
+                          n/a     — the lower-hyphenated spelling was searched because the rename
+                                    item runs in this same section; zero matches, since the rename
+                                    had not happened when this search ran.
+
+A "REMOVE" verdict rests on zero matches across both trees, which is the whole point of searching
+the source repository too: a subject unused in the ported tree so far might still be reached by a
+file this phase has not copied yet.
+
+RAW OUTPUT
+----------
+apps/wahidyankf-www/src/features/app-shell/shell/Navigation.tsx:4:import { File, Folder } from "lucide-react";
+apps/wahidyankf-www/src/features/cv/shell/CvContent.tsx:23:} from "lucide-react";
+apps/wahidyankf-www/src/features/personal-projects/shell/PersonalProjectsContent.tsx:17:} from "lucide-react";
+apps/wahidyankf-www/src/features/search/shell/SearchSection.tsx:2:export const SEARCH_PLACEHOLDER = "Search...";
+apps/wahidyankf-www/src/features/home/shell/HomeContent.tsx:13:} from "lucide-react";
+apps/wahidyankf-www/src/features/ui/shell/theme-toggle.tsx:4:import { Moon, Sun } from "lucide-react";
+apps/wahidyankf-www/src/features/ui/shell/search-component.tsx:2:import { Search, X } from "lucide-react";
+apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.tsx:4:import { ChevronUp } from "lucide-react";
+$SRC/apps/wahidyankf-www/src/features/app-shell/shell/Navigation.tsx:4:import { File, Folder } from "lucide-react";
+$SRC/apps/wahidyankf-www/src/features/search/shell/SearchSection.tsx:2:export const SEARCH_PLACEHOLDER = "Search...";
+$SRC/apps/wahidyankf-www/src/features/personal-projects/shell/PersonalProjectsContent.tsx:6:import { Code, Github, Globe, Package, Sparkles, Star, Youtube } from "lucide-react";
+$SRC/apps/wahidyankf-www/src/features/cv/shell/CvContent.tsx:23:} from "lucide-react";
+$SRC/apps/wahidyankf-www/src/features/home/shell/HomeContent.tsx:3:import { Briefcase, FolderOpen, Github, Linkedin, Mail, Sparkles, Star, Code, Package } from "lucide-react";
