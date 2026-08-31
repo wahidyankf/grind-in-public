@@ -6,8 +6,8 @@ Execution reads and ticks `delivery.md` in place, following the [plan-execution]
 
 ## Active Plans
 
-None.
+- [wahidyankf-www Migration](wahidyankf-www-migration/README.md) — bring the personal site into this repository from `ose-public` at 99% coverage, inline its three shared libraries, and consolidate the CV into one record. The source repository is not touched.
 
 ## Directory Map
 
-No plan folders yet.
+- [wahidyankf-www-migration](wahidyankf-www-migration/README.md)
