@@ -1,0 +1,95 @@
+/**
+ * The runtime port contract for this repository's Next.js application.
+ *
+ * Precedence, highest first:
+ *   1. CLI flag  — an explicit `--port` passed at start time.
+ *   2. Env var   — the app's own prefixed variable, `WAHIDYANKF_WWW_PORT`, never a bare `PORT`.
+ *                  A prefixed name is what lets one shell hold more than one app's port at once,
+ *                  and it is why this resolver takes the variable name as an argument rather than
+ *                  reading a fixed key.
+ *   3. Fallback  — the app's compiled-in default, `3201`.
+ *
+ * An empty or whitespace-only value at a tier is treated as absent and falls through to the next
+ * tier, matching `./tier-env.ts`'s treatment of an empty `APP_ENV`. A PRESENT but malformed value is a
+ * hard error rather than a silent fall-through: a typo'd `--port 80800` must not quietly boot the
+ * service on its default port, because the operator asked for something specific and did not get
+ * it. That is the same "fail loudly on bad config" posture as the loader's rule 5.
+ *
+ * THIS MODULE MUST STAY DEPENDENCY-FREE — no `dotenv`, no `node:fs`, nothing outside the language.
+ * `scripts/next-with-port.mjs` imports it directly by relative path, and that script runs before
+ * anything has resolved the application's dependencies. Its sibling `./tier-env.ts` pulls
+ * `dotenv`, so reaching the resolver through that module instead would drag `node_modules` into a
+ * path that must not need it. Node strips this file's types natively, which is the other half of
+ * why a `.mjs` script can import a `.ts` module directly. Keeping it free-standing is the whole
+ * contract.
+ */
+
+/** A `process.env`-shaped record. Structurally identical to `./tier-env.ts`'s `EnvRecord`,
+ * redeclared here so this module imports nothing at all. */
+type EnvLike = Record<string, string | undefined>;
+
+const MIN_PORT = 1;
+const MAX_PORT = 65535;
+
+export interface ResolvePortOptions {
+  /** Value of an explicit `--port` flag, if one was passed. Highest precedence. */
+  flag?: string | number | undefined;
+  /** Name of this app's prefixed port variable, e.g. `"WAHIDYANKF_WWW_PORT"`. */
+  envVar: string;
+  /** The app's compiled-in default, used when neither flag nor env var supplies a value. */
+  fallback: number;
+  /** Record to read `envVar` from. Defaults to `process.env`. */
+  env?: EnvLike;
+}
+
+/** Treats empty/whitespace-only as absent, so a blank env var falls through instead of erroring. */
+function presentValue(value: string | number | undefined): string | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  const text = String(value).trim();
+  return text.length > 0 ? text : undefined;
+}
+
+/** Matches plain decimal digits only. */
+const DECIMAL_ONLY = /^[0-9]+$/;
+
+/** Parses one tier's value, throwing with the tier's name so the error says which knob was wrong. */
+function parsePort(text: string, source: string): number {
+  // The digits-only gate comes first because Number() alone is too permissive for a port: it accepts
+  // "0x10" (16), "0b1010" (10), "1e3" (1000) and "+3100", none of which is a port designation anyone
+  // means to write. Admitting them here would
+  // give the two resolvers different notions of a valid port. Number() is still preferred over
+  // parseInt() for the conversion itself: parseInt("3100abc") silently returns 3100.
+  const parsed = DECIMAL_ONLY.test(text) ? Number(text) : Number.NaN;
+
+  if (!Number.isInteger(parsed) || parsed < MIN_PORT || parsed > MAX_PORT) {
+    throw new Error(
+      `env-loader: ${source} supplied an invalid port "${text}". A port must be an integer ` +
+        `between ${MIN_PORT} and ${MAX_PORT}.`,
+    );
+  }
+
+  return parsed;
+}
+
+/**
+ * Resolves a listener port by the flag > env var > fallback precedence documented above.
+ *
+ * @throws Error if a knob is present but does not hold a valid port number.
+ */
+export function resolvePort(options: ResolvePortOptions): number {
+  const env = options.env ?? process.env;
+
+  const flagValue = presentValue(options.flag);
+  if (flagValue !== undefined) {
+    return parsePort(flagValue, "--port");
+  }
+
+  const envValue = presentValue(env[options.envVar]);
+  if (envValue !== undefined) {
+    return parsePort(envValue, options.envVar);
+  }
+
+  return parsePort(String(options.fallback), `fallback for ${options.envVar}`);
+}
