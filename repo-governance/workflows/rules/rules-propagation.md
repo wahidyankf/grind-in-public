@@ -35,7 +35,7 @@ State the rule in one sentence: its scope, trigger, and required behavior. Keep 
 
 4. Merge equivalent, overlapping, or inverse rules into that source; see [conflict resolution](rules-propagation/03-conflict-resolution.md).
 
-5. Resolve contradictions before writing, and never settle one alone; same document.
+5. Resolve contradictions before writing: settle a cross-level one by precedence, and never settle a same-level one alone; same document.
 
 6. Apply [Minimum Sufficiency](../../principles/minimum-sufficiency.md): add only rules, links, files, and enforcement that the outcome, another rule, or demonstrated risk requires. Then integrate the approved rule using direct, testable language. Link from a concise document to its detailed source instead of copying the same rule. When creating or editing Markdown, follow the [Markdown style policy](../../conventions/markdown-style-policy.md).
 

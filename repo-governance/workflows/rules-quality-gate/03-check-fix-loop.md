@@ -34,9 +34,11 @@ It may:
 - close a gap by adding the missing rule to the harness or document that lacks it, and only there
 - relocate text whole into a linked document, creating it if needed, without shortening, merging, or rewording what moves, leaving every requirement stated exactly once, and recording in the run's report every document created and every pass that touched several documents
 
+- resolve a cross-level contradiction by changing the lower-precedence document to agree with the higher one, exactly as far as the disagreement reaches, and naming which level won
+
 It may not:
 
-- resolve a contradiction by choosing a side, ever
+- resolve a same-level contradiction by choosing a side, ever
 - change what a rule requires, or narrow or widen its scope
 - delete a rule, or weaken its verification, to make a finding disappear
 - change what a subagent's role does, as opposed to how its instruction is worded

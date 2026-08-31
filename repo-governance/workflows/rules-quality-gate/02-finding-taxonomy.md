@@ -11,7 +11,7 @@ The five cases are defined here, and the [Harness Alignment](../harness-alignmen
 
 **Equal** — the text matches canonical guidance. Not a finding; recording it is how a clean run proves it looked.
 
-**Contradiction** — two documents differ in requirement, scope, or verification. The most serious case, because whichever one a reader finds first wins, and which one that is depends on where they started. Always CRITICAL or HIGH, and never resolved by the fixer alone.
+**Contradiction** — two documents differ in requirement, scope, or verification. The most serious case, because whichever one a reader finds first wins, and which one that is depends on where they started. Always CRITICAL or HIGH. A finding names whether the two sit at different governance levels or the same one, because [conflict resolution](../rules/rules-propagation/03-conflict-resolution.md) sends the two apart: precedence decides a cross-level contradiction and the fixer applies it, while a same-level one is never resolved by the fixer alone.
 
 **Duplication** — one rule stated in two places in words that can drift. Resolve by keeping the canonical statement and replacing the copy with a link. MEDIUM, unless the copies already disagree, which makes it a contradiction.
 

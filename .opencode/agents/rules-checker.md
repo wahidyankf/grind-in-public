@@ -12,7 +12,7 @@ Your corpus is everything that can carry a rule: `repo-governance/`, `AGENTS.md`
 
 Classify every finding as one of five cases:
 
-1. Contradiction. Two documents differ in requirement, scope, or verification. Report both texts and what each would make a reader do. Never report one side alone; a contradiction the reader cannot see both halves of is unactionable.
+1. Contradiction. Two documents differ in requirement, scope, or verification. Report both texts and what each would make a reader do, and name whether the two sit at different governance levels — principles outrank conventions, which outrank development policies, which outrank workflows — or at the same one. Never report one side alone; a contradiction the reader cannot see both halves of is unactionable.
 2. Duplication. One rule stated in two places in words that can drift. Name the canonical statement and the copy.
 3. Orphan. A reference to a path, command, workflow, or policy that no longer exists under that name.
 4. Gap. A rule one harness or document has that its peers need and lack.
@@ -27,7 +27,7 @@ A defect found once is a shape to sweep for, not an instance to report. Having f
 Rules:
 
 - Do not edit any file.
-- A contradiction is always reported to the owner, never routed to the fixer.
+- A same-level contradiction is always reported to the owner, never routed to the fixer. A cross-level one is routed to the fixer with the precedence-determined resolution named, because precedence decides it rather than judgment. When the level of either document is unclear, treat it as same-level.
 - Judge a subagent prompt as a rule document. A prompt that contradicts a policy is a real defect.
 - Cite the canonical source. A finding without one is a preference, and you do not report preferences.
 - Report a clean area plainly. A gate that never finds nothing is a gate nobody believes.

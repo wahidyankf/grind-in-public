@@ -1,5 +1,5 @@
 ---
-tldr: "Bounds the loop, and states what to do when a contradiction stops the gate or the loop will not converge."
+tldr: "Bounds the loop, and states which contradictions stop the gate and what to do when it will not converge."
 when_to_use: "Use when a gate run finds a contradiction, or reaches the cycle count that ends the loop."
 ---
 
@@ -7,11 +7,15 @@ when_to_use: "Use when a gate run finds a contradiction, or reaches the cycle co
 
 ## Loop Bounds
 
-Two consecutive clean runs end the loop; seven cycles end it with findings open. Cycle five raises a warning: a corpus still finding new problems that late is usually structurally wrong rather than imprecise. A contradiction stops the loop immediately and goes to the owner.
+Two consecutive clean runs end the loop; seven cycles end it with findings open. Cycle five raises a warning: a corpus still finding new problems that late is usually structurally wrong rather than imprecise. A same-level contradiction stops the loop immediately and goes to the owner.
 
 ## A Contradiction
 
-A contradiction between two rules is not the fixer's to settle. When one is found, present both texts, their practical effect, and a recommended resolution to the owner, and wait. [Conflict resolution](../rules/rules-propagation/03-conflict-resolution.md) requires that wait for a substantive conflict; the gate waits on every contradiction it finds.
+[Conflict resolution](../rules/rules-propagation/03-conflict-resolution.md) splits a contradiction in two, and the gate follows that split.
+
+A cross-level contradiction is decided by the [precedence order](../../principles/README.md#precedence) rather than by judgment, so the fixer applies it: the lower document changes, the higher one does not, and the report names which level won. The loop continues.
+
+A same-level contradiction is not the fixer's to settle. When one is found, present both texts, their practical effect, and a recommended resolution to the owner, and wait. When the level of either document is unclear, it takes this path too.
 
 ## A Loop That Will Not Converge
 

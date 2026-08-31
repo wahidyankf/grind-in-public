@@ -28,7 +28,7 @@ The [run statuses](08-run-statuses.md) document defines the four a run can close
 
 A finding the run acted on and left unresolved is written into the affected document itself, not only into the untracked history line. A finding recorded where the reader of the rule will never look has not been recorded.
 
-A contradiction is the case of that rule which admits no exception. One that reaches the owner and is not resolved in the session is written into both affected documents. A reader of a rule must be able to see that it is disputed; a dispute recorded only in a log is a dispute the next reader will not find.
+A same-level contradiction is the case of that rule which admits no exception. One that reaches the owner and is not resolved in the session is written into both affected documents. A reader of a rule must be able to see that it is disputed; a dispute recorded only in a log is a dispute the next reader will not find.
 
 ## Why Each Finding Survived
 
