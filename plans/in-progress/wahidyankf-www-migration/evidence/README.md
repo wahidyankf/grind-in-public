@@ -17,6 +17,6 @@ This index is created with the plan; each file below is added by the `delivery.m
 - [phase-2-background-coverage.md](phase-2-background-coverage.md) — the `Given=0` file list compared against the files carrying a `Background`.
 - [unused-importers.txt](unused-importers.txt) — the importer search behind the Phase 3 dependency and file removals.
 - [node-type-stripping.md](node-type-stripping.md) — the `node apps/wahidyankf-www/scripts/generate-cv-pdf.ts` attempt, its exit status, and any error text.
-- `phase-3-measurements.md` — the starting unit coverage percentage and the `static-routes:validation` wall-clock duration.
+- [phase-3-measurements.md](phase-3-measurements.md) — the starting unit coverage percentage and the `static-routes:validation` wall-clock duration.
 - `cv-references.txt` — every reference to the repository-root `cv/` directory outside the ported application, recorded before any Phase 4 edit.
 - `vercel-json-digest.txt` — the SHA-256 of `vercel.json` as it arrives from `ose-public`, taken in Phase 6 before this repository's Prettier reformats it. The reformat changes the file's bytes and not its parsed configuration, so this digest is the provenance proof that a later `shasum` against the delivered file can no longer supply.
