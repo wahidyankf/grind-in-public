@@ -46,7 +46,9 @@ Add a line when a phase completes, when a gate passes or fails, when a retry pro
 - 2026-08-31: Phase 2 stopped at the link check — a renamed policy left two dead links in `docs/`. Fixed at the source, reran green.
 ```
 
-A plan that has not started carries the heading and no lines. Everything else keeps its record for good: `learnings.md` is drained and may be deleted, and inline notes scatter the sequence across the file, so this is the one place a reader of an archived plan can see the order, the failures, and the retries.
+A plan that has not started carries the heading and no lines. An archived plan is never rewritten to add a record it never kept: `plans/done/` is history, so this rule binds a plan while it is being executed.
+
+A record written during execution then stays for good. `learnings.md` is drained and may be deleted, and inline notes scatter the sequence across the file, so this is the one place a reader of an archived plan can see the order, the failures, and the retries.
 
 ## Executor Tags
 
