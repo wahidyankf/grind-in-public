@@ -12,4 +12,4 @@ For the structure, the Gherkin cardinality rule, and when specs are required, re
 
 ## Current Specifications
 
-[Badak Mini](apps/badakmini-cli/README.md) is the only subject so far: a canonical [C4 model](apps/badakmini-cli/architecture.md) and an executable five-feature corpus. Unit, local integration, and public-process E2E adapters recursively consume it and fail when a feature, step, binding, or adapter drifts.
+Two subjects carry specifications. [Badak Mini](apps/badakmini-cli/README.md) has a canonical [C4 model](apps/badakmini-cli/architecture.md) and an executable five-feature corpus, consumed by unit, local integration, and public-process E2E adapters. [wahidyankf-www](apps/wahidyankf-www/README.md) has its own [C4 model](apps/wahidyankf-www/architecture.md) and an eleven-feature corpus, consumed by unit, behavior, local integration, and process E2E adapters, the last of which lives in a separate project because it runs a different toolchain. Every one of those adapters fails when a feature, step, binding, or adapter drifts.

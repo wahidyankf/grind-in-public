@@ -14,7 +14,7 @@ This index is created with the plan; each file below is added by the `delivery.m
 
 - [phase-0-baseline.md](phase-0-baseline.md) — the six Phase 0 baseline commands, their exit statuses, and the two source-repository results.
 - [phase-1-toolchain.md](phase-1-toolchain.md) — the resolved versions of TypeScript, Biome, ESLint, and `eslint-plugin-jsdoc`.
-- `phase-2-background-coverage.md` — the `Given=0` file list compared against the files carrying a `Background`.
+- [phase-2-background-coverage.md](phase-2-background-coverage.md) — the `Given=0` file list compared against the files carrying a `Background`.
 - `unused-importers.txt` — the importer search behind the Phase 3 dependency and file removals.
 - `node-type-stripping.md` — the `node apps/wahidyankf-www/scripts/generate-cv-pdf.ts` attempt, its exit status, and any error text.
 - `phase-3-measurements.md` — the starting unit coverage percentage and the `static-routes:validation` wall-clock duration.

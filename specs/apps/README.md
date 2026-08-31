@@ -5,3 +5,4 @@ Each application in `apps/` that carries specifications has a directory here und
 ## Directory Map
 
 - [Badak Mini](badakmini-cli/README.md) — the repository validation CLI: its C4 model and its five-feature behavior corpus.
+- [wahidyankf-www](wahidyankf-www/README.md) — the personal portfolio and CV site: its C4 model and its eleven-feature behavior corpus, shared with the dedicated E2E project `apps/wahidyankf-www-e2e`.
