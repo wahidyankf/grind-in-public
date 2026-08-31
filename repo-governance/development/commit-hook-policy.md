@@ -7,6 +7,17 @@ when_to_use: "Use before committing, pushing, changing hooks, or considering a h
 
 This policy applies to every contributor and AI agent working in this repository.
 
+## Authorization
+
+Committing and pushing are separate permissions, and neither is implied by the work that produced the changes. A request to edit, fix, finish, test, or stage authorizes none of it.
+
+- Commit only when the owner asks for a commit, or when an owner-approved plan's checklist reaches a commit step.
+- Push only when the owner asks for a push, or an approved plan's checklist reaches one. "Commit these changes" does not authorize a push.
+- Authorization covers the current task and the scope stated with it: the files, the theme, the branch, and the remote. Ask before widening it, and never carry it into later work.
+- Without authorization, leave the work uncommitted, say so plainly, and name what is waiting.
+
+A plan authorizes only the steps it states, and a plan the owner has not approved authorizes nothing.
+
 ## Required Hooks
 
 Do not bypass Git hooks with `--no-verify`, including for `git commit` and `git push`. Hooks enforce formatting, Conventional Commit messages, and the repository checks that [workspace commands](workspace-commands.md#hooks) lists for each hook. A failure must be investigated and resolved before continuing.
