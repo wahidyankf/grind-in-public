@@ -14,6 +14,7 @@ This directory contains rules for building, testing, validating, and maintaining
 - [Code Style](code-style-policy.md) for the language target, naming, indentation, and import style.
 - [Commit Hooks](commit-hook-policy.md) for required Git-hook behavior.
 - [Dependency Selection](dependency-selection-policy.md) for when an external dependency may be added instead of standard-library or existing code.
+- [Deployment](deployment-policy.md) for the delivery target, the `prod-` promotion branch, and domain cutover authorization.
 - [Harness Pre-Edit Triggers](harness-pre-edit-triggers.md) for what each harness wires before an edit, and how far it is verified.
 - [Nx Workspace](nx-workspace-policy.md) for raw-Nx boundaries and verification.
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow it.
