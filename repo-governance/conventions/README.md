@@ -18,6 +18,7 @@ This directory contains stable, cross-cutting standards that make repository wor
 - [Markdown Style Policy](markdown-style-policy.md) — source formatting for every repository Markdown file. Use it when creating, editing, reviewing, or formatting Markdown.
 - [Document Naming Policy](document-naming-policy.md) — how Markdown documents and their child directories are named. Use it when creating, renaming, or splitting a document.
 - [Document Word Limit Policy](document-word-limit-policy.md) — the word limit every governed document lives under, and how a document that reaches it is fixed. Use it before shortening one.
+- [Thematic Commits Policy](thematic-commits-policy.md) — where the boundary between two commits falls. Use it when staging a session that touched several concerns.
 - [Task Tracking Policy](task-tracking-policy.md) — how granular a task list must be and when it must be updated. Use it before starting or reviewing any task.
 - [Grilling-With-Options Policy](grilling-with-options-policy.md) — the structured form an agent must use to resolve an open decision with the owner. Use it before asking the owner to decide anything; its validation checklist lives in [`grilling-with-options-policy/`](grilling-with-options-policy/README.md).
 - [Grilling Harness Binding](grilling-harness-binding.md) — the question tool each harness uses and the Markdown fallback. Use it when asking a decision question or adding a harness; its per-harness detail lives in [`grilling-harness-binding/`](grilling-harness-binding/README.md).
