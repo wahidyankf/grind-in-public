@@ -27,5 +27,7 @@ jobs:
           cache-dependency-path: apps/*/go.sum
       - name: Install npm dependencies
         run: npm ci
+      - name: Install Playwright browsers
+        run: npx nx run wahidyankf-www-e2e:install
       - name: Run canonical scheduled verification
         run: npm run test:scheduled
