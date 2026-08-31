@@ -41,8 +41,13 @@ npx nx run wahidyankf-www:test:coverage
 npx nx run wahidyankf-www:test:quick
 npx nx run wahidyankf-www:static-routes:validation
 npx nx run wahidyankf-www:generate:cv-pdf
+npx nx run wahidyankf-www-e2e:install
+npx nx run wahidyankf-www-e2e:test:e2e
+npx nx run wahidyankf-www-e2e:specs:e2e:baseline
 npx nx affected -t test:quick --base=origin/main --head=HEAD
 ```
+
+`wahidyankf-www-e2e` owns no `test:quick`, so `npm run test:quick` and the pre-push affected run reach the other two projects only. That is the shape the [testing policy](testing-policy.md) gives a permitted dedicated project and the [BDD policy](behavior-driven-development-policy.md) role matrix requires of one, not a gap. Run `wahidyankf-www-e2e:install` once per machine before `test:e2e`, which builds and starts `wahidyankf-www` itself.
 
 The [testing policy](testing-policy.md) owns the target contract and ordered `test:quick` sequence.
 
