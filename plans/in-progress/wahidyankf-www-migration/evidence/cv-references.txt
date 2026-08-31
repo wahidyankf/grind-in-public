@@ -1,0 +1,56 @@
+Every reference to the repository-root cv/ directory outside the ported application,
+recorded before any Phase 4 edit.
+
+Command:
+  rg -n '\bcv/' --hidden --glob '!node_modules' --glob '!package-lock.json' \
+     --glob '!apps/wahidyankf-www/**' .
+
+Plan documents under plans/in-progress/wahidyankf-www-migration/ are omitted below:
+they name the directory in order to record retiring it, and none of them routes an
+agent into it.
+
+LABEL PER LINE
+  ROUTING    — sends a reader or agent into cv/ to read it. Repointed at
+               apps/wahidyankf-www/docs/.
+  SCOPE      — lists cv/ among the directories a rule applies to. Struck, with no
+               apps/ path added in its place: the absorbed documents sit inside a
+               project, and project directories are not in these enumerations.
+  SELF       — inside cv/ itself. Deleted with the directory rather than repaired.
+  NARRATIVE  — past-tense prose about the retired directory in a document that
+               describes the post-migration state.
+
+ROUTING (2)
+  AGENTS.md:9                                              For CV work, read cv/README.md.
+  CLAUDE.md:33                                             cv/ holds career evidence; read cv/README.md before touching it.
+
+SCOPE (13)
+  AGENTS.md:13                                             indexed-README sentence
+  repo-governance/documentation-index-policy.md:3          when_to_use frontmatter
+  repo-governance/documentation-index-policy.md:10         directory enumeration
+  repo-governance/README.md:15                             documentation index policy entry
+  repo-governance/workflows/readme-refresh.md:10           review scope
+  repo-governance/workflows/readme-refresh.md:32           documentation index policy scope
+  repo-governance/workflows/rules-quality-gate/01-scope-and-corpus.md:22   corpus bullet
+  .claude/agents/rules-checker.md:10                       corpus sentence
+  .claude/agents/rules-checker.md:20                       directory-README sentence
+  .codex/agents/rules-checker.toml:14                      corpus sentence
+  .codex/agents/rules-checker.toml:24                      directory-README sentence
+  .opencode/agents/rules-checker.md:11                     corpus sentence
+  .opencode/agents/rules-checker.md:21                     directory-README sentence
+
+SELF (1)
+  cv/README.md:20                                          the regeneration command
+
+NARRATIVE (2, one line)
+  specs/apps/wahidyankf-www/architecture.md:115            two mentions in one sentence
+
+NOT IN THE REPAIR SET
+  specs/apps/wahidyankf-www/architecture.md lines 78 and 113 match the pattern but
+  name the application's own src/features/cv/, not the repository root directory.
+  The same is true of every match inside apps/wahidyankf-www/, which is why the
+  sweep excludes that tree.
+
+COUNT
+  Nine files carry the fifteen ROUTING and SCOPE references the five repair items
+  cover. The plan predicted those nine exactly. It did not predict the NARRATIVE
+  line, which is handled by an item added during execution.
