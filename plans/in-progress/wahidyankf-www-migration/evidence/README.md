@@ -12,7 +12,7 @@ Scratch output that nothing reads back belongs in the gitignored `local-tmp/` in
 
 This index is created with the plan; each file below is added by the `delivery.md` item that writes it, and that same item converts the entry to a relative link, so an entry is unlinked only while the file it names does not yet exist. A Phase 7 item in [`delivery.md`](../delivery.md) confirms the result: eight linked entries and no ninth file. The confirmation is worth an item of its own because `npm run check:markdown-links` validates the links a document carries rather than the entries it is missing, so neither an unlinked line nor an unlisted file reaches a gate on its own.
 
-- `phase-0-baseline.md` — the six Phase 0 baseline commands, their exit statuses, and the two source-repository results.
+- [phase-0-baseline.md](phase-0-baseline.md) — the six Phase 0 baseline commands, their exit statuses, and the two source-repository results.
 - `phase-1-toolchain.md` — the resolved versions of TypeScript, Biome, ESLint, and `eslint-plugin-jsdoc`.
 - `phase-2-background-coverage.md` — the `Given=0` file list compared against the files carrying a `Background`.
 - `unused-importers.txt` — the importer search behind the Phase 3 dependency and file removals.
