@@ -19,7 +19,7 @@ A rule is any sentence that tells a contributor or an agent what they must, may,
 These surfaces are read for two failures only: a requirement stated there that belongs in `repo-governance/`, and a reference to a rule, path, or workflow that no longer exists under that name. The gate judges neither their prose style nor duplication among them.
 
 - `docs/` — the gate does not judge tutorial quality or Diátaxis fit either. A governance gate that starts reviewing how-to guides stops being one.
-- `cv/`, `scripts/`, and the root `README.md` — each carries rule sentences, and `AGENTS.md` routes agents into `cv/README.md`, so a stale reference there misdirects an agent.
+- `scripts/` and the root `README.md` — each carries rule sentences, and a stale reference in one misdirects an agent.
 
 ## Out of Scope
 

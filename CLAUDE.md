@@ -30,7 +30,7 @@ Nx targets use raw commands; ordered aggregates use only Nx's built-in command r
 
 The [workspace commands](repo-governance/development/workspace-commands.md#build-and-test) document shows full and focused test invocations, and the [testing policy](repo-governance/development/testing-policy.md) owns the ordered quick gate.
 
-`apps/badakmini-cli` owns repository-local checks, including the limit above. `cv/` holds career evidence; read [cv/README.md](cv/README.md) before touching it.
+`apps/badakmini-cli` owns repository-local checks, including the limit above. `apps/wahidyankf-www/docs/` holds career evidence; read [its README](apps/wahidyankf-www/docs/README.md) before touching it.
 
 ## Commit Attribution
 

@@ -7,7 +7,7 @@ when_to_use: "Use when a change affects repository, project, documentation, or g
 
 ## Purpose
 
-Keep human-facing READMEs accurate as the repository changes. Review the root `README.md` and every existing README below `apps/`, `libs/`, `docs/`, `repo-governance/`, `cv/`, `scripts/`, and the harness directories recursively; update the smallest affected set in the same thematic commit as the change it explains.
+Keep human-facing READMEs accurate as the repository changes. Review the root `README.md` and every existing README below `apps/`, `libs/`, `docs/`, `repo-governance/`, `scripts/`, and the harness directories recursively; update the smallest affected set in the same thematic commit as the change it explains.
 
 ## When to Use
 
@@ -29,7 +29,7 @@ Run this workflow before committing a change that alters purpose, directory layo
 
 3. Read each affected README as a newcomer. Confirm names, commands, versions, paths, links, prerequisites, outputs, and claims match the implementation. Link to canonical detailed documents instead of copying rules. Keep agent instructions in `AGENTS.md`-style files; repository governance applies to both audiences.
 
-4. Follow the [documentation index policy](../documentation-index-policy.md) everywhere it applies, which is `docs/`, `repo-governance/`, `cv/`, `scripts/`, and the harness directories. It owns which directories need a README, what each must register, the frontmatter requirement, and the exemptions.
+4. Follow the [documentation index policy](../documentation-index-policy.md) everywhere it applies, which is `docs/`, `repo-governance/`, `scripts/`, and the harness directories. It owns which directories need a README, what each must register, the frontmatter requirement, and the exemptions.
 
 5. Update only stale or missing material. Do not rewrite accurate prose, invent behavior, or mix unrelated documentation cleanup into the commit.
 

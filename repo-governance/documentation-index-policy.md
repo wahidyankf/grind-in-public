@@ -1,13 +1,13 @@
 ---
 tldr: "Defines recursive README indexes and concise discovery metadata."
-when_to_use: "Use when adding, moving, renaming, or reviewing content in docs/, repo-governance/, cv/, scripts/, plans/, specs/, or a harness directory."
+when_to_use: "Use when adding, moving, renaming, or reviewing content in docs/, repo-governance/, scripts/, plans/, specs/, or a harness directory."
 ---
 
 # Documentation Index Policy
 
 ## Scope
 
-Every directory in `docs/`, `repo-governance/`, `cv/`, `scripts/`, `plans/`, `specs/`, and each agent harness directory — `.agents/`, `.claude/`, `.codex/`, and `.opencode/` — at every depth, must contain a `README.md`. The README is the directory's concise entry point for both people and agents.
+Every directory in `docs/`, `repo-governance/`, `scripts/`, `plans/`, `specs/`, and each agent harness directory — `.agents/`, `.claude/`, `.codex/`, and `.opencode/` — at every depth, must contain a `README.md`. The README is the directory's concise entry point for both people and agents.
 
 A harness directory holds tool configuration rather than prose, so its README indexes what the directory contains and what each entry does. The `tldr` and `when_to_use` requirement below does not apply there, because those files carry the frontmatter their tool defines.
 
