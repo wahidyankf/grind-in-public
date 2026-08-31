@@ -36,4 +36,4 @@ Plans deliver directly to `main`. This repository runs no pull-request flow, no 
 
 ## Verification
 
-`plans/` is outside `repo-governance/`, so no word limit applies to a plan and no governance check reads one. The Markdown link check does: it reads every Git-tracked document, a plan included. The [plan-quality-gate](../workflows/plan-quality-gate.md) workflow is the verification: `plan-checker` reports findings against these rules and `plan-fixer` resolves them.
+`plans/` is outside `repo-governance/`, so no word limit applies to a plan and the word-count check never reads one. Two checks do reach a plan: the Markdown link check reads every Git-tracked document, a plan included, and `rules-checker` sweeps every planning directory for the README index the [documentation index policy](../documentation-index-policy.md) requires, without reading the plan's content. The [plan-quality-gate](../workflows/plan-quality-gate.md) workflow is the verification: `plan-checker` reports findings against these rules and `plan-fixer` resolves them.

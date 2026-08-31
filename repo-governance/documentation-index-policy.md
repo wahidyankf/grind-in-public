@@ -1,6 +1,6 @@
 ---
 tldr: "Defines recursive README indexes and concise discovery metadata."
-when_to_use: "Use when adding, moving, renaming, or reviewing Markdown in docs/, repo-governance/, cv/, scripts/, or a harness directory."
+when_to_use: "Use when adding, moving, renaming, or reviewing content in docs/, repo-governance/, cv/, scripts/, plans/, specs/, or a harness directory."
 ---
 
 # Documentation Index Policy

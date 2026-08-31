@@ -18,4 +18,6 @@ specs/apps/<name>/
 +-- behavior/          Gherkin acceptance scenarios
 ```
 
+Every folder in this tree carries its own `README.md` indexing what sits in it, `behavior/` included, as the [documentation index policy](../../documentation-index-policy.md) requires; a detail folder added later gets one in the same change.
+
 `behavior/` is the only mandatory folder for every subject. Every non-drill application also owns the root `architecture.md` required by the [architecture specification policy](../architecture-specifications.md). Add a detail folder only when the subject is complex enough to need it, not in advance.
