@@ -35,6 +35,16 @@ The list must describe the present, not a plan written once and abandoned:
 - Record work discovered mid-task as new items instead of widening an existing one, so the count reflects the true remaining scope.
 - Update the list as each item resolves. Marking several items complete in one batch at the end reports a state that was never observed.
 
+## Concurrent Ownership
+
+More than one task can be working this repository at once — a second harness, a second session, or the owner editing by hand — and `plans/`, `repo-governance/`, and the harness directories are where they collide, because those are the files every task reaches for.
+
+Refresh the state of those areas before relying on or editing them. Re-read the document rather than trusting what the task list says about it, since a list records what was intended and the file records what is there.
+
+Treat a change you do not recognize as another task's work, not as an error. Preserve it and reconcile around it: do not revert it, do not overwrite it, and do not fold it into your own commit. When it genuinely conflicts with what you were asked to do, that is a decision rather than a merge, and it goes to the owner under the [grilling-with-options policy](grilling-with-options-policy.md).
+
+A task list grants no authority over any of this. It records intended work; committing and pushing it remain governed by the [commit hook policy](../development/commit-hook-policy.md).
+
 ## Why
 
 The owner reads the list to know what is done, what is left, and what went wrong, and cannot see the reasoning behind it. A stale or coarse list therefore misreports the work rather than merely describing it briefly. Granular items also make an interrupted session resumable, because the first unfinished item states exactly where to restart.
