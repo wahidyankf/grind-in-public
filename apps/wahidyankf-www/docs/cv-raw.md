@@ -6,6 +6,7 @@ This file is the evidence base for [`cv-linkedin.md`](./cv-linkedin.md) and for 
 
 - [LinkedIn-oriented profile](./cv-linkedin.md)
 - Hijra Bank evidence is transcribed in the role sections below.
+- Career materials in the owner's private knowledge base, from which the management tenure, delivery-model, and availability notes below were transcribed. That source is not in this directory; the claims it supports are recorded here in full so nothing downstream depends on reading it.
 
 ## Career Timeline
 
@@ -23,6 +24,8 @@ This file is the evidence base for [`cv-linkedin.md`](./cv-linkedin.md) and for 
 
 Documented professional experience spans October 2017 through July 2026: 8 years and 10 months, presented publicly as "nearly nine years of experience."
 
+Formal engineering-management roles begin with Ruangguru Engineering Manager in November 2021 and run through July 2026: 4 years and 8 months, presented publicly as "nearly five years in formal engineering-management roles." The Technical Lead period before it is excluded, because a lead role is not formal people management.
+
 ## Hijra Bank: Head of Engineering
 
 - Scope: Engineering (Product, Platform, Mobile, SEIT), Data Engineering, Information Security, and IT GRC across core banking, transactions, and financing.
@@ -34,6 +37,7 @@ Documented professional experience spans October 2017 through July 2026: 8 years
 - Product Engineering Pipeline OKR: AI-augmented SDLC increased GitHub throughput, pull-request velocity, and resolution rates by 90%+.
 - OPEX constraint: productivity improvement achieved without exceeding a 5% engineering-OPEX increase by optimising infrastructure and other engineering operating budgets.
 - Capability model: every engineer became T-shaped and could contribute to general product features.
+- Delivery model: the AI-augmented SDLC above is one of two bases for the public claim that the candidate builds AI-augmented delivery systems and agent-orchestrated engineering workflows with quality guardrails. The second is current independent work, where the same pattern runs in the open: specification-driven development, three-level testing, and agent-run quality gates that block a change rather than advise on it. The guardrail half is the load-bearing part of the claim and should not be dropped when the sentence is shortened.
 - Product-manager pairing: two PMs paired with engineers and shipped small dashboard UI fixes and code changes to production, using pull-request review and test coverage.
 - Merchant withdrawal: Indomaret integration across 20,000+ stores in 400+ cities.
 - BI SNAP adopted.
@@ -61,6 +65,7 @@ Documented professional experience spans October 2017 through July 2026: 8 years
 ## Alami P2P Lending and Hijra Bank Financing
 
 - Teams: up to 25 engineers across backend, frontend, mobile/React Native, SEIT, SQA, and Data Engineering.
+- This 25 is the career maximum and belongs to this period, not to the later Head of Engineering scope, which has no headcount on record. A public claim may therefore say the candidate has led teams of up to 25 engineers, but may not attach that number to the Hijra Bank discipline list.
 - Scope: Hijra Group Financing (Bank and Alami P2P Lending), Risk Management & Reporting, and Data Engineering.
 - Context: management concluded that more than half the team was underperforming before this assignment; this is context, not a public CV claim.
 - Team stability: strategic reprioritisation after organisational restructuring; voluntary turnover was 2 of 25 (8%).
@@ -117,3 +122,8 @@ Bachelor of Engineering (B.Eng.), Electrical and Electronics Engineering
 July 2005 – July 2011 · Grade: 3.0
 
 Activities and societies: Himpunan Mahasiswa Elektro ITB (HME ITB)
+
+## Location and Availability
+
+- Based in Jakarta, Indonesia; works across Indonesia and internationally, and is open to relocation for the right software-engineering opportunity.
+- This is a stated availability rather than a credential. It is published on the CV by owner direction, and carries no claim about work authorisation or sponsorship eligibility in any jurisdiction — the Germany study record in particular establishes prior lived relocation only.
