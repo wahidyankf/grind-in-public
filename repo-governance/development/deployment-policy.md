@@ -25,6 +25,10 @@ Each deployed project gates its own build on its own `prod-` branch. The project
 
 One project's promotion therefore never triggers another's. That is the reason the branch name carries the project name rather than being a shared `prod`.
 
+The gate is only half the wiring. The hosting project's own production branch setting must name the same `prod-<project>` branch, and that setting lives in the provider's dashboard rather than in this repository. Leaving it at `main` deadlocks the project in a way that looks like nothing happening: pushes to `main` become production builds that the `ignoreCommand` immediately cancels, and pushes to the `prod-` branch become previews that never reach the domain. Every push is then accounted for and none of them ships.
+
+Check that setting when a project is first connected, and again after any change to which repository it deploys from, because a reconnect can reset it to the repository's default branch. It cannot be read or written from a tracked file, so a green repository is not evidence that it is right.
+
 ## Domain Cutover
 
 Pointing a live domain at a project in this repository is a separate, explicitly authorized act. Porting or landing a project's deploy configuration does not authorize it, and neither does a green gate: configuration that is present and correct is still inert until the owner cuts the domain over.
