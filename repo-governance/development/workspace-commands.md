@@ -19,7 +19,7 @@ This document is the canonical command reference. `AGENTS.md` and `CLAUDE.md` li
 - `npm run test:behavior` runs canonical corpus and adapter-completeness checks.
 - `npm test` and `npm run test:quick` run the cacheable ordered quick gate: type-check, lint, unit test, unit coverage, then behavior completeness.
 - `npm run test:integration` runs uncached local-integration targets; `npm run test:e2e` runs dedicated public-process suites; pre-push skips both.
-- `npm run test:scheduled` runs quick verification, integration coverage, then E2E in that operational order.
+- `npm run test:scheduled` runs quick verification, integration coverage, the E2E skip baseline, then E2E in that operational order. The baseline runs ahead of the suite because the suite exits 0 on an unbound scenario and the baseline is what fails on one.
 
 Narrower runs:
 
