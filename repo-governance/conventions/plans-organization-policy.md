@@ -26,6 +26,7 @@ Read the rule you need rather than the whole set:
 - [Plan UI Design](plans-organization-policy/plan-ui-design.md) — selected UI direction, accessible assets, and device proof.
 - [Plan Document Safety](plans-organization-policy/plan-document-safety.md) — ASCII diagrams and secret-free plan records.
 - [Delivery Checklists](plans-organization-policy/delivery-checklists.md) — granularity, clarity, executor tags.
+- [Execution Record](plans-organization-policy/execution-record.md) — the dated log of phases, gates, and retries.
 - [Phases and Gates](plans-organization-policy/phases-and-gates.md) — natural pauses.
 - [Knowledge Capture](plans-organization-policy/knowledge-capture.md) — draining `learnings.md`.
 - [Lifecycle Moves](plans-organization-policy/lifecycle-moves.md) — starting, completing, reopening.
