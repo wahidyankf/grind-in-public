@@ -35,3 +35,9 @@ npm run typecheck
 ```
 
 Linting and type checking catch the mechanical part. Naming is reviewed by a person, because a name is only wrong relative to what the code does.
+
+## Applying a Linter's Fixes
+
+Review an autofix before keeping it, and never run one a tool labels unsafe across a tree unattended: a fix that removes code a rule believes unreachable leaves every gate green over the loss, because the tests for what it deleted go with it.
+
+Fix the construct the rule named. An identical expression on the adjacent line is a separate decision and needs its own reason — a rule reporting one attribute has said nothing about the one beside it, and the two may differ in whether anything observable depends on them.

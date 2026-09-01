@@ -26,3 +26,7 @@ Unit tests use doubles for external collaborators. Integration tests use only ow
 Godog is the execution base for Go behavior tests. A Go subject's binding set and its separate E2E binding set each register `Given`, `When`, and `Then` directly on `*godog.ScenarioContext` and execute through `godog.TestSuite`; repository compliance tooling may inspect the corpus and bindings but must not replace Godog's runtime registration, matching, lifecycle, or execution.
 
 Each project README names its corpus, adapters, targets, and any justified inapplicable layer. See [Specs](specs-policy.md), [TDD](tdd-policy.md), and [Testing](testing-policy.md) for the complementary requirements.
+
+## Bindings and What They May Assume
+
+A scenario states a property; any concrete list a binding checks it against belongs to the binding and must track the code. When two adapters bind one scenario, they assert the same property against the same current behavior, so a disagreement between them is a defect in one of them rather than a difference of layer.

@@ -32,3 +32,9 @@ When the conditions stop holding, assess replacement the next time the dependenc
 ## Verification
 
 Verified in review, against the changed manifest and lockfile: the need is stated, the rejected built-in alternative is named, and the repository's checks pass with the dependency in place.
+
+## Inherited and Transitive Pins
+
+A version copied from another repository carries that repository's vulnerabilities, and a successful install is not the check that finds them. Audit after adding or copying a pin, and resolve a finding by moving the pin rather than lowering the audit level or adding an `overrides` entry.
+
+A pin binds only the manifest that declares it. A dependency's own open range can still put two versions of one library in the tree, which surfaces as a type error naming the same type on both sides rather than as an install failure; fix it by agreeing the versions, never by casting at the call site. A library and a plugin that reaches into its internals are one decision, because the plugin is coupled to a version the library's range does not express.

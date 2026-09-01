@@ -17,7 +17,7 @@ Each checkbox carries every element that applies:
 
 - **The file path**, exactly, when it is known. When a new file's location is implementation-dependent, give the parent directory, the naming pattern, and a sibling to imitate.
 - **The command**, verbatim — `npx nx run badakmini-cli:test:quick`, not "run the tests".
-- **An acceptance criterion** stating the observable outcome that proves it done. No bare "implement", "set up", or "configure".
+- **An acceptance criterion** stating the observable outcome that proves it done. No bare "implement", "set up", or "configure". A criterion satisfied by finding nothing — an empty output, a zero count — pairs that with a check proving the command looked at something real, and a criterion reading a tool's own output names a command whose output no shell wrapper rewrites.
 - **Relevant `[AC-…]` labels** that trace the work to `prd.md`; a purely mechanical task carries none only when it cannot implement or prove an acceptance criterion.
 - **One Gherkin scenario** per behavior cycle, inlined verbatim, as the [TDD policy](../../development/tdd-policy.md) requires.
 
@@ -60,6 +60,6 @@ Every checkbox states who can execute it. The tags are `[AI]`, `[HUMAN]`, and `[
 
 Tag toward `[AI]`. Git-mechanical steps such as committing, pushing, or moving a plan folder are `[AI]` unless a specific reason says otherwise. A `delivery.md` opens with a one-line legend naming the three tags, so a reader meets them before the first checkbox.
 
-Recovery or rollback work names its trigger and remains dormant until triggered. During final reconciliation, a dormant item receives a dated, evidence-backed `Not triggered` disposition instead of a false completion mark.
+Recovery or rollback work names its trigger and remains dormant until triggered, and that trigger is read against its wording rather than against the presence of a failure. During final reconciliation, a dormant item receives a dated, evidence-backed `Not triggered` disposition instead of a false completion mark.
 
 Every `plan-checker` prompt states one action per checkbox, execution-grade clarity, the dated Execution Record, and the executor tags with their legend in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
