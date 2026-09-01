@@ -95,7 +95,7 @@ There is one, and it is between repositories rather than inside this one. From P
 
 Every migration step is idempotent, so a failed run is retried rather than repaired. A copy that already matches its source is a no-op; a deletion of an already-absent path is a no-op.
 
-Rollback is per-phase revert, as [technical design](README.md) states. The only irreversible-feeling step is the `cv/` deletion, and it is reversible from the preceding commit. Phase 4's gate proves that specific recovery for all seven files after `git rm` and before the phase commit, so the rollback path is evidence rather than an assumption.
+Rollback is per-phase revert, as [technical design](README.md) states. The only irreversible-feeling step is the `cv/` deletion, and it is reversible from the preceding commit. Phase 4's gate proves that specific recovery for all seven files from the commit preceding the deletion — in execution that was `31aabe5^`, the deletion having been committed before the rehearsal ran — and diffs their SHA-256 digests against the pre-copy record, so the rollback path is evidence rather than an assumption.
 
 ## Malformed Input
 

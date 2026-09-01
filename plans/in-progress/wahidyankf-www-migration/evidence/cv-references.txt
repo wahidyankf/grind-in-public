@@ -1,9 +1,15 @@
 Every reference to the repository-root cv/ directory outside the ported application,
 recorded before any Phase 4 edit.
 
-Command:
+Command, as run:
   rg -n '\bcv/' --hidden --glob '!node_modules' --glob '!package-lock.json' \
      --glob '!apps/wahidyankf-www/**' .
+
+Re-running it needs one more exclusion, --glob '!.git'. It is not added above because
+this file records what was run, and at that moment nothing in .git/ matched. The Phase 4
+commit that deleted the directory put the string into the reflog, so every later run of
+the unmodified command reports two matches that are commit-message text rather than
+references. The checklist items carry the extra glob.
 
 Plan documents under plans/in-progress/wahidyankf-www-migration/ are omitted below:
 they name the directory in order to record retiring it, and none of them routes an

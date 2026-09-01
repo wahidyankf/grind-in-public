@@ -13,7 +13,7 @@ This plan is staged in `plans/in-progress/` by owner direction because execution
 - `specs/apps/wahidyankf-www` — new canonical corpus and as-built C4 model. Nine feature files come from the application's own corpus and two from `libs/ts-env-loader`, whose behavior is inlined with its code.
 - `cv/` — deleted; the application absorbs the CV material it duplicated.
 - `scripts/` — gains `next-with-port.mjs`, which is currently an empty directory with a `.gitkeep`.
-- `repo-governance/development` — gains a deployment rule, and `testing-policy/tooling.md` gains one certain amendment plus any conditional ones. The certain amendment is the language-target deviation both new projects carry on `module`, `moduleResolution`, and `target`, which is known before execution starts because Next 16 leaves no alternative. A conditional one is added for each toolchain component that turns out not to conform, if any does.
+- `repo-governance/` and the three harness directories — `development/` gains a deployment rule, and `testing-policy/tooling.md` gains two certain amendments plus any conditional ones. **Execution reached further than this bullet anticipated**, because Phase 7's learnings triage routes each lesson to a durable home and which homes those are cannot be known before the lessons exist: it also edited `development/code-style-policy.md`, `development/dependency-selection-policy.md`, `development/behavior-driven-development-policy.md`, `conventions/plans-organization-policy/delivery-checklists.md`, and all three `plan-checker` prompts under `.claude/`, `.codex/`, and `.opencode/`. The archival quality gate then reached four more, for a reason of its own: closing the word limit policy's headroom band on `conventions/plans-organization-policy/delivery-checklists.md` required relocating a section, so this plan also authors `conventions/plans-organization-policy/execution-record.md` and edits `conventions/plans-organization-policy.md`, `conventions/plans-organization-policy/README.md`, and `workflows/plan-execution/02-phase-loop.md`. [File impact](tech-docs/file-impact.md) maps all eleven. Two amendments are certain, not one, and both are known before execution starts: the language-target deviation both new projects carry on `module`, `moduleResolution`, and `target`, because Next 16 leaves no alternative, and Biome running as a linter only, because Prettier stays the formatting source of truth. `tooling.md`'s `## Recorded Deviations` is the register. A conditional one is added for each toolchain component that turns out not to conform, if any does.
 - `.github/workflows/full-bdd.yml` and root `package.json` — extended to cover the new project.
 
 ## Source Provenance
@@ -53,20 +53,12 @@ Inlining `ts-env-loader` brings `dotenv` with it. This repository's [dependency 
 
 ## Quality Gate
 
-The [plan-quality-gate](../../../repo-governance/workflows/plan-quality-gate.md) check-fix loop ran at **strict** level before this plan was committed. It ended on its **seven-cycle bound**, not on two consecutive clean runs, and the workflow provides for exactly that: seven cycles end the loop too, with the remaining findings reported.
+- 2026-08-31 — strict — 7 cycles — settled (nothing open; the last fixes were applied after the final check)
 
-| Cycle | Critical | High | Medium | Low |
-| ----- | -------- | ---- | ------ | --- |
-| 1     | 1        | 10   | 15     | 8   |
-| 2     | 0        | 5    | 7      | 11  |
-| 3     | 0        | 4    | 8      | 6   |
-| 4     | 0        | 3    | 4      | 5   |
-| 5     | 0        | 3    | 4      | 3   |
-| 6     | 0        | 1    | 2      | 1   |
-| 7     | 0        | 1    | 2      | 3   |
-
-Every finding of every cycle was resolved, including all six of cycle 7; none was accepted, deferred, or waived. The count did not reach zero because each round of repairs is itself new text a strict reader can find something in — cycle 7's findings are all consequences of cycle 6's, and four of the six are one sentence somewhere else in the plan still describing `vercel.json` as byte-identical after the phase stopped delivering it that way. No cycle ever challenged the approach, a phase order, or a decision. Cycle 5's checker stated the structural verdict directly: **structurally sound, with residual imprecision; I would not rewrite a phase.**
-
-The residue is attributed to size rather than to unsoundness. This is a cross-repository port with seven phases, roughly four hundred checklist items, two new projects, and the first TypeScript project this repository has held; the surface a strict reader can examine is larger than the loop bound was written for. Execution is what tests the rest, and [`learnings.md`](learnings.md) is where anything the plan got wrong is recorded as it is found.
+The pre-execution loop ended on its **seven-cycle bound** rather than on two consecutive clean runs, which the workflow provides for. Every finding of every cycle was resolved; none was accepted, deferred, or waived. The status is `settled` rather than `pass` because cycle 7's fixes were applied after the last check, so no cycle read them. As [findings report](../../../repo-governance/workflows/plan-quality-gate/04-findings-report.md) requires of a settled plan, the archival run begins by verifying those fixes, and records its own result below.
 
 The Phase 7 item that re-runs this workflow at archival appends its result below rather than replacing this record.
+
+- 2026-09-01 — strict — 7 cycles — settled (nothing open; the last fixes were applied after the final check)
+
+The archival run ended on the seven-cycle bound too. It verified the settled pre-execution fixes first, as a settled plan's next run must, then read the plan execution had actually produced. Every finding of every cycle was resolved; none was accepted, deferred, or waived. Three of them were defects in the delivered repository rather than in the plan, which is why this run is recorded as work rather than as a formality.

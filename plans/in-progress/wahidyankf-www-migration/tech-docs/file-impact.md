@@ -205,12 +205,29 @@ Eleven of these come from `ose-public` and hold 53 scenarios; `cv-export.feature
 +-- repo-governance/development/deployment-policy.md         [N]
 +-- repo-governance/development/workspace-commands.md        [E]
 +-- repo-governance/development/testing-policy/tooling.md    [E]
++-- repo-governance/development/code-style-policy.md         [E]
++-- repo-governance/development/dependency-selection-policy.md  [E]
++-- repo-governance/development/behavior-driven-development-policy.md  [E]
++-- repo-governance/conventions/plans-organization-policy/delivery-checklists.md  [E]
++-- repo-governance/conventions/plans-organization-policy/execution-record.md  [N]
++-- repo-governance/conventions/plans-organization-policy/README.md  [E]
++-- repo-governance/conventions/plans-organization-policy.md  [E]
++-- repo-governance/workflows/plan-execution/02-phase-loop.md   [E]
 +-- repo-governance/workflows/readme-refresh.md              [E]
 +-- repo-governance/workflows/rules-quality-gate/01-scope-and-corpus.md  [E]
 +-- .claude/agents/rules-checker.md                          [E]
 +-- .codex/agents/rules-checker.toml                         [E]
 +-- .opencode/agents/rules-checker.md                        [E]
++-- .claude/agents/plan-checker.md                           [E]
++-- .codex/agents/plan-checker.toml                          [E]
++-- .opencode/agents/plan-checker.md                         [E]
 ```
+
+**Eleven of those entries were added during execution, at the Phase 7 quality gate.** `code-style-policy.md`, `dependency-selection-policy.md`, `behavior-driven-development-policy.md`, `delivery-checklists.md`, and the three `plan-checker` prompts are where Phase 7's `learnings.md` triage routes its entries, and which documents a triage reaches cannot be known before the learnings exist. `code-style-policy.md` is reached twice: once in Phase 3, by the Rules Propagation run that added a reference to the deviation register, and once in Phase 7. The three `plan-checker` prompts change identically to each other, for the same parity reason the three `rules-checker` prompts do, and because `delivery-checklists.md`'s own last line requires its rules to be mirrored into every `plan-checker` prompt in the same edit.
+
+The last four arrived later still, from the gate's own cycles rather than from the triage. The triage's additions pushed `delivery-checklists.md` into the word limit policy's headroom band, and only relocation closes that band, so its Execution Record section moved to a new sibling, `execution-record.md`. A relocation is three more edits by construction: the parent policy and the child `README.md` index the new document, and `plan-execution/02-phase-loop.md` held the one inbound link to the section's old anchor. `package.json` and `workspace-commands.md` are already listed above for other reasons and take a second edit here, wiring `specs:e2e:baseline` into `test:scheduled` after the gate found the target had no automated caller.
+
+This is the map admitting what it did not anticipate rather than the plan improvising past it. The opening rule stands: a path absent from this list is a signal to stop and amend, and amending is what happened here.
 
 Nine of those entries are edited in Phase 4 because each names the bare `cv/` path: `AGENTS.md`, `CLAUDE.md`, `repo-governance/README.md`, `repo-governance/documentation-index-policy.md`, `repo-governance/workflows/readme-refresh.md`, `repo-governance/workflows/rules-quality-gate/01-scope-and-corpus.md`, and the three `rules-checker` prompts. Those three change identically, as the [harness capability parity policy](../../../../repo-governance/conventions/harness-capability-parity-policy.md) requires.
 

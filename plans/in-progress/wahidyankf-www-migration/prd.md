@@ -64,3 +64,22 @@ Feature: CV export
 - **[AC-8]** `npm run format:check`, `npm run check:markdown-links`, `npm run check:governance`, and `npm run check:workflows` all exit 0.
 - **[AC-9]** The toolchain matches `testing-policy/tooling.md`, or `tooling.md` records the specific component that could not conform and why.
 - **[AC-10]** `apps/wahidyankf-www/vercel.json` parses to configuration identical to its source — every one of `installCommand`, `buildCommand`, `ignoreCommand`, and the header rules unchanged — with the pre-reformat source digest recorded in `evidence/vercel-json-digest.txt`, and a governance rule states what the `prod-wahidyankf-www` branch is for. The file is reformatted to this repository's Prettier width, which changes its bytes and not its meaning.
+
+## Reconciliation
+
+Every criterion above was re-proved against the delivered system on 2026-09-01, in one pass, after Phase 6 landed. All ten are satisfied.
+
+| Criterion | Proving command | Result |
+| --- | --- | --- |
+| `[AC-1]` | `git ls-files cv`, `test ! -e cv`, `ls .../features/cv/core/data.ts` | Silent, absent, present — one CV record |
+| `[AC-2]` | `npx nx run wahidyankf-www:test:coverage:unit --skip-nx-cache` | Exit 0 at **100% lines**, against a 99% threshold |
+| `[AC-3]` | `npx nx run wahidyankf-www:test:coverage:integration --skip-nx-cache` | Exit 0 at **100% lines**, 8 tests, against a 99% threshold |
+| `[AC-4]` | Per-feature loader count, then `test:coverage:behavior --skip-nx-cache` | All twelve features report exactly one loader; exit 0 with 12 files and 258 tests |
+| `[AC-5]` | `rm -rf apps/wahidyankf-www/.next && npx nx run wahidyankf-www-e2e:test:e2e` | Exit 0 — 36 passed, 34 skipped; `rg -i docker` over the project finds nothing |
+| `[AC-6]` | `rg -n '@open-sharia-enterprise/' --hidden` less `node_modules` and the lockfile; `ls libs` | Matches only this plan's own documents; `libs/` holds `README.md` alone |
+| `[AC-7]` | `rg -n 'rhino-cli\|dotnet\|\.fsproj'` over every tracked `project.json`, `package.json`, `nx.json`, workflow, and script | No match in any target, script, or workflow |
+| `[AC-8]` | The four checks named | All four exit 0 |
+| `[AC-9]` | `tooling.md` read against the delivered toolchain | Conforms, with two deviations recorded there rather than hidden — the language target, stated for both TypeScript projects, and the Biome-as-linter-only boundary |
+| `[AC-10]` | Deep-equality probe against `git show HEAD:...` in the source; `evidence/vercel-json-digest.txt` | `installCommand`, `buildCommand`, `ignoreCommand`, and the header rules all identical; digest matches the source byte for byte; the deployment policy names the branch |
+
+Two results are worth stating beyond their exit codes. `[AC-2]` and `[AC-3]` were written against a 99% floor and the delivered system reaches 100% on both, with no threshold lowered and no exclusion added. And `[AC-7]`'s pattern does match two tracked files outside this plan's documents — `apps/badakmini-cli/README.md`, whose opening paragraph explains that Badak Mini's command grammar follows a slice of `rhino-cli`, and `plans/done/2026-08-23__badakmini-layered-bdd/brd.md`, which names F# in a non-goal. That is why the sweep the plan runs is scoped rather than repository-wide: neither is a target, a script, or a workflow, which is what the criterion is about, and both predate this plan and stay.
