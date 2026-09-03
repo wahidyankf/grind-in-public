@@ -10,6 +10,25 @@ pushed, because Phase 4 reconciles file-impact.md over a SHA range read from
 here.
 -->
 
+- 2026-09-03 — Phase 4: the plan-quality-gate item is recorded as **not run**, on the owner's standing direction from
+  this session to stop with the quality gate and execute. Its acceptance — `plan-checker` reports no findings — could
+  not be met regardless while the six MEDIUM findings the owner accepted stay open; they remain listed in
+  [README.md](README.md#open-findings). Surfaced at the archival handoff rather than ticked.
+- 2026-09-03 — Phase 4: `file-impact.md` reconciled over `d57fc82..0dc890c`. Forty-one paths in the range; three were
+  unlabelled and are now labelled — `testing-policy/target-shape.md` (new, forced by the 750-word limit splitting the
+  contract), `testing-policy/README.md` (its index entry), and `badakmini-cli-policy.md` (found by the Phase 3 Rules
+  Propagation run). Every Not Touched path is absent from the range, `nx.json` among them.
+- 2026-09-03 — Phase 4: `[AC-1]` through `[AC-6]` re-run and reconciled against the delivered system. Both projects
+  expose all ten contract targets; cache declared on 15 and 19 targets; the outputs rule holds over both with the
+  extended `wahidyankf-www` artifact map; the raw corpus glob appears once per file and the `behaviorCorpus` probe
+  missed on a content change and hit on restore for both projects; no command carries a literal project path and
+  `badakmini-cli:test:quick` and `wahidyankf-www:static-routes:validation` both exit 0; two projects discovered, the
+  browser suite passes 36 and skips 34, and the baseline holds. `[AC-3]`'s third probe target, `wahidyankf-www-e2e`,
+  retired with its project and has no post-merge equivalent to re-run. `[AC-7]`'s rule-by-rule review is re-read and
+  recorded in [learnings.md](learnings.md).
+- 2026-09-03 — Phase 3 delivered as `0dc890c`. The SHA is recorded here in Phase 4 rather than in Phase 3, because the
+  Phase 3 record was written into the commit that produced it and no separate record commit followed. This is the far
+  end of the range Phase 4's file-impact reconciliation reads.
 - 2026-09-03 — Phase 3 complete. The contract went into `testing-policy.md` (550 words, under the limit and outside the
   700-word headroom band) with the shape rules in a new `testing-policy/target-shape.md` companion, because stating all
   of it in one document would have crossed the limit. Gate passed: every rule the documents now state was read against
@@ -896,16 +915,19 @@ rather than two files to compare.
 Triages every `learnings.md` entry to a terminal state, then archives. Archival is blocked until each entry is routed or
 discarded with a reason.
 
-- [ ] [AI] Read every entry in `plans/in-progress/project-json-consistency/learnings.md` and route each to exactly one
+- [x] [AI] Read every entry in `plans/in-progress/project-json-consistency/learnings.md` and route each to exactly one
       durable home per the
       [knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) —
       acceptance: each entry carries a one-line disposition naming its destination, or a one-line reason for discarding
       it. If the file holds no entry, record the explicit escape `No generalizable learnings — <reason>` instead of
-      leaving it blank.
-- [ ] [AI] Check every entry for secrets and for repository relevance before routing — acceptance: no entry names a
+      leaving it blank. - Five entries, each with a one-line disposition under `## Phase 4 Dispositions` in
+      [learnings.md](learnings.md): two routed to `testing-policy/target-shape.md`, one to `testing-policy/tooling.md`,
+      one to code already corrected in Phase 2, and one discarded because the rule that caught it already stands.
+- [x] [AI] Check every entry for secrets and for repository relevance before routing — acceptance: no entry names a
       credential value, and every surviving entry states a lesson that generalizes beyond this plan rather than
-      describing one incident.
-- [ ] [AI] Reconcile every acceptance criterion `[AC-1]` through `[AC-7]` in [prd.md](prd.md) against the delivered
+      describing one incident. - No entry names a credential, a private identifier, or a runtime payload. The one entry
+      that did not generalize past its incident, the `tail` window, is the one discarded.
+- [x] [AI] Reconcile every acceptance criterion `[AC-1]` through `[AC-7]` in [prd.md](prd.md) against the delivered
       system — acceptance: each criterion's proof named in
       [specification-changes.md](tech-docs/specification-changes.md) is re-run and passes, and any criterion that cannot
       be reconciled is recorded rather than ticked. Six of the seven proofs are commands and are simply re-run;
@@ -915,8 +937,12 @@ discarded with a reason.
       `wahidyankf-www` and with the extended `wahidyankf-www` artifact map that carries `specs:e2e:baseline`. The Phase
       1 gate form is not the one to re-run here and re-running it would be a false reconciliation: it names three
       projects, one of which no longer exists, and its map predates the target Phase 2 added, so it would report the
-      rule holding over a set it never inspected.
-- [ ] [AI] Reconcile [tech-docs/file-impact.md](tech-docs/file-impact.md) against the diff of every delivery commit: the
+      rule holding over a set it never inspected. - All seven reconciled; the runs are in the Execution Record and
+      `[AC-7]`'s review is in [learnings.md](learnings.md). One criterion could not be re-run whole: `[AC-3]`'s probe
+      names three targets and the third, `wahidyankf-www-e2e:typecheck`, retired with its project in Phase 2. The two
+      that survive both missed on a content change and hit on restore, and the retired third is recorded rather than
+      silently dropped.
+- [x] [AI] Reconcile [tech-docs/file-impact.md](tech-docs/file-impact.md) against the diff of every delivery commit: the
       four Phase 1 commits, the single Phase 2 commit, and the single Phase 3 commit. Take the range end to end rather
       than by count — `git diff --stat <phase-0 SHA>..<phase-3 SHA>`, reading both SHAs from the Execution Record where
       Phase 0 required each phase to write them, so a later split of any phase into more commits cannot make this item
@@ -931,25 +957,38 @@ discarded with a reason.
       range by design: `plans/done/README.md` and the folder move land in the archival commit at the end of this phase,
       and `plans/in-progress/README.md` is edited at the Phase 0 end — or was already committed before execution began,
       as Phase 0's first commit item allows — and again in that archival commit. Its Not Touched entries, `nx.json` and
-      the gitignored `local-tmp/` evidence among them, must appear in neither.
-- [ ] [AI] Give a dated, evidence-backed disposition to the first of this plan's two conditional items: the Phase 1
+      the gitignored `local-tmp/` evidence among them, must appear in neither. - Reconciled over `d57fc82..0dc890c`,
+      both SHAs read from the Execution Record. Three paths appeared in the diff unlabelled and are now labelled with
+      the reason each arose; every Not Touched path is absent. Two labels cannot be read back out of an end-to-end range
+      — the Phase 1 edit to the deleted `wahidyankf-www-e2e/project.json`, and the `[M]` plus `[E]` on
+      `playwright.config.ts` that Git reports as one `R087` — and `file-impact.md` now says so.
+- [x] [AI] Give a dated, evidence-backed disposition to the first of this plan's two conditional items: the Phase 1
       checklist item that restores the `tests/e2e` input if the cache probe over
       `apps/badakmini-cli/tests/e2e/README.md` hits the cache instead of missing it — acceptance: it records either the
       restoration and its evidence, or `Not triggered` with the probe output showing the run that followed the content
-      change reported no `Nx read the output from the cache` line.
-- [ ] [AI] Give a dated, evidence-backed disposition to the second: the Phase 1 `[AC-5]` pre-edit control, which writes
+      change reported no `Nx read the output from the cache` line. - `Not triggered`: the probe missed the cache, so the
+      conditional never fired. The input was nonetheless restored, for the unrelated reason
+      `TestE2EBindingInputRegression` names it. Both recorded, because either alone misreads the phase.
+- [x] [AI] Give a dated, evidence-backed disposition to the second: the Phase 1 `[AC-5]` pre-edit control, which writes
       to `learnings.md` only if the bare-`nx run` grep run against the unedited `apps/wahidyankf-www/project.json` does
       not print exactly the one `static-routes:validation` line — acceptance: it records either that entry and what it
-      concludes about the gate pattern, or `Not triggered` with the one line the pre-edit run printed.
-- [ ] [AI] Give a dated, evidence-backed disposition to the third: Phase 2's module-resolution branch, which writes to
+      concludes about the gate pattern, or `Not triggered` with the one line the pre-edit run printed. -
+      `Not     triggered`. Re-verified in Phase 4 against `git show d57fc82:apps/wahidyankf-www/project.json`, which
+      prints exactly line 105, the `static-routes:validation` command.
+- [x] [AI] Give a dated, evidence-backed disposition to the third: Phase 2's module-resolution branch, which writes to
       `learnings.md` only if the checklist's first `npx nx run wahidyankf-www:test:e2e` fails on a module-resolution
       error — acceptance: it records either that entry, the exact error it captured, and what the owner decided when the
       plan stopped and returned to them, or `Not triggered` with that run's exit 0. These three are the conditionals
       `learnings.md`'s own header comment and [tech-docs/file-impact.md](tech-docs/file-impact.md) both name as writing
       here only if triggered, so reconciling some and not all would leave a named writer with no terminal state and
-      archival would be blocked on an entry nobody was told to look for.
+      archival would be blocked on an entry nobody was told to look for. - `Not triggered`: the first run exited 0,
+      passing 36 and skipping 34. What appeared was a `MODULE_TYPELESS_PACKAGE_JSON` warning, which is not a failure and
+      is routed as its own entry.
 - [ ] [AI] Run the [plan-quality-gate](../../../repo-governance/workflows/plan-quality-gate.md) workflow at strict level
-      — acceptance: `plan-checker` reports no findings.
+      — acceptance: `plan-checker` reports no findings. - **Not run**, on the owner's standing direction in this session
+      to stop with the quality gate and execute. Left unticked rather than marked done: its acceptance is unmet, and six
+      MEDIUM findings the owner accepted are still open in [README.md](README.md#open-findings). Surfaced at the
+      archival handoff below.
 - [ ] [AI+HUMAN] Confirm with the owner that the plan is complete before it is archived — acceptance: the owner agrees
       the delivered scope matches what they asked for; archival is a one-way move and the four scope decisions in
       [brd.md](brd.md) narrowed twice during planning.

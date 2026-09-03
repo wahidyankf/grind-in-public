@@ -75,3 +75,74 @@ binds every target. `badakmini-cli:typecheck` is the same shape: `go vet` writes
 the workspace. This is a definition the plan asserts, not a measurement it took, which is why it is recorded here rather
 than left implicit in the rule. Phase 4 routes it: if it survives the Phase 3 gate review it belongs beside the rule in
 `testing-policy.md`, and if it does not, both the rule and the Phase 1 artifact map need the other answer.
+
+## Phase 3 Rule Review — [AC-7]
+
+One line per rule the delivered documents state, the target each was checked against in both `project.json` files, and
+the verdict. Re-read in Phase 4 against the files as they stand, and every verdict below is that second reading.
+
+| Rule                                                             | `badakmini-cli`                                            | `wahidyankf-www`                                                 | Verdict |
+| ---------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------- | ------- |
+| Every project exposes the same ten targets                       | all ten present, 15 targets total                          | all ten present, 19 targets total                                | Holds   |
+| The three eligibility-dependent targets are present or justified | owns a real local boundary and a CLI process, so all three | owns both, so all three                                          | Holds   |
+| Every target declares `cache` explicitly                         | `all 15 targets declare cache`                             | `all 19 targets declare cache`                                   | Holds   |
+| An uncached target declares no `outputs`                         | `outputs rule holds for all 15`                            | `outputs rule holds for all 19`                                  | Holds   |
+| A cached artifact-writer names its path                          | `build`, `test:coverage:unit`                              | `build`, `test:coverage:unit`, `specs:e2e:baseline`              | Holds   |
+| A compiler's own incremental state is not an artifact            | `typecheck` runs `go vet`, no `outputs`                    | `typecheck` writes `tsconfig.tsbuildinfo`, no `outputs`          | Holds   |
+| No command encodes its own project path                          | no `apps/badakmini-cli` in a command                       | no `apps/wahidyankf-www` in a command                            | Holds   |
+| A single-command target declares `options.cwd`                   | all 13 command targets                                     | all command targets                                              | Holds   |
+| A shared input glob is named once per project                    | `behaviorCorpus`, raw glob count 1                         | `behaviorCorpus` and `workspaceScripts`, raw glob count 1        | Holds   |
+| `options.commands` states the gate, `dependsOn` a prerequisite   | `test:quick` orders in `commands`                          | `test:e2e` depends on `build`; `test:quick` orders in `commands` | Holds   |
+
+No rule is recorded as contradicted. This list was written into the Execution Record during the Phase 3 gate rather than
+here, which the gate item's own acceptance names as the destination; it is placed here in Phase 4 so `[AC-7]`'s proof
+sits where the criterion says to look for it.
+
+## Phase 4 Dispositions
+
+Every entry above reaches exactly one terminal state, per the
+[knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md). No entry
+names a credential, a private identifier, or a runtime payload; each was re-read for that before routing.
+
+- **Module-system delta** → routed to `repo-governance/development/testing-policy/tooling.md`, Recorded Deviations,
+  beside the `wahidyankf-www` compiler-settings deviation it continues. That section already exists to hold "this is the
+  state, and here is why it is not fixed", which is exactly the shape of this entry.
+- **Nineteen and thirty-four** → routed to code, the strongest form: the corrected `missingSteps` comment in
+  `apps/wahidyankf-www/playwright.config.ts` and the skip-baseline record in `apps/wahidyankf-www/README.md` now name
+  both numbers and say which is which. The general half — that two disagreeing numbers in one comment usually measure
+  different things — is discarded: it is an observation about reading, not a rule a repository can hold anyone to.
+- **"Redundant" was a property of the cache** → routed to `repo-governance/development/testing-policy/target-shape.md`,
+  Shared Inputs, as a rule: search for a test that names a declaration before deleting it, because a behavioural probe
+  and a grep for the literal string answer different questions. `TestE2EBindingInputRegression` already exists and needs
+  no companion, so the executable capture is in place and the rule is what was missing.
+- **A `tail` window sized by guess** → discarded. The generalizable half is already a standing rule: an acceptance
+  criterion names the content a step must produce rather than that it ran, and that rule is precisely what caught this.
+  Restating it would duplicate a rule rather than add one, and a duplicated rule is what later disagrees with its
+  source.
+- **Stated assumption, recorded before execution** → routed to
+  `repo-governance/development/testing-policy/target-shape.md`, Outputs, where "artifact" is defined as something a
+  later target or a person consumes and `tsconfig.tsbuildinfo` is named as the case that is not one. It survived the
+  Phase 3 gate review, which is the condition the entry itself set for routing it there.
+
+### Conditional Items
+
+Three checklist items write here only if triggered. Each gets a dated disposition whether or not it fired, so no named
+writer is left without a terminal state.
+
+- **2026-09-03 — Phase 1, the `tests/e2e` input removal — Not triggered as written, but the removal was reverted for a
+  different reason.** The item's trigger is the cache probe over `apps/badakmini-cli/tests/e2e/README.md` reporting a
+  hit after the content change. It reported a miss: with the explicit input gone, `default` still invalidated the
+  target, so the conditional's own criterion never fired. The input was restored anyway, because
+  `TestE2EBindingInputRegression` fails without the literal string — a reason the probe was not built to detect. Both
+  facts are recorded because either alone misreads the phase: the probe was right about the cache and wrong about
+  whether the removal was safe.
+- **2026-09-03 — Phase 1, the `[AC-5]` pre-edit control — Not triggered.** Run against the unedited
+  `apps/wahidyankf-www/project.json`, the bare-`nx run` grep printed exactly the one expected line, the
+  `static-routes:validation` command reading `"command": "nx run wahidyankf-www:build --skip-nx-cache && node ..."`. The
+  gate pattern was therefore proved able to see the defect it exists to catch, and nothing was written. Re-run in Phase
+  4 against the delivered files, the same pattern prints nothing.
+- **2026-09-03 — Phase 2, the module-resolution branch — Not triggered.** The first `npx nx run wahidyankf-www:test:e2e`
+  after the merge exited 0, passing 36 and skipping 34. The plan required a stop and a return to the owner only on a
+  module-resolution _failure_; what appeared was a `MODULE_TYPELESS_PACKAGE_JSON` warning, which is recorded as its own
+  entry above and routed to `tooling.md`. A warning is not the branch's trigger, and treating it as one would have
+  stopped the phase on a passing suite.

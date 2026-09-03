@@ -122,6 +122,19 @@ Edited because they name the deleted project:
 - `[E]` `docs/how-to/run-nx-workspace.md` — the "Run the Repository Checks" trigger list already names `project.json`
   and `nx.json`; add the pointer to the contract so the how-to and the policy do not drift apart.
 
+Added during Phase 4's reconciliation, because the delivery diff carried them and this document did not label them. Both
+causes are Phase 3 consequences the plan did not foresee at the path level, and neither is a scope change:
+
+- `[N]` `repo-governance/development/testing-policy/target-shape.md` — the `cache`, `outputs`, `options.cwd`, and
+  shared-`namedInputs` rules. Stating all of the contract in `testing-policy.md` would have crossed the 750-word
+  [document limit](../../../../repo-governance/conventions/document-word-limit-policy.md), so the shape half moved to a
+  companion. The plan sized the edit but not the document it would need.
+- `[E]` `repo-governance/development/testing-policy/README.md` — the companion's index entry, which the split requires.
+- `[E]` `repo-governance/development/badakmini-cli-policy.md` — found by the Phase 3
+  [Rules Propagation](../../../../repo-governance/workflows/rules/rules-propagation.md) run, which the plan schedules
+  without being able to name what it will find. The policy restated eight of the ten contract targets, and a duplicated
+  list is what later disagrees with its source, so it now points at the contract instead.
+
 ## The Plan's Own Documents
 
 These two are the execution record rather than the work, and they carry a label here because Phase 4 reconciles every
@@ -140,6 +153,12 @@ once, on the directory.
   bare-`nx run` grep control, and Phase 2's module-resolution branch on the first `wahidyankf-www:test:e2e` run. The
   stated assumption about compiler state is recorded before execution begins, and Phase 4 gives each of the three
   conditionals a dated disposition whether or not it fired.
+
+Two labels cannot be read back out of an end-to-end range, and that is a property of the range rather than a mismatch.
+`apps/wahidyankf-www-e2e/project.json` carries `[E]` in Phase 1 and `[D]` in Phase 2, and
+`git diff <phase-0>..<phase-3>` collapses those to a single `D`: the Phase 1 edit is real and visible in `639f124`,
+`36e14e0`, and `d8c91fa`, but nothing survives it to show. `apps/wahidyankf-www/playwright.config.ts` carries both `[M]`
+and `[E]`, and the range reports the pair as one `R087` — a rename Git scored at 87% similarity, the 13% being the edit.
 
 No other plan document is expected in the delivery diff. `brd.md`, `prd.md`, `README.md`, and this technical set change
 only if the plan is amended, which routes through
