@@ -7,15 +7,21 @@ when_to_use: "Use when writing a rule, or when judging how strongly an existing 
 
 ## Scope
 
-This policy defines what a rule is and how strongly it binds. The [rule change trigger policy](../development/rule-change-trigger-policy.md) owns which _paths_ carry rules and what a change to one announces; this policy owns what makes a _sentence_ one. Both feed the [rules propagation](../workflows/rules/rules-propagation.md) workflow, which integrates the rule once it exists.
+This policy defines what a rule is and how strongly it binds. The
+[rule change trigger policy](../development/rule-change-trigger-policy.md) owns which _paths_ carry rules and what a
+change to one announces; this policy owns what makes a _sentence_ one. Both feed the
+[rules propagation](../workflows/rules/rules-propagation.md) workflow, which integrates the rule once it exists.
 
 ## What a Rule Is
 
-A rule is a statement that directs or constrains a decision, behavior, standard, or procedure within a stated scope. It tells a reader — person or agent — what is required, prohibited, expected, permitted, or forbidden.
+A rule is a statement that directs or constrains a decision, behavior, standard, or procedure within a stated scope. It
+tells a reader — person or agent — what is required, prohibited, expected, permitted, or forbidden.
 
-Its scope may be named outright, or carried by where it sits: a sentence in the [testing policy](../development/testing-policy.md) binds testing without repeating the word.
+Its scope may be named outright, or carried by where it sits: a sentence in the
+[testing policy](../development/testing-policy.md) binds testing without repeating the word.
 
-Rationale, examples, and explanation support a rule without being one. They become rules only when they carry their own direction, which is why an example that quietly introduces a requirement is a defect rather than an illustration.
+Rationale, examples, and explanation support a rule without being one. They become rules only when they carry their own
+direction, which is why an example that quietly introduces a requirement is a defect rather than an illustration.
 
 ## Strength
 
@@ -26,14 +32,21 @@ Strength is read from the words, never from the tone:
 - **May** states permission. It never creates an obligation, and it is not a polite "must".
 - A bare imperative — "run the check", "read the policy first" — is mandatory unless its context marks it optional.
 
-The last entry matters most here, because this repository's governance is written in the imperative throughout. A reader who treats bare imperatives as advice is reading almost every rule at the wrong strength.
+The last entry matters most here, because this repository's governance is written in the imperative throughout. A reader
+who treats bare imperatives as advice is reading almost every rule at the wrong strength.
 
-Two documents that state the same requirement at different strengths are a contradiction, not duplication: a reader following either one behaves differently, which is the test a contradiction has to meet.
+Two documents that state the same requirement at different strengths are a contradiction, not duplication: a reader
+following either one behaves differently, which is the test a contradiction has to meet.
 
 ## Canonical Source
 
-Every rule has exactly one canonical source, and that source's location fixes its level in the [precedence order](../principles/README.md#precedence). A reference at the point of use links to that source rather than restating it, so strength cannot drift between the copy and the original.
+Every rule has exactly one canonical source, and that source's location fixes its level in the
+[precedence order](../principles/README.md#precedence). A reference at the point of use links to that source rather than
+restating it, so strength cannot drift between the copy and the original.
 
 ## Verification
 
-No automated check reads a sentence for strength, so this policy is verified in review and by the [rules quality gate](../workflows/rules-quality-gate.md). Every `rules-checker` prompt states these strength keywords and the mismatched-strength rule in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
+No automated check reads a sentence for strength, so this policy is verified in review and by the
+[rules quality gate](../workflows/rules-quality-gate.md). Every `rules-checker` prompt states these strength keywords
+and the mismatched-strength rule in the imperative, because a subagent prompt has to stand alone. Change them in the
+same edit, in all three harness copies.

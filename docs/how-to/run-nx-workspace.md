@@ -24,7 +24,9 @@ npm run build
 npm run test:quick
 ```
 
-For every project, `test:quick` runs type-checking, linting, deterministic unit tests, and native coverage enforcement in that order. Coverage must reach at least 95% aggregate statements. Run a stage independently when narrowing a failure:
+For every project, `test:quick` runs type-checking, linting, deterministic unit tests, and native coverage enforcement
+in that order. Coverage must reach at least 95% aggregate statements. Run a stage independently when narrowing a
+failure:
 
 ```sh
 npm run typecheck
@@ -47,7 +49,9 @@ Integration tests are not part of the pre-push hook.
 
 ## Run the Repository Checks
 
-Run these checks after changing the agent instruction files, `AGENTS.md` and `CLAUDE.md`, Markdown files under `repo-governance/`, anything under `.agents/`, `.claude/`, `.codex/`, or `.opencode/`, or a project's `project.json` or `nx.json`:
+Run these checks after changing the agent instruction files, `AGENTS.md` and `CLAUDE.md`, Markdown files under
+`repo-governance/`, anything under `.agents/`, `.claude/`, `.codex/`, or `.opencode/`, or a project's `project.json` or
+`nx.json`:
 
 ```sh
 npm run check:governance
@@ -55,8 +59,16 @@ npm run check:harness-parity
 npm run check:markdown-links
 ```
 
-What each of these checks enforces is stated once in [workspace commands](../../repo-governance/development/workspace-commands.md#repository-checks), together with a fifth command, `npm run check:rule-change`, that this guide does not run. Which hook runs each one, and on which pushes, is listed in the same reference under [hooks](../../repo-governance/development/workspace-commands.md#hooks). The rule-change and link commands read Git-tracked files, so `git add -N <file>` a new document before trusting a local run.
+What each of these checks enforces is stated once in
+[workspace commands](../../repo-governance/development/workspace-commands.md#repository-checks), together with a fifth
+command, `npm run check:rule-change`, that this guide does not run. Which hook runs each one, and on which pushes, is
+listed in the same reference under [hooks](../../repo-governance/development/workspace-commands.md#hooks). The
+rule-change and link commands read Git-tracked files, so `git add -N <file>` a new document before trusting a local run.
 
-Before each push, Nx compares every pushed local commit with `origin/main` and runs cached `test:quick` only for affected projects under `apps/` and `libs/`. See the shared [testing policy](../../repo-governance/development/testing-policy.md) for the target rules.
+Before each push, Nx compares every pushed local commit with `origin/main` and runs cached `test:quick` only for
+affected projects under `apps/` and `libs/`. See the shared
+[testing policy](../../repo-governance/development/testing-policy.md) for the target rules.
 
-Nx discovers the projects from their `project.json` files. Inspect them with `npx nx show projects`. This repository uses only raw Nx command targets; see the [Nx workspace policy](../../repo-governance/development/nx-workspace-policy.md) before adding Nx tooling.
+Nx discovers the projects from their `project.json` files. Inspect them with `npx nx show projects`. This repository
+uses only raw Nx command targets; see the
+[Nx workspace policy](../../repo-governance/development/nx-workspace-policy.md) before adding Nx tooling.

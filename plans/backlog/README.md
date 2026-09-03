@@ -1,8 +1,11 @@
 # Backlog
 
-Full five-core-document plans that are prepared but not started. A backlog plan has passed the [plan-quality-gate](../../repo-governance/workflows/plan-quality-gate.md) workflow, so starting it needs no further authoring.
+Full five-core-document plans that are prepared but not started. A backlog plan has passed the
+[plan-quality-gate](../../repo-governance/workflows/plan-quality-gate.md) workflow, so starting it needs no further
+authoring.
 
-A plan is never executed out of this folder. Move it to [`in-progress/`](../in-progress/README.md) first, and push that move before touching anything else.
+A plan is never executed out of this folder. Move it to [`in-progress/`](../in-progress/README.md) first, and push that
+move before touching anything else.
 
 ## Current Plans
 

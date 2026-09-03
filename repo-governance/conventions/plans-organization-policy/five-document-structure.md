@@ -5,7 +5,8 @@ when_to_use: "Use when scaffolding a plan folder or deciding which file a sectio
 
 # Five-Document Structure
 
-Every plan uses five core documents. Each owns one concern, so a reader looking for the technical approach never has to skim the rationale.
+Every plan uses five core documents. Each owns one concern, so a reader looking for the technical approach never has to
+skim the rationale.
 
 ```text
 plans/<stage>/<identifier>/
@@ -23,20 +24,31 @@ plans/<stage>/<identifier>/
 
 ## What Each File Owns
 
-**`README.md`** — context, scope with affected projects named explicitly, a summary of the approach, and links to the other four. It is the first file opened and the first file `plan-checker` reads for scope.
+**`README.md`** — context, scope with affected projects named explicitly, a summary of the approach, and links to the
+other four. It is the first file opened and the first file `plan-checker` reads for scope.
 
-**`brd.md`** — the business rationale: why the work is worth doing, who it affects, what success means, business-level non-goals, and the risks. In a personal repository the "business" is the owner's own goals, so write real reasoning and label a judgment call as one. Never invent a metric to fill a heading.
+**`brd.md`** — the business rationale: why the work is worth doing, who it affects, what success means, business-level
+non-goals, and the risks. In a personal repository the "business" is the owner's own goals, so write real reasoning and
+label a judgment call as one. Never invent a metric to fill a heading.
 
-**`prd.md`** — product requirements: user stories in `As a … I want … So that …` form and acceptance criteria in Gherkin, per the [specs policy](../../development/specs-policy.md). In-scope and out-of-scope features live here.
+**`prd.md`** — product requirements: user stories in `As a … I want … So that …` form and acceptance criteria in
+Gherkin, per the [specs policy](../../development/specs-policy.md). In-scope and out-of-scope features live here.
 
-**`tech-docs/README.md`** — the technical entry point: context, architecture, selected decisions, dependencies, risks, reading order, and links to each companion. It owns no checklist. Every non-archived plan has `file-impact.md`, listing every expected path exactly as `[E]` edit, `[N]` new, `[M]` moved, or `[D]` deleted. Add the applicable companion documents named by the [specification-change](specification-changes.md), [migration](plan-migrations.md), and [UI-design](plan-ui-design.md) rules; do not create an empty companion.
+**`tech-docs/README.md`** — the technical entry point: context, architecture, selected decisions, dependencies, risks,
+reading order, and links to each companion. It owns no checklist. Every non-archived plan has `file-impact.md`, listing
+every expected path exactly as `[E]` edit, `[N]` new, `[M]` moved, or `[D]` deleted. Add the applicable companion
+documents named by the [specification-change](specification-changes.md), [migration](plan-migrations.md), and
+[UI-design](plan-ui-design.md) rules; do not create an empty companion.
 
-**`delivery.md`** — the phased, ticked checklist that execution reads and `plan-checker` verifies; see [delivery checklists](delivery-checklists.md).
+**`delivery.md`** — the phased, ticked checklist that execution reads and `plan-checker` verifies; see
+[delivery checklists](delivery-checklists.md).
 
 **`learnings.md`** — the transient running log described in [knowledge capture](knowledge-capture.md).
 
 ## No Single-File Exception
 
-An owner-requested plan uses all five core documents. Do not delete or skip a requested plan because its size appears small; ask the owner whether to amend or cancel it instead.
+An owner-requested plan uses all five core documents. Do not delete or skip a requested plan because its size appears
+small; ask the owner whether to amend or cancel it instead.
 
-Every `plan-checker` prompt names these documents and requires all five in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
+Every `plan-checker` prompt names these documents and requires all five in the imperative, because a subagent prompt has
+to stand alone. Change them in the same edit, in all three harness copies.

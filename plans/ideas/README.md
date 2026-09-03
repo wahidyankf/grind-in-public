@@ -1,8 +1,11 @@
 # Ideas
 
-Two-pager briefs, one `<slug>.md` file in the urgency-and-importance quadrant supported by dated evidence. An idea argues that a problem is worth solving; it does not design the solution. A ripe idea is promoted into a full plan in [`backlog/`](../backlog/README.md).
+Two-pager briefs, one `<slug>.md` file in the urgency-and-importance quadrant supported by dated evidence. An idea
+argues that a problem is worth solving; it does not design the solution. A ripe idea is promoted into a full plan in
+[`backlog/`](../backlog/README.md).
 
-See the [two-pager template](../../repo-governance/conventions/plans-organization-policy/two-pager-template.md) for the eight required sections.
+See the [two-pager template](../../repo-governance/conventions/plans-organization-policy/two-pager-template.md) for the
+eight required sections.
 
 ## Directory Map
 

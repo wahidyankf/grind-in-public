@@ -9,5 +9,7 @@ Rule-path automation starts the procedure in this directory; it does not wait fo
 
 ## Contents
 
-- [Rules Propagation](rules-propagation.md) — integrates a changed repository rule into one canonical, consistent source.
-- [Rules Propagation Details](rules-propagation/README.md) — inventory, idempotency, canonical-home, and conflict-resolution steps.
+- [Rules Propagation](rules-propagation.md) — integrates a changed repository rule into one canonical, consistent
+  source.
+- [Rules Propagation Details](rules-propagation/README.md) — inventory, idempotency, canonical-home, and
+  conflict-resolution steps.

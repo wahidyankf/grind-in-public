@@ -1,55 +1,192 @@
 # Learnings
 
-Written during execution, in the moment something is noticed — a surprise, a wrong assumption, a rule that failed to prevent the failure it targets. Not reconstructed afterwards. Each entry is one short paragraph: what happened, and what a future reader should do differently.
+Written during execution, in the moment something is noticed — a surprise, a wrong assumption, a rule that failed to
+prevent the failure it targets. Not reconstructed afterwards. Each entry is one short paragraph: what happened, and what
+a future reader should do differently.
 
 Phase 7 triages every entry here to exactly one durable home before this plan may be archived.
 
 ## Entries
 
-2026-09-01, Phase 0: a repository-wide rename in the plan reached a path it should not have. The owner renamed the destination E2E project from `wahidyankf-www-fe-e2e` to `wahidyankf-www-e2e`, and the sweep that applied it also rewrote the source-side pathspec in the Phase 0 cleanliness check, which addresses `ose-public` where the old name is still correct. The check then passed against a path that does not exist. Nothing caught it, in six strict `plan-checker` cycles or in execution, because `git status --porcelain` prints nothing for a pathspec matching no tracked file and exits 0 — an emptiness assertion is satisfied most easily by describing nothing at all. Two things to carry forward: a rename that spans two repositories is not a single sweep, because the same name is right on one side and wrong on the other; and an acceptance criterion of the form "the output is empty" needs a companion that proves the command looked at something, which here is `git ls-files --error-unmatch` over the same path list.
+2026-09-01, Phase 0: a repository-wide rename in the plan reached a path it should not have. The owner renamed the
+destination E2E project from `wahidyankf-www-fe-e2e` to `wahidyankf-www-e2e`, and the sweep that applied it also rewrote
+the source-side pathspec in the Phase 0 cleanliness check, which addresses `ose-public` where the old name is still
+correct. The check then passed against a path that does not exist. Nothing caught it, in six strict `plan-checker`
+cycles or in execution, because `git status --porcelain` prints nothing for a pathspec matching no tracked file and
+exits 0 — an emptiness assertion is satisfied most easily by describing nothing at all. Two things to carry forward: a
+rename that spans two repositories is not a single sweep, because the same name is right on one side and wrong on the
+other; and an acceptance criterion of the form "the output is empty" needs a companion that proves the command looked at
+something, which here is `git ls-files --error-unmatch` over the same path list.
 
-2026-09-01, Phase 1: an acceptance criterion of the form "`npx <tool> --version` prints the pinned version" is not harness-independent. This session runs behind a command proxy that rewrites shell invocations, and its `tsc` wrapper answered `npx tsc --version` with `TypeScript: No errors found` — a summary of a compilation that never ran, with the version request silently dropped. The pin was correct; the check was measuring the wrapper. A version assertion should read the fact rather than a tool's own reporting of it, so `node -p "require('typescript/package.json').version"` is the durable form and `npx tsc --version` is the convenient one. The general shape worth carrying: when a checklist accepts on a command's human-readable output, it has taken a dependency on every layer between the plan and the binary.
+2026-09-01, Phase 1: an acceptance criterion of the form "`npx <tool> --version` prints the pinned version" is not
+harness-independent. This session runs behind a command proxy that rewrites shell invocations, and its `tsc` wrapper
+answered `npx tsc --version` with `TypeScript: No errors found` — a summary of a compilation that never ran, with the
+version request silently dropped. The pin was correct; the check was measuring the wrapper. A version assertion should
+read the fact rather than a tool's own reporting of it, so `node -p "require('typescript/package.json').version"` is the
+durable form and `npx tsc --version` is the convenient one. The general shape worth carrying: when a checklist accepts
+on a command's human-readable output, it has taken a dependency on every layer between the plan and the binary.
 
-2026-09-01, Phase 1: copying a dependency pin from the source repository copies its vulnerabilities too, and "it installed" is not the check that catches this. The plan told the executor to take `ose-public`'s `tsx@4.21.0` unless `npm install` reported it unresolvable. It resolved, so the escape clause never fired, and the phase gate two items later failed on `npm audit --audit-level=low`: `tsx@4.21.0` pulls `esbuild@0.27.7`, inside the range of GHSA-g7r4-m6w7-qqqr. Bumping to `tsx@4.23.13` resolved `esbuild@0.28.2` and cleared it. Two things worth carrying: a pin inherited from another repository should be audited at the moment it is written into the manifest rather than at the end of the phase, since the gate finds it after four more items have been built on top; and the escape clause on an inherited pin should name the audit, not only resolution, because a vulnerable version resolves perfectly well.
+2026-09-01, Phase 1: copying a dependency pin from the source repository copies its vulnerabilities too, and "it
+installed" is not the check that catches this. The plan told the executor to take `ose-public`'s `tsx@4.21.0` unless
+`npm install` reported it unresolvable. It resolved, so the escape clause never fired, and the phase gate two items
+later failed on `npm audit --audit-level=low`: `tsx@4.21.0` pulls `esbuild@0.27.7`, inside the range of
+GHSA-g7r4-m6w7-qqqr. Bumping to `tsx@4.23.13` resolved `esbuild@0.28.2` and cleared it. Two things worth carrying: a pin
+inherited from another repository should be audited at the moment it is written into the manifest rather than at the end
+of the phase, since the gate finds it after four more items have been built on top; and the escape clause on an
+inherited pin should name the audit, not only resolution, because a vulnerable version resolves perfectly well.
 
-2026-09-01, Phase 3: the `tsx` lesson from Phase 1 paid for itself one phase later, and bigger. Installing the ported application manifest surfaced three high-severity advisories against `next@16.2.6`, the version `ose-public` pins — reaching `next` itself plus `postcss` and `sharp` beneath it. Because the earlier learning said to audit an inherited pin at the moment it is written, the audit ran at the install item rather than at the phase gate, and the bump to `16.3.3` cost one command instead of unwinding work built on top of it. Generalizing past both cases: a cross-repository port inherits the source's dependency freshness along with its code, and the source's own gate proves nothing about the receiving repository's, which may audit at a stricter level or simply run later than the source's last install.
+2026-09-01, Phase 3: the `tsx` lesson from Phase 1 paid for itself one phase later, and bigger. Installing the ported
+application manifest surfaced three high-severity advisories against `next@16.2.6`, the version `ose-public` pins —
+reaching `next` itself plus `postcss` and `sharp` beneath it. Because the earlier learning said to audit an inherited
+pin at the moment it is written, the audit ran at the install item rather than at the phase gate, and the bump to
+`16.3.3` cost one command instead of unwinding work built on top of it. Generalizing past both cases: a cross-repository
+port inherits the source's dependency freshness along with its code, and the source's own gate proves nothing about the
+receiving repository's, which may audit at a stricter level or simply run later than the source's last install.
 
-2026-09-01, Phase 3: `biome check --write --unsafe` deleted working code, and the gate it was run to satisfy would have gone green over the loss. It cleared 23 of 58 findings, and two of those were `noConsole` — so it removed the single `console.log` from `generate-cv-pdf.ts`, which reports the file it wrote, and the single one from `validate-static-routes.mjs`, which is that validator's only statement of what it checked. Both scripts would still have exited 0 while telling the operator nothing; a validator that passes silently cannot be distinguished from one that examined nothing. The findings were real in the sense that the rule fired correctly, and wrong in the sense that a CLI script writing to stdout is the behaviour, not a defect. Restored both and suppressed the rule at each line with the reason written beside it. What to carry: an unsafe autofix is a bulk edit whose diff nobody read, and it is least safe exactly where a rule's default assumption — here, "console output is debugging residue" — does not hold for the file it is being applied to. Check what an autofix removed, not only whether the count went down. In this repository the finding was doubly easy to miss, because the ported tree was untracked at the time, so `git diff` showed nothing at all.
+2026-09-01, Phase 3: `biome check --write --unsafe` deleted working code, and the gate it was run to satisfy would have
+gone green over the loss. It cleared 23 of 58 findings, and two of those were `noConsole` — so it removed the single
+`console.log` from `generate-cv-pdf.ts`, which reports the file it wrote, and the single one from
+`validate-static-routes.mjs`, which is that validator's only statement of what it checked. Both scripts would still have
+exited 0 while telling the operator nothing; a validator that passes silently cannot be distinguished from one that
+examined nothing. The findings were real in the sense that the rule fired correctly, and wrong in the sense that a CLI
+script writing to stdout is the behaviour, not a defect. Restored both and suppressed the rule at each line with the
+reason written beside it. What to carry: an unsafe autofix is a bulk edit whose diff nobody read, and it is least safe
+exactly where a rule's default assumption — here, "console output is debugging residue" — does not hold for the file it
+is being applied to. Check what an autofix removed, not only whether the count went down. In this repository the finding
+was doubly easy to miss, because the ported tree was untracked at the time, so `git diff` showed nothing at all.
 
-2026-09-01, Phase 3: a fallback clause fired on the wrong evidence, and reading it literally is what stopped it. `lint:commentary` failed with 39 `Parsing error: Unexpected token {` and `Unexpected token <` across 25 files. The plan carries a conditional item for exactly this shape — "if ESLint or `eslint-plugin-jsdoc` cannot run against these sources, drop `lint:commentary` from the aggregate" — and the failure looked like its trigger. It was not. ESLint had no parser able to read TypeScript or JSX, because installing `eslint` and `eslint-plugin-jsdoc` installs neither; a linter ships a rule engine, and the reader for the language is a separate package. One `languageOptions.parser` line made the check work and it has reported real findings since. The trigger said "a failure attributable to ESLint or the plugin", and an incomplete configuration is attributable to the plan. What to carry: a fallback ladder is a hazard as well as a safety net, because taking a rung is always cheaper than diagnosing the rung below, and a plan that names the fallback but not the tool's own prerequisites biases the executor toward dropping a check it could have configured in a line. When a conditional item's trigger is about to fire, read its wording against the actual cause rather than against the symptom that resembles it.
+2026-09-01, Phase 3: a fallback clause fired on the wrong evidence, and reading it literally is what stopped it.
+`lint:commentary` failed with 39 `Parsing error: Unexpected token {` and `Unexpected token <` across 25 files. The plan
+carries a conditional item for exactly this shape — "if ESLint or `eslint-plugin-jsdoc` cannot run against these
+sources, drop `lint:commentary` from the aggregate" — and the failure looked like its trigger. It was not. ESLint had no
+parser able to read TypeScript or JSX, because installing `eslint` and `eslint-plugin-jsdoc` installs neither; a linter
+ships a rule engine, and the reader for the language is a separate package. One `languageOptions.parser` line made the
+check work and it has reported real findings since. The trigger said "a failure attributable to ESLint or the plugin",
+and an incomplete configuration is attributable to the plan. What to carry: a fallback ladder is a hazard as well as a
+safety net, because taking a rung is always cheaper than diagnosing the rung below, and a plan that names the fallback
+but not the tool's own prerequisites biases the executor toward dropping a check it could have configured in a line.
+When a conditional item's trigger is about to fire, read its wording against the actual cause rather than against the
+symptom that resembles it.
 
-2026-09-01, Phase 3: a correct lint fix broke a behavior contract, because it was applied to the attribute beside the one the rule reported. Biome's `noArrayIndexKey` fired on `key={index}` in `personal-projects-content.tsx`, and the element carried `id={`project-${index}`}` on the adjacent line. Both were changed to `project.title` in one edit. The `key` change was right — an index reused as identity makes React carry the wrong card's state across a search filter — and the `id` change was silently wrong, because the ported corpus addresses cards positionally as `project-0`, `project-1`, and so on. Nothing caught it for the rest of the phase: `typecheck`, `build`, and both lint targets were green, and they would be, since a template literal reading a different property is well-typed and idiomatic. The behavior suite caught it on its first run, two scenarios failing on `expected null not to be null`. What to carry: `key` and `id` look alike and are not alike — a key is React's internal reconciliation hint and changing it is unobservable, while an id is part of the DOM contract a test or a stylesheet may address — so a rule that names one has said nothing about the other. More generally, when a linter reports one attribute, fix that attribute; the adjacent expression that happens to be identical is a separate decision and deserves its own reason. Same shape as the unsafe-autofix entry above, at a smaller scale: the loss was in what the edit reached beyond what the rule asked for.
+2026-09-01, Phase 3: a correct lint fix broke a behavior contract, because it was applied to the attribute beside the
+one the rule reported. Biome's `noArrayIndexKey` fired on `key={index}` in `personal-projects-content.tsx`, and the
+element carried `id={`project-${index}`}` on the adjacent line. Both were changed to `project.title` in one edit. The
+`key` change was right — an index reused as identity makes React carry the wrong card's state across a search filter —
+and the `id` change was silently wrong, because the ported corpus addresses cards positionally as `project-0`,
+`project-1`, and so on. Nothing caught it for the rest of the phase: `typecheck`, `build`, and both lint targets were
+green, and they would be, since a template literal reading a different property is well-typed and idiomatic. The
+behavior suite caught it on its first run, two scenarios failing on `expected null not to be null`. What to carry: `key`
+and `id` look alike and are not alike — a key is React's internal reconciliation hint and changing it is unobservable,
+while an id is part of the DOM contract a test or a stylesheet may address — so a rule that names one has said nothing
+about the other. More generally, when a linter reports one attribute, fix that attribute; the adjacent expression that
+happens to be identical is a separate decision and deserves its own reason. Same shape as the unsafe-autofix entry
+above, at a smaller scale: the loss was in what the edit reached beyond what the rule asked for.
 
-2026-09-01, Phase 3: a config file that documents one inheritance gap does not protect you from the same gap one line away. `apps/wahidyankf-www/vitest.config.ts` carries a comment explaining that Vitest projects do not inherit plugins from the root config, which is why all three projects spell out the same plugin list. When a new test made the unit suite intermittently red on a five-second timeout, the fix went to the root `test` block — and two more runs failed before it was checked rather than assumed. Projects do not inherit `testTimeout` either, or any other `test` option; the root block configures the root, and a `projects` array replaces rather than extends. The value now sits in a named constant referenced by each project, which is the shape the plugin list already had. What to carry: when a configuration format has surprised you once with replace-not-extend semantics, treat that as the format's rule and not as a fact about the one key that surprised you. Same shape as Nx's `inputs` arrays replacing the defaults unless `"default"` is listed first. The second lesson is about the flake itself: it was green in isolation on six consecutive runs and red roughly one run in four under the full parallel suite, because Vitest measures a test's timeout from when the test starts rather than from when its worker is ready, so the first test in a file spends its budget on that file's environment setup and module import before reaching its own work. A test that passes alone and fails in the suite is not evidence that the test is fine.
+2026-09-01, Phase 3: a config file that documents one inheritance gap does not protect you from the same gap one line
+away. `apps/wahidyankf-www/vitest.config.ts` carries a comment explaining that Vitest projects do not inherit plugins
+from the root config, which is why all three projects spell out the same plugin list. When a new test made the unit
+suite intermittently red on a five-second timeout, the fix went to the root `test` block — and two more runs failed
+before it was checked rather than assumed. Projects do not inherit `testTimeout` either, or any other `test` option; the
+root block configures the root, and a `projects` array replaces rather than extends. The value now sits in a named
+constant referenced by each project, which is the shape the plugin list already had. What to carry: when a configuration
+format has surprised you once with replace-not-extend semantics, treat that as the format's rule and not as a fact about
+the one key that surprised you. Same shape as Nx's `inputs` arrays replacing the defaults unless `"default"` is listed
+first. The second lesson is about the flake itself: it was green in isolation on six consecutive runs and red roughly
+one run in four under the full parallel suite, because Vitest measures a test's timeout from when the test starts rather
+than from when its worker is ready, so the first test in a file spends its budget on that file's environment setup and
+module import before reaching its own work. A test that passes alone and fails in the suite is not evidence that the
+test is fine.
 
-2026-09-01, Phase 3: a repository-wide sweep for a retired technology hit the owner's own CV, and the right answer was to change the sweep rather than the data. The Close the Migration check `rg -n 'rhino-cli|dotnet|\.fsproj|F#'` was written to prove no .NET toolchain reference survived the port. It found two, both in `personal-projects/core/projects.ts`, listing `"F#"` among the languages the OSE and OrganicLever projects are written in — true statements about those projects, in the file that is now the repository's single authoritative CV record. Deleting them would have turned a green acceptance into a falsified CV. The check was split instead: the three tokens the acceptance criterion actually names find nothing, and `F#` finds nothing once that one data file is excluded. The plan had already met this exact shape once and handled it, in the sibling sweep for the old organisation name, whose pattern was deliberately written as the specifier form because a bare-token search would hit owner prose it was not allowed to edit. That reasoning was recorded on one item and not carried to the item beside it. Two things to carry: a sweep for a technology's name will hit prose that legitimately mentions that technology, and the more authoritative the data the more likely it says something true; and when a plan writes a careful exception for one pattern, the exception is usually about the class of pattern, so the sibling deserves the same read before it is run rather than after it fails.
+2026-09-01, Phase 3: a repository-wide sweep for a retired technology hit the owner's own CV, and the right answer was
+to change the sweep rather than the data. The Close the Migration check `rg -n 'rhino-cli|dotnet|\.fsproj|F#'` was
+written to prove no .NET toolchain reference survived the port. It found two, both in
+`personal-projects/core/projects.ts`, listing `"F#"` among the languages the OSE and OrganicLever projects are written
+in — true statements about those projects, in the file that is now the repository's single authoritative CV record.
+Deleting them would have turned a green acceptance into a falsified CV. The check was split instead: the three tokens
+the acceptance criterion actually names find nothing, and `F#` finds nothing once that one data file is excluded. The
+plan had already met this exact shape once and handled it, in the sibling sweep for the old organisation name, whose
+pattern was deliberately written as the specifier form because a bare-token search would hit owner prose it was not
+allowed to edit. That reasoning was recorded on one item and not carried to the item beside it. Two things to carry: a
+sweep for a technology's name will hit prose that legitimately mentions that technology, and the more authoritative the
+data the more likely it says something true; and when a plan writes a careful exception for one pattern, the exception
+is usually about the class of pattern, so the sibling deserves the same read before it is run rather than after it
+fails.
 
-2026-09-01, Phase 5: a version pin only pins what declares it, and one open range in a transitive manifest put two copies of one library in the graph. This plan has an explicit item pinning every caret range in each manifest it ports, and it fired correctly. It could not reach `@axe-core/playwright`'s own `"playwright-core": ">= 1.0.0"`, because that range lives in a published dependency's manifest rather than in anything this repository writes. npm resolved it to the newest release and hoisted it beside the older copy that `@playwright/test` pins nested, so `AxeBuilder({ page })` and the step file each held a structurally different `Page` and `tsc` reported `TS2739: Type 'Page' is missing the following properties from type 'Page'`. The tempting fix is a cast at the call site, which would have silenced a type error that was reporting a real fact about the installed tree. The next attempt was better and still wrong: raising `@playwright/test` deduped the graph and fixed the types, and then `playwright-bdd@8.5.1` failed at runtime destructuring an internal Playwright export that the newer version had moved — the types agreed while the code did not. Raising both to a compatible pair fixed it and, unplanned, cleared five moderate advisories the older `playwright-bdd` carried through `@cucumber/*` into `uuid`. Three things to carry: an error naming the same type on both sides of a mismatch means two copies, not a bad annotation; a dedupe that satisfies the type checker has not been shown to satisfy the runtime, and only running the thing shows that; and a library and its ecosystem plugin are one decision, because a plugin that reaches into its host's internals is coupled to a version the host's own range does not express.
+2026-09-01, Phase 5: a version pin only pins what declares it, and one open range in a transitive manifest put two
+copies of one library in the graph. This plan has an explicit item pinning every caret range in each manifest it ports,
+and it fired correctly. It could not reach `@axe-core/playwright`'s own `"playwright-core": ">= 1.0.0"`, because that
+range lives in a published dependency's manifest rather than in anything this repository writes. npm resolved it to the
+newest release and hoisted it beside the older copy that `@playwright/test` pins nested, so `AxeBuilder({ page })` and
+the step file each held a structurally different `Page` and `tsc` reported
+`TS2739: Type 'Page' is missing the following properties from type 'Page'`. The tempting fix is a cast at the call site,
+which would have silenced a type error that was reporting a real fact about the installed tree. The next attempt was
+better and still wrong: raising `@playwright/test` deduped the graph and fixed the types, and then
+`playwright-bdd@8.5.1` failed at runtime destructuring an internal Playwright export that the newer version had moved —
+the types agreed while the code did not. Raising both to a compatible pair fixed it and, unplanned, cleared five
+moderate advisories the older `playwright-bdd` carried through `@cucumber/*` into `uuid`. Three things to carry: an
+error naming the same type on both sides of a mismatch means two copies, not a bad annotation; a dedupe that satisfies
+the type checker has not been shown to satisfy the runtime, and only running the thing shows that; and a library and its
+ecosystem plugin are one decision, because a plugin that reaches into its host's internals is coupled to a version the
+host's own range does not express.
 
-2026-09-01, Phase 5: a command that reads a number was defeated by the number being coloured. The `specs:e2e:baseline` target compares a recorded count against a freshly generated one, reading the recorded value with `node -p "require('./e2e-skip-baseline.json').skippedScenarios"`. It failed with the message `e2e skip baseline moved: expected 34 fixme scenarios, found 34` — the two values printed identically and compared unequal, because `node -p` renders its result through `util.inspect`, which colourises a number when stdout is a TTY, and Nx runs a target's command under a pty. The expected value carried ANSI codes; the found value, built from `grep | wc -l`, did not. `NO_COLOR=1` did not suppress it. Reading the value with `node -e` and `process.stdout.write` did, and `od -c` under `script` is what settled it: `033 [ 3 3 m 3 4 033 [ 3 9 m` against `3 4`. What to carry: `node -p` is a debugging convenience and not a way to emit a value into a shell variable, because its job is to pretty-print for a human. When a comparison fails on two values that look the same, compare their bytes before rereading the logic. And a self-contradicting error message — expected X, found X — is a strong signal that the defect is in how a value was obtained rather than in the value.
+2026-09-01, Phase 5: a command that reads a number was defeated by the number being coloured. The `specs:e2e:baseline`
+target compares a recorded count against a freshly generated one, reading the recorded value with
+`node -p "require('./e2e-skip-baseline.json').skippedScenarios"`. It failed with the message
+`e2e skip baseline moved: expected 34 fixme scenarios, found 34` — the two values printed identically and compared
+unequal, because `node -p` renders its result through `util.inspect`, which colourises a number when stdout is a TTY,
+and Nx runs a target's command under a pty. The expected value carried ANSI codes; the found value, built from
+`grep | wc -l`, did not. `NO_COLOR=1` did not suppress it. Reading the value with `node -e` and `process.stdout.write`
+did, and `od -c` under `script` is what settled it: `033 [ 3 3 m 3 4 033 [ 3 9 m` against `3 4`. What to carry:
+`node -p` is a debugging convenience and not a way to emit a value into a shell variable, because its job is to
+pretty-print for a human. When a comparison fails on two values that look the same, compare their bytes before rereading
+the logic. And a self-contradicting error message — expected X, found X — is a strong signal that the defect is in how a
+value was obtained rather than in the value.
 
-2026-09-01, Phase 5: two bindings of the same scenario disagreed, and the older one had been wrong in the source repository all along. The corpus scenario `Interactive controls expose accessible names` says only that every navigation link exposes link text or an aria-label; it names no label. The E2E step file asserted `["Home", "CV", "Personal Projects"]` while the application renders `Independent Projects` for the `/personal-projects` route, and the application's own Vitest binding of that same scenario already asserted the corrected three. Checking `ose-public` at the recorded source commit showed its `navigation.tsx` renders `Independent Projects` too, so the step file had been asserting a label its own application never rendered before this port existed. The port did not break it; the port ran it. Two things to carry: when a scenario states a property and a binding hardcodes a list, the list is the binding's own invention and has to track the code, so it is the first thing to doubt when that scenario fails. And a suite whose result nobody has seen recently is not known to be green — this one needed a container to run, which is enough friction to explain years of an unnoticed failure, and the first thing a port does is remove that friction.
+2026-09-01, Phase 5: two bindings of the same scenario disagreed, and the older one had been wrong in the source
+repository all along. The corpus scenario `Interactive controls expose accessible names` says only that every navigation
+link exposes link text or an aria-label; it names no label. The E2E step file asserted
+`["Home", "CV", "Personal Projects"]` while the application renders `Independent Projects` for the `/personal-projects`
+route, and the application's own Vitest binding of that same scenario already asserted the corrected three. Checking
+`ose-public` at the recorded source commit showed its `navigation.tsx` renders `Independent Projects` too, so the step
+file had been asserting a label its own application never rendered before this port existed. The port did not break it;
+the port ran it. Two things to carry: when a scenario states a property and a binding hardcodes a list, the list is the
+binding's own invention and has to track the code, so it is the first thing to doubt when that scenario fails. And a
+suite whose result nobody has seen recently is not known to be green — this one needed a container to run, which is
+enough friction to explain years of an unnoticed failure, and the first thing a port does is remove that friction.
 
 ## Triage, 2026-09-01
 
-Every entry above is routed to exactly one durable home. Twelve entries reach five governance documents plus the three mirrored `plan-checker` prompts, rather than twelve homes, because several entries are the same lesson met in different places and a rule stated once holds better than the same rule stated three times. The table has thirteen rows for twelve entries: the Phase 0 entry is two lessons in one paragraph and its halves go to different places, one routed and one discarded. Two rows are discards, each with a reason; nothing is left untriaged.
+Every entry above is routed to exactly one durable home. Twelve entries reach five governance documents plus the three
+mirrored `plan-checker` prompts, rather than twelve homes, because several entries are the same lesson met in different
+places and a rule stated once holds better than the same rule stated three times. The table has thirteen rows for twelve
+entries: the Phase 0 entry is two lessons in one paragraph and its halves go to different places, one routed and one
+discarded. Two rows are discards, each with a reason; nothing is left untriaged.
 
-| Entry | Durable home |
-| --- | --- |
-| Phase 0, emptiness assertion that passed vacuously | [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md) — the acceptance-criterion bullet now requires a criterion satisfied by finding nothing to pair that with a check proving the command looked at something real |
-| Phase 0, a rename spanning two repositories | Discarded: the specific hazard is a two-repository migration, and this repository holds one such plan, now finished |
-| Phase 1, `npx <tool> --version` is not harness-independent | Same bullet — a criterion reading a tool's own output must name a command whose output no shell wrapper rewrites |
-| Phase 1, a copied pin carries its vulnerabilities | [dependency selection](../../../repo-governance/development/dependency-selection-policy.md), new `Inherited and Transitive Pins` section |
-| Phase 3, the `tsx` lesson repeating at larger scale | Same section — it is the same rule, met again, so it earns no second statement |
-| Phase 5, a pin binds only the manifest declaring it | Same section — the transitive-range paragraph, including that a library and a plugin reaching into its internals are one decision |
-| Phase 3, `biome check --write --unsafe` deleted working code | [code style](../../../repo-governance/development/code-style-policy.md), new `Applying a Linter's Fixes` section |
-| Phase 3, a lint fix applied to the adjacent attribute | Same section — fix the construct the rule named |
-| Phase 3, a fallback clause fired on the wrong evidence | [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md) — a dormant item's trigger is read against its wording rather than against the presence of a failure |
-| Phase 3, a sweep that hit the owner's own CV | Discarded as a separate rule: the acceptance-criterion bullet above already covers what a plan author must do, and adding "a token search matches prose containing that token" states the obvious in a governed document |
-| Phase 3, replace-not-extend configuration semantics | [testing tooling](../../../repo-governance/development/testing-policy/tooling.md), new `Configuration Semantics` section, stated of the format rather than of Vitest |
-| Phase 5, `node -p` colourises its output | Same section — read a JSON value with a command that writes it, not one that pretty-prints it |
-| Phase 5, two bindings of one scenario disagreed | [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), new `Bindings and What They May Assume` section |
+| Entry                                                        | Durable home                                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Phase 0, emptiness assertion that passed vacuously           | [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md) — the acceptance-criterion bullet now requires a criterion satisfied by finding nothing to pair that with a check proving the command looked at something real |
+| Phase 0, a rename spanning two repositories                  | Discarded: the specific hazard is a two-repository migration, and this repository holds one such plan, now finished                                                                                                                                                         |
+| Phase 1, `npx <tool> --version` is not harness-independent   | Same bullet — a criterion reading a tool's own output must name a command whose output no shell wrapper rewrites                                                                                                                                                            |
+| Phase 1, a copied pin carries its vulnerabilities            | [dependency selection](../../../repo-governance/development/dependency-selection-policy.md), new `Inherited and Transitive Pins` section                                                                                                                                    |
+| Phase 3, the `tsx` lesson repeating at larger scale          | Same section — it is the same rule, met again, so it earns no second statement                                                                                                                                                                                              |
+| Phase 5, a pin binds only the manifest declaring it          | Same section — the transitive-range paragraph, including that a library and a plugin reaching into its internals are one decision                                                                                                                                           |
+| Phase 3, `biome check --write --unsafe` deleted working code | [code style](../../../repo-governance/development/code-style-policy.md), new `Applying a Linter's Fixes` section                                                                                                                                                            |
+| Phase 3, a lint fix applied to the adjacent attribute        | Same section — fix the construct the rule named                                                                                                                                                                                                                             |
+| Phase 3, a fallback clause fired on the wrong evidence       | [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md) — a dormant item's trigger is read against its wording rather than against the presence of a failure                                                           |
+| Phase 3, a sweep that hit the owner's own CV                 | Discarded as a separate rule: the acceptance-criterion bullet above already covers what a plan author must do, and adding "a token search matches prose containing that token" states the obvious in a governed document                                                    |
+| Phase 3, replace-not-extend configuration semantics          | [testing tooling](../../../repo-governance/development/testing-policy/tooling.md), new `Configuration Semantics` section, stated of the format rather than of Vitest                                                                                                        |
+| Phase 5, `node -p` colourises its output                     | Same section — read a JSON value with a command that writes it, not one that pretty-prints it                                                                                                                                                                               |
+| Phase 5, two bindings of one scenario disagreed              | [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), new `Bindings and What They May Assume` section                                                                                                                                   |
 
-Every routed entry was checked against both bars the [knowledge capture](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) rules set. **Secrets:** none of the twelve names a credential, a token, or an environment value; the only environment variables any of them names are `APP_ENV`, `NO_COLOR`, and `WAHIDYANKF_WWW_PORT`, and each appears as a name whose behavior is the lesson, never with a value. **Generalizable:** each routed rule is stated without reference to this migration, this application, or `ose-public` — which is why the `tsx`, Phase 3, and Phase 5 pin entries collapse into one rule about inherited and transitive pins rather than three about three packages. The two discarded halves are recorded above with their reason rather than deleted silently.
+Every routed entry was checked against both bars the
+[knowledge capture](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) rules set.
+**Secrets:** none of the twelve names a credential, a token, or an environment value; the only environment variables any
+of them names are `APP_ENV`, `NO_COLOR`, and `WAHIDYANKF_WWW_PORT`, and each appears as a name whose behavior is the
+lesson, never with a value. **Generalizable:** each routed rule is stated without reference to this migration, this
+application, or `ose-public` — which is why the `tsx`, Phase 3, and Phase 5 pin entries collapse into one rule about
+inherited and transitive pins rather than three about three packages. The two discarded halves are recorded above with
+their reason rather than deleted silently.
 
-The rule added to `delivery-checklists.md` is mirrored into all three `plan-checker` prompts in the same change, as that document's own last line requires. That mirroring is not incidental here: the vacuous-pass defect this plan hit in Phase 0 survived seven strict `plan-checker` cycles, and the prompt is what would have caught it.
+The rule added to `delivery-checklists.md` is mirrored into all three `plan-checker` prompts in the same change, as that
+document's own last line requires. That mirroring is not incidental here: the vacuous-pass defect this plan hit in Phase
+0 survived seven strict `plan-checker` cycles, and the prompt is what would have caught it.

@@ -1,6 +1,7 @@
 # Badak Mini Architecture
 
-This is the canonical as-built C4 model for Badak Mini. Maintain it under the repository [architecture specification policy](../../../repo-governance/development/architecture-specifications.md).
+This is the canonical as-built C4 model for Badak Mini. Maintain it under the repository
+[architecture specification policy](../../../repo-governance/development/architecture-specifications.md).
 
 ## System Context
 
@@ -20,7 +21,8 @@ This is the canonical as-built C4 model for Badak Mini. Maintain it under the re
                                                          +------------------+
 ```
 
-Badak Mini is a local, network-free governance tool. Contributors invoke it directly, while Nx targets and Git hooks run the same public command. It reads the repository tree and Git index but does not modify either.
+Badak Mini is a local, network-free governance tool. Contributors invoke it directly, while Nx targets and Git hooks run
+the same public command. It reads the repository tree and Git index but does not modify either.
 
 ## Container View
 
@@ -39,7 +41,8 @@ Badak Mini is a local, network-free governance tool. Contributors invoke it dire
                                                                       +---------------------------+
 ```
 
-The compiled Go process is the only Badak Mini runtime container. The operating system and Git process form its material local boundary; there is no network service, database, or application-owned persistent store.
+The compiled Go process is the only Badak Mini runtime container. The operating system and Git process form its material
+local boundary; there is no network service, database, or application-owned persistent store.
 
 ## Component View
 
@@ -74,15 +77,21 @@ The compiled Go process is the only Badak Mini runtime container. The operating 
                                        +-------------------------+
 ```
 
-`cmd/badak-mini` owns production filesystem, Git-process, and stream adapters. `internal/cli` owns Cobra command parsing, dispatch, output, and exit codes; its injected runtime lets unit tests replace the host boundary. The validation packages own their focused inspections.
+`cmd/badak-mini` owns production filesystem, Git-process, and stream adapters. `internal/cli` owns Cobra command
+parsing, dispatch, output, and exit codes; its injected runtime lets unit tests replace the host boundary. The
+validation packages own their focused inspections.
 
 ## Architectural Constraints
 
 - The CLI is local and network-free, and its validators do not mutate inspected repositories.
-- Unit tests replace filesystem, Git, and stream boundaries; integration tests use isolated local Git and filesystem fixtures; process E2E tests observe only the built command's public contract.
-- Text output is the human interface. Exit code `0` means success, `1` means a validation or operational failure, and `2` means invalid invocation.
-- Governance documents remain authoritative. Badak Mini reports structural problems and announces required workflows, but it does not decide whether a workflow has been followed.
+- Unit tests replace filesystem, Git, and stream boundaries; integration tests use isolated local Git and filesystem
+  fixtures; process E2E tests observe only the built command's public contract.
+- Text output is the human interface. Exit code `0` means success, `1` means a validation or operational failure, and
+  `2` means invalid invocation.
+- Governance documents remain authoritative. Badak Mini reports structural problems and announces required workflows,
+  but it does not decide whether a workflow has been followed.
 
 ## Behavior Traceability
 
-Executable behavior is specified in [behavior/](behavior/). The unit, local-integration, and process E2E adapters all consume that same recursive corpus.
+Executable behavior is specified in [behavior/](behavior/). The unit, local-integration, and process E2E adapters all
+consume that same recursive corpus.

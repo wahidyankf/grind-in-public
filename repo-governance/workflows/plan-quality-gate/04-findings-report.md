@@ -18,22 +18,29 @@ Append to the plan's `README.md`, under a `## Quality Gate` heading:
 - 2026-08-19 — strict — 7 cycles — partial (2 MEDIUM open, see below)
 ```
 
-State the date, the level, the cycles run, and the status. Keep every run: the history shows whether a plan needed one pass or five, which is the clearest signal that its approach was unclear.
+State the date, the level, the cycles run, and the status. Keep every run: the history shows whether a plan needed one
+pass or five, which is the clearest signal that its approach was unclear.
 
 ## Statuses
 
 **pass** — two consecutive clean runs at the chosen level.
 
-**settled** — the loop ended with nothing open, but the last fixes were applied after the final check, so no cycle has read them. The plan is executed as a passing plan is: nothing is open, and the risk is one unread pass rather than a known defect. Its next gate run starts by verifying those fixes, because a fix no checker has seen is a claim rather than a result.
+**settled** — the loop ended with nothing open, but the last fixes were applied after the final check, so no cycle has
+read them. The plan is executed as a passing plan is: nothing is open, and the risk is one unread pass rather than a
+known defect. Its next gate run starts by verifying those fixes, because a fix no checker has seen is a claim rather
+than a result.
 
-**partial** — the loop ended at seven cycles with findings open. List each open finding with its severity and location. A partial plan may still be executed if the owner accepts the findings, and that acceptance is written down.
+**partial** — the loop ended at seven cycles with findings open. List each open finding with its severity and location.
+A partial plan may still be executed if the owner accepts the findings, and that acceptance is written down.
 
 **fail** — the checker could not run, or a CRITICAL finding remains. A failing plan is not executed.
 
 ## Open Findings
 
-Open findings live in the plan, not in a separate report file. A finding recorded somewhere the executor will not look has not been recorded.
+Open findings live in the plan, not in a separate report file. A finding recorded somewhere the executor will not look
+has not been recorded.
 
 ## What Not to Record
 
-Do not record fixed findings individually. The history of what was wrong in a draft is noise once it is right, and it buries the open findings that actually need attention.
+Do not record fixed findings individually. The history of what was wrong in a draft is noise once it is right, and it
+buries the open findings that actually need attention.

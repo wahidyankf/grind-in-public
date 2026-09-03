@@ -5,10 +5,17 @@ when_to_use: "Use before adding code, scripts, commands, tooling, automation, or
 
 # Maintenance Value
 
-Every maintained line and tool surface is a liability. Before adding code, scripts, commands, tooling, automation, or configuration, prove that a recurring concrete benefit exceeds its implementation, review, execution, documentation, debugging, upgrade, and removal costs. Also prove that an existing mechanism or a clear manual step cannot satisfy the need. If either case is unproven, do not add the surface.
+Every maintained line and tool surface is a liability. Before adding code, scripts, commands, tooling, automation, or
+configuration, prove that a recurring concrete benefit exceeds its implementation, review, execution, documentation,
+debugging, upgrade, and removal costs. Also prove that an existing mechanism or a clear manual step cannot satisfy the
+need. If either case is unproven, do not add the surface.
 
-Prefer deleting, simplifying, or reusing over creating. Do not automate a rare action merely because it can be automated, duplicate an executable rule as metadata, or create a repository command for a check whose false confidence or upkeep costs more than running the underlying standard tool directly.
+Prefer deleting, simplifying, or reusing over creating. Do not automate a rare action merely because it can be
+automated, duplicate an executable rule as metadata, or create a repository command for a check whose false confidence
+or upkeep costs more than running the underlying standard tool directly.
 
-Review the net value again when a surface grows or its original need disappears. Passing tests prove behavior, not that the behavior deserves permanent maintenance.
+Review the net value again when a surface grows or its original need disappears. Passing tests prove behavior, not that
+the behavior deserves permanent maintenance.
 
-[Minimum Sufficiency](minimum-sufficiency.md) governs the scope and stopping point of every task; this principle independently tests whether a maintained surface earns its recurring cost. Apply both.
+[Minimum Sufficiency](minimum-sufficiency.md) governs the scope and stopping point of every task; this principle
+independently tests whether a maintained surface earns its recurring cost. Apply both.

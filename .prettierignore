@@ -1,0 +1,3 @@
+# Machine-local working area, gitignored and never reviewed. Formatting it
+# churns gate logs and recovery scratch files for no reader.
+local-tmp/

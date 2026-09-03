@@ -16,4 +16,5 @@ When the session cannot ask interactively, print the question inline and stop fo
 4. **Let's chat about this**
 ```
 
-The fallback is a rendering of the same question, not a weaker one: it still carries the trade-offs, the single recommendation, the write-in, and the chat option.
+The fallback is a rendering of the same question, not a weaker one: it still carries the trade-offs, the single
+recommendation, the write-in, and the chat option.

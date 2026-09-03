@@ -13,4 +13,6 @@ Choose one canonical home:
 - Put repeatable procedures in `repo-governance/workflows/`.
 - Put directory-specific rules in the nearest scoped `AGENTS.md`.
 - Put capability-specific guidance in the relevant `SKILL.md`.
-- Create and categorize a focused document or subdirectory in `repo-governance/` when no existing location suits, and do not create empty categories. The [documentation index policy](../../../documentation-index-policy.md) owns the README, index, and frontmatter requirements that follow.
+- Create and categorize a focused document or subdirectory in `repo-governance/` when no existing location suits, and do
+  not create empty categories. The [documentation index policy](../../../documentation-index-policy.md) owns the README,
+  index, and frontmatter requirements that follow.

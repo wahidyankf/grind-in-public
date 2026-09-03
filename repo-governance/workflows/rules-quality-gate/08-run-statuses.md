@@ -9,8 +9,12 @@ A run closes with one of these, and the [findings report](05-findings-report.md)
 
 **pass** — two consecutive clean runs at the chosen level.
 
-**settled** — the loop ended with nothing open, but the last fixes were applied after the final check, so no cycle has read them. The next run starts by verifying those fixes, because a fix no checker has seen is a claim rather than a result.
+**settled** — the loop ended with nothing open, but the last fixes were applied after the final check, so no cycle has
+read them. The next run starts by verifying those fixes, because a fix no checker has seen is a claim rather than a
+result.
 
-**partial** — the loop ended with findings open, none of them a same-level contradiction. Each open finding is listed with its case and location.
+**partial** — the loop ended with findings open, none of them a same-level contradiction. Each open finding is listed
+with its case and location.
 
-**fail** — a same-level contradiction remains unresolved, or the checker could not read the corpus. A failing gate is not a reason to stop working; it is a reason not to claim the guidance is coherent.
+**fail** — a same-level contradiction remains unresolved, or the checker could not read the corpus. A failing gate is
+not a reason to stop working; it is a reason not to claim the guidance is coherent.

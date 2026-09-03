@@ -5,13 +5,16 @@ when_to_use: "Use at the start of plan-planning, before any question reaches the
 
 # Exploration
 
-Exploration comes first because a plan written from assumptions encodes those assumptions as checklist items, where they are expensive to remove.
+Exploration comes first because a plan written from assumptions encodes those assumptions as checklist items, where they
+are expensive to remove.
 
 ## Read the Repository
 
-- `AGENTS.md` and the governance documents the change touches. A plan that contradicts a rule is a plan that fails its own gate.
+- `AGENTS.md` and the governance documents the change touches. A plan that contradicts a rule is a plan that fails its
+  own gate.
 - The projects named in the prompt: their `project.json` targets, their tests, and their READMEs.
-- The Git history around the files in question. A change that was tried and reverted is worth knowing before proposing it again.
+- The Git history around the files in question. A change that was tried and reverted is worth knowing before proposing
+  it again.
 - Any prior plan in `plans/done/` covering the same area, which records what actually happened last time.
 
 ## Establish the Facts a Plan Needs
@@ -25,8 +28,11 @@ Before writing anything, be able to state:
 
 ## Name the Unknowns
 
-List every question the repository could not answer. These become the grilling agenda in [02 Grilling](02-grilling.md). Distinguish two kinds: a fact that more reading would settle, which is still exploration, and a decision only the owner can make, which is a question.
+List every question the repository could not answer. These become the grilling agenda in [02 Grilling](02-grilling.md).
+Distinguish two kinds: a fact that more reading would settle, which is still exploration, and a decision only the owner
+can make, which is a question.
 
 ## Record What Was Read
 
-The plan's `tech-docs/README.md` states what was inspected and what it showed. A reader who disagrees with a design decision can then check the evidence rather than relitigate the reasoning.
+The plan's `tech-docs/README.md` states what was inspected and what it showed. A reader who disagrees with a design
+decision can then check the evidence rather than relitigate the reasoning.

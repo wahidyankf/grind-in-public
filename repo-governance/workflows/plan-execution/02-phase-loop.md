@@ -5,19 +5,26 @@ when_to_use: "Use while working the items of a delivery phase."
 
 # Phase Loop
 
-A phase is worked in checklist order. The order is not decoration: it was authored so the repository stays coherent between items.
+A phase is worked in checklist order. The order is not decoration: it was authored so the repository stays coherent
+between items.
 
 ## Working an Item
 
-Read the whole checkbox before acting. It names the path, the command, and the acceptance criterion, so it should need no interpretation. If it does need interpretation, that is a plan defect: fix the plan, note it in `learnings.md`, and continue.
+Read the whole checkbox before acting. It names the path, the command, and the acceptance criterion, so it should need
+no interpretation. If it does need interpretation, that is a plan defect: fix the plan, note it in `learnings.md`, and
+continue.
 
-Respect the executor tag. An `[AI]` item is performed directly. A `[HUMAN]` item stops execution and hands off to the owner with a statement of what remains; it is never performed on their behalf, and never ticked as though it were. An `[AI+HUMAN]` item is prepared fully, then handed over for the final action.
+Respect the executor tag. An `[AI]` item is performed directly. A `[HUMAN]` item stops execution and hands off to the
+owner with a statement of what remains; it is never performed on their behalf, and never ticked as though it were. An
+`[AI+HUMAN]` item is prepared fully, then handed over for the final action.
 
 ## Behavior Cycles
 
-A behavior change runs RED → GREEN → REFACTOR against exactly one Gherkin scenario, per the [TDD policy](../../development/tdd-policy.md):
+A behavior change runs RED → GREEN → REFACTOR against exactly one Gherkin scenario, per the
+[TDD policy](../../development/tdd-policy.md):
 
-1. Write the test and run it. Confirm it fails, and that it fails for the stated reason. A test that passes immediately proves the assertion is wrong, not that the work is done.
+1. Write the test and run it. Confirm it fails, and that it fails for the stated reason. A test that passes immediately
+   proves the assertion is wrong, not that the work is done.
 2. Make the smallest change that passes it.
 3. Refactor with the test still green.
 
@@ -25,14 +32,20 @@ Each of the three is its own checkbox, so a half-finished cycle is visible.
 
 ## Implementation Notes
 
-When reality differs from the plan — a different path, an extra step, a command that needed a flag — record it inline under the checkbox in one line. The archived plan is then a record of what happened rather than what was intended.
+When reality differs from the plan — a different path, an extra step, a command that needed a flag — record it inline
+under the checkbox in one line. The archived plan is then a record of what happened rather than what was intended.
 
-Phase-level events go to the dated Execution Record at the top of `delivery.md` instead: a phase completing, a gate result, a failure and what its retry proved. [Execution record](../../conventions/plans-organization-policy/execution-record.md) owns its shape. An inline note qualifies the checkbox above it; the record is what keeps the sequence readable once the plan is archived.
+Phase-level events go to the dated Execution Record at the top of `delivery.md` instead: a phase completing, a gate
+result, a failure and what its retry proved.
+[Execution record](../../conventions/plans-organization-policy/execution-record.md) owns its shape. An inline note
+qualifies the checkbox above it; the record is what keeps the sequence readable once the plan is archived.
 
 ## Learnings
 
-When something surprises you, append it to `learnings.md` in the moment. Written later from memory, it records what you already believed rather than what actually happened.
+When something surprises you, append it to `learnings.md` in the moment. Written later from memory, it records what you
+already believed rather than what actually happened.
 
 ## Stopping
 
-Stop at a phase boundary, never mid-item. If you must stop mid-phase, leave the item open, note the state in `learnings.md`, and make sure the working tree still builds.
+Stop at a phase boundary, never mid-item. If you must stop mid-phase, leave the item open, note the state in
+`learnings.md`, and make sure the working tree still builds.

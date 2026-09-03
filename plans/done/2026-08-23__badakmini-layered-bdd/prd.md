@@ -2,11 +2,14 @@
 
 ## User Stories
 
-As the repository owner, I want Badak Mini behavior declared in canonical Gherkin so that changing a feature, scenario, or step immediately revalidates every required test layer.
+As the repository owner, I want Badak Mini behavior declared in canonical Gherkin so that changing a feature, scenario,
+or step immediately revalidates every required test layer.
 
-As a contributor, I want fast unit and static behavior gates in `test:quick` so that most specification drift fails before push without launching real processes.
+As a contributor, I want fast unit and static behavior gates in `test:quick` so that most specification drift fails
+before push without launching real processes.
 
-As a maintainer, I want integration and process E2E adapters to consume the same corpus so that lower-level confidence cannot hide a broken public command.
+As a maintainer, I want integration and process E2E adapters to consume the same corpus so that lower-level confidence
+cannot hide a broken public command.
 
 ## Acceptance Scenarios
 

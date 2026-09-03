@@ -14,7 +14,9 @@ plans/backlog/<identifier>/
 plans/in-progress/<identifier>/
 ```
 
-Neither stage carries a date prefix, so promoting a plan from `backlog/` to `in-progress/` is a pure move with no rename. A date on an unfinished plan records when someone typed, not when anything shipped, and it ages badly while the work sits.
+Neither stage carries a date prefix, so promoting a plan from `backlog/` to `in-progress/` is a pure move with no
+rename. A date on an unfinished plan records when someone typed, not when anything shipped, and it ages badly while the
+work sits.
 
 ## done/
 
@@ -22,7 +24,8 @@ Neither stage carries a date prefix, so promoting a plan from `backlog/` to `in-
 plans/done/YYYY-MM-DD__<identifier>/
 ```
 
-The date is the completion date — the day the final commit landed — not the day the plan was written. A double underscore separates it from the identifier.
+The date is the completion date — the day the final commit landed — not the day the plan was written. A double
+underscore separates it from the identifier.
 
 ## Identifier Rules
 
@@ -41,8 +44,11 @@ bad:   plans/backlog/2026-08-18__wahidyankf-www-migration/   date before complet
 bad:   plans/done/2026-08-18_wahidyankf_www_migration/       single underscore, underscores
 ```
 
-Every `plan-checker` prompt states this stage-aware naming rule in the imperative, because a subagent prompt has to stand alone. Change it in the same edit, in all three harness copies.
+Every `plan-checker` prompt states this stage-aware naming rule in the imperative, because a subagent prompt has to
+stand alone. Change it in the same edit, in all three harness copies.
 
 ## Ideas
 
-An idea is a file, not a folder: `plans/ideas/q<1-4>-<priority>/<slug>.md`, kebab-case, no date. Its quadrant directory is one of `q1-urgent-important`, `q2-not-urgent-important`, `q3-urgent-not-important`, or `q4-not-urgent-not-important`. It gains a plan folder only when promoted to `backlog/`.
+An idea is a file, not a folder: `plans/ideas/q<1-4>-<priority>/<slug>.md`, kebab-case, no date. Its quadrant directory
+is one of `q1-urgent-important`, `q2-not-urgent-important`, `q3-urgent-not-important`, or `q4-not-urgent-not-important`.
+It gains a plan folder only when promoted to `backlog/`.
