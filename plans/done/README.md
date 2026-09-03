@@ -13,3 +13,6 @@ Do not casually rewrite an archived plan. If a defect surfaces later, reopen it:
 - [2026-09-01 — wahidyankf-www Migration](2026-09-01__wahidyankf-www-migration/README.md) — brought the personal site
   into this repository from `ose-public` with its dedicated Playwright suite, inlined its three shared libraries, and
   left one authoritative CV record. The source repository was not touched.
+- [2026-09-03 — Project Configuration Consistency](2026-09-03__project-json-consistency/README.md) — gave every
+  `project.json` one style, co-located the browser E2E adapter with the application it tests so the workspace holds two
+  projects rather than three, and wrote the resulting ten-target contract into `testing-policy.md`.

@@ -69,6 +69,11 @@ here.
 - 2026-09-03 — Plan quality gate, strict, four cycles, partial. 36 findings fixed; six MEDIUM accepted open by the owner
   and listed in [README.md](README.md#open-findings), which the executor reads before the phase each one touches.
 
+- 2026-09-03 — Phase 4 complete. Archived to `plans/done/2026-09-03__project-json-consistency/`. Gate passed:
+  `check:markdown-links` exit 0 after the move, the archival grep prints nothing, `test:quick` and `test:integration`
+  exit 0 for both projects, and `test:scheduled` exits 0 with the browser suite passing 36 and skipping 34 at the merged
+  target names. The six open MEDIUM findings were closed at the owner's direction, recorded in [README.md](README.md).
+
 ## Executor Tags
 
 `[AI]` an agent can fully perform it. `[HUMAN]` only the owner. `[AI+HUMAN]` an agent prepares and the owner approves or
@@ -989,13 +994,16 @@ discarded with a reason.
       to stop with the quality gate and execute. Left unticked rather than marked done: its acceptance is unmet, and six
       MEDIUM findings the owner accepted are still open in [README.md](README.md#open-findings). Surfaced at the
       archival handoff below.
-- [ ] [AI+HUMAN] Confirm with the owner that the plan is complete before it is archived — acceptance: the owner agrees
+- [x] [AI+HUMAN] Confirm with the owner that the plan is complete before it is archived — acceptance: the owner agrees
       the delivered scope matches what they asked for; archival is a one-way move and the four scope decisions in
-      [brd.md](brd.md) narrowed twice during planning.
-- [ ] [AI] Move the folder to `plans/done/YYYY-MM-DD__project-json-consistency/` using the date the final commit landed
+      [brd.md](brd.md) narrowed twice during planning. - Confirmed on 2026-09-03. The owner first asked that the six
+      open MEDIUM findings be closed, then, on seeing that all six are findings about this plan's own documents rather
+      than about anything delivered, directed that no further work be done on them and that the plan be archived.
+- [x] [AI] Move the folder to `plans/done/YYYY-MM-DD__project-json-consistency/` using the date the final commit landed
       — acceptance: the destination does not already exist; if it does, stop rather than merging, overwriting, or
-      inventing a suffix.
-- [ ] [AI] Update `plans/in-progress/README.md` and `plans/done/README.md` in the same change — acceptance: neither of
+      inventing a suffix. - Moved to `plans/done/2026-09-03__project-json-consistency/`. The destination was verified
+      absent first; `plans/done/` held only the two earlier archives.
+- [x] [AI] Update `plans/in-progress/README.md` and `plans/done/README.md` in the same change — acceptance: neither of
       the source index's two lists still names this plan, returning to their `None right now.` and
       `No plan folders right now.` placeholders if no other plan is active; the destination index gains a dated entry
       beside the two already there; and `npm run check:markdown-links` resolves every archived internal link.
@@ -1004,20 +1012,23 @@ discarded with a reason.
 
 > Every check below passes before the plan is considered finished.
 
-- [ ] [AI] `npm run check:markdown-links` — acceptance: exits 0 after the folder move, with no dead link left by the
-      changed depth of the archived documents.
-- [ ] [AI] `git grep -n 'plans/in-progress/project-json-consistency' -- ':!plans/done/'` — acceptance: prints nothing
+- [x] [AI] `npm run check:markdown-links` — acceptance: exits 0 after the folder move, with no dead link left by the
+      changed depth of the archived documents. - Exit 0.
+- [x] [AI] `git grep -n 'plans/in-progress/project-json-consistency' -- ':!plans/done/'` — acceptance: prints nothing
       and exits non-zero, confirming no document outside the archive still points at the pre-archival path.
       `plans/done/` is excluded because the archived plan carries the literal string in prose it wrote about itself —
       `delivery.md` and `tech-docs/file-impact.md` both name their own in-progress path — and that prose is history, not
       a pointer to be rewritten. Before the move,
       `git grep -c 'plans/in-progress/project-json-consistency' -- ':!plans/done/'` names exactly those two files and
-      nothing else, so the move alone is what makes this gate pass.
-- [ ] [AI] `npm run test:quick` and `npm run test:integration` — acceptance: both exit 0 for both projects.
-- [ ] [AI] `npm run test:scheduled` — acceptance: exits 0, running the full ordered verification including
+      nothing else, so the move alone is what makes this gate pass. - Before the move the count named exactly those two
+      files, `delivery.md` at 6 and `tech-docs/file-impact.md` at 3. After it the grep prints nothing and exits 1.
+- [x] [AI] `npm run test:quick` and `npm run test:integration` — acceptance: both exit 0 for both projects. - Both
+      exit 0.
+- [x] [AI] `npm run test:scheduled` — acceptance: exits 0, running the full ordered verification including
       `wahidyankf-www:specs:e2e:baseline` and `wahidyankf-www:test:e2e` at their merged names. This is the one command
-      that exercises every renamed invocation in `package.json` end to end.
-- [ ] [AI] Commit the archival move with a message naming the plan and push to `main` — acceptance: `git status --short`
+      that exercises every renamed invocation in `package.json` end to end. - Exit 0. The browser suite passed 36 and
+      skipped 34 at the merged target name, and the baseline held.
+- [x] [AI] Commit the archival move with a message naming the plan and push to `main` — acceptance: `git status --short`
       is empty and the source path is absent from the working tree.
 
 > **Pause Safety**: the plan is archived, every learning has a terminal disposition, and the full scheduled verification

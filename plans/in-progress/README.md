@@ -8,11 +8,8 @@ Execution reads and ticks `delivery.md` in place, following the
 
 ## Active Plans
 
-- [Project Configuration Consistency](project-json-consistency/README.md) — one style for every `project.json`, the
-  browser E2E adapter co-located with the application it tests, and the resulting target contract written into
-  `testing-policy.md`.
+None right now.
 
 ## Directory Map
 
-- [project-json-consistency/](project-json-consistency/README.md) — the plan's entry point, with `brd.md`, `prd.md`,
-  `delivery.md`, `learnings.md`, and [tech-docs/](project-json-consistency/tech-docs/README.md).
+No plan folders right now.

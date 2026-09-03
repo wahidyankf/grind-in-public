@@ -70,8 +70,18 @@ no CRITICAL and no HIGH.
 
 ### Open Findings
 
-Accepted by the owner on 2026-09-03, who ended the loop and directed execution. Each is read before the phase it
-touches; none blocks a gate.
+Accepted by the owner on 2026-09-03, who ended the loop and directed execution. Each was read before the phase it
+touched; none blocked a gate.
+
+**Closed on 2026-09-03, at archival.** Every one of the six is a finding about this plan's own documents rather than
+about anything the plan delivers, so execution is what settles them. Five were resolved while executing the phase each
+names: the inspections moved into the Phase 2 gate and re-run read-only in Phase 3; the module-resolution note sits on
+the first `test:e2e` run rather than the gate's; the third conditional gained a Phase 4 disposition and the writer count
+now reads six against six; `specification-changes.md` carries both Container View ASCII blocks and states why the lower
+node loses its stereotype; and the `specs/apps/wahidyankf-www/README.md` item gained five positive greps in place of the
+absence count alone. The sixth is moot rather than fixed: the three `wahidyankf-www-e2e` targets it names were edited in
+Phase 1 and the project was deleted in Phase 2, and the Phase 1 gate did run two of them — `specs:e2e:baseline` and
+`lint` — before the push. The owner reviewed this and directed that no further work be done on them.
 
 - MEDIUM — `delivery.md` Phase 3 gate. The cache and outputs inspections sit in Phase 3, so a failure there forces a
   `project.json` fix into a `docs(testing):` commit. They belong in the Phase 2 gate, where that file is still
