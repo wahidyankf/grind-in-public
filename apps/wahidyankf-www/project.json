@@ -3,6 +3,12 @@
   "projectType": "application",
   "root": "apps/wahidyankf-www",
   "sourceRoot": "apps/wahidyankf-www/src",
+  "namedInputs": {
+    "behaviorCorpus": [
+      "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
+    ],
+    "workspaceScripts": ["{workspaceRoot}/scripts/next-with-port.mjs"]
+  },
   "targets": {
     "build": {
       "command": "next build",
@@ -46,11 +52,7 @@
     "test:unit": {
       "command": "vitest run --project unit",
       "options": { "cwd": "{projectRoot}" },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
-      ]
+      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "test:integration": {
       "cache": false,
@@ -62,11 +64,7 @@
       "command": "vitest run --project unit --project behavior --coverage --coverage.thresholds.lines=99",
       "options": { "cwd": "{projectRoot}" },
       "outputs": ["{projectRoot}/coverage"],
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
-      ]
+      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "test:coverage:integration": {
       "cache": false,
@@ -78,11 +76,7 @@
       "cache": false,
       "command": "vitest run --project behavior",
       "options": { "cwd": "{projectRoot}" },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
-      ]
+      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "test:coverage": {
       "executor": "nx:run-commands",
@@ -94,11 +88,7 @@
         ],
         "parallel": false
       },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
-      ]
+      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "static-routes:validation": {
       "cache": false,
@@ -118,11 +108,7 @@
         ],
         "parallel": false
       },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
-      ]
+      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "generate:cv-pdf": {
       "cache": false,

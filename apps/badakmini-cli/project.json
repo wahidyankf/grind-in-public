@@ -3,6 +3,11 @@
   "projectType": "application",
   "root": "apps/badakmini-cli",
   "sourceRoot": "apps/badakmini-cli",
+  "namedInputs": {
+    "behaviorCorpus": [
+      "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
+    ]
+  },
   "targets": {
     "build": {
       "command": "go -C apps/badakmini-cli build -o dist/badak-mini ./cmd/badak-mini",
@@ -29,51 +34,36 @@
     },
     "test:unit": {
       "command": "go -C apps/badakmini-cli test -count=1 ./cmd/... ./internal/... ./tests/bdd ./tests/unit",
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "test:integration": {
       "cache": false,
       "command": "go -C apps/badakmini-cli test -count=1 ./tests/integration",
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "test:e2e": {
       "cache": false,
       "command": "BADAKMINI_BIN=\"$PWD/apps/badakmini-cli/dist/badak-mini\" go -C apps/badakmini-cli test -count=1 ./tests/e2e",
       "dependsOn": ["build", "test:coverage:behavior"],
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "test:coverage:unit": {
       "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "test:coverage:behavior": {
       "cache": false,
       "command": "go -C apps/badakmini-cli test -count=1 ./tests/bdd",
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
+        "behaviorCorpus",
         "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
       ]
     },
     "test:coverage:integration": {
       "cache": false,
       "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/cli -coverprofile=../../local-tmp/badakmini-integration.out ./tests/integration && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-integration.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"integration statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "test:coverage": {
       "executor": "nx:run-commands",
@@ -87,7 +77,7 @@
       },
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
+        "behaviorCorpus",
         "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
       ]
     },
@@ -105,16 +95,13 @@
       },
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature",
+        "behaviorCorpus",
         "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
       ]
     },
     "typecheck": {
       "command": "go -C apps/badakmini-cli vet ./...",
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     }
   }
 }

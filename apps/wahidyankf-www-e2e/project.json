@@ -4,23 +4,22 @@
   "root": "apps/wahidyankf-www-e2e",
   "sourceRoot": "apps/wahidyankf-www-e2e/steps",
   "implicitDependencies": ["wahidyankf-www"],
+  "namedInputs": {
+    "behaviorCorpus": [
+      "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
+    ]
+  },
   "targets": {
     "install": {
       "cache": false,
       "command": "npx playwright install --with-deps chromium",
       "options": { "cwd": "{projectRoot}" },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "typecheck": {
       "command": "tsc --noEmit",
       "options": { "cwd": "{projectRoot}" },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -31,10 +30,7 @@
         ],
         "parallel": false
       },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "lint:biome": {
       "cache": true,
@@ -51,10 +47,7 @@
       "dependsOn": ["wahidyankf-www:build"],
       "command": "if grep -rn -E --include='*.ts' --exclude-dir=node_modules --exclude-dir=.features-gen --exclude-dir=test-results --exclude-dir=playwright-report '\\$?test\\.skip\\([^,)]*\\)' .; then echo 'ERROR: unconditional test.skip() found in test files above - use test.skip(condition, reason) for legitimate environment guards, or remove'; exit 1; fi && npx bddgen && npx playwright test",
       "options": { "cwd": "{projectRoot}" },
-      "inputs": [
-        "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
-      ]
+      "inputs": ["default", "behaviorCorpus"]
     },
     "specs:e2e:baseline": {
       "cache": true,
@@ -65,7 +58,7 @@
         "{projectRoot}/e2e-skip-baseline.json",
         "{projectRoot}/steps/**/*.ts",
         "{projectRoot}/playwright.config.ts",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
+        "behaviorCorpus"
       ]
     }
   }
