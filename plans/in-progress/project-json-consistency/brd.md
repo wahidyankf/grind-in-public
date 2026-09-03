@@ -17,8 +17,8 @@ never written down anywhere a third project could read it, so it exists only as 
 The concrete cost today is one behavioral defect and one structural oddity:
 
 - `badakmini-cli:test:coverage:unit` resolves to `cache=undefined` while `wahidyankf-www:test:coverage:unit` resolves to
-  `cache=true`. Two projects run the same-named target inside the same ordered quick gate with opposite caching. Its
-  sibling targets are explicitly `cache: false` in both files, so this reads as an omission rather than a decision.
+  `cache=true`. Two projects run the same-named target inside the same ordered quick gate with opposite caching. In Nx
+  an undeclared `cache` means uncached, so the Go gate re-runs on every invocation while its counterpart replays.
 - `wahidyankf-www` is the only application in the workspace that owns no `test:e2e` target. Its browser suite lives in a
   separate project, so the application's own target set is incomplete, and `npm run test:quick` and the pre-push
   affected run reach that separate project not at all.
@@ -32,8 +32,9 @@ rule to choose by. That is the failure this plan closes.
 ## What Success Means
 
 Both remaining projects expose the identical ten-target contract, written in one style, and that contract is stated in
-`testing-policy.md` where the next project will find it. No behavior changes. Every gate that passes today passes
-afterwards, at the same or lower cost.
+`testing-policy.md` where the next project will find it. No application or CLI behavior changes. One build behavior
+changes deliberately and is named below: `badakmini-cli:test:coverage:unit` becomes cacheable. Every gate that passes
+today passes afterwards, at the same or lower cost.
 
 ## Decisions Taken
 
@@ -48,6 +49,9 @@ chosen option and its reason are recorded here; the technical consequences are i
 | how to hold the convention    | a written rule, no checker             |
 | where the browser suite lives | co-located in `wahidyankf-www`         |
 | where the rule lives          | `testing-policy.md`                    |
+| which way caching converges   | both cached, with `outputs` declared   |
+| how wide the shape rule binds | every target, not only the ten         |
+| what the E2E skip guard scans | `tests/e2e`, its pre-merge reach       |
 
 **Not renaming.** The owner first chose the full sweep including a `check:*` naming family, then narrowed it. Renames
 ripple into `package.json`, `workspace-commands.md`, `docs/how-to/run-nx-workspace.md`, and three READMEs in exchange
@@ -65,6 +69,24 @@ the default for an application. A dedicated E2E project is permitted there, not 
 `test:unit`, `test:coverage`, and `test:quick`". A second document stating a fuller version of the same contract is
 exactly the contradiction `rules-checker` exists to find. At 403 words it has room for the rest.
 
+**Converging caching upward.** `badakmini-cli:test:coverage:unit` becomes `cache: true`, matching its `wahidyankf-www`
+counterpart, rather than `cache: false` matching its own two coverage siblings. The gate is deterministic over its
+declared inputs, so replaying it is sound, and the quick gate is the one that runs at every push. Because the target
+writes `local-tmp/badakmini-unit.out` outside `{projectRoot}`, it must also declare that path as `outputs`: a cached
+target with no declared output restores nothing on a hit, which is the failure the same rule is written to prevent.
+
+**Binding every target.** The shape rule written in Phase 3 governs every target in a `project.json`, not only the ten
+in the contract. The alternative was cheaper and was rejected: two targets in these same files would then sit visibly
+outside the convention a reader was just pointed at, which is the compare-two-files-and-guess problem US-2 exists to
+end. It costs Phase 1 two more edits — `generate:cv-pdf` loses the inert `outputs` it carries while `cache: false`, and
+`static-routes:validation` moves from `{workspaceRoot}` to `{projectRoot}` so its command stops naming its own project
+path.
+
+**Scoping the skip guard.** `test:e2e`'s unconditional-`test.skip` guard greps `.`, the working directory. Copied
+verbatim into the merged project it would scan the whole application — forty-three TypeScript files plus `.next/`, which
+its exclude list does not cover — instead of one `steps/` directory. It is scoped to `tests/e2e` so its reach after the
+merge is what it was before. Nothing is lost: it never covered the application's Vitest suites.
+
 ## Non-Goals
 
 - **No target renames.** `governance`, `markdown-links`, `capability-parity`, `rule-change`, `static-routes:validation`,
@@ -73,7 +95,8 @@ exactly the contradiction `rules-checker` exists to find. At 403 words it has ro
 - **No Badak Mini change.** No new subcommand, no new Nx target on that project, no pre-push wiring. The rule is
   verified in review, like the [grilling](../../../repo-governance/conventions/grilling-with-options-policy.md) and
   [task tracking](../../../repo-governance/conventions/task-tracking-policy.md) policies are.
-- **No change to `static-routes:validation`'s placement.** It stays in `test:quick`'s `dependsOn`.
+- **No change to `static-routes:validation`'s placement.** It stays in `test:quick`'s `dependsOn`. Its working directory
+  does change, from `{workspaceRoot}` to `{projectRoot}`, which is a shape fix and not a placement one.
   [The migration plan measured it](../../done/2026-09-01__wahidyankf-www-migration/evidence/phase-3-measurements.md) at
   4.2–5.1 seconds and recorded the placement as a decision it deliberately did not act on. This plan does not reverse an
   evidence-backed choice as a side effect of a consistency sweep; it writes down when `dependsOn` is the right mechanism

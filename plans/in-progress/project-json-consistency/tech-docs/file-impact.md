@@ -7,16 +7,20 @@ directory, glob, or ellipsis stands in for a filename.
 
 - `[E]` `nx.json` — no structural change in this phase; `targetDefaults` is left as it is and the shared inputs are
   declared per project instead. Listed because Phase 1 verifies its resolved effect and the delivery item reads it.
-- `[E]` `apps/badakmini-cli/project.json` — declare `namedInputs.behaviorCorpus`; declare `cache` on
-  `test:coverage:unit`; add `"options": {"cwd": "{projectRoot}"}` to all fourteen command targets and strip
-  `-C apps/badakmini-cli` from each; rewrite the two `mkdir -p local-tmp` prefixes and the `BADAKMINI_BIN` assignment;
-  replace every repeated corpus glob with `behaviorCorpus`.
+- `[E]` `apps/badakmini-cli/project.json` — declare `namedInputs.behaviorCorpus`; declare `cache: true` and
+  `outputs: ["{workspaceRoot}/local-tmp/badakmini-unit.out"]` on `test:coverage:unit`; add
+  `"options": {"cwd": "{projectRoot}"}` to all thirteen command targets and strip `-C apps/badakmini-cli` from each;
+  rewrite the two `mkdir -p local-tmp` prefixes and the `BADAKMINI_BIN` assignment; replace every repeated corpus glob
+  with `behaviorCorpus`.
 - `[E]` `apps/wahidyankf-www/project.json` — declare `namedInputs.behaviorCorpus` and `namedInputs.workspaceScripts`;
-  replace every repeated glob with those names; remove `outputs` from `test:coverage:integration`, which is
-  `cache: false`; change `static-routes:validation`'s command from `nx run …` to `npm exec nx -- run …`.
-- `[E]` `apps/wahidyankf-www-e2e/project.json` — declare `namedInputs.behaviorCorpus` and replace its five repeated
-  globs. This file is deleted in Phase 2; it is normalized here anyway so Phase 1 ends with all three files in one style
-  and its gate can assert that property across the whole workspace rather than across two thirds of it.
+  replace every repeated glob with those names; remove `outputs` from `test:coverage:integration` and from
+  `generate:cv-pdf`, both of which are `cache: false`; change `static-routes:validation`'s command from `nx run …` to
+  `npm exec nx -- run …` and its `cwd` from `{workspaceRoot}` to `{projectRoot}`, dropping the literal
+  `apps/wahidyankf-www/` prefix from its `node` invocation.
+- `[E]` `apps/wahidyankf-www-e2e/project.json` — declare `namedInputs.behaviorCorpus`, replace its five repeated globs,
+  and declare `outputs` on `specs:e2e:baseline`, which is cached and writes `.features-gen`. This file is deleted in
+  Phase 2; it is normalized here anyway so Phase 1 ends with all three files in one style and its gate can assert that
+  property across the whole workspace rather than across two thirds of it.
 
 ## Phase 2 — Merge the E2E Project
 
@@ -50,9 +54,10 @@ Edited to receive the merge:
 - `[E]` `apps/wahidyankf-www/playwright.config.ts` — after the move, change `steps` from `"./steps/**/*.ts"` to
   `"./tests/e2e/steps/**/*.ts"`. `featuresRoot` and `webServer.cwd` both stay `"../.."`-relative and are unchanged,
   because the file's depth below the workspace root is unchanged.
-- `[E]` `apps/wahidyankf-www/project.json` — add `install`, `test:e2e`, and `specs:e2e:baseline`; point `test:e2e`'s
-  `dependsOn` at the intra-project `build`; extend `lint:commentary` to read `tests/e2e/steps` alongside `src`; point
-  `specs:e2e:baseline`'s inputs at the moved baseline file and step directory.
+- `[E]` `apps/wahidyankf-www/project.json` — add `install`, `test:e2e` with its skip guard scoped to `tests/e2e`, and
+  `specs:e2e:baseline` carrying its `.features-gen` `outputs`; point `test:e2e`'s `dependsOn` at the intra-project
+  `build`; extend `lint:commentary` to read `tests/e2e/steps` alongside `src`; point `specs:e2e:baseline`'s inputs at
+  the moved baseline file and step directory.
 - `[E]` `apps/wahidyankf-www/package.json` — add `@axe-core/playwright@4.10.1`, `@playwright/test@1.62.1`, and
   `playwright-bdd@9.2.0` to `devDependencies` at the same exact pins.
 - `[E]` `apps/wahidyankf-www/tsconfig.json` — add `.features-gen` to `exclude`.

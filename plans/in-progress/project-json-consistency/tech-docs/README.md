@@ -97,7 +97,7 @@ every affected target in both files reads `"inputs": ["default", "behaviorCorpus
 specification and folding it into `behaviorCorpus` would make the name lie.
 
 **`{projectRoot}` and `cwd` for `badakmini-cli`, with three commands rewritten rather than trimmed.** Dropping
-`-C apps/badakmini-cli` in favour of `options.cwd` is mechanical for eleven of the fourteen commands. Three are not, and
+`-C apps/badakmini-cli` in favour of `options.cwd` is mechanical for ten of the thirteen commands. Three are not, and
 each is a place a careless conversion silently breaks:
 
 | Target                      | What the conversion must also change |
@@ -127,7 +127,33 @@ measured it and declined to move it. This plan does not overturn that as a side 
 does instead is remove the ambiguity that made it look like an oversight, by writing the distinction into
 `testing-policy.md`: `dependsOn` expresses a prerequisite that must precede the whole gate, and `options.commands`
 expresses the ordered gate itself. Its bare `nx run` still becomes `npm exec nx -- run`, which is a separate finding and
-a genuine defect — it is the one target in the workspace resolving Nx from the ambient `PATH`.
+a genuine defect — it is the one target in the workspace resolving Nx from the ambient `PATH`. Its `cwd` also moves from
+`{workspaceRoot}` to `{projectRoot}`, so `node apps/wahidyankf-www/scripts/validate-static-routes.mjs` becomes
+`node scripts/validate-static-routes.mjs` and the target stops naming its own project path. That is the same shape rule
+applied to `badakmini-cli` above, and applying it here is what lets Phase 3 state the rule without a carve-out.
+
+**The shape rule binds every target, so two more `wahidyankf-www` targets change.** `generate:cv-pdf` declares `outputs`
+while `cache: false`, which is the identical inert declaration Phase 1 strips from `test:coverage:integration`; leaving
+one and removing the other would make the rule false of the file it was derived from, and Phase 3's gate re-reads both
+`project.json` files against the written rule. `static-routes:validation` is the other, above. The rule reaches in the
+opposite direction too: `specs:e2e:baseline` is cached and runs `bddgen`, which writes `.features-gen/`, so it gains an
+`outputs` declaration it does not carry today. `test:e2e` regenerates that directory anyway, which is why its absence
+has never surfaced as a failure — but a cached target that restores nothing is the same defect whether or not something
+downstream happens to paper over it.
+
+**`badakmini-cli:test:coverage:unit` becomes cached and declares its output.** An undeclared `cache` means uncached, so
+this is a real change to when the Go coverage gate runs rather than a notation fix. It writes
+`local-tmp/badakmini-unit.out`, which sits outside `{projectRoot}`, so `outputs` names
+`{workspaceRoot}/local-tmp/badakmini-unit.out`. Without that, a cache hit would replay the printed coverage line and
+restore no profile — a target that reports success while producing nothing, which is the same silent-success class as
+the `mkdir` rewrite above.
+
+**The `test:e2e` skip guard is scoped rather than copied verbatim.** Its command opens with
+`grep -rn --include='*.ts' … '\$?test\.skip\([^,)]*\)' .`, and `.` is the working directory. In the deleted project that
+is one `steps/` directory. In the merged project it is the whole application: forty-three TypeScript files plus
+`.next/`, which the command's `--exclude-dir` list does not name. The final `.` becomes `tests/e2e`, restoring the
+pre-merge reach. This is the fourth command in this plan whose meaning changes with its working directory, and the only
+one where a verbatim copy would have passed its gate today while quietly scanning a tree it was never written for.
 
 **The looser `tsconfig` is accepted, and measured rather than assumed.** The deleted project set
 `noUncheckedIndexedAccess`, `noUnusedLocals`, and `noUnusedParameters` to `true`; the application sets all three to

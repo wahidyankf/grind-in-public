@@ -76,9 +76,16 @@ workspace-wide.
       before-and-after inputs comparison shows the resolved input set for those three targets is unchanged. If the
       comparison shows a difference, restore the input and record the finding in `learnings.md` instead of forcing the
       removal.
-- [ ] [AI] [AC-2] Edit `apps/badakmini-cli/project.json`: add `"cache": true` to `test:coverage:unit` — acceptance:
+- [ ] [AI] [AC-2] Edit `apps/badakmini-cli/project.json`: add `"cache": true` to `test:coverage:unit` together with
+      `"outputs": ["{workspaceRoot}/local-tmp/badakmini-unit.out"]` — acceptance:
       `npx nx show project badakmini-cli --json` reports `cache` as `true` for that target, matching its
-      `wahidyankf-www` counterpart.
+      `wahidyankf-www` counterpart. The `outputs` declaration is not optional here: an undeclared `cache` means
+      uncached, so this turns caching on for a gate that runs fresh today, and the profile it writes sits outside
+      `{projectRoot}` where the built-in `default` output detection would not find it. Prove the pair together by
+      running the target twice — `npx nx run badakmini-cli:test:coverage:unit`, then
+      `rm -f local-tmp/badakmini-unit.out` and run it again — acceptance: the second run reports a cache hit and
+      `ls local-tmp/badakmini-unit.out` succeeds afterwards, which is what proves the cached target restores its
+      artifact rather than reporting a success that produced nothing.
 - [ ] [AI] [AC-4] Edit `apps/badakmini-cli/project.json`: add `"options": {"cwd": "{projectRoot}"}` to `build`,
       `governance`, `markdown-links`, `capability-parity`, `rule-change`, `lint`, `typecheck`, `test:unit`,
       `test:integration`, `test:coverage:behavior` — acceptance: each of those ten targets carries the `options` object
@@ -116,11 +123,27 @@ workspace-wide.
       leading `nx run wahidyankf-www:build --skip-nx-cache` to `npm exec nx -- run wahidyankf-www:build --skip-nx-cache`
       — acceptance: `npx nx run wahidyankf-www:static-routes:validation` exits 0 and prints
       `Verified static build output for /, /cv, /personal-projects, /robots.txt, /sitemap.xml.`
+- [ ] [AI] [AC-4] Edit the same target: change `"options": {"cwd": "{workspaceRoot}"}` to `{"cwd": "{projectRoot}"}` and
+      shorten `node apps/wahidyankf-www/scripts/validate-static-routes.mjs` to `node scripts/validate-static-routes.mjs`
+      — acceptance: the target prints the same `Verified static build output` line, and
+      `grep -n 'apps/wahidyankf-www' apps/wahidyankf-www/project.json` returns no line inside a `"command"` string. Its
+      `dependsOn` placement in `test:quick` is untouched; only the working directory moves.
+- [ ] [AI] [AC-2] Edit `apps/wahidyankf-www/project.json`: delete the
+      `"outputs": ["{projectRoot}/public/wahidyankf-kresna-fridayoka-cv.pdf"]` line from `generate:cv-pdf` — acceptance:
+      that target is `cache: false`, so the declaration is inert for exactly the reason `test:coverage:integration`'s
+      is; `npx nx run wahidyankf-www:generate:cv-pdf` exits 0 and still writes the PDF to `apps/wahidyankf-www/public/`.
+      Removing one and leaving the other would make the Phase 3 rule false of the file it was derived from.
 - [ ] [AI] [AC-3] Edit `apps/wahidyankf-www-e2e/project.json`: add a top-level `"namedInputs"` declaring
       `behaviorCorpus` as `["{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"]`, and replace all five
       literal occurrences in `install`, `typecheck`, `lint`, `test:e2e`, and `specs:e2e:baseline` with
       `"behaviorCorpus"` — acceptance:
       `grep -c 'specs/apps/wahidyankf-www/behavior' apps/wahidyankf-www-e2e/project.json` prints `1`.
+- [ ] [AI] [AC-2] Edit `apps/wahidyankf-www-e2e/project.json` target `specs:e2e:baseline`: add
+      `"outputs": ["{projectRoot}/.features-gen"]` — acceptance: the target is `cache: true` and its command runs
+      `bddgen`, which writes that directory, so without the declaration a cache hit replays the baseline comparison and
+      restores nothing. This is the same pairing the `badakmini-cli` coverage target gets above, and it is applied here
+      even though Phase 2 deletes the file, because Phase 1's gate asserts the property across all three and Phase 2
+      carries the declaration into the merged target.
 - [ ] [AI] Run `npm run format` — acceptance: exits 0, and `npm run format:check` afterwards also exits 0 over the three
       edited files.
 
@@ -152,8 +175,26 @@ workspace-wide.
 - [ ] [AI] `npx nx run wahidyankf-www:test:coverage` — acceptance: exits 0 and the unit line percentage matches
       `local-tmp/coverage-www-before.txt`.
 - [ ] [AI] `npm run check:markdown-links` — acceptance: exits 0.
-- [ ] [AI] Commit with message `refactor(workspace): normalize project configuration` and push to `main` — acceptance:
-      `git status --short` is empty.
+- [ ] [AI] [AC-2] Read every target in all three edited `project.json` files against the outputs rule — acceptance: no
+      target that resolves to `cache: false` declares `outputs`, and every target that resolves to `cache: true` and
+      writes an artifact declares the path it writes. The aggregates are the easy miss in either direction:
+      `test:coverage` and `test:quick` are cached and write nothing themselves, because each artifact belongs to a
+      sub-target that declares it. This is the check Phase 3's gate re-runs against the written rule, so a failure here
+      is cheaper to fix than the same failure two phases later.
+- [ ] [AI] Commit Phase 1 as four commits rather than one, each staged and pushed in turn, because the
+      [thematic commits policy](../../../repo-governance/conventions/thematic-commits-policy.md) defines a theme by
+      intent and this phase carries four — acceptance: each commit's diff contains nothing its message does not name,
+      and `git status --short` is empty after the last.
+  - [ ] [AI] [AC-5] `fix(wahidyankf-www): resolve nx through the workspace binary` — the bare `nx run` change alone. It
+        is a defect fix, not a normalization, and it is the only Phase 1 change that alters which binary runs; it
+        commits first so a bisect that lands on it names one suspect.
+  - [ ] [AI] [AC-3] `refactor(workspace): declare shared behavior inputs once per project` — the three `namedInputs`
+        declarations, every glob they replace, and the redundant `tests/e2e` input removal.
+  - [ ] [AI] [AC-4] `refactor(workspace): resolve project commands through options.cwd` — the thirteen `badakmini-cli`
+        `cwd` declarations with the two `mkdir` and one `BADAKMINI_BIN` rewrites, and `static-routes:validation`'s move
+        to `{projectRoot}`.
+  - [ ] [AI] [AC-2] `refactor(workspace): declare every target's cache state and outputs` — the `badakmini-cli`
+        `cache`/`outputs` pair and the two inert `outputs` removals.
 
 > **Pause Safety**: all three `project.json` files are written in one style, every target declares its cache state, and
 > every gate that passed at baseline passes now at unchanged coverage figures. The workspace still has three projects
@@ -204,16 +245,25 @@ commit because the compatibility window is zero.
       `npx playwright install --with-deps chromium` with `"cache": false`, `"options": {"cwd": "{projectRoot}"}` —
       acceptance: `npx nx run wahidyankf-www:install` exits 0 and Chromium is available to the suite.
 - [ ] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `test:e2e` target carrying the
-      unconditional-`test.skip` guard and `npx bddgen && npx playwright test` verbatim from the deleted project's
-      target, with `"cache": false`, `"options": {"cwd": "{projectRoot}"}`, `"dependsOn": ["build"]`, and
+      unconditional-`test.skip` guard and `npx bddgen && npx playwright test` from the deleted project's target, with
+      `"cache": false`, `"options": {"cwd": "{projectRoot}"}`, `"dependsOn": ["build"]`, and
       `"inputs": ["default", "behaviorCorpus"]` — acceptance: `dependsOn` names the intra-project `build` rather than
       `wahidyankf-www:build`, matching how `badakmini-cli:test:e2e` names its own `build`.
+- [ ] [AI] [AC-6] Edit the guard's search path in that same command: its trailing `.` becomes `tests/e2e` — acceptance:
+      the guard scans one directory, as it did before the merge. Copied verbatim it would scan the whole application,
+      because `.` is the working directory and that is now `apps/wahidyankf-www`: forty-three TypeScript files plus
+      `.next/`, which the command's `--exclude-dir` list does not name. Prove the scoping by running
+      `npx nx run wahidyankf-www:test:e2e` and confirming it reaches `bddgen` rather than failing in the guard, and by
+      adding a throwaway `test.skip(1)` line to a file under `tests/e2e/steps/`, confirming the guard fails, then
+      removing it — a guard that never fires is indistinguishable from a guard that scans nothing.
 - [ ] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `specs:e2e:baseline` target carrying the deleted
-      project's command verbatim, with `"cache": true`, `"options": {"cwd": "{projectRoot}"}`, and `inputs` naming
-      `default`, `behaviorCorpus`, `{projectRoot}/tests/e2e/e2e-skip-baseline.json`,
-      `{projectRoot}/tests/e2e/steps/**/*.ts`, and `{projectRoot}/playwright.config.ts` — acceptance: the command's
-      `require('./e2e-skip-baseline.json')` is repointed to `./tests/e2e/e2e-skip-baseline.json` to match the moved
-      file.
+      project's command verbatim, with `"cache": true`, `"options": {"cwd": "{projectRoot}"}`,
+      `"outputs": ["{projectRoot}/.features-gen"]` carried over from Phase 1, and `inputs` naming only `default` and
+      `behaviorCorpus` — acceptance: the three `{projectRoot}` paths the deleted project listed separately all sit
+      inside `{projectRoot}` once the files move, so the built-in `default` input already covers them; listing them
+      again is the same redundancy Phase 1 removes from `badakmini-cli`, and the Phase 2 gate's resolved-inputs read
+      confirms all three paths still appear. The command's `require('./e2e-skip-baseline.json')` is repointed to
+      `./tests/e2e/e2e-skip-baseline.json` to match the moved file.
 - [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/project.json` target `lint:commentary`: change the command to
       `eslint --config eslint.config.mjs src tests/e2e/steps` — acceptance: `npx nx run wahidyankf-www:lint:commentary`
       exits 0 and its output shows it read files under both directories.
@@ -265,6 +315,10 @@ commit because the compatibility window is zero.
       `test:coverage:integration`, `test:coverage:behavior`, and `test:quick`.
 - [ ] [AI] [AC-1] `npx nx show project badakmini-cli --json` — acceptance: the same ten targets are present, so both
       projects expose one identical contract.
+- [ ] [AI] [AC-3] `npx nx show project wahidyankf-www --json` for `specs:e2e:baseline` and `test:e2e` — acceptance: each
+      target's resolved `inputs` still covers the moved baseline file, the moved step directory, and
+      `playwright.config.ts`, proving the built-in `default` reaches them now that they sit inside `{projectRoot}` and
+      that dropping the three explicit entries changed no cache key.
 - [ ] [AI] [AC-6] `npx nx run wahidyankf-www:specs:e2e:baseline` — acceptance: exits 0, which asserts the generated
       `test.fixme` count is still exactly the 34 recorded in the moved baseline file. A count above 34 means a step file
       stopped binding at its new path.
@@ -309,6 +363,10 @@ rather than two files to compare.
       `options.cwd` rather than encoding its own project path in the command, and that a cached target that writes an
       artifact declares `outputs` while an uncached one declares none — acceptance: the `outputs` sentence gives the
       reason, that Nx replays a cache hit and restores nothing when a cached target declares no output path.
+- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that the shape rules above bind every
+      target a project declares, not only the ten in the contract — acceptance: the sentence is stated without an
+      exception, which is what Phase 1's `generate:cv-pdf` and `static-routes:validation` edits make true; a rule that
+      shipped with a carve-out would teach the next reader to add a second.
 - [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that `options.commands` expresses the
       ordered gate itself and `dependsOn` expresses a prerequisite that must precede the whole gate — acceptance: the
       distinction is stated as a rule with both halves, which is what makes `wahidyankf-www:test:quick`'s `dependsOn` on

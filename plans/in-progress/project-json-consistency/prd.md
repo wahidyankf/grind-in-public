@@ -44,6 +44,8 @@ Scenario: No target resolves to an undeclared cache state
   Given the workspace after this plan lands
   When every target's resolved cache value is read
   Then no target reports undefined, because each is set in project.json or reached by the root targetDefaults
+  And no uncached target declares outputs, because Nx restores nothing for a target it never caches
+  And every cached target that writes an artifact declares the path it writes
 ```
 
 Proof: the resolved-target inspection command in `delivery.md` Phase 1, which prints `cache=` per target and must show
@@ -70,8 +72,10 @@ Scenario: No target hardcodes its own project path
   Then none contains a literal apps/<name> path where options.cwd would resolve it
 ```
 
-Proof: `grep -n 'apps/badakmini-cli' apps/badakmini-cli/project.json` returns no command line, and
-`npx nx run badakmini-cli:test:quick` exits 0.
+Proof: `grep -n 'apps/badakmini-cli' apps/badakmini-cli/project.json` and
+`grep -n 'apps/wahidyankf-www' apps/wahidyankf-www/project.json` each return no line inside a `"command"` string, and
+`npx nx run badakmini-cli:test:quick` and `npx nx run wahidyankf-www:static-routes:validation` both exit 0. Both files
+are read because this criterion binds every target, not only the ten in the contract.
 
 ### [AC-5] One form invokes Nx from inside a target
 
