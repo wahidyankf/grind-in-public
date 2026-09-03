@@ -31,6 +31,11 @@ the language target. Next 16 leaves the application no alternative: it resolves 
 bundler, and a CommonJS-compatible configuration fails to build. The browser adapter now lives inside that project and
 compiles under the same settings.
 
+That adapter's own manifest declared `"type": "module"` before it moved, and the application's does not.
+`playwright-bdd` still generates ES modules, so Node emits `MODULE_TYPELESS_PACKAGE_JSON` on an E2E run and reparses
+them as ESM at a stated performance cost. The declaration is not added back: on a Next.js application manifest it
+changes how every file in the project resolves, which is far wider than the warning it would silence.
+
 Biome runs in both TypeScript projects as a linter only. The root `biome.json` sets `formatter.enabled` and
 `assist.enabled` to `false`, and Prettier remains the formatting source of truth. Biome v2 defaults
 `formatter.indentStyle` to tab where Prettier here uses two spaces, so an enabled Biome formatter would report every
