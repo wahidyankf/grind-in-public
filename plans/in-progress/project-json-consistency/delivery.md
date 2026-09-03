@@ -10,6 +10,18 @@ pushed, because Phase 4 reconciles file-impact.md over a SHA range read from
 here.
 -->
 
+- 2026-09-03 — Phase 2 complete, delivered as `a953b9c`. Gate passed: exactly two projects, both exposing the same ten
+  contract targets; the merged browser suite passes 36 and skips exactly 34, so every step file still binds at its new
+  path; the skip guard proved green at rest and firing on an injected line; `typecheck` clean with `.features-gen`
+  populated; cache and outputs inspections hold across both projects; `git grep` for the retired name is clean outside
+  `plans/`, with a positive control confirming the pattern matches; governance, links, workflows, and harness parity all
+  green.
+- 2026-09-03 — Phase 2: `nx affected` selected `wahidyankf-www` after the commit and before the push, confirming the
+  merged project is still reachable by the pre-push calculation. Run in the pre-commit position it had originally, it
+  would have compared `origin/main` with an identical `HEAD` and reported nothing.
+- 2026-09-03 — Phase 2 triggered Rules Propagation via `tooling.md` and `workspace-commands.md`. Ran it: the BDD role
+  matrix and the testing policy both describe a dedicated E2E project as permitted rather than required, so both stay
+  true with none in the workspace. No contradiction, no further edit.
 - 2026-09-03 — Phase 1 complete, delivered as four thematic commits: `a093764` the bare-`nx run` defect fix, `639f124`
   shared inputs hoisted to `namedInputs`, `36e14e0` the `options.cwd` migration, `d8c91fa` cache and outputs. Gate
   passed: 38 targets across three projects all declare a cache state, no uncached target declares `outputs`, every
