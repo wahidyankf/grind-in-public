@@ -10,6 +10,16 @@ pushed, because Phase 4 reconciles file-impact.md over a SHA range read from
 here.
 -->
 
+- 2026-09-03 — Phase 1 complete, delivered as four thematic commits: `a093764` the bare-`nx run` defect fix, `639f124`
+  shared inputs hoisted to `namedInputs`, `36e14e0` the `options.cwd` migration, `d8c91fa` cache and outputs. Gate
+  passed: 38 targets across three projects all declare a cache state, no uncached target declares `outputs`, every
+  cached artifact-writer names its path, all three cache probes missed on a content change and hit again on restore, and
+  coverage matched baseline exactly — badakmini 99.2% unit and 99.3% integration, `wahidyankf-www` 99.57% statements and
+  100% lines.
+- 2026-09-03 — Phase 1 plan change: the `tests/e2e` input removal was reverted. The cache probe passed, but
+  `TestE2EBindingInputRegression` in `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` reads `project.json` and
+  fails unless `test:coverage:behavior` declares that exact string. The input is test-enforced rather than redundant,
+  and the plan's non-goal forbids editing Badak Mini's Go code. Recorded in `learnings.md`.
 - 2026-09-03 — Phase 0 gate passed: `test:quick` for both projects, `test:integration`, `badakmini-cli:test:e2e`,
   `format:check`, and `check:markdown-links` all exit 0.
 - 2026-09-03 — Phase 0 complete, pushed as `d57fc82`. The plan folder was already in history at `0a208aa` with a
