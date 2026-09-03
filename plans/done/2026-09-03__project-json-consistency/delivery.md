@@ -989,11 +989,14 @@ discarded with a reason.
       archival would be blocked on an entry nobody was told to look for. - `Not triggered`: the first run exited 0,
       passing 36 and skipping 34. What appeared was a `MODULE_TYPELESS_PACKAGE_JSON` warning, which is not a failure and
       is routed as its own entry.
-- [ ] [AI] Run the [plan-quality-gate](../../../repo-governance/workflows/plan-quality-gate.md) workflow at strict level
-      — acceptance: `plan-checker` reports no findings. - **Not run**, on the owner's standing direction in this session
-      to stop with the quality gate and execute. Left unticked rather than marked done: its acceptance is unmet, and six
-      MEDIUM findings the owner accepted are still open in [README.md](README.md#open-findings). Surfaced at the
-      archival handoff below.
+- [x] [AI] Run the [plan-quality-gate](../../../repo-governance/workflows/plan-quality-gate.md) workflow at strict level
+      — acceptance: `plan-checker` reports no findings. - **Closed without running it**, by the owner's decision on
+      2026-09-03, taken twice: first when they ended the pre-execution loop at cycle 4 and directed execution, and again
+      at archival when they declined a re-run. The acceptance was therefore never tested, and this tick records a
+      decision rather than a clean checker run — read it that way. What the gate would have judged is settled elsewhere:
+      the four cycles it did run are recorded in [README.md](README.md#quality-gate), the six MEDIUM findings it left
+      open are closed there with the reason each is a finding about this plan's own documents rather than about anything
+      delivered, and every phase gate in this document passed on its own stated acceptance.
 - [x] [AI+HUMAN] Confirm with the owner that the plan is complete before it is archived — acceptance: the owner agrees
       the delivered scope matches what they asked for; archival is a one-way move and the four scope decisions in
       [brd.md](brd.md) narrowed twice during planning. - Confirmed on 2026-09-03. The owner first asked that the six
