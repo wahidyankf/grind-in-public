@@ -3,8 +3,6 @@
 import {
   Briefcase,
   FolderOpen,
-  Github,
-  Linkedin,
   Mail,
   Sparkles,
   Star,
@@ -26,6 +24,11 @@ import { Navigation } from "@/features/app-shell/shell/navigation";
 import { useState, useEffect } from "react";
 import { filterItems } from "@/features/search/core/search";
 import { SearchComponent, HighlightText } from "@/features/ui/shell";
+// Imported from the module rather than the `@/features/ui/shell` barrel: that
+// barrel is wholly replaced by `vi.mock` in seven suites because the shell
+// primitives behind it carry behavior worth stubbing, and these two are inert
+// SVG that every one of those mocks would then have to restate.
+import { GithubIcon, LinkedinIcon } from "@/features/ui/shell/brand-icons";
 import { parseMarkdownLinks } from "@/features/cv/shell/markdown";
 
 export type Portfolio = {
@@ -292,8 +295,10 @@ export function HomeContent() {
                   rel="noopener noreferrer"
                   className="flex items-center text-yellow-400 transition-colors duration-200 hover:text-green-400"
                 >
-                  {key === "github" && <Github className="mr-2 h-5 w-5" />}
-                  {key === "linkedin" && <Linkedin className="mr-2 h-5 w-5" />}
+                  {key === "github" && <GithubIcon className="mr-2 h-5 w-5" />}
+                  {key === "linkedin" && (
+                    <LinkedinIcon className="mr-2 h-5 w-5" />
+                  )}
                   {key === "email" && <Mail className="mr-2 h-5 w-5" />}
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </a>
