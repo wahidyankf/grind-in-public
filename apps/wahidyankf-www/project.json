@@ -92,8 +92,8 @@
     },
     "static-routes:validation": {
       "cache": false,
-      "command": "npm exec nx -- run wahidyankf-www:build --skip-nx-cache && node apps/wahidyankf-www/scripts/validate-static-routes.mjs",
-      "options": { "cwd": "{workspaceRoot}" }
+      "command": "npm exec nx -- run wahidyankf-www:build --skip-nx-cache && node scripts/validate-static-routes.mjs",
+      "options": { "cwd": "{projectRoot}" }
     },
     "test:quick": {
       "executor": "nx:run-commands",

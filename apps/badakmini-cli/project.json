@@ -10,50 +10,61 @@
   },
   "targets": {
     "build": {
-      "command": "go -C apps/badakmini-cli build -o dist/badak-mini ./cmd/badak-mini",
+      "options": { "cwd": "{projectRoot}" },
+      "command": "go build -o dist/badak-mini ./cmd/badak-mini",
       "outputs": ["{projectRoot}/dist"]
     },
     "governance": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "go -C apps/badakmini-cli run ./cmd/badak-mini harness instruction-size validate"
+      "command": "go run ./cmd/badak-mini harness instruction-size validate"
     },
     "markdown-links": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "go -C apps/badakmini-cli run ./cmd/badak-mini harness markdown-links validate"
+      "command": "go run ./cmd/badak-mini harness markdown-links validate"
     },
     "capability-parity": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "go -C apps/badakmini-cli run ./cmd/badak-mini harness capability-parity validate"
+      "command": "go run ./cmd/badak-mini harness capability-parity validate"
     },
     "rule-change": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "go -C apps/badakmini-cli run ./cmd/badak-mini harness rule-change validate"
+      "command": "go run ./cmd/badak-mini harness rule-change validate"
     },
     "lint": {
-      "command": "go -C apps/badakmini-cli tool golangci-lint run"
+      "options": { "cwd": "{projectRoot}" },
+      "command": "go tool golangci-lint run"
     },
     "test:unit": {
-      "command": "go -C apps/badakmini-cli test -count=1 ./cmd/... ./internal/... ./tests/bdd ./tests/unit",
+      "options": { "cwd": "{projectRoot}" },
+      "command": "go test -count=1 ./cmd/... ./internal/... ./tests/bdd ./tests/unit",
       "inputs": ["default", "behaviorCorpus"]
     },
     "test:integration": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "go -C apps/badakmini-cli test -count=1 ./tests/integration",
+      "command": "go test -count=1 ./tests/integration",
       "inputs": ["default", "behaviorCorpus"]
     },
     "test:e2e": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "BADAKMINI_BIN=\"$PWD/apps/badakmini-cli/dist/badak-mini\" go -C apps/badakmini-cli test -count=1 ./tests/e2e",
+      "command": "BADAKMINI_BIN=\"$PWD/dist/badak-mini\" go test -count=1 ./tests/e2e",
       "dependsOn": ["build", "test:coverage:behavior"],
       "inputs": ["default", "behaviorCorpus"]
     },
     "test:coverage:unit": {
-      "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
+      "options": { "cwd": "{projectRoot}" },
+      "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
       "inputs": ["default", "behaviorCorpus"]
     },
     "test:coverage:behavior": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "go -C apps/badakmini-cli test -count=1 ./tests/bdd",
+      "command": "go test -count=1 ./tests/bdd",
       "inputs": [
         "default",
         "behaviorCorpus",
@@ -61,8 +72,9 @@
       ]
     },
     "test:coverage:integration": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "mkdir -p local-tmp && go -C apps/badakmini-cli test -count=1 -coverpkg=./internal/cli -coverprofile=../../local-tmp/badakmini-integration.out ./tests/integration && go -C apps/badakmini-cli tool cover -func=../../local-tmp/badakmini-integration.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"integration statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
+      "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/cli -coverprofile=../../local-tmp/badakmini-integration.out ./tests/integration && go tool cover -func=../../local-tmp/badakmini-integration.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"integration statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
       "inputs": ["default", "behaviorCorpus"]
     },
     "test:coverage": {
@@ -100,7 +112,8 @@
       ]
     },
     "typecheck": {
-      "command": "go -C apps/badakmini-cli vet ./...",
+      "options": { "cwd": "{projectRoot}" },
+      "command": "go vet ./...",
       "inputs": ["default", "behaviorCorpus"]
     }
   }
