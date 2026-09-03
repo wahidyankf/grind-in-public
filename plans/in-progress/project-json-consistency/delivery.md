@@ -10,6 +10,15 @@ pushed, because Phase 4 reconciles file-impact.md over a SHA range read from
 here.
 -->
 
+- 2026-09-03 — Phase 0 gate passed: `test:quick` for both projects, `test:integration`, `badakmini-cli:test:e2e`,
+  `format:check`, and `check:markdown-links` all exit 0.
+- 2026-09-03 — Phase 0 complete, pushed as `d57fc82`. The plan folder was already in history at `0a208aa` with a
+  revision at `b3d74ea`, so this commit carried only what remained: the quality-gate fixes, the `plans/in-progress`
+  index entry, and Phase 0's ticks, notes, and first learning. Baseline recorded — `wahidyankf-www` unit coverage 99.57%
+  statements and 100% lines, `badakmini-cli` 99.2% statements, skip baseline 34, three projects resolved.
+- 2026-09-03 — Plan quality gate, strict, four cycles, partial. 36 findings fixed; six MEDIUM accepted open by the owner
+  and listed in [README.md](README.md#open-findings), which the executor reads before the phase each one touches.
+
 ## Executor Tags
 
 `[AI]` an agent can fully perform it. `[HUMAN]` only the owner. `[AI+HUMAN]` an agent prepares and the owner approves or
@@ -47,13 +56,13 @@ plan and nothing else.
       `No plan folders right now.`, both link `project-json-consistency/README.md`, and `npm run check:markdown-links`
       resolves them. - Already satisfied before execution began: both lists were written during the quality gate.
       Verified here, with `check:markdown-links` exiting 0.
-- [ ] [AI] Commit the plan folder and that index update with message `docs(plans): start project-json-consistency`, then
+- [x] [AI] Commit the plan folder and that index update with message `docs(plans): start project-json-consistency`, then
       push to `main` — acceptance: `git status --short` is empty and `git log origin/main -1 --oneline` names the
       commit. The plan folder, and possibly the index entry with it, may already be committed when execution begins,
       because planning commits them: run `git log --oneline -- plans/in-progress/project-json-consistency` first. If the
       folder is already in history, commit only what is still uncommitted, and tick this item with an implementation
       note naming the existing SHA rather than re-committing what is already there.
-- [ ] [AI] Record the Phase 0 commit SHA in the Execution Record above as one dated line, taken from
+- [x] [AI] Record the Phase 0 commit SHA in the Execution Record above as one dated line, taken from
       `git rev-parse --short HEAD` after the push — or the SHA named in the implementation note above, if the plan
       folder was already committed — acceptance: the Execution Record names one SHA for Phase 0. Every later phase does
       the same at its own commit, and Phase 4's file-impact reconciliation reads its range ends from those recorded
@@ -64,12 +73,12 @@ plan and nothing else.
 
 > Every check below passes before Phase 1 begins. A failure is fixed inside Phase 0.
 
-- [ ] [AI] `npm run test:quick` — acceptance: exits 0 with both `badakmini-cli` and `wahidyankf-www` reported as
+- [x] [AI] `npm run test:quick` — acceptance: exits 0 with both `badakmini-cli` and `wahidyankf-www` reported as
       successful tasks.
-- [ ] [AI] `npm run test:integration` — acceptance: exits 0 for both projects.
-- [ ] [AI] `npx nx run badakmini-cli:test:e2e` — acceptance: exits 0.
-- [ ] [AI] `npm run format:check` — acceptance: exits 0 over the new plan documents.
-- [ ] [AI] `npm run check:markdown-links` — acceptance: exits 0. Run
+- [x] [AI] `npm run test:integration` — acceptance: exits 0 for both projects.
+- [x] [AI] `npx nx run badakmini-cli:test:e2e` — acceptance: exits 0.
+- [x] [AI] `npm run format:check` — acceptance: exits 0 over the new plan documents.
+- [x] [AI] `npm run check:markdown-links` — acceptance: exits 0. Run
       `git add -N plans/in-progress/project-json-consistency` first, because the check reads Git-tracked files and a new
       document is invisible to it otherwise.
 
