@@ -17,6 +17,10 @@ that must run several existing targets in order with the built-in `nx:run-comman
 `options.commands` list, and `options.parallel` set to `false`. Invoke the existing Nx target entry points from that
 list instead of copying their underlying commands, so only the individual targets own those commands.
 
+This policy owns how Nx may be used; the [testing policy](testing-policy.md) owns which targets a project exposes and
+[Target Shape](testing-policy/target-shape.md) owns what each one declares. Read those before adding a target, rather
+than inferring the convention from a neighbouring file.
+
 Use ordinary, exact-pinned npm or language-native dependencies for compilation, testing, and execution. The built-in
 command runner is not a technology plugin and does not justify adding an `@nx/*` package.
 

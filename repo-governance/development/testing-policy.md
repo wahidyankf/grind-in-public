@@ -9,14 +9,31 @@ when_to_use: "Use when adding, changing, or running project test and quality tar
 
 This policy applies to every Nx project in this repository.
 
+## The Target Contract
+
+Every project exposes the same ten targets, so a workspace-wide command reaches all of them without special-casing one:
+
+`typecheck`, `lint`, `test:unit`, `test:integration`, `test:e2e`, `test:coverage:unit`, `test:coverage:integration`,
+`test:coverage:behavior`, `test:coverage`, and `test:quick`.
+
+Three are eligibility-dependent, and their absence is a signal rather than a gap. A library never owns `test:e2e`. A
+project that owns no real local boundary defines no `test:integration`, and therefore no `test:coverage:integration`.
+Everything else is required of every project.
+
+[Target Shape](testing-policy/target-shape.md) owns what each target declares — `cache`, `outputs`, `options.cwd`, and
+shared `namedInputs` — and binds every target a project declares, not only these ten.
+
 ## Quick Tests
 
-Each application and library exposes cacheable `typecheck`, `lint`, `test:unit`, `test:coverage`, and `test:quick`
-targets. An application's process E2E target is uncached and outside `test:quick`. The
-[BDD policy](behavior-driven-development-policy.md) owns its placement: a co-located package uses the owner's
-`typecheck`, `lint`, and `test:e2e` targets, while a permitted dedicated project owns equivalent targets. `test:quick`
-is an ordered `nx:run-commands` aggregate with parallel execution disabled; it invokes its required fast target entry
-points without copying their underlying commands.
+`typecheck`, `lint`, `test:unit`, `test:coverage`, and `test:quick` are cacheable. An application's process E2E target
+is uncached and outside `test:quick`. The [BDD policy](behavior-driven-development-policy.md) owns its placement: a
+co-located package uses the owner's `typecheck`, `lint`, and `test:e2e` targets, while a permitted dedicated project
+owns equivalent targets. `test:quick` is an ordered `nx:run-commands` aggregate with parallel execution disabled; it
+invokes its required fast target entry points without copying their underlying commands.
+
+Two mechanisms express ordering and they are not interchangeable. `options.commands` expresses the ordered gate itself,
+the sequence a reader runs. `dependsOn` expresses a prerequisite that must precede the whole gate, whatever entry point
+invoked it. A build a gate cannot run without belongs in `dependsOn`; a step of the gate belongs in `options.commands`.
 
 ```text
 typecheck -> lint -> test:unit -> test:coverage

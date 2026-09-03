@@ -37,7 +37,7 @@ validation only.
 - State the hook and its scope in the [workspace commands](workspace-commands.md) hook summary, which is canonical for
   what each hook runs.
 
-Badak Mini owns `test:unit`, `test:integration`, `test:e2e`, `test:coverage:unit`, `test:coverage:integration`,
-`test:coverage:behavior`, `test:coverage`, and `test:quick`. Its co-located `tests/e2e` package owns process E2E. See
+Badak Mini exposes the full target contract the [testing policy](testing-policy.md) states, rather than a list repeated
+here that would drift from it. Its co-located `tests/e2e` package owns process E2E. See
 [Badak Mini's README](../../apps/badakmini-cli/README.md) for its current command surface and local verification
 commands.

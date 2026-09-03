@@ -10,6 +10,15 @@ pushed, because Phase 4 reconciles file-impact.md over a SHA range read from
 here.
 -->
 
+- 2026-09-03 — Phase 3 complete. The contract went into `testing-policy.md` (550 words, under the limit and outside the
+  700-word headroom band) with the shape rules in a new `testing-policy/target-shape.md` companion, because stating all
+  of it in one document would have crossed the limit. Gate passed: every rule the documents now state was read against
+  both delivered `project.json` files and holds — cache declared on all 34 targets, no inert `outputs`, every cached
+  artifact-writer naming its path, no command encoding its own project path, and shared inputs named once.
+- 2026-09-03 — Phase 3 Rules Propagation found one real drift risk: `badakmini-cli-policy.md` restated eight of the ten
+  contract targets. A duplicated list is what later disagrees with its source, so it now points at the contract.
+  `workspace-commands.md` also gained the `badakmini-cli:test:quick` narrower run it had omitted. The BDD role matrix
+  and the Nx workspace policy needed no change.
 - 2026-09-03 — Phase 2 complete, delivered as `a953b9c`. Gate passed: exactly two projects, both exposing the same ten
   contract targets; the merged browser suite passes 36 and skips exactly 34, so every step file still binds at its new
   path; the skip guard proved green at rest and firing on an injected line; `typecheck` clean with `.features-gen`
@@ -779,21 +788,21 @@ commit because the compatibility window is zero.
 Promotes the shape both projects now share out of this plan and into governance, so a third project has a rule to read
 rather than two files to compare.
 
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: in the Quick Tests section, replace the partial
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: in the Quick Tests section, replace the partial
       target list with the full contract naming `typecheck`, `lint`, `test:unit`, `test:integration`, `test:e2e`,
       `test:coverage:unit`, `test:coverage:integration`, `test:coverage:behavior`, `test:coverage`, and `test:quick`,
       and state which are eligibility-dependent — acceptance: the existing rule that a library defines no
       `test:integration` when it owns no local boundary, and that a library never owns `test:e2e`, is preserved rather
       than contradicted.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that every target declares `cache`
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that every target declares `cache`
       explicitly wherever the root `nx.json` `targetDefaults` does not reach it, so no target resolves to an undeclared
       state — acceptance: the sentence names `targetDefaults` as the other source, so a reader does not add a redundant
       declaration to the six targets it already covers.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that a single-command target declares
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that a single-command target declares
       `options.cwd` rather than encoding its own project path in the command, and that a cached target that writes an
       artifact declares `outputs` while an uncached one declares none — acceptance: the `outputs` sentence gives the
       reason, that Nx replays a cache hit and restores nothing when a cached target declares no output path.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: in the same place, define what "writes an
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: in the same place, define what "writes an
       artifact" means — something a later target or a person consumes — and state that a compiler's own incremental
       state is not one, because nothing reads it but the compiler that wrote it and it is regenerated on demand —
       acceptance: the definition is written as a definition, not as an exception, and `wahidyankf-www:typecheck` is the
@@ -803,38 +812,38 @@ rather than two files to compare.
       every target with no carve-out, which is the item below; this says what the rule's own terms mean.
       `badakmini-cli:typecheck` is the same shape and needs no separate wording: `go vet` writes only into the Go build
       cache, outside the workspace entirely.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that the shape rules above bind every
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that the shape rules above bind every
       target a project declares, not only the ten in the contract — acceptance: the sentence is stated without an
       exception, which is what Phase 1's `generate:cv-pdf` and `static-routes:validation` edits make true; a rule that
       shipped with a carve-out would teach the next reader to add a second.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that `options.commands` expresses the
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that `options.commands` expresses the
       ordered gate itself and `dependsOn` expresses a prerequisite that must precede the whole gate — acceptance: the
       distinction is stated as a rule with both halves, which is what makes `wahidyankf-www:test:quick`'s `dependsOn` on
       `static-routes:validation` a documented choice rather than an unexplained second ordering mechanism.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that a shared input path is declared once
+- [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: state that a shared input path is declared once
       as a project-level `namedInputs` entry and referenced by name — acceptance: the sentence explains that the
       alternative, repeating the glob, is what let the three files drift into different input sets.
-- [ ] [AI] [AC-7] Run `npm run check:governance` — acceptance: exits 0, and
+- [x] [AI] [AC-7] Run `npm run check:governance` — acceptance: exits 0, and
       `wc -w repo-governance/development/testing-policy.md` reports under 750. If it reports 700 or more, the document
       has entered the headroom band and the
       [document word limit policy](../../../repo-governance/conventions/document-word-limit-policy.md) governs how it is
       fixed; move the added detail into `repo-governance/development/testing-policy/` rather than dropping any of it.
-- [ ] [AI] [AC-7] Edit `repo-governance/development/nx-workspace-policy.md`: add one sentence in Required Approach
+- [x] [AI] [AC-7] Edit `repo-governance/development/nx-workspace-policy.md`: add one sentence in Required Approach
       linking to the testing policy's target contract — acceptance: a reader arriving to add a target is sent to the
       shape rule, and `npm run check:governance` still exits 0 for this document too.
-- [ ] [AI] [AC-7] Edit `docs/how-to/run-nx-workspace.md`: in the paragraph that already names `project.json` and
+- [x] [AI] [AC-7] Edit `docs/how-to/run-nx-workspace.md`: in the paragraph that already names `project.json` and
       `nx.json`, add the pointer to the target contract — acceptance: the how-to links the policy rather than restating
       it, so the two cannot drift.
-- [ ] [AI] Run `npm run format` — acceptance: exits 0 and `npm run format:check` afterwards also exits 0.
+- [x] [AI] Run `npm run format` — acceptance: exits 0 and `npm run format:check` afterwards also exits 0.
 
 ### Phase 3 Gate
 
 > Every check below passes before Phase 4 begins. A failure is fixed inside Phase 3.
 
-- [ ] [AI] [AC-7] `npm run check:governance` — acceptance: exits 0, holding every edited governance document under the
+- [x] [AI] [AC-7] `npm run check:governance` — acceptance: exits 0, holding every edited governance document under the
       750-word limit.
-- [ ] [AI] `npm run check:markdown-links` — acceptance: exits 0 over the three new cross-document links.
-- [ ] [AI] [AC-2] Re-run both inspections from the Phase 2 gate unchanged, now against the rule this phase has written:
+- [x] [AI] `npm run check:markdown-links` — acceptance: exits 0 over the three new cross-document links.
+- [x] [AI] [AC-2] Re-run both inspections from the Phase 2 gate unchanged, now against the rule this phase has written:
       the `cache` one and the `outputs` one, over `badakmini-cli` and `wahidyankf-www`, with the extended
       `wahidyankf-www` artifact map carrying `specs:e2e:baseline` — acceptance: all four runs exit 0 and print the
       `all N targets declare cache` and `outputs rule holds for all N targets` forms with a non-zero N, and the
@@ -846,7 +855,7 @@ rather than two files to compare.
       the Execution Record, stop, and return to the owner rather than repairing configuration inside a documentation
       phase, where the repair would land in a commit messaged `docs(testing): state the project target contract`
       carrying a diff that message does not name.
-- [ ] [AI] [AC-7] Read `repo-governance/development/testing-policy.md` against `apps/badakmini-cli/project.json` and
+- [x] [AI] [AC-7] Read `repo-governance/development/testing-policy.md` against `apps/badakmini-cli/project.json` and
       `apps/wahidyankf-www/project.json`. This stays a review rather than a command, because the rules are prose and no
       check parses them — but it writes down what it compared, so the record exists to be disputed: append to
       `learnings.md` one line per rule the policy now states, naming the rule, the target in each file it was checked
@@ -855,7 +864,7 @@ rather than two files to compare.
       rule or in the files, and is fixed inside this phase rather than noted. This item is `[AC-7]`'s proof;
       `check:governance` and `check:markdown-links` in this same gate are constraints on the edit, not observations of
       it, because a policy naming none of the ten targets would pass both.
-- [ ] [AI] Stage this phase's edits first with
+- [x] [AI] Stage this phase's edits first with
       `git add repo-governance/development/testing-policy.md repo-governance/development/nx-workspace-policy.md docs/how-to/run-nx-workspace.md`,
       then run `npm run check:rule-change` — acceptance: `git diff --cached --name-only` lists exactly those three
       paths, with no `project.json` among them, because the inspection re-run above is read-only and this phase edits no
@@ -867,14 +876,14 @@ rather than two files to compare.
       one makes a new, untracked document visible to `check:markdown-links`, while these three are already-tracked files
       whose modifications only a real `git add` puts in the index. Staging here also costs nothing later: the commit at
       the end of this gate stages the rest of the phase's work, the ticked checkboxes among it.
-- [ ] [AI] Run the [Rules Propagation](../../../repo-governance/workflows/rules/rules-propagation.md) workflow for the
+- [x] [AI] Run the [Rules Propagation](../../../repo-governance/workflows/rules/rules-propagation.md) workflow for the
       edited policies — acceptance: it reports no unresolved contradiction between the new contract and the
       [Nx workspace policy](../../../repo-governance/development/nx-workspace-policy.md), the
       [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), or
       [workspace commands](../../../repo-governance/development/workspace-commands.md).
-- [ ] [AI] `npm run test:quick` — acceptance: exits 0 for both projects, confirming a documentation-only phase changed
+- [x] [AI] `npm run test:quick` — acceptance: exits 0 for both projects, confirming a documentation-only phase changed
       no executable behavior.
-- [ ] [AI] Commit with message `docs(testing): state the project target contract` and push to `main` — acceptance:
+- [x] [AI] Commit with message `docs(testing): state the project target contract` and push to `main` — acceptance:
       `git status --short` is empty and the commit's SHA is written into the Execution Record as Phase 0 requires. This
       is the SHA Phase 4's file-impact reconciliation uses as the far end of its range.
 

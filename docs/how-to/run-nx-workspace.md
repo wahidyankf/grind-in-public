@@ -71,4 +71,5 @@ affected projects under `apps/` and `libs/`. See the shared
 
 Nx discovers the projects from their `project.json` files. Inspect them with `npx nx show projects`. This repository
 uses only raw Nx command targets; see the
-[Nx workspace policy](../../repo-governance/development/nx-workspace-policy.md) before adding Nx tooling.
+[Nx workspace policy](../../repo-governance/development/nx-workspace-policy.md) before adding Nx tooling, and
+[Target Shape](../../repo-governance/development/testing-policy/target-shape.md) for what a target declares.

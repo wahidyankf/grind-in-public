@@ -37,6 +37,7 @@ npx nx run badakmini-cli:test:coverage:integration
 npx nx run badakmini-cli:test:coverage:behavior
 npx nx run badakmini-cli:test:coverage
 npx nx run badakmini-cli:test:e2e
+npx nx run badakmini-cli:test:quick
 npx nx run wahidyankf-www:test:unit
 npx nx run wahidyankf-www:test:integration
 npx nx run wahidyankf-www:test:coverage:unit
