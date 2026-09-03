@@ -1,0 +1,116 @@
+# Product Requirements
+
+## Scope Note on Gherkin
+
+Every acceptance criterion below is a **plan-only operational outcome**, not durable application behavior. This plan
+changes build configuration, project layout, and one governance document; it adds no production code path and changes no
+scenario in `specs/`. The [specs policy](../../../repo-governance/development/specs-policy.md) permits a plan to retain
+such outcomes when [tech-docs/specification-changes.md](tech-docs/specification-changes.md) labels them plan-only, gives
+the reason, and names the delivery proof. That document does so for all seven, and each criterion below names its own
+proof command.
+
+Because nothing here is durable behavior, no criterion becomes a RED → GREEN → REFACTOR cycle and none lands in
+`specs/apps/*/behavior/`. The [TDD policy](../../../repo-governance/development/tdd-policy.md) cycle rule binds behavior
+changes in `apps/` and `libs/`; there are none.
+
+## User Stories
+
+**US-1** — As the repository owner, I want every Nx project to expose the same target names, so that a workspace-wide
+command reaches every project without special-casing one of them.
+
+**US-2** — As an agent session adding a target, I want one written rule describing what a `project.json` target must
+declare, so that I do not have to infer a convention by comparing two files that disagree.
+
+**US-3** — As the repository owner, I want the browser suite to belong to the application it tests, so that editing a
+step file is covered by the same push-time gate as editing the application.
+
+## Acceptance Criteria
+
+### [AC-1] Every project exposes the full target contract
+
+```gherkin
+Scenario: Both projects expose the ten contract targets
+  Given the workspace after this plan lands
+  When the target list of every discovered project is inspected
+  Then each project declares typecheck, lint, test:unit, test:integration, test:e2e, test:coverage, test:coverage:unit, test:coverage:integration, test:coverage:behavior, and test:quick
+```
+
+Proof: `npx nx show project <name> --json` for each of `badakmini-cli` and `wahidyankf-www`.
+
+### [AC-2] Every target declares its cache state explicitly
+
+```gherkin
+Scenario: No target resolves to an undeclared cache state
+  Given the workspace after this plan lands
+  When every target's resolved cache value is read
+  Then no target reports undefined, because each is set in project.json or reached by the root targetDefaults
+```
+
+Proof: the resolved-target inspection command in `delivery.md` Phase 1, which prints `cache=` per target and must show
+no `undefined`.
+
+### [AC-3] A shared input glob is declared once
+
+```gherkin
+Scenario: The behavior corpus is named by a shared input
+  Given the workspace after this plan lands
+  When a project target depends on the canonical Gherkin corpus
+  Then it references a namedInput declared in nx.json rather than repeating the glob
+```
+
+Proof: `grep -c` over each `project.json` for the raw corpus glob returns zero, and `npx nx show project` still lists
+the corpus path under each affected target's resolved inputs.
+
+### [AC-4] Project-relative commands resolve through a declared working directory
+
+```gherkin
+Scenario: No target hardcodes its own project path
+  Given the workspace after this plan lands
+  When every target command is read
+  Then none contains a literal apps/<name> path where options.cwd would resolve it
+```
+
+Proof: `grep -n 'apps/badakmini-cli' apps/badakmini-cli/project.json` returns no command line, and
+`npx nx run badakmini-cli:test:quick` exits 0.
+
+### [AC-5] One form invokes Nx from inside a target
+
+```gherkin
+Scenario: A nested Nx invocation uses the workspace-local binary
+  Given the workspace after this plan lands
+  When a target command invokes another Nx target
+  Then it uses npm exec nx -- run rather than a bare nx run
+```
+
+Proof: `grep -n '"command".*[^-] nx run' apps/*/project.json` returns nothing.
+
+### [AC-6] The browser E2E adapter is co-located in the application
+
+```gherkin
+Scenario: The application owns its process E2E target
+  Given the workspace after this plan lands
+  When the discovered project list is read
+  Then wahidyankf-www-e2e is absent and wahidyankf-www owns test:e2e against the same corpus
+```
+
+Proof: `npx nx show projects` lists exactly `badakmini-cli` and `wahidyankf-www`; `npx nx run wahidyankf-www:test:e2e`
+passes; `npx nx run wahidyankf-www:specs:e2e:baseline` still reports the recorded count of 34.
+
+### [AC-7] The contract is written down
+
+```gherkin
+Scenario: The testing policy states the full target contract
+  Given the repository after this plan lands
+  When testing-policy.md is read
+  Then it names all ten targets, states which are eligibility-dependent, and states when dependsOn rather than options.commands expresses ordering
+```
+
+Proof: `npm run check:governance` keeps `testing-policy.md` under 750 words, and `npm run check:markdown-links` resolves
+every link it gains.
+
+## Out of Scope
+
+- Renaming any target. The `check:*` family considered during planning is a recorded non-goal in [brd.md](brd.md).
+- Any Badak Mini command, target, or pre-push wiring.
+- Moving `static-routes:validation` out of `test:quick`'s `dependsOn`.
+- Any change to a coverage threshold, denominator, exclusion, or Gherkin scenario.
