@@ -22,22 +22,44 @@ unprovable in `specs/`:
 | Criterion | Proved at    | By                                            |
 | --------- | ------------ | --------------------------------------------- |
 | `[AC-1]`  | Phase 2 gate | `npx nx show project` for both projects       |
-| `[AC-2]`  | Phase 1 gate | the resolved-cache inspection                 |
-| `[AC-3]`  | Phase 1 gate | a `grep` count and a resolved-inputs diff     |
+| `[AC-2]`  | Phases 1-3   | the cache and the outputs inspections         |
+| `[AC-3]`  | Phase 1 gate | a `grep` count and a cache-invalidation probe |
 | `[AC-4]`  | Phase 1 gate | a `grep` plus `test:quick` and `test:e2e`     |
 | `[AC-5]`  | Phase 1 gate | a `grep` for a bare `nx run`                  |
 | `[AC-6]`  | Phase 2 gate | `nx show projects`, `test:e2e`, the baseline  |
-| `[AC-7]`  | Phase 3 gate | `check:governance` and `check:markdown-links` |
+| `[AC-7]`  | Phase 3 gate | the policy-against-`project.json` review      |
 
-`[AC-1]` requires both project inspections to list all ten contract targets. `[AC-2]` requires the inspection to report
-no target whose `cache` resolves to undefined, and to name a non-zero target count so the check is proved to have read a
-populated set. `[AC-6]` requires three things together: exactly two discovered projects, a passing browser suite, and a
+`[AC-1]` requires both project inspections to list all ten contract targets. `[AC-2]` is proved by two commands, one per
+half of its scenario. The cache inspection must report no target whose `cache` resolves to undefined, and must name a
+non-zero target count so the check is proved to have read a populated set. The outputs inspection must report no
+uncached target declaring `outputs` and no cached target writing a mapped artifact without declaring it, against an
+artifact map written out per project because no command can infer which cached target writes something. Both inspections
+run in the Phase 1 gate over the three pre-merge projects, again in the Phase 2 gate over the two post-merge ones with
+the `wahidyankf-www` map extended to carry the `specs:e2e:baseline` target that phase adds, and once more in the Phase 3
+gate against the rule that phase writes. The Phase 2 placement is deliberate: a failure there is repaired in the
+`project.json` that phase is already changing, inside its own commit theme, where the same repair forced in Phase 3
+would put configuration in a documentation commit. Phase 4 reconciles this criterion against that extended, post-merge
+form. `[AC-6]` requires three things together: exactly two discovered projects, a passing browser suite, and a
 skipped-scenario count still equal to 34.
 
-`AC-3`'s proof is deliberately two commands rather than one. A `grep` returning zero is a criterion satisfied by finding
-nothing, and on its own it is equally satisfied by a file that was deleted or a pattern that never matched. The
-resolved-inputs comparison is what proves the command looked at something real: the corpus path must still appear in
-`npx nx show project --json` output for the same targets after the change.
+`[AC-7]`'s proof is the Phase 3 gate item that reads `repo-governance/development/testing-policy.md` against
+`apps/badakmini-cli/project.json` and `apps/wahidyankf-www/project.json` and writes down, rule by rule, which target in
+which file it was checked against. `npm run check:governance` and `npm run check:markdown-links` also run in that gate,
+but neither observes this criterion: the first counts words and the second resolves links, and both pass over a policy
+that says nothing at all about the ten targets. They are kept as the constraints the edit must respect, not as its
+proof.
+
+`AC-3`'s proof is deliberately two commands rather than one. The `grep` count is the "declared once" half: it must print
+`1` per `project.json`, the single occurrence being the `namedInputs` declaration. On its own a count is equally
+satisfied by a name nothing references, so it is paired with a half that proves the reference reaches the corpus. That
+half is a cache-invalidation probe, not a reading of `npx nx show project --json`: the `--json` output reports the
+**declared** `inputs` array verbatim and expands neither `default` nor a `namedInputs` reference, so after this refactor
+it prints `["default", "behaviorCorpus"]` and the corpus path is gone from it by construction — a comparison against the
+pre-change output would report a difference on every affected target and could never distinguish a working reference
+from a broken one. Nx hashes file content instead, so appending a Gherkin comment line to a corpus feature file must
+turn a cache hit into a miss on every target naming `behaviorCorpus`, and restoring the file with `git checkout --` must
+turn it back into a hit. That is the probe `delivery.md`'s Phase 1 gate runs, and every probe ends by asserting
+`git diff --stat` no longer names the file it touched, so the corpus is provably byte-identical afterwards.
 
 ## Gherkin
 
@@ -47,6 +69,11 @@ resolved-inputs comparison is what proves the command looked at something real: 
 - `specs/apps/wahidyankf-www/behavior/` — twelve feature files, all `[unchanged]`.
 
 Every scenario in both corpora is preserved. None is changed, moved, deleted, or added.
+
+Phase 1's cache probe is the one place a `.feature` file is written to at all. It appends a single `#` comment line to
+`capability-parity.feature` and to `accessibility.feature`, then restores each with `git checkout --` inside the same
+checklist item and asserts `git diff --stat` names neither file afterwards. `#` opens a Gherkin comment, so even the
+transient state holds no scenario change, and no committed state differs from the baseline.
 
 **What changes is which project runs one adapter, not what any adapter asserts.** The Playwright binding set moves from
 `apps/wahidyankf-www-e2e/steps/` to `apps/wahidyankf-www/tests/e2e/steps/`. The eight bound feature files stay bound to
@@ -81,14 +108,67 @@ entry, because no file under `specs/` is added or removed:
 
 ## C4
 
-`specs/apps/wahidyankf-www/architecture.md` is the as-built model and it names the deleted project in four places. It is
-updated in Phase 2, in the same commit as the merge, so the model never describes a container that does not exist.
+`specs/apps/wahidyankf-www/architecture.md` is the as-built model and it carries the deleted project in four places: the
+Scope sentence naming "one dedicated E2E project" and the shared-model provision it invokes, the project table row, the
+Container View node, and the paragraph below the diagram that justifies drawing it. Two of the four hold the literal
+name; the other two describe the project without naming it. It is updated in Phase 2, in the same commit as the merge,
+so the model never describes a container that does not exist. Its two later references to "the E2E adapter", under
+Process and under Environment, are not among the four: each names a role that survives the merge and each stays true, so
+[file-impact.md](file-impact.md) records them as untouched.
 
-**The view that changes: Container View.** The node `wahidyankf-www-e2e [Container: Playwright] Process E2E adapter` is
-removed as a separate container and redrawn as a test-time process belonging to `wahidyankf-www`. The relationship it
-carries — starting the application through `next start` and driving it over HTTP through a browser — is preserved
-exactly, because that relationship is what makes it a real process boundary and the merge does not change it. What stops
-being true is only the container's ownership: it is no longer a distinct deployable-scope unit with its own project.
+**The view that changes: Container View.** The lower node is redrawn. The relationship it carries — starting the
+application through `next start` and driving it over HTTP through a browser — is preserved exactly, arrow and label
+included, because that relationship is what makes it a real process boundary and the merge does not change it. What
+stops being true is only the node's ownership: it is no longer a distinct deployable-scope unit with its own project.
+Both blocks are written out here rather than described, because a described diagram is one the executor has to invent.
+
+Before, exactly as `specs/apps/wahidyankf-www/architecture.md` holds it today:
+
+```text
+   +-----------+                +----------------------------------+
+   |  Visitor  | -- HTTPS ----> |               web                |
+   | [Person]  |                |  [Container: Next.js 16]         |
+   +-----------+                |  Statically rendered at build    |
+                                +----------------------------------+
+                                                 ^
+                                                 | starts and drives
+                                                 | over a local port
+                                  +--------------------------------+
+                                  |     wahidyankf-www-e2e         |
+                                  |  [Container: Playwright]       |
+                                  |  Process E2E adapter           |
+                                  +--------------------------------+
+```
+
+After, and this is the block the Phase 2 edit produces character for character:
+
+```text
+   +-----------+                +----------------------------------+
+   |  Visitor  | -- HTTPS ----> |               web                |
+   | [Person]  |                |  [Container: Next.js 16]         |
+   +-----------+                |  Statically rendered at build    |
+                                +----------------------------------+
+                                                 ^
+                                                 | starts and drives
+                                                 | over a local port
+                                  +--------------------------------+
+                                  |  apps/wahidyankf-www/tests/e2e |
+                                  |  [Test-time process]           |
+                                  |  Playwright                    |
+                                  |  Process E2E adapter           |
+                                  +--------------------------------+
+```
+
+**Why the lower node loses its `[Container: ...]` stereotype.** The Containers section opens "One container." and its
+table lists one row, `web`. The diagram contradicts that today: it draws a second box labelled `[Container: Playwright]`
+that the sentence and the table both deny. The merge is the occasion to resolve it, and it is resolved in the direction
+the prose already takes rather than the direction the diagram does. The opening sentence and the single-row table are
+**not** edited; the lower node drops the C4 container stereotype and gains `[Test-time process]` instead, so the count
+the section states and the boxes the diagram draws finally agree. The alternative — keeping `[Container: ...]` and
+rewriting the sentence to "Two containers" — would assert that a Playwright harness is a deployable unit of this system,
+which it is not: it is never deployed, it exists only while a test runs, and nothing serves traffic from it. The node
+keeps its box because it is still a real process boundary, and the paragraph below the diagram is what says why a
+non-container box appears in a container view at all.
 
 **The constraint that changes.** The prose currently reads that the adapter "is a different toolchain from the
 in-process behavior adapter", offered as the justification for a separate project. The toolchain difference is still

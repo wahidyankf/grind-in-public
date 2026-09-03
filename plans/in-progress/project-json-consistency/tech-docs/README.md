@@ -139,7 +139,11 @@ one and removing the other would make the rule false of the file it was derived 
 opposite direction too: `specs:e2e:baseline` is cached and runs `bddgen`, which writes `.features-gen/`, so it gains an
 `outputs` declaration it does not carry today. `test:e2e` regenerates that directory anyway, which is why its absence
 has never surfaced as a failure — but a cached target that restores nothing is the same defect whether or not something
-downstream happens to paper over it.
+downstream happens to paper over it. The rule's terms are defined rather than carved out: "writes an artifact" means
+producing something a later target or a person consumes, so `typecheck` declares no `outputs` even though it is cached
+and leaves `tsconfig.tsbuildinfo` behind under `"incremental": true`, because nothing reads that file but the compiler
+that wrote it. Phase 1's artifact map records `typecheck` as exactly that, and [learnings.md](../learnings.md) carries
+the definition as a stated assumption for Phase 4 to route.
 
 **`badakmini-cli:test:coverage:unit` becomes cached and declares its output.** An undeclared `cache` means uncached, so
 this is a real change to when the Go coverage gate runs rather than a notation fix. It writes
@@ -162,11 +166,16 @@ which reinstates exactly the split this merge removes. Phase 2 therefore runs `t
 under the old settings first and records what it reports, so the plan states the size of what is given up instead of
 asserting it is nothing.
 
-**`.features-gen/` must be excluded in one new place.** Generation moves to `apps/wahidyankf-www/.features-gen/`, inside
-a project whose `tsconfig.json` includes `**/*.ts` and excludes only `node_modules`. Without a new exclude, `typecheck`
-would compile generated test files. Vitest, Biome, and the coverage denominator need no change: no Vitest project's
-`include` reaches `tests/e2e/`, Biome reads the root `.gitignore` through `vcs.useIgnoreFile`, and the denominator is
-`src/**`.
+**`.features-gen/` gains a `tsconfig` exclude as defence in depth, not as a fix.** Generation moves to
+`apps/wahidyankf-www/.features-gen/`, inside a project whose `tsconfig.json` excludes only `node_modules`. The reason
+for adding `.features-gen` there is stated exactly, because a wrong reason is what gets the line deleted later: `bddgen`
+emits only `*.feature.spec.js`, and that `tsconfig.json`'s `include` lists `next-env.d.ts`, `**/*.ts`, `**/*.tsx`,
+`.next/types/**/*.ts`, and `.next/dev/types/**/*.ts` — no `.js` pattern — so `typecheck` never picks the generated files
+up as roots. `allowJs` is `true`, so a `.js` reached by an import from an included file would compile, and nothing under
+`src/` or `tests/` imports `.features-gen`. The exclude changes nothing observable today and is kept because it holds if
+`include` ever gains a `.js` pattern or `bddgen` ever emits `.ts`. Vitest, Biome, and the coverage denominator need no
+change: no Vitest project's `include` reaches `tests/e2e/`, Biome reads the root `.gitignore` through
+`vcs.useIgnoreFile`, and the denominator is `src/**`.
 
 ## Dependencies
 
@@ -177,27 +186,34 @@ on that axis.
 
 ## Risks and What Absorbs Them
 
-| Risk                                                 | Absorbed by  |
-| ---------------------------------------------------- | ------------ |
-| a rewritten command writes to the wrong path         | Phase 1 gate |
-| `typecheck` compiles generated `.features-gen` files | Phase 2 gate |
-| the skip baseline moves silently                     | Phase 2 gate |
-| a `namedInputs` refactor changes a cache key         | Phase 1 gate |
-| `nx affected` stops selecting the merged project     | Phase 2 gate |
+| Risk                                             | Absorbed by  |
+| ------------------------------------------------ | ------------ |
+| a rewritten command writes to the wrong path     | Phase 1 gate |
+| a populated `.features-gen/` breaks `typecheck`  | Phase 2 gate |
+| the skip baseline moves silently                 | Phase 2 gate |
+| a `namedInputs` refactor changes a cache key     | Phase 1 gate |
+| `nx affected` stops selecting the merged project | Phase 2 gate |
 
 **A wrong path in a rewritten command** would let a coverage gate measure nothing and still exit 0. Phase 1's gate
 therefore runs `test:coverage` and `test:e2e` in full and asserts the coverage percentages still print and match the
 baseline figures, rather than asserting the command exited 0.
 
-**A `typecheck` reaching `.features-gen`** is only visible once that directory exists. Phase 2's gate runs `typecheck`
-after `test:e2e` has populated it, so the new `tsconfig.json` exclude is proved against a populated tree rather than an
-absent one.
+**A populated `.features-gen/` breaking `typecheck`** is only visible once that directory exists, so Phase 2's gate runs
+`typecheck` after `test:e2e` has populated it. What that ordering buys is a real observation of the outcome rather than
+a run against an empty tree. It is not a proof of the `tsconfig.json` exclude, and the risk table does not claim it as
+one: the run passes with the exclude absent too, because `bddgen` emits only `*.feature.spec.js` and the project's
+`include` carries no `.js` pattern. The exclude is defence in depth for the reason given above.
 
 **A silently moved skip baseline** would hide a step file that stopped binding at its new path. `specs:e2e:baseline` is
 carried over unchanged and its gate asserts the recorded count of 34 specifically, not merely that the target passed.
 
-**A changed cache key** could let Nx replay a stale result as a success. Phase 1 captures each target's resolved
-`inputs` before and after the refactor and requires them to match.
+**A changed cache key** could let Nx replay a stale result as a success. The obvious check does not work:
+`npx nx show project --json` prints the _declared_ `inputs` array and never expands `default` or a `namedInputs`
+reference, so after the refactor every affected target reads `["default", "behaviorCorpus"]` and a before-and-after diff
+differs by construction on exactly the targets that were changed correctly. Phase 1 therefore proves input coverage
+behaviourally instead: it changes the content of one corpus feature file, confirms a cached target misses the cache, and
+restores the file. Nx hashes content rather than mtime, so a miss is only possible if the named input really does
+resolve to the corpus — which is the property the declared array cannot show.
 
 **A graph change breaking affected selection** would quietly remove the merged project from pre-push. Phase 2's gate
 runs `npx nx affected -t test:quick --base=origin/main --head=HEAD` and confirms `wahidyankf-www` is selected.
