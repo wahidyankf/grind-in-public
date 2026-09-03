@@ -12,22 +12,30 @@
   "targets": {
     "build": {
       "command": "next build",
-      "options": { "cwd": "{projectRoot}" },
+      "options": {
+        "cwd": "{projectRoot}"
+      },
       "outputs": ["{projectRoot}/.next"]
     },
     "dev": {
       "cache": false,
       "command": "node ../../scripts/next-with-port.mjs dev --env WAHIDYANKF_WWW_PORT --default 3201",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "start": {
       "cache": false,
       "command": "node ../../scripts/next-with-port.mjs start --env WAHIDYANKF_WWW_PORT --default 3201",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "typecheck": {
       "command": "tsc --noEmit",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -42,39 +50,53 @@
     "lint:biome": {
       "cache": true,
       "command": "biome check",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "lint:commentary": {
       "cache": true,
-      "command": "eslint --config eslint.config.mjs src",
-      "options": { "cwd": "{projectRoot}" }
+      "command": "eslint --config eslint.config.mjs src tests/e2e/steps",
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "test:unit": {
       "command": "vitest run --project unit",
-      "options": { "cwd": "{projectRoot}" },
+      "options": {
+        "cwd": "{projectRoot}"
+      },
       "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "test:integration": {
       "cache": false,
       "command": "vitest run --project integration",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "test:coverage:unit": {
       "cache": true,
       "command": "vitest run --project unit --project behavior --coverage --coverage.thresholds.lines=99",
-      "options": { "cwd": "{projectRoot}" },
+      "options": {
+        "cwd": "{projectRoot}"
+      },
       "outputs": ["{projectRoot}/coverage"],
       "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "test:coverage:integration": {
       "cache": false,
       "command": "vitest run --project integration --coverage --coverage.include='src/features/cv/**/pdf.ts' --coverage.thresholds.lines=99",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "test:coverage:behavior": {
       "cache": false,
       "command": "vitest run --project behavior",
-      "options": { "cwd": "{projectRoot}" },
+      "options": {
+        "cwd": "{projectRoot}"
+      },
       "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
     },
     "test:coverage": {
@@ -92,7 +114,9 @@
     "static-routes:validation": {
       "cache": false,
       "command": "npm exec nx -- run wahidyankf-www:build --skip-nx-cache && node scripts/validate-static-routes.mjs",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
     },
     "test:quick": {
       "executor": "nx:run-commands",
@@ -112,7 +136,35 @@
     "generate:cv-pdf": {
       "cache": false,
       "command": "npx tsx scripts/generate-cv-pdf.ts",
-      "options": { "cwd": "{projectRoot}" }
+      "options": {
+        "cwd": "{projectRoot}"
+      }
+    },
+    "install": {
+      "cache": false,
+      "command": "npx playwright install --with-deps chromium",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "inputs": ["default", "behaviorCorpus"]
+    },
+    "test:e2e": {
+      "cache": false,
+      "command": "if grep -rn -E --include='*.ts' --exclude-dir=node_modules --exclude-dir=.features-gen --exclude-dir=test-results --exclude-dir=playwright-report '\\$?test\\.skip\\([^,)]*\\)' tests/e2e; then echo 'ERROR: unconditional test.skip() found in test files above - use test.skip(condition, reason) for legitimate environment guards, or remove'; exit 1; fi && npx bddgen && npx playwright test",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "dependsOn": ["build"],
+      "inputs": ["default", "behaviorCorpus"]
+    },
+    "specs:e2e:baseline": {
+      "cache": true,
+      "outputs": ["{projectRoot}/.features-gen"],
+      "command": "npx bddgen && expected=$(node -e \"process.stdout.write(String(require('./tests/e2e/e2e-skip-baseline.json').skippedScenarios))\") && actual=$(grep -rho 'test\\.fixme(' .features-gen | wc -l | tr -d ' ') && if [ \"$actual\" != \"$expected\" ]; then echo \"e2e skip baseline moved: expected $expected fixme scenarios, found $actual\"; exit 1; fi",
+      "options": {
+        "cwd": "{projectRoot}"
+      },
+      "inputs": ["default", "behaviorCorpus"]
     }
   }
 }

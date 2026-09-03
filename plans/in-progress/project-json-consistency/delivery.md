@@ -354,14 +354,14 @@ workspace-wide.
 The expand, migrate, verify, and contract steps of [migration-design.md](tech-docs/migration-design.md), landing in one
 commit because the compatibility window is zero.
 
-- [ ] [AI] [AC-6] Confirm the pre-merge commit is a reachable recovery source before deleting anything: run
+- [x] [AI] [AC-6] Confirm the pre-merge commit is a reachable recovery source before deleting anything: run
       `git rev-parse HEAD > local-tmp/pre-merge-sha.txt && git ls-tree -r --name-only "$(cat local-tmp/pre-merge-sha.txt)" -- apps/wahidyankf-www-e2e/steps | wc -l`
       — acceptance: prints `8`, proving the eight step files are restorable from that commit.
-- [ ] [AI] [AC-6] Record what the stricter compiler settings currently report, so the accepted loss is measured rather
+- [x] [AI] [AC-6] Record what the stricter compiler settings currently report, so the accepted loss is measured rather
       than assumed: run `npx nx run wahidyankf-www-e2e:typecheck` — acceptance: exits 0, and the result is written into
       `learnings.md` as the pre-merge state of the step files under `noUncheckedIndexedAccess`, `noUnusedLocals`, and
       `noUnusedParameters` all set to `true`.
-- [ ] [AI] [AC-6] Resolve the two scenario counts the same comment block states, which cannot both describe the same
+- [x] [AI] [AC-6] Resolve the two scenario counts the same comment block states, which cannot both describe the same
       quantity: it says the four unbound feature files hold nineteen scenarios and that `specs:e2e:baseline` "holds that
       count to nineteen", while `e2e-skip-baseline.json` records 34 and the target compares against that. Both readings
       are consistent if a `Scenario Outline` generates one `test.fixme` per example row, so measure rather than assume.
@@ -374,22 +374,22 @@ commit because the compatibility window is zero.
       is already right and a later failure is attributable to the merge rather than to the prose. The baseline file's
       `34` is not edited unless the measured total differs from it: that number is the assertion the target makes, while
       the comment is prose about the same corpus and is the side free to be wrong.
-- [ ] [AI] [AC-6] Create the destination with `mkdir -p apps/wahidyankf-www/tests/e2e/steps` — acceptance: the directory
+- [x] [AI] [AC-6] Create the destination with `mkdir -p apps/wahidyankf-www/tests/e2e/steps` — acceptance: the directory
       exists and `apps/wahidyankf-www/tests/` now holds `bdd`, `e2e`, and `integration`.
-- [ ] [AI] [AC-6] Move the eight step files with
+- [x] [AI] [AC-6] Move the eight step files with
       `git mv apps/wahidyankf-www-e2e/steps/*.ts apps/wahidyankf-www/tests/e2e/steps/` — acceptance:
       `ls apps/wahidyankf-www/tests/e2e/steps | wc -l` prints `8` and `git status --short` shows eight `R` rename
       entries rather than delete-plus-add pairs.
-- [ ] [AI] [AC-6] Move the baseline with
+- [x] [AI] [AC-6] Move the baseline with
       `git mv apps/wahidyankf-www-e2e/e2e-skip-baseline.json apps/wahidyankf-www/tests/e2e/e2e-skip-baseline.json` —
       acceptance: the moved file still contains `{ "skippedScenarios": 34 }`.
-- [ ] [AI] [AC-6] Move the Playwright configuration with
+- [x] [AI] [AC-6] Move the Playwright configuration with
       `git mv apps/wahidyankf-www-e2e/playwright.config.ts apps/wahidyankf-www/playwright.config.ts` — acceptance: the
       file exists at the new path and `apps/wahidyankf-www-e2e/` no longer contains it.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/playwright.config.ts`: change the `defineBddConfig` `steps` value from
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/playwright.config.ts`: change the `defineBddConfig` `steps` value from
       `"./steps/**/*.ts"` to `"./tests/e2e/steps/**/*.ts"` — acceptance: `featuresRoot` and `webServer.cwd` are left at
       their existing `"../.."`-relative values, because the file's depth below the workspace root is unchanged.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/playwright.config.ts`: correct the comment sentence that reads "`test:e2e`
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/playwright.config.ts`: correct the comment sentence that reads "`test:e2e`
       declares `dependsOn` on `wahidyankf-www:build`" so it names the intra-project dependency, reading "`test:e2e`
       declares `dependsOn` on `build`" — acceptance: `grep -n 'dependsOn' apps/wahidyankf-www/playwright.config.ts`
       prints that one comment line and it no longer carries the `wahidyankf-www:` prefix, matching the `dependsOn` the
@@ -397,10 +397,10 @@ commit because the compatibility window is zero.
       the bare target with no project prefix. Neither correction can be observed by asking whether a comment names a
       project that no longer exists — `wahidyankf-www` survives, so that question is answered `no` before the edit as
       well as after.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/package.json`: add `"@axe-core/playwright": "4.10.1"`,
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/package.json`: add `"@axe-core/playwright": "4.10.1"`,
       `"@playwright/test": "1.62.1"`, and `"playwright-bdd": "9.2.0"` to `devDependencies` — acceptance: the three pins
       are character-identical to those in `apps/wahidyankf-www-e2e/package.json` before deletion.
-- [ ] [AI] [AC-6] Run `npm install` from the repository root immediately after that edit — acceptance: exits 0,
+- [x] [AI] [AC-6] Run `npm install` from the repository root immediately after that edit — acceptance: exits 0,
       `npm ls playwright-bdd -w wahidyankf-www` exits 0 and prints `playwright-bdd@9.2.0` beneath the workspace line
       ending `-> ./apps/wahidyankf-www`, and `ls node_modules/.bin/bddgen` succeeds at the repository root. Both are
       asserted at the root because npm workspaces hoist here: `apps/wahidyankf-www-e2e/node_modules` does not exist
@@ -411,7 +411,7 @@ commit because the compatibility window is zero.
       `npx bddgen` and `npx playwright test` from `apps/wahidyankf-www`, and until the workspace is linked those resolve
       to nothing. The later `npm install` is still required and is not redundant — it regenerates `package-lock.json`
       after the workspace directory is deleted, which is a different change from adding a dependency.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/tsconfig.json`: add `".features-gen"` to the `exclude` array beside
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/tsconfig.json`: add `".features-gen"` to the `exclude` array beside
       `"node_modules"` — acceptance: the array holds both entries. The reason is defence in depth, and it is stated
       plainly rather than dressed as a live defect, because a wrong reason is what makes a later reader delete the right
       line. `bddgen` emits only `*.feature.spec.js`, and this `tsconfig.json`'s `include` lists `next-env.d.ts`,
@@ -420,7 +420,7 @@ commit because the compatibility window is zero.
       from an included file would still be compiled, and nothing under `src/` or `tests/` imports `.features-gen`. The
       exclude therefore changes nothing observable now; it holds if `include` ever gains a `.js` pattern or `bddgen`
       ever emits `.ts`. No gate item asserts that removing it breaks anything, because none can.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/eslint.config.mjs`: add a second configuration object for
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/eslint.config.mjs`: add a second configuration object for
       `files: ["tests/e2e/steps/**/*.ts"]` carrying the same three `jsdoc` rules as the existing block, with
       `languageOptions.parser` set to `tsParser` and no `ecmaFeatures.jsx` — acceptance: from the repository root,
       `node --input-type=module -e 'const c=(await import("./apps/wahidyankf-www/eslint.config.mjs")).default; console.log(JSON.stringify(c.map(b=>({files:b.files,jsx:b.languageOptions?.parserOptions?.ecmaFeatures?.jsx,rules:Object.keys(b.rules||{})}))))'`
@@ -428,22 +428,22 @@ commit because the compatibility window is zero.
       rule names; the second naming `tests/e2e/steps/**/*.ts`, listing the same three rule names in the same order, and
       printing no `jsx` key at all. The omitted `jsx` is the point rather than an oversight: a Playwright step file
       contains no JSX, so enabling the feature there would be configuration the code cannot exercise.
-- [ ] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add an `install` target running
+- [x] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add an `install` target running
       `npx playwright install --with-deps chromium` with `"cache": false`, `"options": {"cwd": "{projectRoot}"}` —
       acceptance: `npx nx run wahidyankf-www:install` exits 0, which is all this command observes — `playwright install`
       exits non-zero when it cannot place the Chromium build it was asked for, and reports nothing about a suite. That
       the suite can actually drive Chromium is observed by the first `wahidyankf-www:test:e2e` run below, not here.
-- [ ] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `test:e2e` target carrying the
+- [x] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `test:e2e` target carrying the
       unconditional-`test.skip` guard and `npx bddgen && npx playwright test` from the deleted project's target, with
       `"cache": false`, `"options": {"cwd": "{projectRoot}"}`, `"dependsOn": ["build"]`, and
       `"inputs": ["default", "behaviorCorpus"]` — acceptance: `dependsOn` names the intra-project `build` rather than
       `wahidyankf-www:build`, matching how `badakmini-cli:test:e2e` names its own `build`.
-- [ ] [AI] [AC-6] Edit the guard's search path in that same command: its trailing `.` becomes `tests/e2e` — acceptance:
+- [x] [AI] [AC-6] Edit the guard's search path in that same command: its trailing `.` becomes `tests/e2e` — acceptance:
       the `grep -rn` argument reads `tests/e2e`, so the guard scans one directory as it did before the merge. Carried
       over unchanged it would scan the whole application, because `.` is the working directory and that is now
       `apps/wahidyankf-www`: forty-three `.ts` files plus `.next/`, which the command's `--exclude-dir` list does not
       name.
-- [ ] [AI] [AC-6] Prove the guard is green at rest: run `npx nx run wahidyankf-www:test:e2e` — acceptance: the run exits
+- [x] [AI] [AC-6] Prove the guard is green at rest: run `npx nx run wahidyankf-www:test:e2e` — acceptance: the run exits
       0, having passed the guard rather than printing its `ERROR: unconditional test.skip() found` message, reached
       `npx bddgen`, which is visible in the output, and driven Chromium over the eight bound feature files. Exit 0
       rather than merely reaching `bddgen` is the acceptance, because this is the first `test:e2e` run the merged
@@ -460,7 +460,7 @@ commit because the compatibility window is zero.
       determines the question — neither this plan nor its technical set claims the merge will or will not fail this way.
       The two `test:e2e` runs below and the one in this phase's gate carry the same disposition by reference and do not
       restate it.
-- [ ] [AI] [AC-6] Prove the guard still fires, because a guard that never fires is indistinguishable from one that scans
+- [x] [AI] [AC-6] Prove the guard still fires, because a guard that never fires is indistinguishable from one that scans
       nothing: append the throwaway comment line `// test.skip(1)` to
       `apps/wahidyankf-www/tests/e2e/steps/theme.steps.ts` and run `npx nx run wahidyankf-www:test:e2e` again —
       acceptance: the run exits non-zero, prints `ERROR: unconditional test.skip() found in test files above`, and never
@@ -477,7 +477,7 @@ commit because the compatibility window is zero.
       above already settled by exiting 0, so it does not take that run's stop-and-return disposition. A zero exit
       carries the same verdict as that third case: the guard is scanning the wrong directory and the search path edit
       above is wrong.
-- [ ] [AI] [AC-6] Remove the throwaway line with `git checkout -- apps/wahidyankf-www/tests/e2e/steps/theme.steps.ts`
+- [x] [AI] [AC-6] Remove the throwaway line with `git checkout -- apps/wahidyankf-www/tests/e2e/steps/theme.steps.ts`
       and run `npx nx run wahidyankf-www:test:e2e` a third time — acceptance: `git status --short` shows that path only
       as the staged `R` rename it was before the injection, with no unstaged modification marker, and the run is green
       again, so the injection is proved undone rather than assumed undone. `git checkout --` restores the path from the
@@ -487,7 +487,7 @@ commit because the compatibility window is zero.
       `apps/wahidyankf-www/playwright.config.ts`, which this phase does edit after its move, and the Phase 2 gate stages
       the whole phase before probing that one. Leaving this confirming run to the Phase 2 gate would be enough to catch
       the injection, but not enough to attribute it.
-- [ ] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `specs:e2e:baseline` target carrying the deleted
+- [x] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `specs:e2e:baseline` target carrying the deleted
       project's command with exactly one substitution, with `"cache": true`, `"options": {"cwd": "{projectRoot}"}`,
       `"outputs": ["{projectRoot}/.features-gen"]` carried over from Phase 1, and `inputs` naming only `default` and
       `behaviorCorpus`. The command is not copied verbatim: its `require('./e2e-skip-baseline.json')` is repointed to
@@ -501,7 +501,7 @@ commit because the compatibility window is zero.
       the files move, so the built-in `default` input already covers them; listing them again is the same redundancy
       Phase 1 removes from `badakmini-cli`, and the Phase 2 gate's three cache probes are what prove `default` reaches
       each of them.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/project.json` target `lint:commentary`: change the command to
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/project.json` target `lint:commentary`: change the command to
       `eslint --config eslint.config.mjs src tests/e2e/steps` — acceptance: `npx nx run wahidyankf-www:lint:commentary`
       exits 0, and, because ESLint prints nothing at all on a clean run, the files it read are observed with a second
       command rather than inferred from that silence. From `apps/wahidyankf-www`, run
@@ -511,14 +511,14 @@ commit because the compatibility window is zero.
       — acceptance: the JSON formatter emits one entry per linted file whether or not it found anything, so this prints
       a non-zero count for each directory, with `steps:8` naming the eight moved step files. The redirect to a file is
       deliberate: it keeps the JSON out of a pipe that an output filter could rewrite.
-- [ ] [AI] [AC-6] Delete the six remaining files of the retired project:
+- [x] [AI] [AC-6] Delete the six remaining files of the retired project:
       `git rm apps/wahidyankf-www-e2e/project.json apps/wahidyankf-www-e2e/package.json apps/wahidyankf-www-e2e/tsconfig.json apps/wahidyankf-www-e2e/eslint.config.mjs apps/wahidyankf-www-e2e/.gitignore apps/wahidyankf-www-e2e/README.md`
       — acceptance: the root `.gitignore` already covers `.features-gen/`, `playwright-report/`, and `test-results/`, so
       deleting the project-local ignore file leaves nothing newly visible to `git status --short`.
-- [ ] [AI] [AC-6] Remove the now-empty directory with `rm -rf apps/wahidyankf-www-e2e` and run `npm install` —
+- [x] [AI] [AC-6] Remove the now-empty directory with `rm -rf apps/wahidyankf-www-e2e` and run `npm install` —
       acceptance: `npx nx show projects` returns exactly `wahidyankf-www` and `badakmini-cli`, and `package-lock.json`
       no longer contains a `wahidyankf-www-e2e` workspace entry.
-- [ ] [AI] Edit `package.json`: in `test:scheduled`, replace `wahidyankf-www-e2e:specs:e2e:baseline` with
+- [x] [AI] Edit `package.json`: in `test:scheduled`, replace `wahidyankf-www-e2e:specs:e2e:baseline` with
       `wahidyankf-www:specs:e2e:baseline` and `wahidyankf-www-e2e:test:e2e` with `wahidyankf-www:test:e2e` — acceptance:
       `grep -o 'wahidyankf-www-e2e' package.json | wc -l` prints `0`, where it prints `2` today, **and** each new
       invocation is named exactly: `grep -o 'nx run wahidyankf-www:specs:e2e:baseline' package.json | wc -l` and
@@ -526,7 +526,7 @@ commit because the compatibility window is zero.
       absence grep alone would pass on a typo, because nothing in this phase runs `test:scheduled`; the Phase 4 gate
       does, two phases later, which is where a typo would otherwise first surface. Occurrence counts rather than
       `grep -c` line counts, because `test:scheduled` is one line and holds both invocations.
-- [ ] [AI] Edit `.github/workflows/full-bdd.yml`: change the browser install step to `npx nx run wahidyankf-www:install`
+- [x] [AI] Edit `.github/workflows/full-bdd.yml`: change the browser install step to `npx nx run wahidyankf-www:install`
       — acceptance: `grep -c 'npx nx run wahidyankf-www:install' .github/workflows/full-bdd.yml` prints `1`, where it
       prints `0` today, and `grep -c 'wahidyankf-www-e2e' .github/workflows/full-bdd.yml` prints `0`; and the target
       that step names resolves, which `npx nx show project wahidyankf-www --json` shows by listing `install` among its
@@ -535,13 +535,13 @@ commit because the compatibility window is zero.
       and the shell embedded in it and knows nothing about Nx target names, so it passes over `wahidyankf-www:install`,
       over the retired `wahidyankf-www-e2e:install`, and over a typo alike. Delivered on `check:workflows` alone, this
       edit would ship unobserved.
-- [ ] [AI] Edit `apps/README.md`: remove the `wahidyankf-www-e2e` bullet from `## Current Applications` — acceptance:
+- [x] [AI] Edit `apps/README.md`: remove the `wahidyankf-www-e2e` bullet from `## Current Applications` — acceptance:
       two bullets remain and neither links a directory that no longer exists.
-- [ ] [AI] Edit `apps/wahidyankf-www/README.md`: replace the "sibling `wahidyankf-www-e2e` project" adapter bullet with
+- [x] [AI] Edit `apps/wahidyankf-www/README.md`: replace the "sibling `wahidyankf-www-e2e` project" adapter bullet with
       one naming `tests/e2e/` — acceptance: the three adapter bullets still describe three layers, none names a deleted
       path, and the sentence above them still reads "Three adapters bind that one corpus", because this edit rehomes the
       browser adapter rather than adding one.
-- [ ] [AI] Edit `apps/wahidyankf-www/README.md` again: fold in the retired README's record of the browser layer whole,
+- [x] [AI] Edit `apps/wahidyankf-www/README.md` again: fold in the retired README's record of the browser layer whole,
       because this phase deletes the only document in the repository that holds it and repoints
       `specs/apps/wahidyankf-www/behavior/README.md` at this one for exactly that content. Three things move and none is
       a summary of the others. First, the list of the four feature files the Playwright adapter deliberately does not
@@ -560,7 +560,7 @@ commit because the compatibility window is zero.
       document this phase deletes moves before the deletion rather than being lost with it. This README is not a
       governed document — `npm run check:governance` measures `AGENTS.md`, `CLAUDE.md`, `repo-governance/`, and the
       harness READMEs — so the added words are under no word limit.
-- [ ] [AI] [AC-6] Edit `specs/apps/wahidyankf-www/README.md`: rewrite the two-projects sentence to name one project,
+- [x] [AI] [AC-6] Edit `specs/apps/wahidyankf-www/README.md`: rewrite the two-projects sentence to name one project,
       change the Process E2E adapter row's path to `apps/wahidyankf-www/tests/e2e/steps/`, repoint the skip-baseline
       sentence at the merged project, and change the two verification-command rows to the `wahidyankf-www:` prefix —
       acceptance: `grep -c 'wahidyankf-www-e2e' specs/apps/wahidyankf-www/README.md` prints `0`, **and** each of the
@@ -574,7 +574,7 @@ commit because the compatibility window is zero.
       still prints `1`, so the skip-baseline sentence is repointed rather than dropped. Neither `wahidyankf-www:` grep
       matches `wahidyankf-www-e2e:`, because the character after `www` differs, so none of these counts can be satisfied
       by the unedited file.
-- [ ] [AI] [AC-6] Edit `specs/apps/wahidyankf-www/architecture.md`: remove the `apps/wahidyankf-www-e2e` project-table
+- [x] [AI] [AC-6] Edit `specs/apps/wahidyankf-www/architecture.md`: remove the `apps/wahidyankf-www-e2e` project-table
       row and the shared-model sentence above it, and redraw the Container View to the exact block
       [specification-changes.md](tech-docs/specification-changes.md) writes out under "After, and this is the block the
       Phase 2 edit produces character for character". Nothing about the replacement is left to be chosen here: that
@@ -590,7 +590,7 @@ commit because the compatibility window is zero.
       prints `2` today. Those two lines are the table row and the old diagram node; the Scope sentence and the paragraph
       below the diagram describe the project without naming it, which is why the count is `2` rather than `4` and why it
       cannot serve as the acceptance for either of them.
-- [ ] [AI] [AC-6] Edit the paragraph below that diagram in `specs/apps/wahidyankf-www/architecture.md` to keep the
+- [x] [AI] [AC-6] Edit the paragraph below that diagram in `specs/apps/wahidyankf-www/architecture.md` to keep the
       toolchain-difference fact while dropping the separate-project inference, and to say why a box that is not a
       container is drawn in a container view — acceptance: it still states that the adapter starts the application
       through `next start`, drives it over HTTP through a browser, is a different toolchain from the in-process behavior
@@ -598,7 +598,7 @@ commit because the compatibility window is zero.
       the file. The `grep -c` in the item above is not this item's proof and must not be read as one: this paragraph
       holds the retired name in none of its sentences today, so the count reaches `0` whether the paragraph is
       rewritten, deleted, or left exactly as it is. The listed sentence content is the only thing that observes it.
-- [ ] [AI] Edit `specs/apps/wahidyankf-www/behavior/README.md`: repoint the sentence naming
+- [x] [AI] Edit `specs/apps/wahidyankf-www/behavior/README.md`: repoint the sentence naming
       `apps/wahidyankf-www-e2e/README.md` at `apps/wahidyankf-www/README.md` — acceptance:
       `grep -c 'wahidyankf-www-e2e' specs/apps/wahidyankf-www/behavior/README.md` prints `0`, and the document the
       sentence now points at is read for the content the sentence claims it holds: the sentence says that document
@@ -608,7 +608,7 @@ commit because the compatibility window is zero.
       tick as sufficient. `npm run check:markdown-links` is deliberately not this item's acceptance: the reference is
       inline code, `` `apps/wahidyankf-www-e2e/README.md` ``, and not a Markdown link, so the link check never resolves
       it and would pass over a pointer aimed at a document carrying none of the content.
-- [ ] [AI] Edit `repo-governance/development/workspace-commands.md`: change the three `wahidyankf-www-e2e` narrower-run
+- [x] [AI] Edit `repo-governance/development/workspace-commands.md`: change the three `wahidyankf-www-e2e` narrower-run
       lines to `wahidyankf-www:install`, `wahidyankf-www:test:e2e`, and `wahidyankf-www:specs:e2e:baseline`. Then edit
       the three-sentence paragraph below that block rather than deleting it: delete its first two sentences, the ones
       stating that `wahidyankf-www-e2e` owns no `test:quick` and that this is the shape the testing and BDD policies
@@ -621,7 +621,7 @@ commit because the compatibility window is zero.
       in the repository that states it: the other file that shows the command, `apps/wahidyankf-www-e2e/README.md`, is
       deleted in this same phase, so deleting the whole paragraph would drop the browser-install instruction from the
       repository entirely.
-- [ ] [AI] [AC-6] Edit `repo-governance/development/testing-policy/tooling.md`: in Recorded Deviations, remove the
+- [x] [AI] [AC-6] Edit `repo-governance/development/testing-policy/tooling.md`: in Recorded Deviations, remove the
       `apps/wahidyankf-www-e2e` clause from the `target` sentence and the sentence beginning "The E2E project follows
       the runner it hosts", and reword the two `Both` references so they name only `apps/wahidyankf-www` — acceptance:
       `grep -c 'wahidyankf-www-e2e' repo-governance/development/testing-policy/tooling.md` prints `0`, the surviving
@@ -629,18 +629,18 @@ commit because the compatibility window is zero.
       `npm run check:governance` exits 0. This lands in Phase 2 rather than Phase 3 because Phase 2 deletes
       `apps/wahidyankf-www-e2e/tsconfig.json`, so leaving the entry until Phase 3 would leave one committed state where
       governance records a deviation of a file that does not exist.
-- [ ] [AI] [AC-6] Edit `specs/apps/README.md`: rewrite the Directory Map line for `wahidyankf-www` so the behavior
+- [x] [AI] [AC-6] Edit `specs/apps/README.md`: rewrite the Directory Map line for `wahidyankf-www` so the behavior
       corpus is described as belonging to that one project rather than "shared with the dedicated E2E project
       `apps/wahidyankf-www-e2e`" — acceptance: `grep -c 'wahidyankf-www-e2e' specs/apps/README.md` prints `0` and the
       line still states the feature count it states today.
-- [ ] [AI] [AC-6] Edit `apps/wahidyankf-www/tests/bdd/accessibility.steps.ts`: in the comment above the axe-core `Then`,
+- [x] [AI] [AC-6] Edit `apps/wahidyankf-www/tests/bdd/accessibility.steps.ts`: in the comment above the axe-core `Then`,
       repoint `apps/wahidyankf-www-e2e/steps/accessibility.steps.ts` at
       `apps/wahidyankf-www/tests/e2e/steps/accessibility.steps.ts` — acceptance: only the comment text changes, the
       `@covers` line below it is untouched,
       `grep -c 'wahidyankf-www-e2e' apps/wahidyankf-www/tests/bdd/accessibility.steps.ts` prints `0`, and
       `npm run test:quick` exits 0. This is the only `.ts` file Phase 2 edits that is not one of the eight moved step
       files.
-- [ ] [AI] Run `npm run format` — acceptance: exits 0 and `npm run format:check` afterwards also exits 0.
+- [x] [AI] Run `npm run format` — acceptance: exits 0 and `npm run format:check` afterwards also exits 0.
 
 ### Phase 2 Gate
 
@@ -650,7 +650,7 @@ commit because the compatibility window is zero.
 > gate, because the checklist runs `wahidyankf-www:test:e2e` three times before the gate does and the first of those is
 > where the failure would surface.
 
-- [ ] [AI] Stage this phase's whole change before any probe below runs: `git add -A` — acceptance: `git status --short`
+- [x] [AI] Stage this phase's whole change before any probe below runs: `git add -A` — acceptance: `git status --short`
       lists every path this phase touched as a staged entry and nothing in its unstaged column, and `git diff --stat`
       with no pathspec prints nothing. Nothing is committed here, and this does not replace the staging the commit item
       below does: the checkboxes ticked in this document while the rest of the gate runs are written after this item and
@@ -665,14 +665,14 @@ commit because the compatibility window is zero.
       fail with a skip-baseline count misattributed to a broken step binding rather than to the discarded edits.
       `local-tmp/`, `.features-gen/`, `playwright-report/`, and `test-results/` are all named in the root `.gitignore`,
       so `-A` stages none of them.
-- [ ] [AI] [AC-6] `npx nx show projects` — acceptance: returns exactly two entries, `wahidyankf-www` and
+- [x] [AI] [AC-6] `npx nx show projects` — acceptance: returns exactly two entries, `wahidyankf-www` and
       `badakmini-cli`.
-- [ ] [AI] [AC-1] `npx nx show project wahidyankf-www --json` — acceptance: the target list contains all ten contract
+- [x] [AI] [AC-1] `npx nx show project wahidyankf-www --json` — acceptance: the target list contains all ten contract
       targets: `typecheck`, `lint`, `test:unit`, `test:integration`, `test:e2e`, `test:coverage`, `test:coverage:unit`,
       `test:coverage:integration`, `test:coverage:behavior`, and `test:quick`.
-- [ ] [AI] [AC-1] `npx nx show project badakmini-cli --json` — acceptance: the same ten targets are present, so both
+- [x] [AI] [AC-1] `npx nx show project badakmini-cli --json` — acceptance: the same ten targets are present, so both
       projects expose one identical contract.
-- [ ] [AI] [AC-2] Re-run the Phase 1 gate's `cache` inspection over the post-merge project set, which is `badakmini-cli`
+- [x] [AI] [AC-2] Re-run the Phase 1 gate's `cache` inspection over the post-merge project set, which is `badakmini-cli`
       and `wahidyankf-www` and no longer includes `wahidyankf-www-e2e`. The command is the Phase 1 one unchanged,
       substituting the project name — acceptance: both runs exit 0, each printing the `all N targets declare cache` form
       with a non-zero N rather than an `UNDECLARED:` line. Phase 1 ran this check before this phase added `install`,
@@ -684,7 +684,7 @@ commit because the compatibility window is zero.
       diff that message does not name, which the
       [thematic commits policy](../../../repo-governance/conventions/thematic-commits-policy.md) forbids and which the
       Phase 1 commit item asserts of every commit this plan makes.
-- [ ] [AI] [AC-2] Re-run the Phase 1 gate's `outputs` inspection over the same two projects, with the same one-liner,
+- [x] [AI] [AC-2] Re-run the Phase 1 gate's `outputs` inspection over the same two projects, with the same one-liner,
       substituting the project name and its artifact map. `badakmini-cli`'s map is unchanged from Phase 1.
       `wahidyankf-www`'s is **extended** for the post-merge target set and is the map every later re-run uses:
       `{"build":"{projectRoot}/.next","test:coverage:unit":"{projectRoot}/coverage","typecheck":null,"specs:e2e:baseline":"{projectRoot}/.features-gen"}`.
@@ -697,7 +697,7 @@ commit because the compatibility window is zero.
       Phase 1 or this phase delivered, and it is fixed in the `project.json` that carries it before this gate passes,
       for the placement reason the item above states. Re-run `git add -A` after any such fix, so the staged tree the
       three cache probes below restore from still matches the working tree.
-- [ ] [AI] [AC-3] Probe that the built-in `default` reaches the three paths whose explicit `inputs` entries the merge
+- [x] [AI] [AC-3] Probe that the built-in `default` reaches the three paths whose explicit `inputs` entries the merge
       drops, rather than reading them back out of `npx nx show project --json`, which prints only the declared array and
       expands neither `default` nor `behaviorCorpus`. `specs:e2e:baseline` is `cache: true`, so run it twice and confirm
       the second run prints `Nx read the output from the cache`, then repeat this three times, once per path: append a
@@ -716,45 +716,45 @@ commit because the compatibility window is zero.
       restored rather than dropped. Only `specs:e2e:baseline` is probed, not `test:e2e`: `test:e2e` is `cache: false` in
       both the deleted project and the merged one, so Nx never hashes its inputs and no cache probe can observe them.
       Its `inputs` are declared for readability, and nothing about them can be proved or broken by this change.
-- [ ] [AI] [AC-6] `npx nx run wahidyankf-www:specs:e2e:baseline` — acceptance: exits 0, which asserts the generated
+- [x] [AI] [AC-6] `npx nx run wahidyankf-www:specs:e2e:baseline` — acceptance: exits 0, which asserts the generated
       `test.fixme` count is still exactly the 34 recorded in the moved baseline file. A count above 34 means a step file
       stopped binding at its new path.
-- [ ] [AI] [AC-6] `npx nx run wahidyankf-www:test:e2e` — acceptance: exits 0, having built the application, started
+- [x] [AI] [AC-6] `npx nx run wahidyankf-www:test:e2e` — acceptance: exits 0, having built the application, started
       `next start`, and driven Chromium over the eight bound feature files. A module-resolution failure here takes the
       disposition the checklist's first `test:e2e` run states — record the exact error in `learnings.md`, stop, and
       return to the owner, adding no `"type": "module"` and no second manifest — and is not fixed inside Phase 2. That
       item holds the reason and this one does not restate it. Reaching this gate at all means that run already exited 0,
       so a resolution failure appearing only here is a change since it, not the delta's first sighting.
-- [ ] [AI] `npx nx run wahidyankf-www:typecheck` — acceptance: exits 0, run after the preceding `test:e2e` has populated
+- [x] [AI] `npx nx run wahidyankf-www:typecheck` — acceptance: exits 0, run after the preceding `test:e2e` has populated
       `apps/wahidyankf-www/.features-gen/`. What that observes is the outcome — a populated `.features-gen/` does not
       break the application's type check — and not the `tsconfig.json` exclude, which this item is not presented as
       proving. The run passes with the exclude absent too, because `bddgen` emits only `*.feature.spec.js` and the
       project's `include` carries no `.js` pattern. Ordering it after `test:e2e` is still worth doing: run against an
       absent directory it would observe nothing at all.
-- [ ] [AI] `npm run test:quick` — acceptance: exits 0 for both projects.
-- [ ] [AI] `npm run test:integration` — acceptance: exits 0 for both projects.
-- [ ] [AI] `npx nx run badakmini-cli:test:e2e` — acceptance: exits 0.
-- [ ] [AI] `git grep -n 'wahidyankf-www-e2e' -- ':!plans/'` — acceptance: prints nothing and exits non-zero, so every
+- [x] [AI] `npm run test:quick` — acceptance: exits 0 for both projects.
+- [x] [AI] `npm run test:integration` — acceptance: exits 0 for both projects.
+- [x] [AI] `npx nx run badakmini-cli:test:e2e` — acceptance: exits 0.
+- [x] [AI] `git grep -n 'wahidyankf-www-e2e' -- ':!plans/'` — acceptance: prints nothing and exits non-zero, so every
       reader in [migration-design.md](tech-docs/migration-design.md)'s inventory has been rewritten. The whole `plans/`
       tree is excluded, not only `plans/done/`: the archived migration plan records the name as history and this plan's
       own documents record it because they describe the change that retires it. Neither depends on the name resolving to
       a project, and this plan's documents still hold the name in dozens of places while the gate runs, so a narrower
       pathspec could never pass. Pair it with `git grep -c 'wahidyankf-www-e2e' -- 'plans/' | wc -l` printing a non-zero
       count, which proves the pattern was searched against files that really do contain it.
-- [ ] [AI] `npm run check:markdown-links` and `npm run check:governance` — acceptance: both exit 0.
-- [ ] [AI] `npm run check:workflows` — acceptance: exits 0 over the edited scheduled workflow. This is a constraint on
+- [x] [AI] `npm run check:markdown-links` and `npm run check:governance` — acceptance: both exit 0.
+- [x] [AI] `npm run check:workflows` — acceptance: exits 0 over the edited scheduled workflow. This is a constraint on
       the edit, not the observation of it: `actionlint` knows nothing about Nx target names. The greps in that edit's
       own checklist item are what observe the new invocation.
-- [ ] [AI] Commit with message `refactor(wahidyankf-www): co-locate the browser E2E adapter`, without pushing yet —
+- [x] [AI] Commit with message `refactor(wahidyankf-www): co-locate the browser E2E adapter`, without pushing yet —
       acceptance: `git status --short` is empty and `git log -1 --oneline` names the commit.
-- [ ] [AI] `npx nx affected -t test:quick --base=origin/main --head=HEAD` — acceptance: exits 0 and selects
+- [x] [AI] `npx nx affected -t test:quick --base=origin/main --head=HEAD` — acceptance: exits 0 and selects
       `wahidyankf-www`, confirming the merged project is still reachable by the pre-push calculation after the graph
       change. This item sits between the commit and the push, and the order is load-bearing rather than incidental:
       Phase 1 ended by pushing, so before the commit above `origin/main` and `HEAD` are the same ref and the phase's
       work is uncommitted, and `nx affected` reports `No tasks were run` — a green result that observes nothing. After
       the push `origin/main` moves to this commit and the diff empties again. The window in which the base is the Phase
       1 commit and the head is this one is exactly the window in which the diff is Phase 2's change.
-- [ ] [AI] Push to `main` — acceptance: `git status --short` is empty, `git log origin/main -1 --oneline` names the
+- [x] [AI] Push to `main` — acceptance: `git status --short` is empty, `git log origin/main -1 --oneline` names the
       commit above, and its SHA is written into the Execution Record as Phase 0 requires.
 
 > **Pause Safety**: the workspace holds two projects, each exposing the same ten targets and each passing the `cache`

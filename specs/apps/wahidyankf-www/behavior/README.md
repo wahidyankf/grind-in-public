@@ -18,7 +18,7 @@ as-built boundaries these scenarios exercise live in [architecture.md](../archit
 
 Four of these features carry scenarios the Playwright adapter deliberately does not bind, because they are Node-process
 environment concerns with no browser equivalent, or a build-time export no browser reaches.
-`apps/wahidyankf-www-e2e/README.md` names them and records the generated skip baseline that keeps the gap from widening
+`apps/wahidyankf-www/README.md` names them and records the generated skip baseline that keeps the gap from widening
 unnoticed.
 
 ## Directory Map

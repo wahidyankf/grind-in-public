@@ -11,7 +11,7 @@ process.env.APP_ENV ??= "test";
 
 const testDir = defineBddConfig({
   featuresRoot: "../../specs/apps/wahidyankf-www/behavior",
-  steps: "./steps/**/*.ts",
+  steps: "./tests/e2e/steps/**/*.ts",
   // Default is 'fail-on-gen': bddgen refuses to generate ANY test file while ANY scenario in the
   // globbed features lacks a matching step def. This adapter binds eight of the corpus's twelve
   // feature files — accessibility, cv, home, personal-projects, responsive, search,
@@ -25,8 +25,10 @@ const testDir = defineBddConfig({
   //                                 application's integration layer
   //
   // 'skip-scenario' lets generation succeed and renders those nineteen as `test.fixme` instead of
-  // hard-blocking the whole suite. `specs:e2e:baseline` is what holds that count to nineteen, so a
-  // scenario silently falling out of this suite is a failure rather than a quieter run.
+  // hard-blocking the whole suite. The nineteen scenarios generate 34 `test.fixme` entries, because a
+  // Scenario Outline expands one per example row, and `specs:e2e:baseline` is what holds that
+  // generated count at 34 — so a scenario silently falling out of this suite is a failure rather than
+  // a quieter run.
   //
   // `tags: "not @unit"` was tried and reverted, and that rejection is why the setting is glob-wide
   // rather than tag-scoped. This corpus tags many already-IMPLEMENTED e2e scenarios `@unit @e2e`,
@@ -51,7 +53,7 @@ export default defineConfig({
   // The suite drives a real `next start`. The source project built a container image, ran it, and
   // read the published port back out; this repository runs the application process directly, so
   // the port is the fixed default the `start` target resolves and `baseURL` above already names
-  // it. `test:e2e` declares `dependsOn` on `wahidyankf-www:build`, because `next start` serves a
+  // it. `test:e2e` declares `dependsOn` on this project's own `build`, because `next start` serves a
   // `.next` directory it will not build itself.
   //
   // `reuseExistingServer` is off under CI so a stale process can never be mistaken for a fresh

@@ -11,6 +11,22 @@ archival is blocked until each has reached a terminal state.
 
 ## Entries
 
+**2026-09-03 — Phase 2 — the module-system delta produced a warning, not a failure.** The retired project declared
+`"type": "module"` and the application declares none, with the root at `"commonjs"`, so `bddgen`'s ESM output now lands
+in a package resolved as CommonJS. The plan inventoried this and required a stop-and-record if `test:e2e` failed on it.
+It did not fail: the suite passes 36 and skips 34, and Node emits `MODULE_TYPELESS_PACKAGE_JSON`, reparsing as ESM with
+a stated performance overhead. Left as is, because adding `"type": "module"` to a Next.js application manifest is a
+change this plan does not sanction and the warning costs a parse rather than correctness. Worth revisiting only if the
+E2E run's wall time becomes a complaint.
+
+**2026-09-03 — Phase 2 — nineteen and thirty-four were both right.** `playwright.config.ts` said the four unbound
+features hold nineteen scenarios and that `specs:e2e:baseline` "holds that count to nineteen", while the baseline file
+recorded 34. Measured rather than guessed: the four generate 6, 19, 7, and 2 `test.fixme` entries, totalling 34, because
+`playwright-bdd` emits one test per `Examples` row and three of the four are Scenario Outlines. The scenario count and
+the generated-test count are different quantities and the comment conflated them. The deleted project's README had this
+right and the config comment did not; the corrected sentence now names both numbers and says which is which. When two
+numbers in one comment disagree, the likely fault is that they measure different things.
+
 **2026-09-03 — Phase 1 — "redundant" was a property of the cache, not of the repository.** The plan removed
 `{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*` from three targets on the reasoning that the path lies inside
 `{projectRoot}` and is therefore already covered by Nx's built-in `default` input. The cache probe the plan designed for

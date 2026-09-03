@@ -45,7 +45,35 @@ rather than a preference:
 - **Unit and behavior**, `tests/bdd/` — eleven feature files, under jsdom.
 - **Integration**, `tests/integration/` — `cv-export.feature` only, under `node` against the real filesystem, because
   its scenarios write a PDF.
-- **Browser**, the sibling `wahidyankf-www-e2e` project — Playwright against `next start`, with no Docker involved.
+- **Browser**, `tests/e2e/steps/` — Playwright against `next start`, with no Docker involved.
+
+## The browser layer and its skip baseline
+
+`playwright.config.ts` sets `missingSteps: "skip-scenario"`, so `bddgen` renders every unbound scenario as `test.fixme`
+rather than refusing to generate anything. That keeps the suite runnable, but it also means the suite exits 0 whether
+the gap is the intended one or a binding someone just broke. `tests/e2e/e2e-skip-baseline.json` is what tells those two
+apart:
+
+```bash
+npm exec nx -- run wahidyankf-www:specs:e2e:baseline
+```
+
+Four feature files carry scenarios the browser adapter deliberately does not bind, because they are Node-process
+environment concerns or a build-time export no browser reaches:
+
+| Feature                    | Scenarios | Bound instead by                    |
+| -------------------------- | --------- | ----------------------------------- |
+| `env-loader.feature`       | 4         | the application's unit layer        |
+| `tier-env-loading.feature` | 5         | the application's unit layer        |
+| `port-resolver.feature`    | 8         | the application's unit layer        |
+| `cv-export.feature`        | 2         | the application's integration layer |
+
+The baseline regenerates the tests, counts the `test.fixme` entries, and fails if the number moved. The recorded number
+is **34**, and it counts **generated tests, not scenarios**. The two differ because `playwright-bdd` generates one test
+per `Examples` row and three of the four unbound features are Scenario Outlines: `env-loader` produces 6,
+`tier-env-loading` 7, `port-resolver` 19, and `cv-export` 2. Nineteen scenarios, thirty-four generated tests.
+
+Raise the number only when a scenario is deliberately left unbound, and say here why.
 
 ## Coverage
 

@@ -24,13 +24,12 @@ value carries ANSI codes and compares unequal to an identical-looking number.
 
 ## Recorded Deviations
 
-`apps/wahidyankf-www` sets `module` to `esnext`, `moduleResolution` to `bundler`, and `target` to `ES2017`, and
-`apps/wahidyankf-www-e2e` sets the same first two with `target` at `ES2022`. Both override `tsconfig.base.json` on those
-three options while `strict` stays true, and both reach that state by extending the base and overriding on top of it.
-That is not the CommonJS-compatible Node output [code style](../code-style-policy.md) names as the language target. Next
-16 leaves the application no alternative: it resolves its own imports as ESM through a bundler, and a
-CommonJS-compatible configuration fails to build. The E2E project follows the runner it hosts, because `playwright-bdd`
-generates ES modules and imports them through the Playwright runner's own loader.
+`apps/wahidyankf-www` sets `module` to `esnext`, `moduleResolution` to `bundler`, and `target` to `ES2017`. It overrides
+`tsconfig.base.json` on those three options while `strict` stays true, and reaches that state by extending the base and
+overriding on top of it. That is not the CommonJS-compatible Node output [code style](../code-style-policy.md) names as
+the language target. Next 16 leaves the application no alternative: it resolves its own imports as ESM through a
+bundler, and a CommonJS-compatible configuration fails to build. The browser adapter now lives inside that project and
+compiles under the same settings.
 
 Biome runs in both TypeScript projects as a linter only. The root `biome.json` sets `formatter.enabled` and
 `assist.enabled` to `false`, and Prettier remains the formatting source of truth. Biome v2 defaults

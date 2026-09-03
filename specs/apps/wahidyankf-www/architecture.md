@@ -10,14 +10,13 @@ no database, no session, and no authentication to draw.
 
 ## Scope
 
-One deployable application and one dedicated E2E project, sharing this model as the
-[architecture specification policy](../../../repo-governance/development/architecture-specifications.md) requires of
-projects that share a corpus.
+One deployable application, which hosts every adapter that binds this corpus, including the browser one under
+`tests/e2e/`.
 
-| Project                   | Role                                                                                        |
-| ------------------------- | ------------------------------------------------------------------------------------------- |
-| `apps/wahidyankf-www`     | The Next.js application, its unit and behavior adapters, and its local integration adapter. |
-| `apps/wahidyankf-www-e2e` | The process E2E adapter, driving a real browser against a started server.                   |
+| Project               | Role                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| `apps/wahidyankf-www` | The Next.js application and every adapter that binds its corpus: unit, behavior, integration, and |
+|                       | the browser suite under `tests/e2e/`.                                                             |
 
 ## People and External Systems
 
@@ -65,15 +64,19 @@ One container. There is no backend, no database, and no message bus; all content
                                                  | starts and drives
                                                  | over a local port
                                   +--------------------------------+
-                                  |     wahidyankf-www-e2e         |
-                                  |  [Container: Playwright]       |
-                                  |  Process E2E adapter           |
+                                  |   tests/e2e  [Test-time only]  |
+                                  |  Playwright process E2E        |
+                                  |  adapter, inside wahidyankf-www|
                                   +--------------------------------+
 ```
 
 The E2E adapter is drawn because it is a real process boundary: it starts the application through `next start` and
-drives it over HTTP through a browser, which is what makes it a different toolchain from the in-process behavior
-adapter. It exists only at test time and is never deployed.
+drives it over HTTP through a browser, which is a different toolchain from the in-process behavior adapter. It is not a
+container, which is why the count above still reads one: it exists only at test time, is never deployed, and lives
+inside `apps/wahidyankf-www` rather than in a project of its own. The toolchain difference is what makes the boundary
+real; it is not what would require a separate project, and the
+[BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md) role matrix makes a dedicated
+E2E project permitted rather than required.
 
 ## Components
 

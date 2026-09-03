@@ -52,4 +52,35 @@ export default [
       ],
     },
   },
+  {
+    // The moved Playwright step files. They carry the same three commentary
+    // rules as `src`, because a step definition is read by the same people for
+    // the same reason. The JSX parser feature is deliberately absent: a step
+    // file drives a browser and contains no JSX, so enabling it would be
+    // configuration the code cannot exercise.
+    files: ["tests/e2e/steps/**/*.ts"],
+    languageOptions: {
+      parser: tsParser,
+    },
+    plugins: { jsdoc },
+    rules: {
+      "jsdoc/require-jsdoc": [
+        "error",
+        {
+          require: {
+            FunctionDeclaration: true,
+            ClassDeclaration: true,
+            MethodDefinition: true,
+            ArrowFunctionExpression: false,
+            FunctionExpression: false,
+          },
+        },
+      ],
+      "jsdoc/require-description": ["error", { descriptionStyle: "body" }],
+      "jsdoc/require-description-complete-sentence": [
+        "error",
+        { abbreviations: ["e.g", "i.e", "etc", "vs"] },
+      ],
+    },
+  },
 ];

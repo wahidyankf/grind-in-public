@@ -41,7 +41,7 @@ describeFeature(feature, ({ Scenario, Background }) => {
       When("a visitor opens the home page", () => {});
 
       // A full axe-core WCAG 2.1 AA scan runs against the live page in the e2e tier
-      // (apps/wahidyankf-www-e2e/steps/accessibility.steps.ts). At unit tier we
+      // (apps/wahidyankf-www/tests/e2e/steps/accessibility.steps.ts). At unit tier we
       // approximate by asserting the page exposes a landmark region and every
       // interactive control has an accessible name — the structural preconditions
       // an axe scan checks for.
