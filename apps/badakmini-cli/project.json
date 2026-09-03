@@ -58,6 +58,8 @@
     },
     "test:coverage:unit": {
       "options": { "cwd": "{projectRoot}" },
+      "cache": true,
+      "outputs": ["{workspaceRoot}/local-tmp/badakmini-unit.out"],
       "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
       "inputs": ["default", "behaviorCorpus"]
     },

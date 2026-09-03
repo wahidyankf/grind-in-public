@@ -69,8 +69,7 @@
     "test:coverage:integration": {
       "cache": false,
       "command": "vitest run --project integration --coverage --coverage.include='src/features/cv/**/pdf.ts' --coverage.thresholds.lines=99",
-      "options": { "cwd": "{projectRoot}" },
-      "outputs": ["{projectRoot}/coverage"]
+      "options": { "cwd": "{projectRoot}" }
     },
     "test:coverage:behavior": {
       "cache": false,
@@ -113,8 +112,7 @@
     "generate:cv-pdf": {
       "cache": false,
       "command": "npx tsx scripts/generate-cv-pdf.ts",
-      "options": { "cwd": "{projectRoot}" },
-      "outputs": ["{projectRoot}/public/wahidyankf-kresna-fridayoka-cv.pdf"]
+      "options": { "cwd": "{projectRoot}" }
     }
   }
 }

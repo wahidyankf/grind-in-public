@@ -51,6 +51,7 @@
     },
     "specs:e2e:baseline": {
       "cache": true,
+      "outputs": ["{projectRoot}/.features-gen"],
       "command": "npx bddgen && expected=$(node -e \"process.stdout.write(String(require('./e2e-skip-baseline.json').skippedScenarios))\") && actual=$(grep -rho 'test\\.fixme(' .features-gen | wc -l | tr -d ' ') && if [ \"$actual\" != \"$expected\" ]; then echo \"e2e skip baseline moved: expected $expected fixme scenarios, found $actual\"; exit 1; fi",
       "options": { "cwd": "{projectRoot}" },
       "inputs": [

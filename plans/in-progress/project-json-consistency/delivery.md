@@ -91,14 +91,14 @@ Brings all three `project.json` files into one style. `wahidyankf-www-e2e` is no
 deletes it, so this phase ends with the property true across the whole workspace and its gate can assert it
 workspace-wide.
 
-- [ ] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: add a top-level
+- [x] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: add a top-level
       `"namedInputs": {"behaviorCorpus": ["{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"]}` beside
       `"targets"` — acceptance: `npx nx show project badakmini-cli --json` exits 0, proving Nx still parses the file.
-- [ ] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: in every target whose `inputs` array contains the literal
+- [x] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: in every target whose `inputs` array contains the literal
       `{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature`, replace that string with `"behaviorCorpus"` —
       acceptance: `grep -c 'specs/apps/badakmini-cli/behavior' apps/badakmini-cli/project.json` prints `1`, the single
       occurrence being the `namedInputs` declaration.
-- [ ] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: remove the `{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*`
+- [x] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: remove the `{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*`
       input from `test:coverage:behavior`, `test:coverage`, and `test:quick` — acceptance: the path lies inside
       `{projectRoot}` and is therefore already covered by the built-in `default` input, and a cache probe proves that
       coverage rather than assuming it. Run `npx nx run badakmini-cli:test:quick` twice and confirm the second run
@@ -113,8 +113,14 @@ workspace-wide.
       stages its whole phase before probing because there the precondition does not hold on its own. The removal is
       correct only if that third run missed the cache: a hit would mean `default` does not reach `tests/e2e/` and the
       explicit input was carrying it. **Conditional**: if the third run hits the cache, restore the input in all three
-      targets and record the finding in `learnings.md` instead of forcing the removal.
-- [ ] [AI] [AC-2] Edit `apps/badakmini-cli/project.json`: add `"cache": true` to `test:coverage:unit` together with
+      targets and record the finding in `learnings.md` instead of forcing the removal. - **Conditional fired, on
+      evidence this item did not anticipate.** The cache probe passed exactly as designed: the third run missed the
+      cache, so `default` does reach `tests/e2e/`. The removal was reverted anyway, because
+      `apps/badakmini-cli/tests/bdd/adapter_parity_test.go`'s `TestE2EBindingInputRegression` reads `project.json` and
+      fails unless `test:coverage:behavior` declares that exact string. The input is test-enforced rather than
+      redundant. Restored in all three targets, with `behaviorCorpus` still replacing the corpus glob beside it.
+      Recorded in `learnings.md`; Phase 4's disposition for this conditional is "triggered", not "Not triggered".
+- [x] [AI] [AC-2] Edit `apps/badakmini-cli/project.json`: add `"cache": true` to `test:coverage:unit` together with
       `"outputs": ["{workspaceRoot}/local-tmp/badakmini-unit.out"]` — acceptance:
       `npx nx show project badakmini-cli --json` reports `cache` as `true` for that target, matching its
       `wahidyankf-www` counterpart. The `outputs` declaration is not optional here: an undeclared `cache` means
@@ -124,90 +130,90 @@ workspace-wide.
       `rm -f local-tmp/badakmini-unit.out` and run it again — acceptance: the second run reports a cache hit and
       `ls local-tmp/badakmini-unit.out` succeeds afterwards, which is what proves the cached target restores its
       artifact rather than reporting a success that produced nothing.
-- [ ] [AI] [AC-4] Edit `apps/badakmini-cli/project.json`: add `"options": {"cwd": "{projectRoot}"}` to `build`,
+- [x] [AI] [AC-4] Edit `apps/badakmini-cli/project.json`: add `"options": {"cwd": "{projectRoot}"}` to `build`,
       `governance`, `markdown-links`, `capability-parity`, `rule-change`, `lint`, `typecheck`, `test:unit`,
       `test:integration`, `test:coverage:behavior` — acceptance: each of those ten targets carries the `options` object
       and `npx nx show project badakmini-cli --json` still parses.
-- [ ] [AI] [AC-4] Edit the same ten targets in `apps/badakmini-cli/project.json` to strip the `-C apps/badakmini-cli`
+- [x] [AI] [AC-4] Edit the same ten targets in `apps/badakmini-cli/project.json` to strip the `-C apps/badakmini-cli`
       argument from their `go` invocations — acceptance: `npx nx run badakmini-cli:typecheck` and
       `npx nx run badakmini-cli:lint` both exit 0, proving the commands resolve from the project directory.
-- [ ] [AI] [AC-4] Edit `apps/badakmini-cli/project.json` target `test:coverage:unit`: add
+- [x] [AI] [AC-4] Edit `apps/badakmini-cli/project.json` target `test:coverage:unit`: add
       `"options": {"cwd": "{projectRoot}"}`, strip `-C apps/badakmini-cli`, and change the leading `mkdir -p local-tmp`
       to `mkdir -p ../../local-tmp` — acceptance: `npx nx run badakmini-cli:test:coverage:unit` exits 0, prints the
       `unit statement coverage:` line, and `ls local-tmp/badakmini-unit.out` succeeds from the repository root while
       `ls apps/badakmini-cli/local-tmp` fails.
-- [ ] [AI] [AC-4] Apply the identical three edits to `apps/badakmini-cli/project.json` target
+- [x] [AI] [AC-4] Apply the identical three edits to `apps/badakmini-cli/project.json` target
       `test:coverage:integration` — acceptance: `npx nx run badakmini-cli:test:coverage:integration` exits 0, prints the
       `integration statement coverage:` line, and `ls local-tmp/badakmini-integration.out` succeeds from the repository
       root.
-- [ ] [AI] [AC-4] Edit `apps/badakmini-cli/project.json` target `test:e2e`: add `"options": {"cwd": "{projectRoot}"}`,
+- [x] [AI] [AC-4] Edit `apps/badakmini-cli/project.json` target `test:e2e`: add `"options": {"cwd": "{projectRoot}"}`,
       strip `-C apps/badakmini-cli`, and change `BADAKMINI_BIN="$PWD/apps/badakmini-cli/dist/badak-mini"` to
       `BADAKMINI_BIN="$PWD/dist/badak-mini"` — acceptance: `npx nx run badakmini-cli:test:e2e` exits 0, which requires
       the built binary to be found at the rewritten path.
-- [ ] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: add a top-level `"namedInputs"` declaring `behaviorCorpus` as
+- [x] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: add a top-level `"namedInputs"` declaring `behaviorCorpus` as
       `["{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"]` and `workspaceScripts` as
       `["{workspaceRoot}/scripts/next-with-port.mjs"]` — acceptance: `npx nx show project wahidyankf-www --json`
       exits 0.
-- [ ] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: in `test:unit`, `test:coverage:unit`,
+- [x] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: in `test:unit`, `test:coverage:unit`,
       `test:coverage:behavior`, `test:coverage`, and `test:quick`, replace the two literal workspace paths with
       `"behaviorCorpus"` and `"workspaceScripts"` — acceptance:
       `grep -c 'specs/apps/wahidyankf-www/behavior' apps/wahidyankf-www/project.json` prints `1` and
       `grep -c 'scripts/next-with-port.mjs' apps/wahidyankf-www/project.json` prints `3`, the three being the
       `namedInputs` declaration and the two `dev` and `start` command strings that genuinely invoke the script.
-- [ ] [AI] [AC-2] Edit `apps/wahidyankf-www/project.json`: delete the `"outputs": ["{projectRoot}/coverage"]` line from
+- [x] [AI] [AC-2] Edit `apps/wahidyankf-www/project.json`: delete the `"outputs": ["{projectRoot}/coverage"]` line from
       `test:coverage:integration` — acceptance: that target is `cache: false`, so the declaration was inert;
       `npx nx run wahidyankf-www:test:coverage:integration` exits 0 and still writes `apps/wahidyankf-www/coverage`.
-- [ ] [AI] [AC-5] Before editing, run the Phase 1 gate's bare-`nx run` grep once against the unedited file:
+- [x] [AI] [AC-5] Before editing, run the Phase 1 gate's bare-`nx run` grep once against the unedited file:
       `grep -nE '"command": *"([^"]*[^-] )?nx run' apps/wahidyankf-www/project.json` — acceptance: it prints exactly one
       line, the `static-routes:validation` command (line 105 today), and exits 0. This run is what proves the gate's
       grep can see the defect; run after the edit alone it is silent whether the pattern works or not. Record the
       printed line in `learnings.md` if it does not match, because a silent run here means the gate pattern is wrong
       rather than the file being clean.
-- [ ] [AI] [AC-5] Edit `apps/wahidyankf-www/project.json` target `static-routes:validation`: change the command's
+- [x] [AI] [AC-5] Edit `apps/wahidyankf-www/project.json` target `static-routes:validation`: change the command's
       leading `nx run wahidyankf-www:build --skip-nx-cache` to `npm exec nx -- run wahidyankf-www:build --skip-nx-cache`
       — acceptance: `npx nx run wahidyankf-www:static-routes:validation` exits 0 and prints
       `Verified static build output for /, /cv, /personal-projects, /robots.txt, /sitemap.xml.`
-- [ ] [AI] [AC-4] Edit the same target: change `"options": {"cwd": "{workspaceRoot}"}` to `{"cwd": "{projectRoot}"}` and
+- [x] [AI] [AC-4] Edit the same target: change `"options": {"cwd": "{workspaceRoot}"}` to `{"cwd": "{projectRoot}"}` and
       shorten `node apps/wahidyankf-www/scripts/validate-static-routes.mjs` to `node scripts/validate-static-routes.mjs`
       — acceptance: the target prints the same `Verified static build output` line, and
       `grep -n 'apps/wahidyankf-www' apps/wahidyankf-www/project.json` returns no line inside a `"command"` string. Its
       `dependsOn` placement in `test:quick` is untouched; only the working directory moves.
-- [ ] [AI] [AC-2] Edit `apps/wahidyankf-www/project.json`: delete the
+- [x] [AI] [AC-2] Edit `apps/wahidyankf-www/project.json`: delete the
       `"outputs": ["{projectRoot}/public/wahidyankf-kresna-fridayoka-cv.pdf"]` line from `generate:cv-pdf` — acceptance:
       that target is `cache: false`, so the declaration is inert for exactly the reason `test:coverage:integration`'s
       is; `npx nx run wahidyankf-www:generate:cv-pdf` exits 0 and still writes the PDF to `apps/wahidyankf-www/public/`.
       Removing one and leaving the other would make the Phase 3 rule false of the file it was derived from.
-- [ ] [AI] [AC-3] Edit `apps/wahidyankf-www-e2e/project.json`: add a top-level `"namedInputs"` declaring
+- [x] [AI] [AC-3] Edit `apps/wahidyankf-www-e2e/project.json`: add a top-level `"namedInputs"` declaring
       `behaviorCorpus` as `["{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"]`, and replace all five
       literal occurrences in `install`, `typecheck`, `lint`, `test:e2e`, and `specs:e2e:baseline` with
       `"behaviorCorpus"` — acceptance:
       `grep -c 'specs/apps/wahidyankf-www/behavior' apps/wahidyankf-www-e2e/project.json` prints `1`.
-- [ ] [AI] [AC-2] Edit `apps/wahidyankf-www-e2e/project.json` target `specs:e2e:baseline`: add
+- [x] [AI] [AC-2] Edit `apps/wahidyankf-www-e2e/project.json` target `specs:e2e:baseline`: add
       `"outputs": ["{projectRoot}/.features-gen"]` — acceptance: the target is `cache: true` and its command runs
       `bddgen`, which writes that directory, so without the declaration a cache hit replays the baseline comparison and
       restores nothing. This is the same pairing the `badakmini-cli` coverage target gets above, and it is applied here
       even though Phase 2 deletes the file, because Phase 1's gate asserts the property across all three and Phase 2
       carries the declaration into the merged target.
-- [ ] [AI] Run `npm run format` — acceptance: exits 0, and `npm run format:check` afterwards also exits 0 over the three
+- [x] [AI] Run `npm run format` — acceptance: exits 0, and `npm run format:check` afterwards also exits 0 over the three
       edited files.
 
 ### Phase 1 Gate
 
 > Every check below passes before Phase 2 begins. A failure is fixed inside Phase 1.
 
-- [ ] [AI] [AC-2] Run this check for each of `badakmini-cli`, `wahidyankf-www`, and `wahidyankf-www-e2e`, substituting
+- [x] [AI] [AC-2] Run this check for each of `badakmini-cli`, `wahidyankf-www`, and `wahidyankf-www-e2e`, substituting
       the project name:
       `npx nx show project badakmini-cli --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const t=JSON.parse(s).targets;const bad=Object.entries(t).filter(([,v])=>v.cache===undefined).map(([k])=>k);console.log(bad.length?"UNDECLARED: "+bad.join(", "):"all "+Object.keys(t).length+" targets declare cache");process.exit(bad.length?1:0)})'`
       — acceptance: each of the three runs exits 0 and prints the `all N targets declare cache` form, naming a non-zero
       N so the check is proved to have read a populated target set.
-- [ ] [AI] Capture the resolved configuration again into `local-tmp/targets-badakmini-after.json`,
+- [x] [AI] Capture the resolved configuration again into `local-tmp/targets-badakmini-after.json`,
       `local-tmp/targets-www-after.json`, and `local-tmp/targets-www-e2e-after.json` using the Phase 0 commands, then
       `diff` each against its `-before.json` — acceptance: every difference is one this phase's checklist named. This
       diff does not prove the named inputs still reach the corpus, and is not read as if it did:
       `npx nx show project --json` reports the **declared** `inputs` array verbatim and expands neither `default` nor a
       `namedInputs` reference, so after this phase every affected target prints `["default", "behaviorCorpus"]` and the
       corpus path is absent from the output by construction. The two probe items below carry that half.
-- [ ] [AI] [AC-3] Probe the `behaviorCorpus` reference through the cache key, which is what `--json` cannot show. Nx
+- [x] [AI] [AC-3] Probe the `behaviorCorpus` reference through the cache key, which is what `--json` cannot show. Nx
       hashes file content, so a content change under a genuinely resolved input must miss the cache. For each pairing
       below: run the target twice and confirm the second run prints `Nx read the output from the cache`; then
       `printf '\n# hash probe\n' >> <feature file>` and run it a third time, confirming that line is now absent; then
@@ -224,7 +230,7 @@ workspace-wide.
       `specs/apps/wahidyankf-www/behavior/accessibility.feature`, and `wahidyankf-www-e2e:typecheck` with that same
       `wahidyankf-www` feature file. All three targets resolve to `cache: true` through the root `targetDefaults` and
       all three declare the corpus input today.
-- [ ] [AI] [AC-3] Probe the `workspaceScripts` reference the same way, because it is the other glob this phase hoists
+- [x] [AI] [AC-3] Probe the `workspaceScripts` reference the same way, because it is the other glob this phase hoists
       and it has no other proof: run `npx nx run wahidyankf-www:test:unit` to a cache hit, then
       `printf '\n// hash probe\n' >> scripts/next-with-port.mjs`, run it again and confirm the cache line is absent,
       then `git checkout -- scripts/next-with-port.mjs` and run it once more — acceptance: the cache line returns and
@@ -233,7 +239,7 @@ workspace-wide.
       because this plan never edits `scripts/next-with-port.mjs` — [tech-docs/file-impact.md](tech-docs/file-impact.md)
       gives it no label — so its index entry equals its `HEAD` entry. A trailing `//` comment is valid in an ES module,
       so the probe cannot break the script it borrows.
-- [ ] [AI] [AC-4] `grep -n 'apps/badakmini-cli' apps/badakmini-cli/project.json` — acceptance: no line printed is inside
+- [x] [AI] [AC-4] `grep -n 'apps/badakmini-cli' apps/badakmini-cli/project.json` — acceptance: no line printed is inside
       a `"command"` string. That is the whole acceptance, and it is the form [prd.md](prd.md) states for `[AC-4]`. The
       grep still prints lines this plan does not remove, so it must not be read as required to print only input paths:
       lines 4 and 5 are `"root": "apps/badakmini-cli"` and `"sourceRoot": "apps/badakmini-cli"`, which declare where the
@@ -246,7 +252,7 @@ workspace-wide.
       entries rather than `"command"` strings, so they do not fail this acceptance, and `learnings.md` already carries
       the entry that item required. Read against that entry: three extra input lines with no matching `learnings.md`
       record means something else put them there.
-- [ ] [AI] [AC-5]
+- [x] [AI] [AC-5]
       `grep -nE '"command": *"([^"]*[^-] )?nx run' apps/badakmini-cli/project.json apps/wahidyankf-www/project.json apps/wahidyankf-www-e2e/project.json`
       — acceptance: prints nothing and exits non-zero. The group is optional because the workspace's one bare invocation
       opens its command string, with no character and no space before `nx run`; a pattern that requires them matches
@@ -254,22 +260,22 @@ workspace-wide.
       check that cannot fail: the same grep run before the edit, in the checklist item above, must print the one
       `static-routes:validation` line, and `grep -c 'npm exec nx -- run' apps/wahidyankf-www/project.json` must print a
       non-zero count here, proving the file searched really does invoke Nx.
-- [ ] [AI] `npm run test:quick` — acceptance: exits 0 for both projects.
-- [ ] [AI] `npm run test:integration` — acceptance: exits 0 for both projects.
-- [ ] [AI] `npx nx run badakmini-cli:test:e2e` — acceptance: exits 0.
-- [ ] [AI] `npx nx run badakmini-cli:test:coverage` — acceptance: exits 0 and prints all three coverage lines, with the
+- [x] [AI] `npm run test:quick` — acceptance: exits 0 for both projects.
+- [x] [AI] `npm run test:integration` — acceptance: exits 0 for both projects.
+- [x] [AI] `npx nx run badakmini-cli:test:e2e` — acceptance: exits 0.
+- [x] [AI] `npx nx run badakmini-cli:test:coverage` — acceptance: exits 0 and prints all three coverage lines, with the
       unit figure matching `local-tmp/coverage-badakmini-before.txt`.
-- [ ] [AI] `npx nx run wahidyankf-www:test:coverage` — acceptance: exits 0 and the unit line percentage matches
+- [x] [AI] `npx nx run wahidyankf-www:test:coverage` — acceptance: exits 0 and the unit line percentage matches
       `local-tmp/coverage-www-before.txt`.
-- [ ] [AI] `npm run check:markdown-links` — acceptance: exits 0.
-- [ ] [AI] [AC-4] `npm run check:harness-parity` — acceptance: exits 0, with Nx reporting the `capability-parity` target
+- [x] [AI] `npm run check:markdown-links` — acceptance: exits 0.
+- [x] [AI] [AC-4] `npm run check:harness-parity` — acceptance: exits 0, with Nx reporting the `capability-parity` target
       for `badakmini-cli` as successfully run. This phase rewrites that target's command — it gains `options.cwd` and
       loses `-C apps/badakmini-cli` — and nothing else reaches it: `.husky/pre-push` runs `capability-parity` only when
       a commit touches `.claude`, `.codex`, `.opencode`, or `.agents`, and this plan touches none of them, so without
       this item the rewritten command would ship unexecuted. Its three siblings are already covered and are not repeated
       here: `rule-change` runs on every commit from `.husky/pre-commit`, `governance` runs in the Phase 2 and Phase 3
       gates, and `markdown-links` runs in this gate above.
-- [ ] [AI] [AC-2] `npx nx run wahidyankf-www-e2e:specs:e2e:baseline` — acceptance: exits 0, which is the same assertion
+- [x] [AI] [AC-2] `npx nx run wahidyankf-www-e2e:specs:e2e:baseline` — acceptance: exits 0, which is the same assertion
       Phase 0 recorded at baseline — the generated `test.fixme` count still equals the 34 in
       `apps/wahidyankf-www-e2e/e2e-skip-baseline.json` — and this run is now made against the rewritten target. This
       phase gives that target a new `"outputs": ["{projectRoot}/.features-gen"]` declaration and moves its `inputs` onto
@@ -280,7 +286,7 @@ workspace-wide.
       this item a cached target that the nightly `npm run test:scheduled` workflow runs against whatever `main` holds
       would be edited, committed, and pushed unrun. That is the same reasoning the `capability-parity` item above
       states, applied to the project this phase normalizes and Phase 2 deletes.
-- [ ] [AI] [AC-3] `npx nx run wahidyankf-www-e2e:lint` — acceptance: exits 0, with both `lint:biome` and
+- [x] [AI] [AC-3] `npx nx run wahidyankf-www-e2e:lint` — acceptance: exits 0, with both `lint:biome` and
       `lint:commentary` reported as run. It is unreached by this gate's aggregates for the same reason, and it is the
       one of this project's five rewritten targets that is an `nx:run-commands` aggregate rather than a single
       `command`, so it exercises the `behaviorCorpus` substitution on a differently shaped target. The remaining two,
@@ -288,7 +294,7 @@ workspace-wide.
       receives only the shared `behaviorCorpus` substitution, which the `typecheck` cache probe above already proves
       resolves for this project, and each is minutes of browser download and browser driving that Phase 2 runs in full
       at the merged target names.
-- [ ] [AI] [AC-2] Check the outputs rule mechanically, in the same inspection style as the `cache` check above. Run this
+- [x] [AI] [AC-2] Check the outputs rule mechanically, in the same inspection style as the `cache` check above. Run this
       once per project, substituting the project name and its artifact map:
       `npx nx show project badakmini-cli --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const t=JSON.parse(s).targets;const writes={"build":"{projectRoot}/dist","test:coverage:unit":"{workspaceRoot}/local-tmp/badakmini-unit.out"};const bad=[];for(const [k,v] of Object.entries(t)){if(v.cache===false&&v.outputs!==undefined)bad.push(k+": uncached yet declares outputs");if(v.cache===true&&writes[k]&&!(v.outputs||[]).includes(writes[k]))bad.push(k+": cached and writes "+writes[k]+", undeclared")}console.log(bad.length?"VIOLATIONS: "+bad.join("; "):"outputs rule holds for all "+Object.keys(t).length+" targets");process.exit(bad.length?1:0)})'`
       — acceptance: each of the three runs exits 0 and prints the `outputs rule holds for all N targets` form with a
@@ -312,20 +318,20 @@ workspace-wide.
       map Phase 2, Phase 3, or Phase 4 uses: run as written after Phase 2 it would inspect a target set it predates and
       name a project that no longer exists. A failure here is still cheaper to fix than the same failure a phase later,
       which is why the check runs in all three places rather than only the last.
-- [ ] [AI] Commit Phase 1 as four commits rather than one, each staged and pushed in turn, because the
+- [x] [AI] Commit Phase 1 as four commits rather than one, each staged and pushed in turn, because the
       [thematic commits policy](../../../repo-governance/conventions/thematic-commits-policy.md) defines a theme by
       intent and this phase carries four — acceptance: each commit's diff contains nothing its message does not name,
       `git status --short` is empty after the last, and all four SHAs are written into the Execution Record as Phase 0
       requires.
-  - [ ] [AI] [AC-5] `fix(wahidyankf-www): resolve nx through the workspace binary` — the bare `nx run` change alone. It
+  - [x] [AI] [AC-5] `fix(wahidyankf-www): resolve nx through the workspace binary` — the bare `nx run` change alone. It
         is a defect fix, not a normalization, and it is the only Phase 1 change that alters which binary runs; it
         commits first so a bisect that lands on it names one suspect.
-  - [ ] [AI] [AC-3] `refactor(workspace): declare shared behavior inputs once per project` — the three `namedInputs`
+  - [x] [AI] [AC-3] `refactor(workspace): declare shared behavior inputs once per project` — the three `namedInputs`
         declarations, every glob they replace, and the redundant `tests/e2e` input removal.
-  - [ ] [AI] [AC-4] `refactor(workspace): resolve project commands through options.cwd` — the thirteen `badakmini-cli`
+  - [x] [AI] [AC-4] `refactor(workspace): resolve project commands through options.cwd` — the thirteen `badakmini-cli`
         `cwd` declarations with the two `mkdir` and one `BADAKMINI_BIN` rewrites, and `static-routes:validation`'s move
         to `{projectRoot}`.
-  - [ ] [AI] [AC-2] `refactor(workspace): declare every target's cache state and outputs` — the `badakmini-cli`
+  - [x] [AI] [AC-2] `refactor(workspace): declare every target's cache state and outputs` — the `badakmini-cli`
         `test:coverage:unit` `cache`/`outputs` pair, the new `outputs` on `wahidyankf-www-e2e:specs:e2e:baseline`, and
         the two inert `outputs` removals from `wahidyankf-www`'s `test:coverage:integration` and `generate:cv-pdf`.
 

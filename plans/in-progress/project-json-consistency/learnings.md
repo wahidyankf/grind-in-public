@@ -11,6 +11,22 @@ archival is blocked until each has reached a terminal state.
 
 ## Entries
 
+**2026-09-03 — Phase 1 — "redundant" was a property of the cache, not of the repository.** The plan removed
+`{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*` from three targets on the reasoning that the path lies inside
+`{projectRoot}` and is therefore already covered by Nx's built-in `default` input. The cache probe the plan designed for
+it agreed: with the explicit input gone, changing a file under `tests/e2e/` still missed the cache, so `default` really
+does reach it. The removal was still wrong. `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` carries
+`TestE2EBindingInputRegression`, which reads `project.json` and fails unless `test:coverage:behavior` declares that
+exact string — a test whose name says it was written after this broke once before. The input is not redundant; it is a
+deliberate declaration that the behavior target invalidates on E2E binding changes whatever `default` happens to cover
+today. Restored in all three targets, and the plan's non-goal forbids editing Badak Mini's Go code, so the test is the
+authority rather than a thing to adjust.
+
+The lesson generalizes past this input: a probe can only show what the system does now, and "covered by a broader rule"
+is not the same claim as "safe to delete". Before removing a declaration because something else subsumes it, search for
+a test that names it. A behavioural probe and a grep for the literal string answer different questions, and this plan
+only asked the first.
+
 **2026-09-03 — Phase 0 — a `tail` window sized by guess truncated the evidence it was capturing.** Two Phase 0 items
 piped a coverage run through `tail -20` and `tail -5` to record a baseline figure. Both windows landed past the line
 they were meant to capture: Nx appends a four-to-six line run summary after the command's own output, so the `All files`
