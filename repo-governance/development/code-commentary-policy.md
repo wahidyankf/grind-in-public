@@ -19,6 +19,8 @@ syntax alone, including:
 - important control-flow stages and data transformations;
 - invariants, security or correctness checks, and failure behaviour;
 - why a dependency is injected, mocked, cached, or intentionally avoided; and
+- a deliberate simplification that accepts a real ceiling, using a `ceiling:` comment that names both the limit and the
+  condition or path for upgrading it; and
 - non-obvious shell, Git, parsing, regular-expression, or library behaviour.
 
 ## Lint Enforcement
@@ -32,8 +34,9 @@ worth explaining or whether a summary is true, useful, and current.
 
 ## What to Avoid
 
-Do not narrate self-evident statements or duplicate a precise name. Prefer a short comment immediately before the
-decision it explains. Keep comments true when code changes; stale explanations are defects.
+Do not narrate self-evident statements, label ordinary simple code as a compromise, or duplicate a precise name. Prefer
+a short comment immediately before the decision it explains. Keep comments true when code changes; stale explanations
+are defects.
 
 Every `drill-reviewer` prompt states this requirement — comments that explain intent and non-obvious decisions, not
 syntax narration — in the imperative, because a subagent prompt has to stand alone. Change it in the same edit, in all

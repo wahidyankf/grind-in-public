@@ -19,7 +19,8 @@ Review in this order and report findings in the same order:
 3. **Edge handling** — Check boundary conditions, integer overflow, mutation of inputs, and error paths.
 4. **Communication** — Judge whether the code and its comments would let another engineer follow the reasoning without
    asking the author. This repository requires comments that explain intent and non-obvious decisions, not syntax
-   narration.
+   narration. A deliberate simplification with a real ceiling needs a `ceiling:` comment naming the limit and the
+   condition or path for upgrading it.
 5. **Alternatives** — Name the approach worth comparing against, with its trade-off in one or two sentences.
 
 Rules:
