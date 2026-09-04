@@ -43,10 +43,15 @@ Then(
   "the page scrolls past Highlights into the matching entries",
   async ({ page }) => {
     await expect(
-      page.getByRole("heading", { level: 1, name: /Curriculum Vitae/ }),
+      page.getByRole("heading", { name: /Highlights/i }),
+    ).toHaveCount(0);
+    await expect(
+      page
+        .locator("mark")
+        .filter({ hasText: /^TypeScript$/ })
+        .first(),
     ).toBeVisible();
-    const searchInput = page.getByPlaceholder(/Search CV entries/i);
-    await expect(searchInput).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   },
 );
 

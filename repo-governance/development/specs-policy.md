@@ -22,9 +22,10 @@ detail folder is warranted.
 
 Acceptance criteria are written as Gherkin scenarios in `.feature` files under `behaviours/`.
 
-A scenario uses exactly one primary `Given`, one `When`, and one `Then`; further steps chain with `And` or `But`. A
-`Background` block and a `Scenario Outline` `Examples` table are exempt. Two `When` steps in one scenario describe two
-behaviours, so split them.
+A scenario contains explicit `When` and `Then` steps and normally uses `And` or `But` for continuations. It may repeat a
+primary keyword only when the steps form one continuous user journey; do not split an existing coherent journey merely
+for keyword uniformity. Split independent behaviours. `Background` and Scenario Outline `Examples` remain structural
+exceptions rather than executable steps.
 
 ```gherkin
 Feature: Greeting

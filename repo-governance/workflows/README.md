@@ -19,18 +19,21 @@ link to related governance guidance instead of duplicating it.
 - [Rule workflows](rules/README.md) index the automatically triggered procedures for rule-path changes.
 - [Harness Alignment](harness-alignment.md) verifies that every supported harness receives the same rules through its
   instruction file, config, and subagents. Its detail lives in [`harness-alignment/`](harness-alignment/README.md).
-- [Rules Propagation](rules/rules-propagation.md) automatically starts for a rule-path change and integrates changed
-  repository rules without duplication or contradictions. Its detail lives in
+- [Rules Propagation](rules/rules-propagation.md) automatically starts for a rule-path change, remains the sole writer,
+  and consumes `NEEDS_PROPAGATION` ledgers. Its detail lives in
   [`rules/rules-propagation/`](rules/rules-propagation/README.md).
 - [README Refresh](readme-refresh.md) keeps root, project, documentation, and governance READMEs accurate before a
   thematic commit.
-- [Rules Quality Gate](rules-quality-gate.md) returns one read-only semantic verdict for a proposed or effective rule
-  state; Rules Propagation is the sole writer.
+- [Rules Quality Gate](rules-quality-gate.md) runs only on explicit owner direction and cannot end blocked; every
+  non-pass hands its ledger to Rules Propagation.
 - [Plan Planning](plan-planning.md) turns a described change into a validated five-core-document plan under `plans/`.
-- [Plan Quality Gate](plan-quality-gate.md) uses a frozen snapshot and finite ledger to return one bounded semantic
-  verdict after at most two cycles.
+- [Plan Quality Gate](plan-quality-gate.md) runs only on explicit owner direction and uses a frozen snapshot and finite
+  ledger to return one bounded semantic verdict after at most two cycles.
 - [Gherkin Implementation Review](gherkin-implementation-review.md) inspects each expanded scenario and applicable
   adapter for substantive Given-When-Then evidence.
+- [Exploratory and Usability Testing](exploratory-and-usability-testing.md) separates spec-aware probing from a fresh,
+  spec-blind usability pass for UI-affecting plans.
+- [Red-Green-Refactor](red-green-refactor.md) defines the evidenced TDD cycle for application and library behaviour.
 - [Plan Execution](plan-execution.md) executes a plan phase by phase, delivering to `main` at each gate, then archives
   it.
 

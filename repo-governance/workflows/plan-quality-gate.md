@@ -1,12 +1,17 @@
 ---
 tldr: "Produces one bounded semantic verdict for a formal plan's execution readiness."
-when_to_use: "Use before plan execution, after a material plan change, and at plan completion."
+when_to_use: "Use only for a checkpoint the owner explicitly requests."
 ---
 
 # Plan Quality Gate
 
-Produce exactly one terminal result: `PASS` or one `BLOCKED_*` variant for one formal plan. Run before execution, after
-material plan changes, and at completion. Never recurse or automatically start another run.
+Run only when the owner explicitly names this gate or unambiguously directs its semantic audit. Do not infer
+authorization from creating, editing, reviewing, or executing a plan, Plan mode, or another workflow. An instruction may
+authorize multiple named checkpoints; otherwise it authorizes one run.
+
+Produce exactly one terminal result: `PASS` or one `BLOCKED_*` variant for one formal plan. When authorized, run at the
+directed pre-execution, post-material-change, or completion checkpoint. Never recurse or automatically start another
+run.
 
 ## Sufficiency and Ownership
 
@@ -52,7 +57,7 @@ snapshot, cycle, ledger, pending verification, and authorization under
 4. Verify semantically in read-only mode, reviewing only repaired meaning and cross-document effects. Then run:
 
    ```sh
-   rtk npm exec -- nx run badakmini-cli:test:repo
+   rtk ./resource-guard run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo
    ```
 
 5. Return `PASS` when no row is `OPEN` or `BLOCKED`, tooling passes, no new material semantic gap appears, and the
@@ -62,6 +67,9 @@ snapshot, cycle, ledger, pending verification, and authorization under
 7. After cycle `2`, return `PASS` if step 5 holds. Otherwise return `BLOCKED_NON_CONVERGENT` with remaining ledger and
    evidence. Do not repair, restart, or invoke this workflow again automatically.
 
+Canonical resource-guard recovery is infrastructure handling, not another quality-gate cycle.
+
 If canonical tooling cannot obtain a deterministic verdict, return `BLOCKED_TOOLING` with its evidence. Never simulate
 the check or retry without bound. `PASS` authorizes neither execution nor commit/push. Every blocker names the reason,
-remaining rows, and required external change; new input or authority starts a fresh run through plan execution.
+remaining rows, and required external change. Resume only after new input and explicit owner direction authorize a fresh
+gate run; [plan execution](plan-execution.md) consumes its result but never starts it.

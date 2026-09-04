@@ -10,6 +10,7 @@ only the policy that matches the work at hand:
 
 - [Architecture Specifications](architecture-specifications.md) for each application's canonical as-built C4 model and
   its maintenance.
+- [API Testing](api-testing.md) for automated contracts and manual public-boundary proof when an API changes.
 - [Badak Mini](badakmini-cli-policy.md) for repository-local validation checks.
 - [Behaviour-Driven Development](behaviour-driven-development-policy.md) for mandatory canonical corpus and adapter
   roles.
@@ -27,6 +28,8 @@ only the policy that matches the work at hand:
 - [Quality Gates](quality-gates.md) for test boundaries and owner/E2E target contracts.
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow
   it.
+- [Resource-Aware Development](resource-aware-development.md) for checksum-pinned admission and recovery of
+  compute-bearing Nx work.
 - [Specs](specs-policy.md) for Gherkin acceptance criteria and the `specs/` tree; its
   [detail index](specs-policy/README.md) holds focused structural guidance.
 - [Software Quality Enforcement](software-quality-enforcement.md) for truthful gate, hook, schedule, runtime, and
@@ -34,6 +37,7 @@ only the policy that matches the work at hand:
 - [TDD](tdd-policy.md) for red-green-refactor cycles bound to scenarios.
 - [TDD Policy Details](tdd-policy/README.md) for focused TDD requirements.
 - [Testing](testing-policy.md) for quick and integration-test responsibilities.
+- [Test Data Isolation](test-data-isolation.md) for synthetic identities, per-run boundaries, and cleanup.
 - [Testing Policy Details](testing-policy/README.md) for focused testing requirements.
 - [Workspace Commands](workspace-commands.md) for the canonical command, check, and hook reference.
 

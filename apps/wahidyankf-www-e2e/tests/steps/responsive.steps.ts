@@ -45,8 +45,7 @@ Then("no bottom tab bar is rendered", async ({ page }) => {
 });
 
 Then("no left sidebar is visible", async ({ page }) => {
-  const viewport = page.viewportSize();
-  expect(viewport?.width).toBeLessThan(1024);
+  await expect(page.locator('[data-testid="desktop-nav"]')).not.toBeVisible();
 });
 
 // @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:Tablet viewport hides the sidebar and renders a bottom tab bar

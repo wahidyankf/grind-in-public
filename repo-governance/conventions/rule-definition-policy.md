@@ -46,5 +46,6 @@ restating it, so strength cannot drift between the copy and the original.
 
 ## Verification
 
-No automated check reads a sentence for strength, so the read-only
-[rules quality gate](../workflows/rules-quality-gate.md) verifies it semantically before and after propagation.
+No automated check reads a sentence for strength. Run the read-only
+[rules quality gate](../workflows/rules-quality-gate.md) only on explicit owner direction; its non-passing ledger hands
+off to propagation, which owns every repair and blocker.

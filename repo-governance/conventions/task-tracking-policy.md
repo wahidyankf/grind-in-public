@@ -23,6 +23,12 @@ discovered, but it must never begin without a current list.
 Write one item per outcome that can be checked on its own. An item is too coarse when judging it done requires accepting
 several separate claims at once, and a plan step that names two verbs usually hides two items.
 
+For new or changed application or library behaviour and bug fixes, represent each
+[red-green-refactor](../workflows/red-green-refactor.md) increment as separate RED, GREEN, and REFACTOR items. Preserve
+the exact test path and Nx target, expected behavioural RED reason before production implementation, and observed RED,
+GREEN, and REFACTOR-green results. Pure refactors follow the green-baseline and characterization rule in
+[TDD](../development/tdd-policy.md).
+
 ```text
 too coarse:  "Add the policy and wire it everywhere and run the checks"
 granular:    "Write the policy document"

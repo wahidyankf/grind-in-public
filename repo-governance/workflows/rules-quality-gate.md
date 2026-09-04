@@ -1,13 +1,16 @@
 ---
-tldr: "Produces one read-only semantic verdict for a proposed or effective repository-rule state."
-when_to_use: "Use before rules propagation and after its edits; this gate never writes rules."
+tldr: "Produces one explicitly requested, read-only semantic verdict and hands every non-pass to propagation."
+when_to_use: "Use only when the owner explicitly requests a semantic rules audit."
 ---
 
 # Rules Quality Gate
 
+Run only when the owner explicitly names this gate or unambiguously directs its semantic audit. Do not infer
+authorization from a rule change, review request, propagation, or another workflow.
+
 Produce one read-only semantic verdict for one proposed or effective repository-rule state. This workflow never edits
-rules, invokes [rules propagation](rules/rules-propagation.md), or starts another gate run. Propagation is the sole
-writer.
+rules or starts another gate run. [Rules propagation](rules/rules-propagation.md) is the sole writer and mandatory
+continuation for every non-passing finding.
 
 ## Sufficiency and Ownership
 
@@ -17,9 +20,9 @@ demonstrated need. Apply [minimum sufficiency](../principles/minimum-sufficiency
 
 This gate owns semantic rule quality. Deterministic tooling owns machine-decidable checks, including links, indexes,
 word budgets, formatting, coding-harness parity, and automated contracts. Do not manually reproduce, sample, or
-second-guess those checks. For a proposed check not yet implemented, Proposal mode verifies only explicit ownership,
-executable delivery, and proof obligations. Effective mode requires the canonical target to exist and pass; never
-simulate future tooling.
+second-guess those checks. Consume their result only when this workflow requires effective-state verification. For a
+proposed check not yet implemented, Proposal mode verifies only explicit ownership, executable delivery, and proof
+obligations. Effective mode requires the canonical target to exist and pass; never simulate future tooling.
 
 ## Modes, Snapshot, and Ledger
 
@@ -55,21 +58,25 @@ Decide whether:
 
 Do not audit unrelated governance or rerun checks owned by deterministic tooling.
 
-## Terminal Results
+## Results and Mandatory Handoff
 
-In `PROPOSAL` mode, run the canonical repository gate and return:
+In `PROPOSAL` mode:
 
-- `PASS_NO_CHANGE` when current effective meaning already satisfies the request;
-- `PASS_READY` when a material change is necessary and fully specified; or
-- `BLOCKED_INPUT`, `BLOCKED_CONFLICT`, `BLOCKED_TOOLING`, or `BLOCKED_INPUT_CHANGED` with the finite ledger, evidence,
-  and required external decision.
+- run the canonical repository gate and return `PASS_NO_CHANGE` when current effective meaning already satisfies the
+  request;
+- otherwise emit `NEEDS_PROPAGATION` with the finite ledger, evidence, and any required external decision.
 
 In `EFFECTIVE` mode, run:
 
 ```sh
-rtk npm exec -- nx run badakmini-cli:test:repo
+rtk ./resource-guard run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo
 ```
 
-Return `PASS_EFFECTIVE` only when the semantic ledger is clear and tooling passes. Otherwise return `BLOCKED_SEMANTIC`,
-`BLOCKED_TOOLING`, or `BLOCKED_INPUT_CHANGED` with evidence. Every result ends the invocation. The gate never repairs,
-invokes propagation, retries without bound, or authorizes commit/push.
+Return `PASS_EFFECTIVE` only when the semantic ledger is clear and tooling passes. Otherwise emit `NEEDS_PROPAGATION`
+with the ledger and evidence. Canonical resource-guard recovery is infrastructure handling, not another gate run.
+
+`NEEDS_PROPAGATION` is a non-terminal handoff, never a blocked result. The caller must immediately run propagation with
+the frozen outcome, ledger, and evidence without another owner instruction, then report only propagation's terminal
+result. Consequently this gate can end only in `PASS_NO_CHANGE` or `PASS_EFFECTIVE`; it never ends blocked, repairs
+rules, reruns itself, or authorizes commit/push. Propagation owns any input, conflict, input-change, or tooling blocker
+it cannot resolve.

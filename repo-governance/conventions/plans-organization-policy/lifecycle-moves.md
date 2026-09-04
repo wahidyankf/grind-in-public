@@ -24,15 +24,15 @@ scratch.
 
 1. Move the folder from `backlog/<identifier>/` to `in-progress/<identifier>/`. No rename: neither stage carries a date.
 2. Update `backlog/README.md` and `in-progress/README.md`.
-3. Commit and push the move before executing any checklist item, so the repository states what is active before it
-   changes.
+3. When separately authorized, commit and push the move before executing any checklist item, so the repository states
+   what is active before it changes. Otherwise stop before execution.
 
 A plan is never executed out of `backlog/`.
 
 ## Completing Work
 
-1. Re-run the quality gate and reconcile every acceptance criterion, specification, README, gate, learning, and
-   conditional task with the delivered system.
+1. Require explicit owner direction for a fresh completion quality-gate run. Continue only on `PASS`; reconcile every
+   acceptance criterion, specification, README, gate, learning, and conditional task with the delivered system.
 2. Record a dated, evidence-backed `Not triggered` disposition for every dormant recovery task, then run the Knowledge
    Capture phase; see [knowledge capture](knowledge-capture.md).
 3. Refuse an already-existing `plans/done/YYYY-MM-DD__<identifier>/` destination; never merge, overwrite, or invent a

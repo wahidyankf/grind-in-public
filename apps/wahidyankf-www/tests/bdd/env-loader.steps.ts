@@ -1,6 +1,16 @@
 import path from "node:path";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
+import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
+import { fileURLToPath } from "node:url";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
 import { afterAll, expect } from "vitest";
 import { loadTierEnv } from "@/features/env/core/tier-env";
@@ -25,6 +35,75 @@ type EnvRecord = Record<string, string | undefined>;
 const tmpDirs: string[] = [];
 const virtualFiles = new Map<string, string>();
 let virtualDirectorySequence = 0;
+const workspaceRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../../..",
+);
+
+function runNextBuildFixture(appDir: string): string {
+  const appDirectory = path.join(appDir, "app");
+  const fixtureLibrary = path.join(appDir, "lib");
+  mkdirSync(appDirectory, { recursive: true });
+  mkdirSync(fixtureLibrary, { recursive: true });
+  for (const source of ["tier-env.ts", "port-resolver.ts"]) {
+    copyFileSync(
+      path.join(
+        workspaceRoot,
+        "apps/wahidyankf-www/src/features/env/core",
+        source,
+      ),
+      path.join(fixtureLibrary, source),
+    );
+  }
+  const tierEnvFixture = path.join(fixtureLibrary, "tier-env.ts");
+  writeFileSync(
+    tierEnvFixture,
+    readFileSync(tierEnvFixture, "utf8").replace(
+      'from "./port-resolver";',
+      'from "./port-resolver.ts";',
+    ),
+  );
+  writeFileSync(
+    path.join(appDir, "package.json"),
+    JSON.stringify({ private: true, type: "module" }),
+  );
+  writeFileSync(
+    path.join(appDir, "next.config.mjs"),
+    'import { loadTierEnv } from "./lib/tier-env.ts";\nloadTierEnv();\nexport default {};\n',
+  );
+  writeFileSync(
+    path.join(appDirectory, "layout.jsx"),
+    'export default function Layout({ children }) { return <html lang="en"><body>{children}</body></html>; }\n',
+  );
+  writeFileSync(
+    path.join(appDirectory, "page.jsx"),
+    'export default function Page() { return <main>{process.env.SHARED_VAR + "|" + process.env.STAG_ONLY_VAR}</main>; }\n',
+  );
+  symlinkSync(
+    path.join(workspaceRoot, "node_modules"),
+    path.join(appDir, "node_modules"),
+    "dir",
+  );
+
+  const buildEnv: NodeJS.ProcessEnv = {
+    ...process.env,
+    APP_ENV: "stag",
+    NEXT_TELEMETRY_DISABLED: "1",
+  };
+  delete buildEnv.SHARED_VAR;
+  delete buildEnv.STAG_ONLY_VAR;
+  execFileSync(
+    path.join(workspaceRoot, "node_modules/.bin/next"),
+    ["build", "--webpack"],
+    {
+      cwd: appDir,
+      env: buildEnv,
+      stdio: "pipe",
+      timeout: 20_000,
+    },
+  );
+  return readFileSync(path.join(appDir, ".next/server/app/index.html"), "utf8");
+}
 
 function makeTmpAppDir(): string {
   if (behaviourTestLayer === "unit") {
@@ -86,6 +165,7 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
     ({ Given, When, Then }) => {
       let appDir: string;
       let env: EnvRecord;
+      let buildOutput: string | undefined;
 
       Given('only ".env.stag" exists in the app directory', () => {
         appDir = makeTmpAppDir();
@@ -98,15 +178,23 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
 
       When('"next build" runs with APP_ENV set to "stag"', () => {
         env = { APP_ENV: "stag" };
-        loadAtCurrentLayer(appDir, env);
+        if (behaviourTestLayer === "integration") {
+          buildOutput = runNextBuildFixture(appDir);
+        } else {
+          loadAtCurrentLayer(appDir, env);
+        }
       });
 
       // @covers specs/apps/wahidyankf-www/behaviours/env-loader.feature:wahidyankf-www builds against the staging tier
       Then(
         'every variable consumed by the build resolves to its ".env.stag" value',
         () => {
-          expect(env.SHARED_VAR).toBe("stag-value");
-          expect(env.STAG_ONLY_VAR).toBe("stag-only");
+          if (behaviourTestLayer === "integration") {
+            expect(buildOutput).toContain("stag-value|stag-only");
+          } else {
+            expect(env.SHARED_VAR).toBe("stag-value");
+            expect(env.STAG_ONLY_VAR).toBe("stag-only");
+          }
         },
       );
     },

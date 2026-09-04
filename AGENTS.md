@@ -21,10 +21,11 @@ Use [ose-public](https://github.com/wahidyankf/ose-public), [ose-primer](https:/
 
 Rule-path automation triggers the [`rules-propagation` workflow](repo-governance/workflows/rules/rules-propagation.md)
 before edits and at pre-commit; follow it without waiting for an owner reminder. A change to what a harness reads also
-requires the [`harness-alignment` workflow](repo-governance/workflows/harness-alignment.md). Governance is ordered —
-principles, then conventions, then development policies, then workflows — so a cross-level conflict is settled by
-[precedence](repo-governance/principles/README.md#precedence) and only a same-level one reaches the owner. What counts
-as a rule, and how strongly each wording binds, is the
+requires the [`harness-alignment` workflow](repo-governance/workflows/harness-alignment.md). Run Plan Quality Gate and
+Rules Quality Gate only when the owner explicitly requests the semantic checkpoint; neither planning, execution, review,
+nor propagation grants that authority. Governance is ordered — principles, then conventions, then development policies,
+then workflows — so a cross-level conflict is settled by [precedence](repo-governance/principles/README.md#precedence)
+and only a same-level one reaches the owner. What counts as a rule, and how strongly each wording binds, is the
 [rule definition policy](repo-governance/conventions/rule-definition-policy.md). `README.md` and `docs/` serve people;
 instruction files serve agents; `repo-governance/` serves both. `CLAUDE.md` must defer to this file; see the
 [agent instruction alignment policy](repo-governance/conventions/agent-instruction-alignment-policy.md). Every `docs/`,
@@ -45,7 +46,10 @@ project needing them.
 ## Commands
 
 [Workspace commands](repo-governance/development/workspace-commands.md) is canonical for every command, check, and hook:
-the common loop, the narrower runs, and what each Git hook does.
+the common loop, the narrower runs, and what each Git hook does. Guard compute-bearing Nx work through the
+checksum-pinned `./resource-guard` consumer under the
+[resource-aware development policy](repo-governance/development/resource-aware-development.md); never bypass or
+parallel-retry an admission deferral.
 
 ## Planning
 
@@ -53,8 +57,8 @@ Create plan documents only when the owner explicitly requests a plan. A requeste
 including `tech-docs/README.md`, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the
 [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with
 [plan-planning](repo-governance/workflows/plan-planning.md), validate with
-[plan-quality-gate](repo-governance/workflows/plan-quality-gate.md), and run with
-[plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`. Each `delivery.md`
+[plan-quality-gate](repo-governance/workflows/plan-quality-gate.md) only at an explicitly requested checkpoint, and run
+with [plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`. Each `delivery.md`
 opens with a dated Execution Record, written as phases complete and gates pass or fail.
 
 ## Nx and Coding Conventions
@@ -81,6 +85,10 @@ maintains its as-built C4 model in `specs/`; see the
 as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the
 [specs policy](repo-governance/development/specs-policy.md) and the
 [TDD policy](repo-governance/development/tdd-policy.md).
+
+Represent every behaviour increment and bug fix as separate evidenced RED, GREEN, and REFACTOR task items. Use synthetic
+isolated test data, keep integration network-free and E2E outside quick hooks, and run the one-by-one Gherkin
+implementation review after material corpus or adapter changes. Manually confirm affected browser and API boundaries.
 
 Use Conventional Commits, and give each commit one purpose under the
 [thematic commits policy](repo-governance/conventions/thematic-commits-policy.md). Landing on `main` is not deploying:

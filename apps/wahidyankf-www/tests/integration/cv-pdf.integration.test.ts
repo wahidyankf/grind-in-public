@@ -48,7 +48,23 @@ const feature = await loadFeature(
  */
 const virtualDirectories = new Set<string>();
 const virtualFiles = new Map<string, Buffer>();
+const activeOutputDirectories = new Set<string>();
 let virtualDirectorySequence = 0;
+
+function cleanupOutputDirectory(directory: string): void {
+  virtualDirectories.delete(directory);
+  virtualFiles.delete(path.join(directory, "cv.pdf"));
+  if (behaviourTestLayer === "integration") {
+    rmSync(directory, { recursive: true, force: true });
+  }
+  activeOutputDirectories.delete(directory);
+}
+
+function cleanupOutputDirectories(): void {
+  for (const directory of [...activeOutputDirectories]) {
+    cleanupOutputDirectory(directory);
+  }
+}
 
 function outputFixture(): {
   directory: string;
@@ -63,21 +79,20 @@ function outputFixture(): {
     );
     const file = path.join(directory, "cv.pdf");
     virtualDirectories.add(directory);
+    activeOutputDirectories.add(directory);
     return {
       directory,
       file,
-      cleanup: () => {
-        virtualDirectories.delete(directory);
-        virtualFiles.delete(file);
-      },
+      cleanup: () => cleanupOutputDirectory(directory),
     };
   }
 
   const directory = mkdtempSync(path.join(tmpdir(), "cv-export-"));
+  activeOutputDirectories.add(directory);
   return {
     directory,
     file: path.join(directory, "cv.pdf"),
-    cleanup: () => rmSync(directory, { recursive: true, force: true }),
+    cleanup: () => cleanupOutputDirectory(directory),
   };
 }
 
@@ -144,7 +159,9 @@ function readOutput(file: string): Buffer {
   return contents;
 }
 
-describeFeature(feature, ({ Scenario }) => {
+describeFeature(feature, ({ Scenario, AfterEachScenario }) => {
+  AfterEachScenario(cleanupOutputDirectories);
+
   Scenario(
     "Generating the CV writes a PDF to the local filesystem",
     ({ Given, When, Then, And }) => {
@@ -171,7 +188,6 @@ describeFeature(feature, ({ Scenario }) => {
 
       And("the file begins with the PDF header bytes", () => {
         expect(contents.subarray(0, 5).toString("latin1")).toBe("%PDF-");
-        output.cleanup();
       });
     },
   );

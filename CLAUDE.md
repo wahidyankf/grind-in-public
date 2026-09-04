@@ -30,7 +30,8 @@ narrower run, repository check, and hook. It is not summarized here, because a s
 
 `AGENTS.md` states when work is planned and which workflow runs each stage. The semantic
 [plan quality gate](repo-governance/workflows/plan-quality-gate.md) is harness-independent and bounded; deterministic
-repository tooling owns its machine-decidable checks.
+repository tooling owns its machine-decidable checks. Planning or execution never authorizes that gate; run it only for
+a checkpoint the owner explicitly requests.
 
 ## Architecture
 

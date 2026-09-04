@@ -65,10 +65,7 @@
       "command": "if rg -n '\\btest\\.(skip|only|fixme)\\s*\\(' tests; then echo 'ERROR: unconditional Playwright skip/focus marker found' >&2; exit 1; fi && playwright test",
       "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "dependsOn": [
-        "test:coverage:behaviour",
-        { "projects": ["wahidyankf-www"], "target": "build" }
-      ],
+      "dependsOn": ["test:coverage:behaviour"],
       "inputs": [
         "default",
         "^default",

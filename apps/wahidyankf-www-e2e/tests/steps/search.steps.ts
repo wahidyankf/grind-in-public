@@ -1,7 +1,8 @@
 import { createBdd } from "playwright-bdd";
-import { expect } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 const { When, Then } = createBdd();
+const observedScrollTopUrls = new WeakMap<Page, string>();
 
 When('the visitor types "TypeScript" in the search input', async ({ page }) => {
   const input = page.getByPlaceholder(
@@ -19,8 +20,9 @@ Then("the URL becomes \\/?search=TypeScript", async ({ page }) => {
 Then(
   "the URL becomes \\/cv?search=TypeScript&scrollTop=true",
   async ({ page }) => {
-    // scrollTop is transient — CV page removes it via router.replace. Assert stable final URL.
-    await expect(page).toHaveURL(/\/cv\?search=TypeScript/);
+    expect(observedScrollTopUrls.get(page)).toMatch(
+      /\/cv\?search=TypeScript&scrollTop=true$/,
+    );
   },
 );
 
@@ -69,5 +71,13 @@ When('the visitor clicks the "TypeScript" skill pill', async ({ page }) => {
     .getByRole("button")
     .filter({ hasText: /^TypeScript$/ })
     .first();
+  const navigatedWithScrollTop = page.waitForEvent(
+    "framenavigated",
+    (frame) =>
+      frame === page.mainFrame() &&
+      frame.url().endsWith("/cv?search=TypeScript&scrollTop=true"),
+  );
   await pill.click();
+  const frame = await navigatedWithScrollTop;
+  observedScrollTopUrls.set(page, frame.url());
 });

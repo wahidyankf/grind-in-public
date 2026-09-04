@@ -104,10 +104,19 @@ describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
       Then(
         "every project card exposes a Repository, Website, or YouTube link where the project has that resource",
         () => {
-          const links = screen.getAllByRole("link", {
-            name: /Repository|Website|YouTube/i,
+          projects.forEach((project, index) => {
+            const card = document.getElementById(`project-${index}`);
+            expect(card).not.toBeNull();
+            const cardScope = within(card as HTMLElement);
+            for (const [resource, href] of Object.entries(project.links)) {
+              const link = cardScope.getByRole("link", {
+                name: new RegExp(`^${resource}$`, "i"),
+              });
+              expect(link).toHaveAttribute("href", href);
+              expect(link).toHaveAttribute("target", "_blank");
+              expect(link).toHaveAttribute("rel", "noopener noreferrer");
+            }
           });
-          expect(links.length).toBeGreaterThan(0);
         },
       );
     },

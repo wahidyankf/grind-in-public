@@ -22,7 +22,8 @@ Three workflows drive the lifecycle:
 
 1. [plan-planning](../repo-governance/workflows/plan-planning.md) turns a prompt into a five-core-document plan with a
    mapped technical set.
-2. [plan-quality-gate](../repo-governance/workflows/plan-quality-gate.md) validates it until no findings remain.
+2. [plan-quality-gate](../repo-governance/workflows/plan-quality-gate.md) performs one bounded semantic review only when
+   the owner explicitly requests the checkpoint.
 3. [plan-execution](../repo-governance/workflows/plan-execution.md) executes it phase by phase and archives it.
 
 Delivery goes directly to `main`: a phase ends, its gate passes, the work is committed and pushed. There are no

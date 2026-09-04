@@ -19,6 +19,7 @@
     "check:markdown-links": "nx run badakmini-cli:markdown-links",
     "check:project-contract": "node --test scripts/project-contract.test.mjs && node scripts/check-project-contract.mjs",
     "check:rule-change": "nx run badakmini-cli:rule-change",
+    "check:workflow-contract": "node --test scripts/workflow-contract.test.mjs && node scripts/check-workflow-contract.mjs",
     "check:workflows": "go -C apps/badakmini-cli tool actionlint \"$PWD\"/.github/workflows/*.yml",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

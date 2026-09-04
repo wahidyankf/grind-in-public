@@ -21,3 +21,7 @@ repository validation.
 - [governance-structure.mjs](governance-structure.mjs) and its [tests](governance-structure.test.mjs) validate recursive
   directory indexes and governance routing frontmatter deterministically.
 - [check-governance-structure.mjs](check-governance-structure.mjs) is the filesystem adapter for that structural check.
+- [workflow-contract.mjs](workflow-contract.mjs) and its [tests](workflow-contract.test.mjs) validate stable terminal,
+  authorization, convergence, and TDD-evidence tokens without judging semantic quality.
+- [check-workflow-contract.mjs](check-workflow-contract.mjs) loads the canonical workflow documents and reports sorted
+  contract findings.

@@ -26,9 +26,9 @@ and mechanisms. An announcement is not the work.
 
 ## Composition
 
-The [rules-quality-gate](rules-quality-gate.md) workflow runs this one as a step rather than restating it, so the five
-cases it classifies have a single implementation. Running this workflow directly is still correct when only a harness
-changed.
+Run this workflow whenever propagation changes a harness-consumed rule or a harness changes directly. The explicitly
+requested [rules-quality-gate](rules-quality-gate.md) remains read-only and consumes deterministic parity results rather
+than invoking or restating this procedure.
 
 ## Prerequisites
 

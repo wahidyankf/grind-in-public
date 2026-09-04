@@ -30,8 +30,9 @@ Each checkbox carries every element that applies:
   no shell wrapper rewrites.
 - **Relevant `[AC-…]` labels** that trace the work to `prd.md`; a purely mechanical task carries none only when it
   cannot implement or prove an acceptance criterion.
-- **One Gherkin scenario** per behaviour cycle, inlined verbatim, as the [TDD policy](../../development/tdd-policy.md)
-  requires.
+- **One canonical Gherkin path and scenario name** per behaviour cycle, without duplicating the scenario body, plus
+  separate RED, GREEN, and REFACTOR checkboxes carrying the evidence required by the
+  [TDD policy](../../development/tdd-policy.md).
 
 Bad, because it names no file, no command, and no observable outcome:
 

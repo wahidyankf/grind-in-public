@@ -33,10 +33,27 @@ Then("at least one project card is visible", async ({ page }) => {
 Then(
   "every project card exposes a Repository, Website, or YouTube link where the project has that resource",
   async ({ page }) => {
-    const externalLinks = await page
-      .getByRole("link", { name: /Repository|Website|YouTube/i })
-      .count();
-    expect(externalLinks).toBeGreaterThan(0);
+    const cards = page.locator('[id^="project-"]');
+    const count = await cards.count();
+    expect(count).toBeGreaterThan(0);
+    for (let index = 0; index < count; index += 1) {
+      const links = cards
+        .nth(index)
+        .getByRole("link", { name: /Repository|Website|YouTube/i });
+      const linkCount = await links.count();
+      expect(linkCount).toBeGreaterThan(0);
+      for (let linkIndex = 0; linkIndex < linkCount; linkIndex += 1) {
+        await expect(links.nth(linkIndex)).toHaveAttribute(
+          "href",
+          /^https:\/\//,
+        );
+        await expect(links.nth(linkIndex)).toHaveAttribute("target", "_blank");
+        await expect(links.nth(linkIndex)).toHaveAttribute(
+          "rel",
+          "noopener noreferrer",
+        );
+      }
+    }
   },
 );
 

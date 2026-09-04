@@ -44,4 +44,5 @@ integration, numeric-coverage, corpus, or placeholder targets.
 - Do not invent an inapplicable target for symmetry. Explain legitimate omissions in the project README.
 
 Scheduled CI runs every integration-coverage target before the owner's complete unfiltered E2E target. Fix failures at
-their responsible cause; never weaken or bypass a gate to obtain a pass.
+their responsible cause; never weaken or bypass a gate to obtain a pass. A deliberate RED is temporary process evidence,
+not a completed state. Run `test:quick` after the final [red-green-refactor](../workflows/red-green-refactor.md) cycle.

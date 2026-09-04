@@ -18,24 +18,27 @@ and routing.
 - **Runtime guard** fails closed before unsafe behaviour starts.
 
 A row applies when a change can alter its outcome, boundary, artifact, or mechanism. Missing automation never weakens a
-mandatory rule. Preserve applicable routes and evidence through compaction or handoff under
+mandatory rule. Run the narrowest applicable target and record evidence before completion; scheduled detection never
+replaces local proof. Preserve applicable routes and evidence through compaction or handoff under
 [governance continuity](../principles/governance-continuity.md).
 
 ## Enforcement Map
 
-| Outcome                                              | Canonical rule                                         | Route                                                                                                                 |
-| ---------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Typed, lint-clean source                             | [Quality gates](quality-gates.md)                      | **Commit:** staged checks. **Required/push:** affected `test:quick`.                                                  |
-| Unit behaviour and 99% coverage                      | [TDD](tdd-policy.md)                                   | **Required/push:** owner unit and unit-coverage slices through `test:quick`.                                          |
-| Local-boundary behaviour and 99% coverage            | [Quality gates](quality-gates.md)                      | **Required:** integration coverage. **Scheduled:** twice daily.                                                       |
-| Public browser or process journeys                   | [E2E](end-to-end-testing.md)                           | **Required:** affected `test:e2e`. **Scheduled:** after integration.                                                  |
-| Exact Gherkin corpus, bindings, adapters, exemptions | [BDD](behaviour-driven-development-policy.md)          | **Required/push:** behaviour coverage through `test:quick`.                                                           |
-| Substantive Gherkin implementation                   | [BDD](behaviour-driven-development-policy.md)          | **Required evidence:** [one-by-one review](../workflows/gherkin-implementation-review.md) and affected runtime gates. |
-| Accessible rendered UI                               | [E2E](end-to-end-testing.md)                           | **Required:** affected E2E plus accessibility and interaction evidence.                                               |
-| Synchronized specs and project docs                  | [Specs](specs-policy.md)                               | **Required evidence:** semantic reconciliation. **Required/conditional push:** `badakmini-cli:test:repo`.             |
-| Executable formal plans                              | [Plan gate](../workflows/plan-quality-gate.md)         | **Required evidence:** `PASS`. **Required:** repository machine checks.                                               |
-| Sufficient consistent rules                          | [Rules gate](../workflows/rules-quality-gate.md)       | **Required evidence:** semantic gate and propagation. **Required/conditional push:** repository checks.               |
-| Necessary reproducibly locked dependencies           | [Dependency selection](dependency-selection-policy.md) | **Required evidence:** selection review and affected gates.                                                           |
+| Outcome                                    | Rule                                                   | Enforcement or evidence route                                                                         |
+| ------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| Typed, lint-clean source                   | [Quality gates](quality-gates.md)                      | **Commit:** staged checks. **Required/push:** affected `test:quick`.                                  |
+| Test-first behaviour delivery              | [TDD](tdd-policy.md)                                   | **Evidence:** task records RED, GREEN, and REFACTOR-green; automation proves final state.             |
+| Unit behaviour and 99% coverage            | [Quality gates](quality-gates.md)                      | **Required/push:** unit and unit coverage through owner `test:quick`.                                 |
+| Local-boundary behaviour and 99% coverage  | [Quality gates](quality-gates.md)                      | **Required:** integration coverage. **Scheduled:** twice daily.                                       |
+| Public browser, process, and API journeys  | [E2E](end-to-end-testing.md)                           | **Required:** affected E2E. **Evidence:** affected APIs use `curl`. **Scheduled:** after integration. |
+| Exact corpus, adapters, and exemptions     | [BDD](behaviour-driven-development-policy.md)          | **Required/push:** static behaviour coverage through `test:quick`.                                    |
+| Substantive Gherkin implementation         | [BDD](behaviour-driven-development-policy.md)          | **Evidence:** [one-by-one review](../workflows/gherkin-implementation-review.md) and runtime gates.   |
+| Synthetic isolated test state              | [Test data](test-data-isolation.md)                    | **Runtime:** fail-closed boundaries. **Required:** policy tests and cleanup.                          |
+| Accessible and usable rendered UI          | [E2E](end-to-end-testing.md)                           | **Required:** affected E2E. **Evidence:** exact-origin and exploratory/usability review.              |
+| Synchronized specs and project docs        | [Specs](specs-policy.md)                               | **Evidence:** semantic reconciliation. **Required/conditional push:** `test:repo`.                    |
+| Executable formal plans                    | [Plan gate](../workflows/plan-quality-gate.md)         | **Evidence:** explicitly requested `PASS`. **Required:** repository checks.                           |
+| Sufficient consistent rules                | [Rules gate](../workflows/rules-quality-gate.md)       | **Evidence:** automatic propagation; explicit audits hand off every non-pass.                         |
+| Necessary reproducibly locked dependencies | [Dependency selection](dependency-selection-policy.md) | **Evidence:** selection review and affected gates.                                                    |
 
-Run the narrowest applicable targets before completion. Scheduled coverage never replaces local proof. Nx projects,
-hooks, and CI implement this map but do not replace its rules.
+Nx projects, hooks, and CI implement this map but do not replace its rules. Project READMEs own resolved commands and
+legitimate omissions.

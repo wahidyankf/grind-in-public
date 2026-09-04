@@ -17,9 +17,10 @@ exception noted. Add a dated Execution Record line for the pass or the failure e
 was fixed is exactly the history the record exists to keep. The
 [phase and gate rules](../../conventions/plans-organization-policy/phases-and-gates.md) hold the shape.
 
-## Delivering to main
+## Delivering to Main
 
-This repository delivers directly to `main`. Once the gate passes:
+This repository delivers directly to `main`, but plan execution does not authorize commit or push. Once the gate passes
+and both actions are separately authorized:
 
 1. Confirm the working tree is coherent — it builds and its tests pass, which the gate has just shown.
 2. Stage the phase's work, including the ticked checkboxes and any `learnings.md` entries.
@@ -28,6 +29,9 @@ This repository delivers directly to `main`. Once the gate passes:
    [thematic commits policy](../../conventions/thematic-commits-policy.md).
 4. Push to `origin main`. The [workspace commands](../../development/workspace-commands.md#hooks) reference lists what
    pre-push runs and when.
+
+Without either permission, record the green gate and stop before the unauthorized Git action. Resume delivery only after
+the owner grants the missing permission.
 
 Phase 0 commits only the plan itself, since it changes nothing else.
 

@@ -21,14 +21,15 @@ owner with a statement of what remains; it is never performed on their behalf, a
 ## Behaviour Cycles
 
 A behaviour change runs RED → GREEN → REFACTOR against exactly one Gherkin scenario, per the
-[TDD policy](../../development/tdd-policy.md):
+[TDD policy](../../development/tdd-policy.md) and [red-green-refactor workflow](../red-green-refactor.md):
 
 1. Write the test and run it. Confirm it fails, and that it fails for the stated reason. A test that passes immediately
    proves the assertion is wrong, not that the work is done.
 2. Make the smallest change that passes it.
 3. Refactor with the test still green.
 
-Each of the three is its own checkbox, so a half-finished cycle is visible.
+Each is its own checkbox. Record the exact test path and Nx target, expected and observed behavioural RED, GREEN, and
+REFACTOR-green result so a half-finished cycle and the process evidence remain visible.
 
 ## Implementation Notes
 

@@ -14,6 +14,7 @@ const ownerTargets = [
 const e2eTargets = [
   "lint",
   "test:coverage:behaviour",
+  "test:coverage:behaviour:e2e",
   "test:e2e",
   "test:quick",
   "typecheck",
@@ -22,6 +23,34 @@ const e2eTargets = [
 function commandText(target) {
   if (typeof target?.command === "string") return target.command;
   return JSON.stringify(target?.options?.commands ?? []);
+}
+
+function hasInput(target, fragment) {
+  return (target?.inputs ?? []).some(
+    (input) => typeof input === "string" && input.includes(fragment),
+  );
+}
+
+function checkOrderedCommands(project, targetName, expected, findings) {
+  const target = project.targets?.[targetName];
+  const commands = target?.options?.commands;
+  if (!Array.isArray(commands) || target.options.parallel !== false) {
+    findings.push(
+      `${project.name}: ${targetName} must be an ordered aggregate`,
+    );
+    return;
+  }
+  const text = commands.map((command) =>
+    typeof command === "string" ? command : (command?.command ?? ""),
+  );
+  if (
+    expected.some((fragment, index) => !text[index]?.includes(fragment)) ||
+    text.length !== expected.length
+  ) {
+    findings.push(
+      `${project.name}: ${targetName} commands must match ${expected.join(" -> ")}`,
+    );
+  }
 }
 
 function checkCommon(project, findings) {
@@ -60,6 +89,31 @@ function checkOwner(project, e2eName, findings) {
   }
   if (aggregate?.cache !== true)
     findings.push(`${project.name}: behaviour aggregate must be cached`);
+  if (aggregate?.options?.parallel !== false)
+    findings.push(`${project.name}: behaviour aggregate must be serial`);
+  for (const targetName of ["test:integration", "test:coverage:integration"]) {
+    if (project.targets?.[targetName]?.cache !== false)
+      findings.push(`${project.name}: ${targetName} must be uncached`);
+  }
+  const corpus = `specs/apps/${project.name}/behaviours/**/*.feature`;
+  for (const targetName of ownerTargets.filter((name) =>
+    name.startsWith("test:"),
+  )) {
+    if (!hasInput(project.targets?.[targetName], corpus))
+      findings.push(`${project.name}: ${targetName} must include ${corpus}`);
+  }
+  checkOrderedCommands(
+    project,
+    "test:quick",
+    [
+      "typecheck",
+      "lint",
+      "test:unit",
+      "test:coverage:unit",
+      "test:coverage:behaviour",
+    ],
+    findings,
+  );
 }
 
 function checkE2E(project, ownerName, findings) {
@@ -101,6 +155,20 @@ function checkE2E(project, ownerName, findings) {
       `${project.name}: test:e2e must depend on static behaviour compliance`,
     );
   }
+  const slice = project.targets?.["test:coverage:behaviour:e2e"];
+  if (slice?.cache !== true)
+    findings.push(`${project.name}: E2E behaviour slice must be cached`);
+  const corpus = `specs/apps/${ownerName}/behaviours/**/*.feature`;
+  for (const targetName of e2eTargets) {
+    if (!hasInput(project.targets?.[targetName], corpus))
+      findings.push(`${project.name}: ${targetName} must include ${corpus}`);
+  }
+  checkOrderedCommands(
+    project,
+    "test:quick",
+    ["typecheck", "lint", "test:coverage:behaviour:e2e"],
+    findings,
+  );
 }
 
 /** Validates the fixed four-project quality contract without I/O or subprocesses. */

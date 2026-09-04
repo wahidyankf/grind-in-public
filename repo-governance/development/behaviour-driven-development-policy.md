@@ -6,9 +6,17 @@ when_to_use:
 
 # Behaviour-Driven Development Policy
 
-Every application owns one recursive canonical Gherkin corpus under `specs/apps/<name>/behaviours/`. Unit, local
-integration, and dedicated E2E adapters consume that corpus; an E2E project owns no separate features. A feature,
-scenario, step, binding, config, or adapter change must invalidate and rerun applicable static compliance.
+Every application and library owns one recursive canonical Gherkin corpus under its mirrored `specs/` path. Unit,
+applicable local integration, and dedicated application E2E adapters consume that corpus; an E2E project owns no
+separate features. A feature, scenario, step, binding, config, or adapter change must invalidate and rerun applicable
+static compliance.
+
+## Iron Rule
+
+Read relevant features, scenarios, steps, and tests before changing production code. For every observable behaviour
+change: update one canonical scenario -> bind its failing steps in every applicable adapter -> confirm the expected Nx
+RED -> implement production code. Never skip or reorder this sequence. Refactors preserve Gherkin, begin from green or
+characterization coverage, and remain green.
 
 ## Applicable Layers
 
@@ -19,6 +27,10 @@ scenario, step, binding, config, or adapter change must invalidate and rerun app
 Every scenario has a substantive unit binding and either a substantive binding or a valid exemption for Integration and
 E2E. When both upper layers appear inapplicable, split or redesign the scenario so one meaningful boundary supplies
 alternative proof. The [quality-gates standard](quality-gates.md) owns exact boundaries.
+
+Applications require Unit, local-only Integration, and dedicated-project E2E adapters. Libraries require Unit and add
+Integration only when they own a real local resource boundary; libraries never own E2E. Dedicated E2E projects implement
+their owner's corpus and never become behaviour owners.
 
 ## Exemptions
 
@@ -52,4 +64,9 @@ Godog remains the runtime for Go behaviour. Each Go adapter registers Given, Whe
 lifecycle, and semantic requirements.
 
 Each project README names its corpus, applicable adapters, targets, exemptions, and justified omissions. Follow
-[Specs](specs-policy.md), [TDD](tdd-policy.md), and [E2E](end-to-end-testing.md) for complementary requirements.
+[Specs](specs-policy.md), [TDD](tdd-policy.md), [test-data isolation](test-data-isolation.md), and
+[E2E](end-to-end-testing.md) for complementary requirements.
+
+Before completing observable behaviour, manually confirm every affected public browser boundary and every affected API
+operation. Browser confirmation uses the exact served origin; API confirmation follows the
+[API-testing standard](api-testing.md). Record `Public-boundary impact: none` when neither boundary is affected.

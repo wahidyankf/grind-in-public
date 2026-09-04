@@ -1,5 +1,6 @@
 import path from "node:path";
 import React from "react";
+import axe from "axe-core";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
 import { cleanup, render, screen, within } from "@testing-library/react";
 import { expect, vi } from "vitest";
@@ -42,28 +43,14 @@ describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
         render(React.createElement(HomeContent));
       });
 
-      // A full axe-core WCAG 2.1 AA scan runs against the live page in the e2e tier
-      // (apps/wahidyankf-www-e2e/tests/steps/accessibility.steps.ts). At unit tier we
-      // approximate by asserting the page exposes a landmark region and every
-      // interactive control has an accessible name — the structural preconditions
-      // an axe scan checks for.
       // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:Home page has zero axe-core WCAG 2.1 AA violations
       Then(
         "an axe-core scan against WCAG 2.1 AA reports zero violations",
-        () => {
-          const main = screen.getByRole("main");
-          expect(main).toBeInTheDocument();
-
-          const links = screen.getAllByRole("link");
-          expect(links.length).toBeGreaterThan(0);
-          for (const link of links) {
-            expect(link).toHaveAccessibleName();
-          }
-
-          const buttons = screen.getAllByRole("button");
-          for (const button of buttons) {
-            expect(button).toHaveAccessibleName();
-          }
+        async () => {
+          const results = await axe.run(screen.getByRole("main"), {
+            runOnly: { type: "tag", values: ["wcag2a", "wcag2aa"] },
+          });
+          expect(results.violations).toEqual([]);
         },
       );
     },
@@ -80,15 +67,11 @@ describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
       // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:CV page has zero axe-core WCAG 2.1 AA violations
       Then(
         "an axe-core scan against WCAG 2.1 AA reports zero violations",
-        () => {
-          const main = screen.getByRole("main");
-          expect(main).toBeInTheDocument();
-
-          const links = screen.getAllByRole("link");
-          expect(links.length).toBeGreaterThan(0);
-          for (const link of links) {
-            expect(link).toHaveAccessibleName();
-          }
+        async () => {
+          const results = await axe.run(screen.getByRole("main"), {
+            runOnly: { type: "tag", values: ["wcag2a", "wcag2aa"] },
+          });
+          expect(results.violations).toEqual([]);
         },
       );
     },

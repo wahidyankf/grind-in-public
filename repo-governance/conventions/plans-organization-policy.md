@@ -46,7 +46,7 @@ Read the rule you need rather than the whole set:
 ## Delivery
 
 Plans deliver directly to `main`. This repository runs no pull-request flow, no worktrees, and no delivery modes: a
-phase ends, its gate passes, and the work is committed and pushed. The
+phase ends, its gate passes, and separately authorized commit and push actions deliver the work. The
 [commit hook policy](../development/commit-hook-policy.md) still governs every commit.
 
 ## Verification

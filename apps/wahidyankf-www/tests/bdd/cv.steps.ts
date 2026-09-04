@@ -107,11 +107,11 @@ describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
       Then("the page scrolls past Highlights into the matching entries", () => {
         expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
         expect(
-          screen.getByRole("heading", { level: 1, name: "Curriculum Vitae" }),
-        ).toBeInTheDocument();
+          screen.queryByRole("heading", { name: "Highlights" }),
+        ).not.toBeInTheDocument();
         expect(
-          screen.getByPlaceholderText("Search CV entries..."),
-        ).toBeInTheDocument();
+          screen.getAllByText("TypeScript", { selector: "mark" }).length,
+        ).toBeGreaterThan(0);
       });
     },
   );
