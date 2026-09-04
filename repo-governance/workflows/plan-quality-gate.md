@@ -57,7 +57,7 @@ snapshot, cycle, ledger, pending verification, and authorization under
 4. Verify semantically in read-only mode, reviewing only repaired meaning and cross-document effects. Then run:
 
    ```sh
-   rtk ./resource-guard run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo
+   rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo
    ```
 
 5. Return `PASS` when no row is `OPEN` or `BLOCKED`, tooling passes, no new material semantic gap appears, and the
@@ -67,7 +67,7 @@ snapshot, cycle, ledger, pending verification, and authorization under
 7. After cycle `2`, return `PASS` if step 5 holds. Otherwise return `BLOCKED_NON_CONVERGENT` with remaining ledger and
    evidence. Do not repair, restart, or invoke this workflow again automatically.
 
-Canonical resource-guard recovery is infrastructure handling, not another quality-gate cycle.
+Canonical HIPPO recovery is infrastructure handling, not another quality-gate cycle.
 
 If canonical tooling cannot obtain a deterministic verdict, return `BLOCKED_TOOLING` with its evidence. Never simulate
 the check or retry without bound. `PASS` authorizes neither execution nor commit/push. Every blocker names the reason,

@@ -2,7 +2,7 @@
 set -eu
 
 tool_dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
-lock_file="$tool_dir/resource-guard.lock"
+lock_file="$tool_dir/hippo.lock"
 
 lock_value() {
   key=$1
@@ -10,7 +10,7 @@ lock_value() {
   case "$value" in
     ''|*'
 '*)
-      echo "resource-guard lock has missing or duplicate $key" >&2
+      echo "hippo lock has missing or duplicate $key" >&2
       exit 78
       ;;
   esac
@@ -21,46 +21,46 @@ version=$(lock_value version)
 commit=$(lock_value commit)
 case "$version" in
   v[0-9]*.[0-9]*.[0-9]*) ;;
-  *) echo "resource-guard lock has an invalid version" >&2; exit 78 ;;
+  *) echo "hippo lock has an invalid version" >&2; exit 78 ;;
 esac
 case "$commit" in
-  *[!0-9a-f]*|'') echo "resource-guard lock has an invalid commit" >&2; exit 78 ;;
+  *[!0-9a-f]*|'') echo "hippo lock has an invalid commit" >&2; exit 78 ;;
 esac
 if [ "${#commit}" -ne 40 ]; then
-  echo "resource-guard lock has an invalid commit" >&2
+  echo "hippo lock has an invalid commit" >&2
   exit 78
 fi
 
 case "$(uname -s)" in
   Darwin) goos=darwin ;;
   Linux) goos=linux ;;
-  *) echo "resource-guard does not support this operating system" >&2; exit 78 ;;
+  *) echo "hippo does not support this operating system" >&2; exit 78 ;;
 esac
 case "$(uname -m)" in
   x86_64|amd64) goarch=amd64 ;;
   arm64|aarch64) goarch=arm64 ;;
-  *) echo "resource-guard does not support this architecture" >&2; exit 78 ;;
+  *) echo "hippo does not support this architecture" >&2; exit 78 ;;
 esac
 
 checksum=$(lock_value "$goos-$goarch")
 case "$checksum" in
-  *[!0-9a-f]*|'') echo "resource-guard lock has an invalid checksum" >&2; exit 78 ;;
+  *[!0-9a-f]*|'') echo "hippo lock has an invalid checksum" >&2; exit 78 ;;
 esac
 if [ "${#checksum}" -ne 64 ]; then
-  echo "resource-guard lock has an invalid checksum" >&2
+  echo "hippo lock has an invalid checksum" >&2
   exit 78
 fi
 
-if [ -n "${RESOURCE_GUARD_INSTALL_CACHE:-}" ]; then
-  cache_root=$RESOURCE_GUARD_INSTALL_CACHE
+if [ -n "${HIPPO_INSTALL_CACHE:-}" ]; then
+  cache_root=$HIPPO_INSTALL_CACHE
 elif [ "$goos" = darwin ]; then
-  cache_root=${XDG_CACHE_HOME:-"$HOME/Library/Caches"}/resource-guard
+  cache_root=${XDG_CACHE_HOME:-"$HOME/Library/Caches"}/hippo
 else
-  cache_root=${XDG_CACHE_HOME:-"$HOME/.cache"}/resource-guard
+  cache_root=${XDG_CACHE_HOME:-"$HOME/.cache"}/hippo
 fi
 
 binary_dir="$cache_root/$version/$goos-$goarch"
-binary="$binary_dir/resource-guard"
+binary="$binary_dir/hippo"
 install_lock="$binary_dir.lock"
 
 hash_file() {
@@ -89,7 +89,7 @@ acquire_install_lock() {
     fi
     attempts=$((attempts + 1))
     if [ "$attempts" -ge 300 ]; then
-      echo "resource-guard bootstrap timed out waiting for its install lock" >&2
+      echo "hippo bootstrap timed out waiting for its install lock" >&2
       exit 75
     fi
     sleep 1
@@ -132,27 +132,27 @@ if [ ! -x "$binary" ]; then
   if [ ! -x "$binary" ]; then
     temporary_dir=$(mktemp -d "$cache_root/.install.XXXXXX")
     trap 'rm -rf -- "$temporary_dir"; rm -f -- "$install_lock/pid"; rmdir "$install_lock" 2>/dev/null || true' EXIT HUP INT TERM
-    asset="resource-guard_${version}_${goos}_${goarch}.tar.gz"
-    base_url=${RESOURCE_GUARD_DOWNLOAD_BASE_URL:-"https://github.com/wahidyankf/resource-guard/releases/download/$version"}
+    asset="hippo_${version}_${goos}_${goarch}.tar.gz"
+    base_url=${HIPPO_DOWNLOAD_BASE_URL:-"https://github.com/wahidyankf/hippo/releases/download/$version"}
     archive="$temporary_dir/$asset"
     curl --fail --location --silent --show-error --retry 3 --output "$archive" "$base_url/$asset"
     if [ "$(hash_file "$archive")" != "$checksum" ]; then
-      echo "resource-guard release checksum mismatch" >&2
+      echo "hippo release checksum mismatch" >&2
       exit 78
     fi
-    if [ "$(tar -tzf "$archive")" != resource-guard ]; then
-      echo "resource-guard release archive has an invalid inventory" >&2
+    if [ "$(tar -tzf "$archive")" != hippo ]; then
+      echo "hippo release archive has an invalid inventory" >&2
       exit 78
     fi
-    tar -xzf "$archive" -C "$temporary_dir" resource-guard
-    chmod 700 "$temporary_dir/resource-guard"
-    identity=$("$temporary_dir/resource-guard" version --json)
+    tar -xzf "$archive" -C "$temporary_dir" hippo
+    chmod 700 "$temporary_dir/hippo"
+    identity=$("$temporary_dir/hippo" version --json)
     case "$identity" in
       *"\"version\":\"$version\""*"\"commit\":\"$commit\""*) ;;
-      *) echo "resource-guard release identity does not match its lock" >&2; exit 78 ;;
+      *) echo "hippo release identity does not match its lock" >&2; exit 78 ;;
     esac
     mkdir -p "$binary_dir"
-    mv "$temporary_dir/resource-guard" "$binary.tmp.$$"
+    mv "$temporary_dir/hippo" "$binary.tmp.$$"
     mv "$binary.tmp.$$" "$binary"
     rm -rf -- "$temporary_dir"
   fi
@@ -162,8 +162,8 @@ if [ ! -x "$binary" ]; then
   prune_cache
 fi
 
-RESOURCE_GUARD_DEFAULT_CONFIG=${RESOURCE_GUARD_DEFAULT_CONFIG:-"$tool_dir/resource-guard.local.json"}
-export RESOURCE_GUARD_DEFAULT_CONFIG
+HIPPO_DEFAULT_CONFIG=${HIPPO_DEFAULT_CONFIG:-"$tool_dir/hippo.local.json"}
+export HIPPO_DEFAULT_CONFIG
 
 case "${1:-}" in
   run)

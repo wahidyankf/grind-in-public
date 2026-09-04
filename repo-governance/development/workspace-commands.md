@@ -14,7 +14,7 @@ list cannot drift between them.
 
 ## Build and Test
 
-Guard compute-bearing commands shown below with `rtk ./resource-guard run --class ephemeral --disk-path . -- <command>`.
+Guard compute-bearing commands shown below with `rtk ./hippo run --class ephemeral --disk-path . -- <command>`.
 Aggregate targets remain unguarded internally so one outer admission owns the whole run.
 
 - `npm run build`, `npm run typecheck`, and `npm run lint` run the matching Nx targets.
@@ -77,8 +77,8 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm run check:workflow-contract` validates stable authorization, terminal-result, convergence, and TDD-evidence
   tokens without attempting semantic review.
 - `npm run test:repo` runs every deterministic repository mechanism, including directory maps and frontmatter.
-- `rtk ./.github/scripts/test-resource-guard-bootstrap.sh` verifies the pinned consumer without network or the real
-  installation cache; `rtk ./resource-guard version --json` verifies the installed release identity.
+- `rtk ./.github/scripts/test-hippo-bootstrap.sh` verifies the pinned consumer without network or the real installation
+  cache; `rtk ./hippo version --json` verifies the installed release identity.
 - `npm run check:rule-change` automatically triggers the [rules-propagation](../workflows/rules/rules-propagation.md)
   workflow for staged rule paths, and [harness-alignment](../workflows/harness-alignment.md) when a harness reads that
   path. It reports without blocking.
@@ -92,6 +92,6 @@ the [Badak Mini policy](badakmini-cli-policy.md) before changing it; the usual f
 ## Hooks
 
 Pre-commit formats staged files and automatically triggers applicable rule workflows. Pre-push requires `origin/main`,
-runs resource-guarded affected `test:quick` targets serially with Nx Cloud disabled, conditionally runs guarded
-`test:repo` for repository-mechanism changes, and always validates Markdown links through the guard. See the
+runs affected `test:quick` targets serially through HIPPO with Nx Cloud disabled, conditionally runs guarded `test:repo`
+for repository-mechanism changes, and always validates Markdown links through the guard. See the
 [commit hook policy](commit-hook-policy.md).

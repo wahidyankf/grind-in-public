@@ -1,12 +1,12 @@
 ---
-tldr: "Guards compute-bearing Nx work with a checksum-pinned, cross-platform resource admission boundary."
+tldr: "Uses HIPPO as the checksum-pinned, cross-platform resource admission boundary for compute-bearing Nx work."
 when_to_use: "Use before running or wiring builds, tests, repository checks, services, or other compute-heavy work."
 ---
 
 # Resource-Aware Development
 
-Apply this standard to compute-bearing Nx work under `apps/`, `libs/`, and repository tools. It reduces host pressure
-without guaranteeing process survival.
+**HIPPO** — **H**ost **I**nfrastructure **P**ressure & **P**rocess **O**rchestrator — guards compute-bearing Nx work
+under `apps/`, `libs/`, and repository tools. It reduces host pressure without guaranteeing process survival.
 
 ## Required Behaviour
 
@@ -23,7 +23,7 @@ without guaranteeing process survival.
 Canonical execution is:
 
 ```sh
-rtk ./resource-guard run --class ephemeral --disk-path . -- npm exec -- nx run -p <project> -t <target>
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p <project> -t <target>
 ```
 
 The wrapper maps upstream concurrency to `NX_PARALLEL` and `GOMAXPROCS`. Ordinary work can fall from `balanced` through
@@ -32,10 +32,10 @@ semantic quality-gate retry.
 
 ## Consumer Integrity
 
-`resource-guard.lock` pins the public release version, source commit, and SHA-256 for each supported macOS/Linux and
-amd64/arm64 asset. The wrapper downloads outside the repository, verifies the archive and embedded identity, publishes
-the binary atomically, and retains a bounded cache. Copy `resource-guard.local.json.example` to the ignored
-`resource-guard.local.json` for machine policy; local configuration cannot weaken upstream safety floors.
+`hippo.lock` pins the public release version, source commit, and SHA-256 for each supported macOS/Linux and amd64/arm64
+asset. The wrapper downloads outside the repository, verifies the archive and embedded identity, publishes the binary
+atomically, and retains a bounded cache. Copy `hippo.local.json.example` to the ignored `hippo.local.json` for machine
+policy; local configuration cannot weaken upstream safety floors.
 
 Evidence contains capacity and process-health measurements, never file contents, command arguments, origins,
 credentials, or user data. Verify bootstrap behaviour with deterministic fake releases and fake pressure; never create

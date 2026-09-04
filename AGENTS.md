@@ -47,7 +47,7 @@ project needing them.
 
 [Workspace commands](repo-governance/development/workspace-commands.md) is canonical for every command, check, and hook:
 the common loop, the narrower runs, and what each Git hook does. Guard compute-bearing Nx work through the
-checksum-pinned `./resource-guard` consumer under the
+checksum-pinned `./hippo` consumer under the
 [resource-aware development policy](repo-governance/development/resource-aware-development.md); never bypass or
 parallel-retry an admission deferral.
 
