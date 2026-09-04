@@ -27,6 +27,7 @@ var (
 	harnessFiles = []string{
 		"AGENTS.md",
 		"CLAUDE.md",
+		"RTK.md",
 		"opencode.json",
 	}
 

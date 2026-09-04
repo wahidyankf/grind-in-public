@@ -1,7 +1,7 @@
 import path from "node:path";
 import React from "react";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
-import { render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import { expect, vi } from "vitest";
 import { ThemeToggle } from "@/features/ui/shell";
 import { HomeContent } from "@/features/home/shell/home-content";
@@ -17,40 +17,40 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-// @amiceli/vitest-cucumber registers every Given/When/Then/And as its own vitest
-// test, and this project's src/test/setup.ts runs @testing-library/react's
-// cleanup() after every test. That means a render() performed in a "When" step
-// is torn down before the next "Then"/"And" step runs. Each assertion step
-// below therefore renders the page it needs itself instead of relying on a
-// previous step's render surviving.
+// DOM cleanup runs after each scenario, so Then observes the accessibility
+// evidence produced by the page render in When.
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/accessibility.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/accessibility.feature",
   ),
 );
 
-describeFeature(feature, ({ Scenario, Background }) => {
+describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
+  AfterEachScenario(cleanup);
   Background(({ Given }) => {
-    Given("the app is running", () => {});
+    Given("the app is running", () => {
+      window.history.replaceState({}, "", "/");
+    });
   });
 
   Scenario(
     "Home page has zero axe-core WCAG 2.1 AA violations",
     ({ When, Then }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+        render(React.createElement(HomeContent));
+      });
 
       // A full axe-core WCAG 2.1 AA scan runs against the live page in the e2e tier
-      // (apps/wahidyankf-www/tests/e2e/steps/accessibility.steps.ts). At unit tier we
+      // (apps/wahidyankf-www-e2e/tests/steps/accessibility.steps.ts). At unit tier we
       // approximate by asserting the page exposes a landmark region and every
       // interactive control has an accessible name — the structural preconditions
       // an axe scan checks for.
-      // @covers specs/apps/wahidyankf-www/behavior/accessibility.feature:Home page has zero axe-core WCAG 2.1 AA violations
+      // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:Home page has zero axe-core WCAG 2.1 AA violations
       Then(
         "an axe-core scan against WCAG 2.1 AA reports zero violations",
         () => {
-          render(React.createElement(HomeContent));
-
           const main = screen.getByRole("main");
           expect(main).toBeInTheDocument();
 
@@ -72,14 +72,15 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "CV page has zero axe-core WCAG 2.1 AA violations",
     ({ When, Then }) => {
-      When("a visitor opens the CV page", () => {});
+      When("a visitor opens the CV page", () => {
+        window.history.replaceState({}, "", "/cv");
+        render(React.createElement(CvContent));
+      });
 
-      // @covers specs/apps/wahidyankf-www/behavior/accessibility.feature:CV page has zero axe-core WCAG 2.1 AA violations
+      // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:CV page has zero axe-core WCAG 2.1 AA violations
       Then(
         "an axe-core scan against WCAG 2.1 AA reports zero violations",
         () => {
-          render(React.createElement(CvContent));
-
           const main = screen.getByRole("main");
           expect(main).toBeInTheDocument();
 
@@ -94,45 +95,55 @@ describeFeature(feature, ({ Scenario, Background }) => {
   );
 
   Scenario("Every page has exactly one H1", ({ When, Then }) => {
+    const headingCounts: number[] = [];
     When(
       "a visitor opens any of the home, CV, or personal-projects pages",
-      () => {},
+      () => {
+        for (const [route, Component] of [
+          ["/", HomeContent],
+          ["/cv", CvContent],
+          ["/personal-projects", PersonalProjectsContent],
+        ] as const) {
+          window.history.replaceState({}, "", route);
+          render(React.createElement(Component));
+          headingCounts.push(
+            screen.getAllByRole("heading", { level: 1 }).length,
+          );
+          cleanup();
+        }
+      },
     );
 
-    // @covers specs/apps/wahidyankf-www/behavior/accessibility.feature:Every page has exactly one H1
+    // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:Every page has exactly one H1
     Then("each of those pages has exactly one H1 element", () => {
-      const { unmount: unmountHome } = render(React.createElement(HomeContent));
-      expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
-      unmountHome();
-
-      const { unmount: unmountCv } = render(React.createElement(CvContent));
-      expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
-      unmountCv();
-
-      const { unmount: unmountProjects } = render(
-        React.createElement(PersonalProjectsContent),
-      );
-      expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
-      unmountProjects();
+      expect(headingCounts).toEqual([1, 1, 1]);
     });
   });
 
   Scenario(
     "Interactive controls expose accessible names",
     ({ When, Then, And }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+        render(
+          React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(ThemeToggle),
+            React.createElement(HomeContent),
+          ),
+        );
+      });
 
       Then("the theme toggle button exposes an aria-label", () => {
-        render(React.createElement(ThemeToggle));
         const toggle = screen.getByRole("button", {
           name: /Switch to (light|dark) theme/,
         });
         expect(toggle).toBeInTheDocument();
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/accessibility.feature:Interactive controls expose accessible names
+      // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:Interactive controls expose accessible names
       And("every navigation link exposes link text or an aria-label", () => {
-        render(React.createElement(HomeContent));
         const desktopNav = screen.getByTestId("desktop-nav");
         for (const name of ["Home", "CV", "Independent Projects"]) {
           expect(

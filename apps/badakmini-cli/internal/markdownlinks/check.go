@@ -545,7 +545,7 @@ func isSetextUnderline(line string) bool {
 }
 
 func githubAnchor(value string) string {
-	// This intentionally models the subset of GitHub's slug behavior relevant to
+	// This intentionally models the subset of GitHub's slug behaviour relevant to
 	// repository headings: lowercase letters/numbers, preserved -/_, and spaces.
 	var builder strings.Builder
 	lastWasDash := false

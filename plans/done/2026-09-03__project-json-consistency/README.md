@@ -27,7 +27,7 @@ Three projects, by path:
   configuration, and skip baseline move into `apps/wahidyankf-www/tests/e2e/`.
 
 Plus the root `package.json`, the scheduled CI workflow, `apps/README.md`, `apps/wahidyankf-www/README.md`, three
-`specs/` documents — `specs/apps/README.md`, `specs/apps/wahidyankf-www/README.md`, and its `behavior/README.md` — the
+`specs/` documents — `specs/apps/README.md`, `specs/apps/wahidyankf-www/README.md`, and its `behaviours/README.md` — the
 C4 model at `specs/apps/wahidyankf-www/architecture.md`, one comment in
 `apps/wahidyankf-www/tests/bdd/accessibility.steps.ts`, and five documents under `repo-governance/` and `docs/`:
 `workspace-commands.md`, `testing-policy.md`, `testing-policy/tooling.md`, `nx-workspace-policy.md`, and
@@ -43,7 +43,7 @@ per-project `namedInputs`, and replacing the workspace's one bare `nx run`. Phas
 application in a single commit and updates every document that names the retired project, including the C4 model. Phase
 3 writes the ten-target contract into `testing-policy.md`. Phase 4 captures learnings and archives.
 
-Three commitments run through all of it: no application or CLI behavior changes, no Gherkin scenario changes, and no
+Three commitments run through all of it: no application or CLI behaviour changes, no Gherkin scenario changes, and no
 target is renamed. The last was considered and deliberately dropped — [brd.md](brd.md) records that decision with the
 three others the owner settled during planning.
 

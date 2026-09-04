@@ -16,9 +16,8 @@ how a document that reaches it is fixed.
 
 Claude Code is one of three supported harnesses; Codex and opencode read `AGENTS.md`. See the
 [agent harness support policy](repo-governance/conventions/agent-harness-support.md) and the
-[agent vocabulary](repo-governance/conventions/agent-vocabulary.md). The subagents in `.claude/agents/` are mirrored for
-both, as the [harness capability parity policy](repo-governance/conventions/harness-capability-parity-policy.md)
-requires.
+[agent vocabulary](repo-governance/conventions/agent-vocabulary.md). Shared subagents are mirrored for both, as the
+[harness capability parity policy](repo-governance/conventions/harness-capability-parity-policy.md) requires.
 
 Default to reviewing and giving feedback rather than solving: `AGENTS.md` states the drill rule this follows from.
 
@@ -29,14 +28,17 @@ narrower run, repository check, and hook. It is not summarized here, because a s
 
 ## Planning
 
-`AGENTS.md` states when work is planned and which workflow runs each stage. What is Claude Code-specific: the quality
-gate spawns the `plan-checker` and `plan-fixer` subagents from `.claude/agents/`, and the same two are mirrored for the
-other harnesses.
+`AGENTS.md` states when work is planned and which workflow runs each stage. The semantic
+[plan quality gate](repo-governance/workflows/plan-quality-gate.md) is harness-independent and bounded; deterministic
+repository tooling owns its machine-decidable checks.
 
 ## Architecture
 
 ```text
-apps/badakmini-cli  (Go validation CLI)
+apps/badakmini-cli        (Go validation CLI)
+apps/badakmini-cli-e2e    (public-process E2E)
+apps/wahidyankf-www       (Next.js portfolio)
+apps/wahidyankf-www-e2e   (browser E2E)
 ```
 
 Nx targets use raw commands; ordered aggregates use only Nx's built-in command runner. The

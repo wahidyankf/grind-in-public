@@ -9,7 +9,7 @@ import (
 func TestFeatures(t *testing.T) {
 	catalog, err := bdd.CanonicalCatalog()
 	if err != nil {
-		t.Fatalf("discover canonical behavior: %v", err)
+		t.Fatalf("discover canonical behaviour: %v", err)
 	}
 
 	suite := bdd.Suite{
@@ -18,6 +18,6 @@ func TestFeatures(t *testing.T) {
 		Factory: func() bdd.Driver { return newDriver() },
 	}
 	if status := suite.Run(t); status != 0 {
-		t.Fatalf("unit behavior suite failed with status %d", status)
+		t.Fatalf("unit behaviour suite failed with status %d", status)
 	}
 }

@@ -2,7 +2,7 @@
  * Step definitions for the CV export feature, bound at the local integration
  * boundary.
  *
- * Covers: specs/apps/wahidyankf-www/behavior/cv-export.feature
+ * Covers: specs/apps/wahidyankf-www/behaviours/cv-export.feature
  *
  * This is the one binding in the application that runs against the real
  * filesystem rather than a DOM. It lives under `tests/integration/` and not
@@ -20,6 +20,7 @@ import {
 } from "node:fs";
 import { once } from "node:events";
 import { tmpdir } from "node:os";
+import { Writable } from "node:stream";
 
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
@@ -27,11 +28,12 @@ import { expect } from "vitest";
 import { cvData } from "@/features/cv/core/data";
 import { buildCvPdfDocument } from "@/features/cv/core/pdf";
 import { renderCvPdf } from "@/features/cv/shell/pdf";
+import { behaviourTestLayer } from "../bdd/test-layer";
 
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/cv-export.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/cv-export.feature",
   ),
 );
 
@@ -44,11 +46,33 @@ const feature = await loadFeature(
  * nothing behind. Keeping the creation and the removal in one place is what
  * stops a scenario from creating a directory it forgets to delete.
  */
+const virtualDirectories = new Set<string>();
+const virtualFiles = new Map<string, Buffer>();
+let virtualDirectorySequence = 0;
+
 function outputFixture(): {
   directory: string;
   file: string;
   cleanup: () => void;
 } {
+  if (behaviourTestLayer === "unit") {
+    virtualDirectorySequence += 1;
+    const directory = path.join(
+      "/virtual",
+      `cv-export-${virtualDirectorySequence}`,
+    );
+    const file = path.join(directory, "cv.pdf");
+    virtualDirectories.add(directory);
+    return {
+      directory,
+      file,
+      cleanup: () => {
+        virtualDirectories.delete(directory);
+        virtualFiles.delete(file);
+      },
+    };
+  }
+
   const directory = mkdtempSync(path.join(tmpdir(), "cv-export-"));
   return {
     directory,
@@ -69,6 +93,29 @@ function outputFixture(): {
  */
 async function exportCvPdfTo(file: string): Promise<Error | undefined> {
   const pdf = renderCvPdf(buildCvPdfDocument(cvData));
+  if (behaviourTestLayer === "unit") {
+    const directory = path.dirname(file);
+    if (!virtualDirectories.has(directory)) {
+      return new Error(`ENOENT: no such output directory, open '${file}'`);
+    }
+
+    const chunks: Buffer[] = [];
+    const sink = new Writable({
+      write(chunk, _encoding, callback) {
+        chunks.push(Buffer.from(chunk));
+        callback();
+      },
+    });
+    pdf.pipe(sink);
+    try {
+      await once(sink, "finish");
+      virtualFiles.set(file, Buffer.concat(chunks));
+      return undefined;
+    } catch (error) {
+      return error as Error;
+    }
+  }
+
   const sink = createWriteStream(file);
   pdf.pipe(sink);
   try {
@@ -84,6 +131,19 @@ async function exportCvPdfTo(file: string): Promise<Error | undefined> {
   }
 }
 
+function outputExists(file: string): boolean {
+  return behaviourTestLayer === "unit"
+    ? virtualFiles.has(file)
+    : existsSync(file);
+}
+
+function readOutput(file: string): Buffer {
+  if (behaviourTestLayer === "integration") return readFileSync(file);
+  const contents = virtualFiles.get(file);
+  if (!contents) throw new Error(`No virtual output exists at '${file}'.`);
+  return contents;
+}
+
 describeFeature(feature, ({ Scenario }) => {
   Scenario(
     "Generating the CV writes a PDF to the local filesystem",
@@ -91,7 +151,7 @@ describeFeature(feature, ({ Scenario }) => {
       let output: ReturnType<typeof outputFixture>;
       let contents: Buffer;
 
-      // @covers specs/apps/wahidyankf-www/behavior/cv-export.feature:Generating the CV writes a PDF to the local filesystem
+      // @covers specs/apps/wahidyankf-www/behaviours/cv-export.feature:Generating the CV writes a PDF to the local filesystem
       Given("the application CV record contains at least one entry", () => {
         expect(cvData.length).toBeGreaterThan(0);
       });
@@ -105,7 +165,7 @@ describeFeature(feature, ({ Scenario }) => {
       );
 
       Then("a readable PDF file exists at the configured output path", () => {
-        contents = readFileSync(output.file);
+        contents = readOutput(output.file);
         expect(contents.length).toBeGreaterThan(0);
       });
 
@@ -123,7 +183,7 @@ describeFeature(feature, ({ Scenario }) => {
       let missingFile: string;
       let failure: unknown;
 
-      // @covers specs/apps/wahidyankf-www/behavior/cv-export.feature:Generating the CV reports an unwritable output location
+      // @covers specs/apps/wahidyankf-www/behaviours/cv-export.feature:Generating the CV reports an unwritable output location
       Given("the configured CV output directory does not exist", () => {
         const fixture = outputFixture();
         // Created and immediately removed, rather than simply naming a path
@@ -133,7 +193,11 @@ describeFeature(feature, ({ Scenario }) => {
         fixture.cleanup();
         missingDirectory = fixture.directory;
         missingFile = fixture.file;
-        expect(existsSync(missingDirectory)).toBe(false);
+        expect(
+          behaviourTestLayer === "unit"
+            ? virtualDirectories.has(missingDirectory)
+            : existsSync(missingDirectory),
+        ).toBe(false);
       });
 
       When("the CV export runs", async () => {
@@ -146,7 +210,7 @@ describeFeature(feature, ({ Scenario }) => {
       });
 
       And("no partial file is left behind", () => {
-        expect(existsSync(missingFile)).toBe(false);
+        expect(outputExists(missingFile)).toBe(false);
       });
     },
   );

@@ -21,7 +21,7 @@ Two exemptions apply. A skill directory needs none: its `SKILL.md` names the ski
 `skills/README.md` registers it. Second, a harness registers some directories by filename, so an index placed there
 becomes a command or an agent; add the README only where the tool ignores it or offers a flag that keeps it inert, and
 otherwise index that directory from its parent. The [agent harness support policy](conventions/agent-harness-support.md)
-records the verified behavior per directory; check it, and test the tool, first.
+records the verified behaviour per directory; check it, and test the tool, first.
 
 ## Required Indexing
 
@@ -30,7 +30,7 @@ also register each immediate child directory through that directory's README. Ch
 not repeat the full recursive tree.
 
 In `specs/`, an index registers every immediate entry whatever its file type, because the Gherkin corpus is the content
-there and a `.feature` file left out of the map is behavior nobody can find. Elsewhere the requirement covers Markdown
+there and a `.feature` file left out of the map is behaviour nobody can find. Elsewhere the requirement covers Markdown
 and child directories.
 
 `plans/` and `specs/` gain the index and nothing else: no word limit reaches either tree, and neither needs the
@@ -43,10 +43,9 @@ the document.
 
 `repo-governance/README.md` is the exception because it is the governance entry index.
 
-`rules-checker` sweeps the index across every tree in scope; `plan-checker` checks the same property inside the plan
-folder it is reviewing. Every `rules-checker` prompt states this indexing rule and this frontmatter rule, with its one
-exception, in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three
-harness copies.
+`badakmini-cli:test:repo` checks indexes and frontmatter deterministically. The semantic
+[rules quality gate](workflows/rules-quality-gate.md) consumes that result rather than reproducing it, while the
+[plan quality gate](workflows/plan-quality-gate.md) requires the same repository target before `PASS`.
 
 ## When an Index Reaches the Word Limit
 

@@ -16,15 +16,14 @@ list cannot drift between them.
 
 - `npm run build`, `npm run typecheck`, and `npm run lint` run the matching Nx targets.
 - `npm run test:unit` runs deterministic unit suites.
-- `npm run test:coverage` runs unit, local-integration, and behavior-completeness coverage targets.
-- `npm run test:behavior` runs canonical corpus and adapter-completeness checks.
+- `npm run test:coverage` runs unit, local-integration, and behaviour-completeness coverage targets.
+- `npm run test:behaviour` runs canonical corpus and adapter-completeness checks.
 - `npm test` and `npm run test:quick` run the cacheable ordered quick gate: type-check, lint, unit test, unit coverage,
-  then behavior completeness.
+  then behaviour completeness.
 - `npm run test:integration` runs uncached local-integration targets; `npm run test:e2e` runs dedicated public-process
   suites; pre-push skips both.
-- `npm run test:scheduled` runs quick verification, integration coverage, the E2E skip baseline, then E2E in that
-  operational order. The baseline runs ahead of the suite because the suite exits 0 on an unbound scenario and the
-  baseline is what fails on one.
+- `npm run test:scheduled` runs all four project quick gates, both owner integration-coverage gates, then both dedicated
+  E2E suites in that operational order.
 
 Narrower runs:
 
@@ -34,26 +33,29 @@ npx nx run badakmini-cli:test:unit
 npx nx run badakmini-cli:test:integration
 npx nx run badakmini-cli:test:coverage:unit
 npx nx run badakmini-cli:test:coverage:integration
-npx nx run badakmini-cli:test:coverage:behavior
+npx nx run badakmini-cli:test:coverage:behaviour
 npx nx run badakmini-cli:test:coverage
-npx nx run badakmini-cli:test:e2e
 npx nx run badakmini-cli:test:quick
+npx nx run badakmini-cli-e2e:test:coverage:behaviour:e2e
+npx nx run badakmini-cli-e2e:test:quick
+npx nx run badakmini-cli-e2e:test:e2e
 npx nx run wahidyankf-www:test:unit
 npx nx run wahidyankf-www:test:integration
 npx nx run wahidyankf-www:test:coverage:unit
 npx nx run wahidyankf-www:test:coverage:integration
-npx nx run wahidyankf-www:test:coverage:behavior
+npx nx run wahidyankf-www:test:coverage:behaviour
 npx nx run wahidyankf-www:test:coverage
 npx nx run wahidyankf-www:test:quick
 npx nx run wahidyankf-www:static-routes:validation
 npx nx run wahidyankf-www:generate:cv-pdf
-npx nx run wahidyankf-www:install
-npx nx run wahidyankf-www:test:e2e
-npx nx run wahidyankf-www:specs:e2e:baseline
+npx nx run wahidyankf-www-e2e:test:coverage:behaviour:e2e
+npx nx run wahidyankf-www-e2e:test:quick
+npx nx run wahidyankf-www-e2e:install
+npx nx run wahidyankf-www-e2e:test:e2e
 npx nx affected -t test:quick --base=origin/main --head=HEAD
 ```
 
-Run `wahidyankf-www:install` once per machine before `test:e2e`, which builds and starts `wahidyankf-www` itself.
+Run `wahidyankf-www-e2e:install` once per machine before its E2E suite. The E2E target builds and starts the owner.
 
 The [testing policy](testing-policy.md) owns the target contract and ordered `test:quick` sequence.
 
@@ -68,6 +70,8 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm run check:harness-parity` compares the subagents, skills, and commands each harness exposes.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
+- `npm run check:project-contract` validates the deterministic four-project owner/E2E descriptor contract.
+- `npm run test:repo` runs every deterministic repository mechanism, including directory maps and frontmatter.
 - `npm run check:rule-change` automatically triggers the [rules-propagation](../workflows/rules/rules-propagation.md)
   workflow for staged rule paths, and [harness-alignment](../workflows/harness-alignment.md) when a harness reads that
   path. It reports without blocking.
@@ -80,8 +84,6 @@ the [Badak Mini policy](badakmini-cli-policy.md) before changing it; the usual f
 
 ## Hooks
 
-Pre-commit formats staged files and automatically triggers the applicable rule workflows. Pre-push requires
-`origin/main` and uses the Nx project graph to run `test:quick` only for affected projects under `apps/` and `libs/`,
-comparing each pushed local commit with that base. It also runs the governance check when the push changes an
-instruction file, `repo-governance/`, or a harness directory, compares harness capabilities when a harness directory
-changes, and always validates Markdown links. See the [commit hook policy](commit-hook-policy.md).
+Pre-commit formats staged files and automatically triggers applicable rule workflows. Pre-push requires `origin/main`,
+runs affected `test:quick` targets serially, conditionally runs `test:repo` for repository-mechanism changes, and always
+validates Markdown links. See the [commit hook policy](commit-hook-policy.md).

@@ -56,13 +56,17 @@ export function tierEnvFilePath(tier: string, appDir: string): string {
  * at "local": Next.js auto-loading a bare `.env` alongside an explicit `.env.local` tier file is
  * the one case this convention treats as safe, since local development is never a deploy target.
  */
-function assertNoStrayEnvFile(tier: string, appDir: string): void {
+function assertNoStrayEnvFile(
+  tier: string,
+  appDir: string,
+  fileExists: (filePath: string) => boolean,
+): void {
   if (tier === DEFAULT_TIER) {
     return;
   }
 
   for (const strayFilename of STRAY_ENV_FILENAMES) {
-    if (existsSync(path.join(appDir, strayFilename))) {
+    if (fileExists(path.join(appDir, strayFilename))) {
       throw new Error(
         `env-loader: found stray auto-loaded env file "${strayFilename}" beside the tier file for ` +
           `APP_ENV="${tier}". Next.js auto-loads "${strayFilename}" in addition to the explicit ` +
@@ -78,6 +82,10 @@ export interface LoadTierEnvOptions {
   appDir?: string;
   /** The process-env-like record to read `APP_ENV` from and load tier values into. Defaults to `process.env`. */
   env?: EnvRecord;
+  /** Injectable file-existence seam for boundary-valid unit tests. */
+  fileExists?: (filePath: string) => boolean;
+  /** Injectable file-loading seam for boundary-valid unit tests. */
+  loadFile?: (filePath: string, env: EnvRecord) => void;
 }
 
 /**
@@ -89,8 +97,9 @@ export function loadTierEnv(options: LoadTierEnvOptions = {}): void {
   const appDir = options.appDir ?? process.cwd();
   const env = options.env ?? process.env;
   const tier = resolveTier(env);
+  const fileExists = options.fileExists ?? existsSync;
 
-  assertNoStrayEnvFile(tier, appDir);
+  assertNoStrayEnvFile(tier, appDir, fileExists);
 
   // `override: false` is dotenv's default; it's spelled out here so the choice reads as
   // deliberate. Per dotenv's `populate()`, dotenv only overwrites a key already present on the
@@ -107,11 +116,16 @@ export function loadTierEnv(options: LoadTierEnvOptions = {}): void {
   // own `DotenvPopulateInput` type requires `string` values, so the cast below is necessary. It's
   // safe: dotenv only ever assigns to keys it read as strings from the parsed file, and reads via
   // `hasOwnProperty` (which doesn't care whether an existing value is `undefined`).
-  dotenv.config({
-    path: tierEnvFilePath(tier, appDir),
-    override: false,
-    processEnv: env as unknown as Record<string, string>,
-  });
+  const envFilePath = tierEnvFilePath(tier, appDir);
+  if (options.loadFile) {
+    options.loadFile(envFilePath, env);
+  } else {
+    dotenv.config({
+      path: envFilePath,
+      override: false,
+      processEnv: env as unknown as Record<string, string>,
+    });
+  }
 }
 
 /**

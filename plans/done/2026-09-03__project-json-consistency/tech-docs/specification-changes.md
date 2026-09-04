@@ -10,10 +10,10 @@ scenario in `specs/`, and none is bound to a test.
 
 **The reason.** All seven criteria describe build configuration, project layout, or the content of a governance
 document. `AC-1` through `AC-5` assert properties of `project.json` and `nx.json`; `AC-6` asserts which Nx project owns
-a target; `AC-7` asserts that a policy states a rule. None of them is behavior of the software this repository ships.
+a target; `AC-7` asserts that a policy states a rule. None of them is behaviour of the software this repository ships.
 The [specs policy](../../../../repo-governance/development/specs-policy.md) reserves `specs/` for what an application
-should do and how it is built as a system, and a scenario there binds to a test that fails when the behavior breaks.
-There is no application behavior here to break: after this plan, `wahidyankf-www` renders exactly what it renders today
+should do and how it is built as a system, and a scenario there binds to a test that fails when the behaviour breaks.
+There is no application behaviour here to break: after this plan, `wahidyankf-www` renders exactly what it renders today
 and `badakmini-cli` reports exactly what it reports today.
 
 **Delivery proof for each.** The policy requires a plan-only outcome to name its proof rather than merely assert it is
@@ -54,19 +54,19 @@ proof.
 satisfied by a name nothing references, so it is paired with a half that proves the reference reaches the corpus. That
 half is a cache-invalidation probe, not a reading of `npx nx show project --json`: the `--json` output reports the
 **declared** `inputs` array verbatim and expands neither `default` nor a `namedInputs` reference, so after this refactor
-it prints `["default", "behaviorCorpus"]` and the corpus path is gone from it by construction — a comparison against the
-pre-change output would report a difference on every affected target and could never distinguish a working reference
+it prints `["default", "behaviourCorpus"]` and the corpus path is gone from it by construction — a comparison against
+the pre-change output would report a difference on every affected target and could never distinguish a working reference
 from a broken one. Nx hashes file content instead, so appending a Gherkin comment line to a corpus feature file must
-turn a cache hit into a miss on every target naming `behaviorCorpus`, and restoring the file with `git checkout --` must
-turn it back into a hit. That is the probe `delivery.md`'s Phase 1 gate runs, and every probe ends by asserting
+turn a cache hit into a miss on every target naming `behaviourCorpus`, and restoring the file with `git checkout --`
+must turn it back into a hit. That is the probe `delivery.md`'s Phase 1 gate runs, and every probe ends by asserting
 `git diff --stat` no longer names the file it touched, so the corpus is provably byte-identical afterwards.
 
 ## Gherkin
 
 **No `.feature` file is added, edited, moved, or deleted.** Both corpora are unchanged in content and in location:
 
-- `specs/apps/badakmini-cli/behavior/` — five feature files, all `[unchanged]`.
-- `specs/apps/wahidyankf-www/behavior/` — twelve feature files, all `[unchanged]`.
+- `specs/apps/badakmini-cli/behaviours/` — five feature files, all `[unchanged]`.
+- `specs/apps/wahidyankf-www/behaviours/` — twelve feature files, all `[unchanged]`.
 
 Every scenario in both corpora is preserved. None is changed, moved, deleted, or added.
 
@@ -87,7 +87,7 @@ gate asserts that exact value rather than asserting the suite merely passed.
 | Layer             | Before                           | After                                  |
 | ----------------- | -------------------------------- | -------------------------------------- |
 | Unit              | `src/**/*.unit.test.tsx`         | unchanged                              |
-| Behavior          | `tests/bdd/`                     | unchanged                              |
+| Behaviour         | `tests/bdd/`                     | unchanged                              |
 | Local integration | `tests/integration/`             | unchanged                              |
 | Process E2E       | `apps/wahidyankf-www-e2e/steps/` | `apps/wahidyankf-www/tests/e2e/steps/` |
 
@@ -104,7 +104,7 @@ entry, because no file under `specs/` is added or removed:
 
 - `[E]` `specs/apps/wahidyankf-www/README.md` — the sentence naming two projects sharing the corpus, the Process E2E
   row's adapter path, the skip-baseline sentence, and the two verification-command rows.
-- `[E]` `specs/apps/wahidyankf-www/behavior/README.md` — the sentence pointing at the deleted project's README.
+- `[E]` `specs/apps/wahidyankf-www/behaviours/README.md` — the sentence pointing at the deleted project's README.
 
 ## C4
 
@@ -171,9 +171,9 @@ keeps its box because it is still a real process boundary, and the paragraph bel
 non-container box appears in a container view at all.
 
 **The constraint that changes.** The prose currently reads that the adapter "is a different toolchain from the
-in-process behavior adapter", offered as the justification for a separate project. The toolchain difference is still
+in-process behaviour adapter", offered as the justification for a separate project. The toolchain difference is still
 true and is kept; what is removed is the inference that it requires a separate project. The
-[BDD policy](../../../../repo-governance/development/behavior-driven-development-policy.md) role matrix makes a
+[BDD policy](../../../../repo-governance/development/behaviour-driven-development-policy.md) role matrix makes a
 dedicated E2E project conditional — "Use a dedicated E2E project only when its adapter requires a different toolchain" —
 and permissive rather than mandatory, so co-locating a different-toolchain adapter is the policy's stated default rather
 than an exception to it. No governance change is required, and none is proposed.

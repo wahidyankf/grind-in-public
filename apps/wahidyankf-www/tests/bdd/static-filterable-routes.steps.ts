@@ -2,8 +2,8 @@ import path from "node:path";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
-import { render, within } from "@testing-library/react";
-import { afterAll, expect, vi } from "vitest";
+import { cleanup, render, within } from "@testing-library/react";
+import { expect, vi } from "vitest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 import Home from "@/app/page";
@@ -33,11 +33,6 @@ function getRenderedCv(): HTMLElement {
 
   return renderedCv;
 }
-
-afterAll(() => {
-  renderedCv?.remove();
-  renderedCv = undefined;
-});
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
@@ -100,11 +95,15 @@ vi.mock("@/features/cv/core/data", () => ({
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/static-filterable-routes.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/static-filterable-routes.feature",
   ),
 );
 
-describeFeature(feature, ({ Scenario, Background }) => {
+describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
+  AfterEachScenario(() => {
+    cleanup();
+    renderedCv = undefined;
+  });
   Background(({ Given }) => {
     Given("the app is running", () => {
       mockSearchParams = new URLSearchParams();
@@ -118,12 +117,9 @@ describeFeature(feature, ({ Scenario, Background }) => {
     ({ When, Then, And }) => {
       When('a visitor opens the shared CV search URL for "TypeScript"', () => {
         window.history.replaceState({}, "", "/cv?search=TypeScript");
+        mockSearchParams = new URLSearchParams("search=TypeScript");
         const { container } = render(React.createElement(CvContent));
-        // vitest-cucumber registers each step as a separate test and the shared setup cleans the DOM
-        // after each one. Preserve a clone of this exact render so the assertion steps observe the URL
-        // state rendered here instead of independently remounting CvContent.
-        renderedCv = container.cloneNode(true) as HTMLElement;
-        document.body.append(renderedCv);
+        renderedCv = container;
       });
 
       Then('the CV search input is prefilled with "TypeScript"', () => {
@@ -141,7 +137,7 @@ describeFeature(feature, ({ Scenario, Background }) => {
         ).toBeVisible();
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/static-filterable-routes.feature:Search-filtered portfolio routes are static yet still filterable
+      // @covers specs/apps/wahidyankf-www/behaviours/static-filterable-routes.feature:Search-filtered portfolio routes are static yet still filterable
       And(
         'the "Database Design Fundamentals for Software Engineers" entry is hidden',
         () => {
@@ -165,7 +161,7 @@ describeFeature(feature, ({ Scenario, Background }) => {
         );
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/static-filterable-routes.feature:Public portfolio routes are available from the production server
+      // @covers specs/apps/wahidyankf-www/behaviours/static-filterable-routes.feature:Public portfolio routes are available from the production server
       Then(
         "each public portfolio page responds with a successful HTML document",
         () => {
@@ -195,7 +191,7 @@ describeFeature(feature, ({ Scenario, Background }) => {
         });
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/static-filterable-routes.feature:Crawlers receive discovery directives for every public route
+      // @covers specs/apps/wahidyankf-www/behaviours/static-filterable-routes.feature:Crawlers receive discovery directives for every public route
       And("the sitemap lists every public portfolio route", () => {
         expect(crawlerSitemap).toEqual(
           expect.arrayContaining([

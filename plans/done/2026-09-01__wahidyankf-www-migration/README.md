@@ -25,14 +25,14 @@ to mean.
   every destination path uses the new one, and the copied `package.json` `"name"` field and `README.md` heading are
   repaired in Phase 5.
 - `specs/apps/wahidyankf-www` — new canonical corpus and as-built C4 model. Nine feature files come from the
-  application's own corpus and two from `libs/ts-env-loader`, whose behavior is inlined with its code.
+  application's own corpus and two from `libs/ts-env-loader`, whose behaviour is inlined with its code.
 - `cv/` — deleted; the application absorbs the CV material it duplicated.
 - `scripts/` — gains `next-with-port.mjs`, which is currently an empty directory with a `.gitkeep`.
 - `repo-governance/` and the three harness directories — `development/` gains a deployment rule, and
   `testing-policy/tooling.md` gains two certain amendments plus any conditional ones. **Execution reached further than
   this bullet anticipated**, because Phase 7's learnings triage routes each lesson to a durable home and which homes
   those are cannot be known before the lessons exist: it also edited `development/code-style-policy.md`,
-  `development/dependency-selection-policy.md`, `development/behavior-driven-development-policy.md`,
+  `development/dependency-selection-policy.md`, `development/behaviour-driven-development-policy.md`,
   `conventions/plans-organization-policy/delivery-checklists.md`, and all three `plan-checker` prompts under `.claude/`,
   `.codex/`, and `.opencode/`. The archival quality gate then reached four more, for a reason of its own: closing the
   word limit policy's headroom band on `conventions/plans-organization-policy/delivery-checklists.md` required
@@ -58,7 +58,7 @@ The owner resolved these before authoring. They are not open, and execution does
 | Decision                   | Resolution                                                                                                                                                         |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | CV source of truth         | `apps/wahidyankf-www/src/features/cv/core/data.ts` wins and is the more current record. `cv/` is deleted entirely and the application absorbs it.                  |
-| Reaching 99% coverage      | Port the whole application in one phase, but no phase gate passes while coverage is below 99% or a required behavior layer is absent.                              |
+| Reaching 99% coverage      | Port the whole application in one phase, but no phase gate passes while coverage is below 99% or a required behaviour layer is absent.                             |
 | The three shared libraries | Inline all three into the application. `libs/` stays empty.                                                                                                        |
 | Specification validators   | No `rhino-cli`, no new Badak Mini subcommand. BDD is enforced through this repository's existing specs structure and the Gherkin binding suite.                    |
 | Toolchain                  | Conform fully: TypeScript 6, Biome, exact pins. If one component proves incompatible with Next 16, fall back on that component alone and record the exception.     |
@@ -100,8 +100,8 @@ the application manifest at an exact pin, with the requirement, the rejected alt
 The pre-execution loop ended on its **seven-cycle bound** rather than on two consecutive clean runs, which the workflow
 provides for. Every finding of every cycle was resolved; none was accepted, deferred, or waived. The status is `settled`
 rather than `pass` because cycle 7's fixes were applied after the last check, so no cycle read them. As
-[findings report](../../../repo-governance/workflows/plan-quality-gate/04-findings-report.md) requires of a settled
-plan, the archival run begins by verifying those fixes, and records its own result below.
+[plan quality gate](../../../repo-governance/workflows/plan-quality-gate.md) requires of a settled plan, the archival
+run begins by verifying those fixes, and records its own result below.
 
 The Phase 7 item that re-runs this workflow at archival appends its result below rather than replacing this record.
 

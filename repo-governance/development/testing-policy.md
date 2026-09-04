@@ -1,80 +1,54 @@
 ---
-tldr: "Defines the ordered, cacheable quick gate, strict coverage, and explicit integration tests."
+tldr: "Defines ordered, cacheable quick gates, strict coverage, and explicit integration and E2E ownership."
 when_to_use: "Use when adding, changing, or running project test and quality targets."
 ---
 
 # Testing Policy
 
-## Scope
+The [quality-gates standard](quality-gates.md) owns test boundaries and the target contract. This policy owns how those
+targets operate in this Nx workspace; [target shape](testing-policy/target-shape.md) owns their declarations.
 
-This policy applies to every Nx project in this repository.
+## Owner Applications
 
-## The Target Contract
+Every application exposes `build`, `typecheck`, `lint`, `test:unit`, `test:integration`, `test:coverage:unit`,
+`test:coverage:integration`, `test:coverage:behaviour:<owner>`, `test:coverage:behaviour`, `test:coverage`, and
+`test:quick`.
 
-Every project exposes the same ten targets, so a workspace-wide command reaches all of them without special-casing one:
-
-`typecheck`, `lint`, `test:unit`, `test:integration`, `test:e2e`, `test:coverage:unit`, `test:coverage:integration`,
-`test:coverage:behavior`, `test:coverage`, and `test:quick`.
-
-Three are eligibility-dependent, and their absence is a signal rather than a gap. A library never owns `test:e2e`. A
-project that owns no real local boundary defines no `test:integration`, and therefore no `test:coverage:integration`.
-Everything else is required of every project.
-
-[Target Shape](testing-policy/target-shape.md) owns what each target declares — `cache`, `outputs`, `options.cwd`, and
-shared `namedInputs` — and binds every target a project declares, not only these ten.
-
-## Quick Tests
-
-`typecheck`, `lint`, `test:unit`, `test:coverage`, and `test:quick` are cacheable. An application's process E2E target
-is uncached and outside `test:quick`. The [BDD policy](behavior-driven-development-policy.md) owns its placement: a
-co-located package uses the owner's `typecheck`, `lint`, and `test:e2e` targets, while a permitted dedicated project
-owns equivalent targets. `test:quick` is an ordered `nx:run-commands` aggregate with parallel execution disabled; it
-invokes its required fast target entry points without copying their underlying commands.
-
-Two mechanisms express ordering and they are not interchangeable. `options.commands` expresses the ordered gate itself,
-the sequence a reader runs. `dependsOn` expresses a prerequisite that must precede the whole gate, whatever entry point
-invoked it. A build a gate cannot run without belongs in `dependsOn`; a step of the gate belongs in `options.commands`.
+`test:quick` is a cacheable ordered aggregate with parallel execution disabled:
 
 ```text
-typecheck -> lint -> test:unit -> test:coverage
+typecheck -> lint -> test:unit -> test:coverage:unit -> test:coverage:behaviour
 ```
 
-Coverage uses the language's native instrumentation and fails below the project role's documented threshold. Do not
-duplicate an executable threshold as metadata, omit runtime code, lower the threshold, or add broad exclusions to make
-the gate pass; an unavoidable generated-code exclusion requires the repository owner's explicit approval and a
-documented reason.
+`test:coverage` composes every owner numeric and behaviour slice. Numeric line coverage stays at least 99%. Do not lower
+a threshold, omit runtime code, or add broad exclusions to make a gate pass.
 
-Pre-push invokes Nx affected with `origin/main` as the base and each pushed local commit as the head. Nx uses the
-project graph to run `test:quick` only for affected projects under `apps/` and `libs/`, so unrelated documentation
-changes do not run project tests and shared changes still reach every project they affect. The hook intentionally uses
-Nx's local task cache.
+## Dedicated E2E Projects
 
-## Integration Tests
+Every application public browser or process boundary has a dedicated E2E project. It exposes `typecheck`, `lint`,
+`test:coverage:behaviour:e2e`, `test:coverage:behaviour`, `test:e2e`, and `test:quick`; operational install targets are
+allowed when the harness needs them. It exposes no unit, integration, or numeric-coverage placeholder.
 
-Use an uncached `test:integration` target for the local-integration layer the
-[BDD policy](behavior-driven-development-policy.md) requires. It is not enforced by pre-push because it can be slow. A
-library has this target only when its BDD role requires the layer; every application has it. Run applicable integration
-suites explicitly:
+Its `test:quick` runs only `typecheck`, `lint`, and `test:coverage:behaviour:e2e`. Its generic behaviour target
+delegates to the owner's aggregate. The owner aggregate composes `test:coverage:behaviour:<owner>` with the E2E slice.
+Declare inputs and project dependencies so a feature, binding, config, or owner change invalidates the correct cache
+without an Nx cycle.
 
-```sh
-npm run test:integration
-```
+## Runtime and Selection
 
-A library that owns no local boundary defines no `test:integration` target at all. Its absence is the signal that it has
-nothing to integration-test, so a placeholder that echoes and exits earns a passing run without testing anything and
-hides the same absence it claims to report. The [BDD policy](behavior-driven-development-policy.md) is canonical for
-corpus sharing, adapter roles, and process E2E.
+Integration and E2E targets are uncached and stay outside `test:quick` and Git hooks. Run affected suites before
+completion. Scheduled CI runs complete integration coverage before complete E2E.
 
-## Tooling
+Pre-push invokes affected `test:quick` against `origin/main`, sequentially. It conditionally runs repository validation
+when governance, harness, workflow, project configuration, or behaviour-compliance machinery changes. It intentionally
+uses the Nx cache.
 
-See [Testing Policy Details](testing-policy/README.md).
+Aggregate targets invoke named Nx targets and never duplicate their tool commands. `options.commands` expresses an
+ordered gate; `dependsOn` expresses prerequisites that precede the whole target. Use the standard library and existing
+tooling first; dependency additions remain governed by the
+[dependency selection policy](dependency-selection-policy.md).
 
 ## Verification
 
-Run `npm run typecheck`, `npm run lint`, `npm run test:unit`, `npm run test:coverage`, `npm run test:quick`, and any
-applicable `npm run test:integration` before handing off behavior changes. To inspect the pre-push selection without
-pushing, run:
-
-```sh
-npm exec nx -- affected -t test:quick --base=origin/main --head=HEAD
-```
+Run the applicable commands from [workspace commands](workspace-commands.md), including owner quick, integration
+coverage, E2E quick, E2E runtime, and `badakmini-cli:test:repo` for repository-mechanism changes.

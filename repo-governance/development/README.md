@@ -11,21 +11,26 @@ only the policy that matches the work at hand:
 - [Architecture Specifications](architecture-specifications.md) for each application's canonical as-built C4 model and
   its maintenance.
 - [Badak Mini](badakmini-cli-policy.md) for repository-local validation checks.
-- [Behavior-Driven Development](behavior-driven-development-policy.md) for mandatory canonical corpus and adapter roles.
+- [Behaviour-Driven Development](behaviour-driven-development-policy.md) for mandatory canonical corpus and adapter
+  roles.
 - [Code Commentary](code-commentary-policy.md) for learning-oriented comments.
 - [Code Style](code-style-policy.md) for the language target, naming, indentation, and import style.
-- [Commit Hooks](commit-hook-policy.md) for required Git-hook behavior.
+- [Commit Hooks](commit-hook-policy.md) for required Git-hook behaviour.
 - [Dependency Selection](dependency-selection-policy.md) for when an external dependency may be added instead of
   standard-library or existing code.
 - [Deployment](deployment-policy.md) for the delivery target, the `prod-` promotion branch, and domain cutover
   authorization.
+- [End-to-End Testing](end-to-end-testing.md) for dedicated public-boundary harnesses and browser/process proof.
 - [Harness Pre-Edit Triggers](harness-pre-edit-triggers.md) for what each harness wires before an edit, and how far it
   is verified.
 - [Nx Workspace](nx-workspace-policy.md) for raw-Nx boundaries and verification.
+- [Quality Gates](quality-gates.md) for test boundaries and owner/E2E target contracts.
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow
   it.
 - [Specs](specs-policy.md) for Gherkin acceptance criteria and the `specs/` tree; its
   [detail index](specs-policy/README.md) holds focused structural guidance.
+- [Software Quality Enforcement](software-quality-enforcement.md) for truthful gate, hook, schedule, runtime, and
+  evidence routing.
 - [TDD](tdd-policy.md) for red-green-refactor cycles bound to scenarios.
 - [TDD Policy Details](tdd-policy/README.md) for focused TDD requirements.
 - [Testing](testing-policy.md) for quick and integration-test responsibilities.

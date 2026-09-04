@@ -68,19 +68,19 @@ but not the tool's own prerequisites biases the executor toward dropping a check
 When a conditional item's trigger is about to fire, read its wording against the actual cause rather than against the
 symptom that resembles it.
 
-2026-09-01, Phase 3: a correct lint fix broke a behavior contract, because it was applied to the attribute beside the
+2026-09-01, Phase 3: a correct lint fix broke a behaviour contract, because it was applied to the attribute beside the
 one the rule reported. Biome's `noArrayIndexKey` fired on `key={index}` in `personal-projects-content.tsx`, and the
 element carried `id={`project-${index}`}` on the adjacent line. Both were changed to `project.title` in one edit. The
 `key` change was right — an index reused as identity makes React carry the wrong card's state across a search filter —
 and the `id` change was silently wrong, because the ported corpus addresses cards positionally as `project-0`,
 `project-1`, and so on. Nothing caught it for the rest of the phase: `typecheck`, `build`, and both lint targets were
 green, and they would be, since a template literal reading a different property is well-typed and idiomatic. The
-behavior suite caught it on its first run, two scenarios failing on `expected null not to be null`. What to carry: `key`
-and `id` look alike and are not alike — a key is React's internal reconciliation hint and changing it is unobservable,
-while an id is part of the DOM contract a test or a stylesheet may address — so a rule that names one has said nothing
-about the other. More generally, when a linter reports one attribute, fix that attribute; the adjacent expression that
-happens to be identical is a separate decision and deserves its own reason. Same shape as the unsafe-autofix entry
-above, at a smaller scale: the loss was in what the edit reached beyond what the rule asked for.
+behaviour suite caught it on its first run, two scenarios failing on `expected null not to be null`. What to carry:
+`key` and `id` look alike and are not alike — a key is React's internal reconciliation hint and changing it is
+unobservable, while an id is part of the DOM contract a test or a stylesheet may address — so a rule that names one has
+said nothing about the other. More generally, when a linter reports one attribute, fix that attribute; the adjacent
+expression that happens to be identical is a separate decision and deserves its own reason. Same shape as the
+unsafe-autofix entry above, at a smaller scale: the loss was in what the edit reached beyond what the rule asked for.
 
 2026-09-01, Phase 3: a config file that documents one inheritance gap does not protect you from the same gap one line
 away. `apps/wahidyankf-www/vitest.config.ts` carries a comment explaining that Vitest projects do not inherit plugins
@@ -176,12 +176,12 @@ discarded. Two rows are discards, each with a reason; nothing is left untriaged.
 | Phase 3, a sweep that hit the owner's own CV                 | Discarded as a separate rule: the acceptance-criterion bullet above already covers what a plan author must do, and adding "a token search matches prose containing that token" states the obvious in a governed document                                                    |
 | Phase 3, replace-not-extend configuration semantics          | [testing tooling](../../../repo-governance/development/testing-policy/tooling.md), new `Configuration Semantics` section, stated of the format rather than of Vitest                                                                                                        |
 | Phase 5, `node -p` colourises its output                     | Same section — read a JSON value with a command that writes it, not one that pretty-prints it                                                                                                                                                                               |
-| Phase 5, two bindings of one scenario disagreed              | [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), new `Bindings and What They May Assume` section                                                                                                                                   |
+| Phase 5, two bindings of one scenario disagreed              | [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md), new `Bindings and What They May Assume` section                                                                                                                                  |
 
 Every routed entry was checked against both bars the
 [knowledge capture](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) rules set.
 **Secrets:** none of the twelve names a credential, a token, or an environment value; the only environment variables any
-of them names are `APP_ENV`, `NO_COLOR`, and `WAHIDYANKF_WWW_PORT`, and each appears as a name whose behavior is the
+of them names are `APP_ENV`, `NO_COLOR`, and `WAHIDYANKF_WWW_PORT`, and each appears as a name whose behaviour is the
 lesson, never with a value. **Generalizable:** each routed rule is stated without reference to this migration, this
 application, or `ose-public` — which is why the `tsx`, Phase 3, and Phase 5 pin entries collapse into one rule about
 inherited and transitive pins rather than three about three packages. The two discarded halves are recorded above with

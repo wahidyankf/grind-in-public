@@ -1,0 +1,61 @@
+name: Scheduled quality gates
+
+on:
+  schedule:
+    - cron: "0 6,18 * * *"
+      timezone: "Asia/Jakarta"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scheduled-quality-gates
+  cancel-in-progress: false
+
+jobs:
+  badakmini:
+    name: Badak Mini test symphony
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.15.0"
+          cache: npm
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26.6"
+          cache: true
+          cache-dependency-path: apps/*/go.sum
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Run local integration coverage
+        run: npm exec -- nx run -p badakmini-cli -t test:coverage:integration
+      - name: Run process end-to-end suite
+        run: npm exec -- nx run -p badakmini-cli-e2e -t test:e2e
+
+  website:
+    name: Website test symphony
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.15.0"
+          cache: npm
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Run local integration coverage
+        run: npm exec -- nx run -p wahidyankf-www -t test:coverage:integration
+      - name: Install Chromium and system dependencies
+        run: npm exec -- nx run -p wahidyankf-www-e2e -t install
+      - name: Run browser end-to-end suite
+        run: npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e -- --workers=1

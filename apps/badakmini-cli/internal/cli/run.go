@@ -1,4 +1,4 @@
-// Package cli owns Badak Mini command parsing, dispatch, and observable process behavior.
+// Package cli owns Badak Mini command parsing, dispatch, and observable process behaviour.
 package cli
 
 import (

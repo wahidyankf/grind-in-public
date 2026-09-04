@@ -1,7 +1,7 @@
 ---
 tldr: "Makes a plan name its proposed C4 and Gherkin changes without confusing them with as-built specifications."
 when_to_use:
-  "Use when a formal plan changes observable behavior, architecture, an interface, or an executable specification."
+  "Use when a formal plan changes observable behaviour, architecture, an interface, or an executable specification."
 ---
 
 # Specification Changes
@@ -14,7 +14,7 @@ does not become C4 or Gherkin and names its exact `delivery.md` proof. Do not co
 
 For every affected C4 or Gherkin file, give its exact repository-relative path and exactly one label: `[E]` edit, `[N]`
 new, `[M]` move, or `[D]` delete. For Gherkin, name every preserved, changed, moved, deleted, and new scenario; new
-scenarios name their user, preconditions, action, and expected outcome. State the unit, integration, behavior, and E2E
+scenarios name their user, preconditions, action, and expected outcome. State the unit, integration, behaviour, and E2E
 binding or adapter path that changes, or explain the specifically incapable layer and why. Name the target and focused
 journey that proves the result.
 

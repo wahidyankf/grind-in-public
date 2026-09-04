@@ -15,7 +15,7 @@ const sharedPlugins = [react(), tsconfigPaths()];
 // CV in one component — under the contention of a full parallel run crossed 5s
 // intermittently: green in isolation, red roughly one run in four. A flaky gate
 // is worse than a slow one, and this raises the limit rather than narrowing the
-// test, because the render being measured is the behavior under test.
+// test, because the render being measured is the behaviour under test.
 //
 // Spelled on each project below rather than once at the root, for the same
 // reason `sharedPlugins` is: a project's own `test` block is what the project
@@ -61,12 +61,16 @@ export default defineConfig({
       {
         plugins: sharedPlugins,
         test: {
-          name: "behavior",
+          name: "behaviour-unit",
           testTimeout: TEST_TIMEOUT_MS,
-          include: ["tests/bdd/**/*.{ts,tsx}"],
-          exclude: ["node_modules"],
+          include: [
+            "tests/bdd/**/*.{ts,tsx}",
+            "tests/integration/cv-pdf.integration.test.ts",
+          ],
+          exclude: ["tests/bdd/test-layer.ts", "node_modules"],
+          env: { WAHIDYANKF_WWW_BEHAVIOUR_TEST_LAYER: "unit" },
           environment: "jsdom",
-          setupFiles: ["./src/test/setup.ts"],
+          setupFiles: ["./src/test/behaviour-setup.ts"],
         },
       },
       {
@@ -77,8 +81,14 @@ export default defineConfig({
         test: {
           name: "integration",
           testTimeout: TEST_TIMEOUT_MS,
-          include: ["tests/integration/**/*.{ts,tsx}"],
+          include: [
+            "tests/integration/**/*.{ts,tsx}",
+            "tests/bdd/env-loader.steps.ts",
+            "tests/bdd/port-resolver.behaviour.test.ts",
+            "tests/bdd/tier-env.behaviour.test.ts",
+          ],
           exclude: ["node_modules"],
+          env: { WAHIDYANKF_WWW_BEHAVIOUR_TEST_LAYER: "integration" },
           environment: "node",
         },
       },

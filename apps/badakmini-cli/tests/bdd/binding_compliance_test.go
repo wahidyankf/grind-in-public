@@ -21,7 +21,7 @@ type sourceBinding struct {
 func TestEveryAdapterBindingsMatchTheRecursiveCorpus(t *testing.T) {
 	catalog, err := CanonicalCatalog()
 	if err != nil {
-		t.Fatalf("discover canonical behavior: %v", err)
+		t.Fatalf("discover canonical behaviour: %v", err)
 	}
 	for name, bindings := range map[string][]sourceBinding{
 		"owner": canonicalBindings(t),
@@ -111,7 +111,7 @@ func e2eBindings(t *testing.T) []sourceBinding {
 	if err != nil {
 		t.Fatalf("locate module root: %v", err)
 	}
-	return bindingsAt(t, filepath.Join(root, "tests", "e2e", "bindings_test.go"))
+	return bindingsAt(t, filepath.Join(root, "..", "badakmini-cli-e2e", "bindings_test.go"))
 }
 
 func bindingsAt(t *testing.T, path string) []sourceBinding {

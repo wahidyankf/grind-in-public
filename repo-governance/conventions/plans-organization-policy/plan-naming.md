@@ -44,8 +44,7 @@ bad:   plans/backlog/2026-08-18__wahidyankf-www-migration/   date before complet
 bad:   plans/done/2026-08-18_wahidyankf_www_migration/       single underscore, underscores
 ```
 
-Every `plan-checker` prompt states this stage-aware naming rule in the imperative, because a subagent prompt has to
-stand alone. Change it in the same edit, in all three harness copies.
+The [plan quality gate](../../workflows/plan-quality-gate.md) verifies this stage-aware naming rule.
 
 ## Ideas
 

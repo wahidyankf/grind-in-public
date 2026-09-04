@@ -5,17 +5,17 @@ directory, glob, or ellipsis stands in for a filename.
 
 ## Phase 1 — Configuration Normalization
 
-- `[E]` `apps/badakmini-cli/project.json` — declare `namedInputs.behaviorCorpus`; declare `cache: true` and
+- `[E]` `apps/badakmini-cli/project.json` — declare `namedInputs.behaviourCorpus`; declare `cache: true` and
   `outputs: ["{workspaceRoot}/local-tmp/badakmini-unit.out"]` on `test:coverage:unit`; add
   `"options": {"cwd": "{projectRoot}"}` to all thirteen command targets and strip `-C apps/badakmini-cli` from each;
   rewrite the two `mkdir -p local-tmp` prefixes and the `BADAKMINI_BIN` assignment; replace every repeated corpus glob
-  with `behaviorCorpus`.
-- `[E]` `apps/wahidyankf-www/project.json` — declare `namedInputs.behaviorCorpus` and `namedInputs.workspaceScripts`;
+  with `behaviourCorpus`.
+- `[E]` `apps/wahidyankf-www/project.json` — declare `namedInputs.behaviourCorpus` and `namedInputs.workspaceScripts`;
   replace every repeated glob with those names; remove `outputs` from `test:coverage:integration` and from
   `generate:cv-pdf`, both of which are `cache: false`; change `static-routes:validation`'s command from `nx run …` to
   `npm exec nx -- run …` and its `cwd` from `{workspaceRoot}` to `{projectRoot}`, dropping the literal
   `apps/wahidyankf-www/` prefix from its `node` invocation.
-- `[E]` `apps/wahidyankf-www-e2e/project.json` — declare `namedInputs.behaviorCorpus`, replace its five repeated globs,
+- `[E]` `apps/wahidyankf-www-e2e/project.json` — declare `namedInputs.behaviourCorpus`, replace its five repeated globs,
   and declare `outputs` on `specs:e2e:baseline`, which is cached and writes `.features-gen`. This file is deleted in
   Phase 2; it is normalized here anyway so Phase 1 ends with all three files in one style and its gate can assert that
   property across the whole workspace rather than across two thirds of it.
@@ -91,7 +91,7 @@ Edited because they name the deleted project:
   speaks to it over a local port, and the moved `playwright.config.ts` still pins its tier with
   `process.env.APP_ENV ??= "test"`. Neither contains the retired project name, so the delivery item's
   `grep -c 'wahidyankf-www-e2e'` acceptance could not have observed them either way.
-- `[E]` `specs/apps/wahidyankf-www/behavior/README.md` — the sentence pointing at `apps/wahidyankf-www-e2e/README.md`,
+- `[E]` `specs/apps/wahidyankf-www/behaviours/README.md` — the sentence pointing at `apps/wahidyankf-www-e2e/README.md`,
   repointed at `apps/wahidyankf-www/README.md`. Its acceptance reads the repointed target for the skip-baseline content
   the sentence claims it holds; `npm run check:markdown-links` cannot serve, because the reference is inline code rather
   than a Markdown link.

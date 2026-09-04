@@ -2,10 +2,10 @@
 
 ## User Stories
 
-As the repository owner, I want Badak Mini behavior declared in canonical Gherkin so that changing a feature, scenario,
+As the repository owner, I want Badak Mini behaviour declared in canonical Gherkin so that changing a feature, scenario,
 or step immediately revalidates every required test layer.
 
-As a contributor, I want fast unit and static behavior gates in `test:quick` so that most specification drift fails
+As a contributor, I want fast unit and static behaviour gates in `test:quick` so that most specification drift fails
 before push without launching real processes.
 
 As a maintainer, I want integration and process E2E adapters to consume the same corpus so that lower-level confidence
@@ -87,7 +87,7 @@ Feature: Rule change notices
 
 - Recursive executable Gherkin for the existing CLI contracts above.
 - Shared bindings and driver contract with unit, integration, and E2E implementations.
-- Static behavior completeness and adapter parity.
+- Static behaviour completeness and adapter parity.
 - Role-based repository rules for applications, libraries, and dedicated E2E projects.
 
 ## Out of Scope

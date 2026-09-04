@@ -1,0 +1,96 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "wahidyankf-www-e2e",
+  "projectType": "application",
+  "root": "apps/wahidyankf-www-e2e",
+  "implicitDependencies": ["wahidyankf-www"],
+  "targets": {
+    "typecheck": {
+      "command": "tsc --project tsconfig.json --noEmit",
+      "options": { "cwd": "{projectRoot}" },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
+      ]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": ["biome check", "eslint --config eslint.config.mjs tests"],
+        "parallel": false
+      },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
+      ]
+    },
+    "test:coverage:behaviour:e2e": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "node --test tools/behaviour-compliance.test.mjs",
+          "node tools/check-behaviour-compliance.mjs"
+        ],
+        "parallel": false
+      },
+      "outputs": ["{projectRoot}/.features-gen"],
+      "inputs": [
+        "{projectRoot}/**/*",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/package-lock.json"
+      ]
+    },
+    "test:coverage:behaviour": {
+      "command": "npm exec nx -- run wahidyankf-www:test:coverage:behaviour",
+      "options": { "cwd": "{workspaceRoot}" },
+      "cache": false,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
+      ]
+    },
+    "install": {
+      "command": "playwright install --with-deps chromium",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "test:e2e": {
+      "command": "if rg -n '\\btest\\.(skip|only|fixme)\\s*\\(' tests; then echo 'ERROR: unconditional Playwright skip/focus marker found' >&2; exit 1; fi && playwright test",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false,
+      "dependsOn": [
+        "test:coverage:behaviour",
+        { "projects": ["wahidyankf-www"], "target": "build" }
+      ],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
+      ]
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm exec nx -- run wahidyankf-www-e2e:typecheck",
+          "npm exec nx -- run wahidyankf-www-e2e:lint",
+          "npm exec nx -- run wahidyankf-www-e2e:test:coverage:behaviour:e2e"
+        ],
+        "parallel": false
+      },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
+      ]
+    }
+  },
+  "tags": []
+}

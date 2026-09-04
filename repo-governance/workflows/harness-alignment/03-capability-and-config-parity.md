@@ -20,9 +20,6 @@ Confirm each project config holds only documented settings, and that each direct
 
 ## What Parity Does Not Prove
 
-That proof is narrower than it looks. The corpus has two mechanisms for keeping a copy in step with its source: the
-parity check, which shows the three harness copies equal each other but never that they match the policy they implement,
-and the sentence in a workflow requiring its prompt copy to change with it, which a person reviews. Neither reaches a
-sentence in one document that describes what another agent checks, so the
-[fixer discipline](../rules-quality-gate/04-fixer-discipline.md) requires reading the prompt before writing such a
-sentence.
+That proof is narrower than it looks. The parity check shows that the three harnesses expose equal shared capabilities,
+but never that their instructions match canonical policy. The read-only [rules quality gate](../rules-quality-gate.md)
+therefore still inspects affected entry points semantically.

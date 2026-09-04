@@ -38,5 +38,4 @@ Every directory recursively under `plans/`, including each technical and asset d
 discoverable. A move updates its source and destination maps in the same change, so no index describes an artifact that
 moved.
 
-Every `plan-checker` prompt states this index requirement in the imperative, because a subagent prompt has to stand
-alone. Change it in the same edit, in all three harness copies.
+The [plan quality gate](../../workflows/plan-quality-gate.md) verifies this index requirement.

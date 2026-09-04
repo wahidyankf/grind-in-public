@@ -7,7 +7,7 @@ required.
 
 ## Directory Map
 
-- [Badak Mini](badakmini-cli/README.md) — the repository validation CLI: its C4 model and its five-feature behavior
+- [Badak Mini](badakmini-cli/README.md) — the repository validation CLI: its C4 model and its five-feature behaviour
   corpus.
-- [wahidyankf-www](wahidyankf-www/README.md) — the personal portfolio and CV site: its C4 model and its eleven-feature
-  behavior corpus, bound by the unit, integration, and browser adapters the application itself hosts.
+- [wahidyankf-www](wahidyankf-www/README.md) — the personal portfolio and CV site: its C4 model and twelve-feature
+  behaviour corpus, bound by owner Unit/Integration adapters and a dedicated browser E2E project.

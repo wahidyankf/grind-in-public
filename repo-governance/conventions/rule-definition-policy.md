@@ -14,7 +14,7 @@ change to one announces; this policy owns what makes a _sentence_ one. Both feed
 
 ## What a Rule Is
 
-A rule is a statement that directs or constrains a decision, behavior, standard, or procedure within a stated scope. It
+A rule is a statement that directs or constrains a decision, behaviour, standard, or procedure within a stated scope. It
 tells a reader — person or agent — what is required, prohibited, expected, permitted, or forbidden.
 
 Its scope may be named outright, or carried by where it sits: a sentence in the
@@ -28,7 +28,7 @@ direction, which is why an example that quietly introduces a requirement is a de
 Strength is read from the words, never from the tone:
 
 - **Must** and **must not** state a mandatory requirement or prohibition.
-- **Should** and **should not** state expected behavior. A deviation is allowed and needs a stated reason.
+- **Should** and **should not** state expected behaviour. A deviation is allowed and needs a stated reason.
 - **May** states permission. It never creates an obligation, and it is not a polite "must".
 - A bare imperative — "run the check", "read the policy first" — is mandatory unless its context marks it optional.
 
@@ -46,7 +46,5 @@ restating it, so strength cannot drift between the copy and the original.
 
 ## Verification
 
-No automated check reads a sentence for strength, so this policy is verified in review and by the
-[rules quality gate](../workflows/rules-quality-gate.md). Every `rules-checker` prompt states these strength keywords
-and the mismatched-strength rule in the imperative, because a subagent prompt has to stand alone. Change them in the
-same edit, in all three harness copies.
+No automated check reads a sentence for strength, so the read-only
+[rules quality gate](../workflows/rules-quality-gate.md) verifies it semantically before and after propagation.

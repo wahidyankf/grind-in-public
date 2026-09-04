@@ -1,4 +1,4 @@
-// Package bdd provides the executable behavior contract shared by every Badak Mini test adapter.
+// Package bdd provides the executable behaviour contract shared by every Badak Mini test adapter.
 package bdd
 
 import (
@@ -8,20 +8,21 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"runtime"
 	"strings"
 
 	"github.com/cucumber/godog"
 )
 
-// CanonicalCatalog discovers the single behavior corpus every Badak Mini adapter must execute.
+// CanonicalCatalog discovers the single behaviour corpus every Badak Mini adapter must execute.
 func CanonicalCatalog() (Catalog, error) {
 	_, sourcePath, _, ok := runtime.Caller(0)
 	if !ok {
-		return Catalog{}, errors.New("locate canonical behavior catalog source")
+		return Catalog{}, errors.New("locate canonical behaviour catalog source")
 	}
 	workspaceRoot := filepath.Clean(filepath.Join(filepath.Dir(sourcePath), "..", "..", "..", ".."))
-	return Discover(filepath.Join(workspaceRoot, "specs", "apps", "badakmini-cli", "behavior"))
+	return Discover(filepath.Join(workspaceRoot, "specs", "apps", "badakmini-cli", "behaviours"))
 }
 
 // StepKind identifies the primary Gherkin keyword a step inherits.
@@ -112,6 +113,9 @@ func Discover(root string) (Catalog, error) {
 
 // DiscoverFS asks Godog to recursively parse and compile a corpus from an injected filesystem.
 func DiscoverFS(filesystem fs.FS, root string) (Catalog, error) {
+	if err := validateFeaturePolicies(filesystem, root); err != nil {
+		return Catalog{}, err
+	}
 	parsedFeatures, err := godog.TestSuite{
 		Name: "badakmini-catalog",
 		Options: &godog.Options{
@@ -120,7 +124,7 @@ func DiscoverFS(filesystem fs.FS, root string) (Catalog, error) {
 		},
 	}.RetrieveFeatures()
 	if err != nil {
-		return Catalog{}, fmt.Errorf("parse behavior features with Godog: %w", err)
+		return Catalog{}, fmt.Errorf("parse behaviour features with Godog: %w", err)
 	}
 	if len(parsedFeatures) == 0 {
 		return Catalog{}, emptyCatalogError(filesystem, root)
@@ -137,6 +141,182 @@ func DiscoverFS(filesystem fs.FS, root string) (Catalog, error) {
 	}
 
 	return Catalog{Features: features}, nil
+}
+
+var (
+	scenarioDeclaration = regexp.MustCompile(`(?i)^Scenario(?: Outline| Template)?:`)
+	exemptionComment    = regexp.MustCompile(`^# Exemption\((integration|e2e)\): (.+); alternative-proof: (.+)$`)
+	invalidReason       = regexp.MustCompile(`(?i)\b(?:hard|slow|flaky|not yet implemented|todo)\b`)
+	alternativeProof    = regexp.MustCompile(`(?i)^[a-z0-9-]+:test(?::[a-z0-9-]+)*\s+/\s+\S`)
+)
+
+const (
+	featureFileExtension = ".feature"
+	previousSourceLine   = 2
+)
+
+type sourceTag struct {
+	line int
+	name string
+}
+
+func validateFeaturePolicies(filesystem fs.FS, root string) error {
+	var findings []string
+	err := fs.WalkDir(filesystem, root, func(path string, entry fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() || filepath.Ext(entry.Name()) != featureFileExtension {
+			return nil
+		}
+		source, readErr := fs.ReadFile(filesystem, path)
+		if readErr != nil {
+			return fmt.Errorf("read behaviour feature %s: %w", path, readErr)
+		}
+		findings = append(findings, validateExemptionPolicy(path, string(source))...)
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("inspect behaviour feature policy: %w", err)
+	}
+	if len(findings) > 0 {
+		return errors.New(strings.Join(findings, "\n"))
+	}
+	return nil
+}
+
+func validateExemptionPolicy(resourceName, source string) []string {
+	lines := strings.Split(strings.ReplaceAll(strings.ReplaceAll(source, "\r\n", "\n"), "\r", "\n"), "\n")
+	var findings []string
+	var pending []sourceTag
+	for index, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		lineNumber := index + 1
+		if strings.HasPrefix(trimmed, "@") {
+			lineFindings, tags := inspectTagLine(resourceName, trimmed, lineNumber)
+			findings = append(findings, lineFindings...)
+			pending = append(pending, tags...)
+			continue
+		}
+		if isGherkinDeclaration(trimmed) {
+			findings = append(findings, exemptionDeclarationFindings(
+				resourceName, lines, pending, trimmed, lineNumber,
+			)...)
+			pending = nil
+			continue
+		}
+		if trimmed != "" && !strings.HasPrefix(trimmed, "#") && len(pending) > 0 {
+			findings = append(findings, fmt.Sprintf(
+				"%s:%d: tags must be followed by their Gherkin declaration",
+				resourceName, lineNumber,
+			))
+			pending = nil
+		}
+	}
+	if len(pending) > 0 {
+		findings = append(findings, resourceName+": dangling tags are not attached to a scenario")
+	}
+	return findings
+}
+
+func inspectTagLine(resourceName, line string, lineNumber int) ([]string, []sourceTag) {
+	var findings []string
+	var tags []sourceTag
+	for field := range strings.FieldsSeq(line) {
+		if !strings.HasPrefix(field, "@") {
+			continue
+		}
+		name := strings.TrimPrefix(field, "@")
+		switch strings.ToLower(name) {
+		case "unit", "integration", "e2e", "unit-exempt", "no-unit", "no-integration", "no-e2e":
+			findings = append(findings, fmt.Sprintf(
+				"%s:%d: layer-filter tag @%s is forbidden; use canonical higher-layer exemptions",
+				resourceName, lineNumber, name,
+			))
+		}
+		tags = append(tags, sourceTag{line: lineNumber, name: strings.ToLower(name)})
+	}
+	return findings, tags
+}
+
+func exemptionDeclarationFindings(
+	resourceName string,
+	lines []string,
+	pending []sourceTag,
+	declaration string,
+	lineNumber int,
+) []string {
+	var exemptions []sourceTag
+	for _, tag := range pending {
+		if tag.name == "integration-exempt" || tag.name == "e2e-exempt" {
+			exemptions = append(exemptions, tag)
+		}
+	}
+	if len(exemptions) == 0 {
+		return nil
+	}
+	var findings []string
+	if !scenarioDeclaration.MatchString(declaration) {
+		findings = append(findings, fmt.Sprintf(
+			"%s:%d: exemption tags may only annotate a Scenario or Scenario Outline",
+			resourceName, lineNumber,
+		))
+	}
+	seen := map[string]bool{}
+	for _, exemption := range exemptions {
+		seen[exemption.name] = true
+		findings = append(findings, documentedExemptionFindings(resourceName, lines, exemption)...)
+	}
+	if len(seen) > 1 {
+		findings = append(findings, fmt.Sprintf(
+			"%s:%d: a scenario cannot carry both exemption tags",
+			resourceName, lineNumber,
+		))
+	}
+	return findings
+}
+
+func documentedExemptionFindings(resourceName string, lines []string, exemption sourceTag) []string {
+	layer := strings.TrimSuffix(exemption.name, "-exempt")
+	comment := ""
+	if exemption.line >= previousSourceLine {
+		comment = strings.TrimSpace(lines[exemption.line-previousSourceLine])
+	}
+	match := exemptionComment.FindStringSubmatch(comment)
+	if len(match) != 4 || match[1] != layer {
+		return []string{fmt.Sprintf(
+			"%s:%d: @%s requires the immediately preceding canonical comment",
+			resourceName, exemption.line, exemption.name,
+		)}
+	}
+	var findings []string
+	if invalidReason.MatchString(match[2]) {
+		findings = append(findings, fmt.Sprintf(
+			"%s:%d: an exemption cannot be justified by difficulty, speed, flakiness, or missing implementation",
+			resourceName, exemption.line,
+		))
+	}
+	if !alternativeProof.MatchString(match[3]) {
+		findings = append(findings, fmt.Sprintf(
+			"%s:%d: alternative proof must name an Nx test target and scenario after ' / '",
+			resourceName, exemption.line,
+		))
+	}
+	return findings
+}
+
+func isGherkinDeclaration(line string) bool {
+	lower := strings.ToLower(line)
+	prefixes := []string{
+		"feature:", "rule:", "background:", "scenario:", "scenario outline:",
+		"scenario template:", "examples:", "example:",
+	}
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(lower, prefix) {
+			return true
+		}
+	}
+	return false
 }
 
 type primaryStepCounts struct {
@@ -266,7 +446,7 @@ func catalogSteps(path string, pickle *godog.Scenario) ([]Step, error) {
 func emptyCatalogError(filesystem fs.FS, root string) error {
 	hasFeatureFile, err := containsFeatureFile(filesystem, root)
 	if err != nil {
-		return fmt.Errorf("discover behavior features: %w", err)
+		return fmt.Errorf("discover behaviour features: %w", err)
 	}
 	if hasFeatureFile {
 		return fmt.Errorf("feature below %q must contain at least one scenario", root)

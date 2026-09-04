@@ -32,9 +32,9 @@ numbers in one comment disagree, the likely fault is that they measure different
 `{projectRoot}` and is therefore already covered by Nx's built-in `default` input. The cache probe the plan designed for
 it agreed: with the explicit input gone, changing a file under `tests/e2e/` still missed the cache, so `default` really
 does reach it. The removal was still wrong. `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` carries
-`TestE2EBindingInputRegression`, which reads `project.json` and fails unless `test:coverage:behavior` declares that
+`TestE2EBindingInputRegression`, which reads `project.json` and fails unless `test:coverage:behaviour` declares that
 exact string — a test whose name says it was written after this broke once before. The input is not redundant; it is a
-deliberate declaration that the behavior target invalidates on E2E binding changes whatever `default` happens to cover
+deliberate declaration that the behaviour target invalidates on E2E binding changes whatever `default` happens to cover
 today. Restored in all three targets, and the plan's non-goal forbids editing Badak Mini's Go code, so the test is the
 authority rather than a thing to adjust.
 
@@ -91,7 +91,7 @@ the verdict. Re-read in Phase 4 against the files as they stand, and every verdi
 | A compiler's own incremental state is not an artifact            | `typecheck` runs `go vet`, no `outputs`                    | `typecheck` writes `tsconfig.tsbuildinfo`, no `outputs`          | Holds   |
 | No command encodes its own project path                          | no `apps/badakmini-cli` in a command                       | no `apps/wahidyankf-www` in a command                            | Holds   |
 | A single-command target declares `options.cwd`                   | all 13 command targets                                     | all command targets                                              | Holds   |
-| A shared input glob is named once per project                    | `behaviorCorpus`, raw glob count 1                         | `behaviorCorpus` and `workspaceScripts`, raw glob count 1        | Holds   |
+| A shared input glob is named once per project                    | `behaviourCorpus`, raw glob count 1                        | `behaviourCorpus` and `workspaceScripts`, raw glob count 1       | Holds   |
 | `options.commands` states the gate, `dependsOn` a prerequisite   | `test:quick` orders in `commands`                          | `test:e2e` depends on `build`; `test:quick` orders in `commands` | Holds   |
 
 No rule is recorded as contradicted. This list was written into the Execution Record during the Phase 3 gate rather than

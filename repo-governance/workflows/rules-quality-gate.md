@@ -1,59 +1,75 @@
 ---
-tldr: "Runs rules-checker and rules-fixer over every rule-bearing file until no findings remain."
-when_to_use: "Use when governance may have drifted, or before or after a substantial rule change."
+tldr: "Produces one read-only semantic verdict for a proposed or effective repository-rule state."
+when_to_use: "Use before rules propagation and after its edits; this gate never writes rules."
 ---
 
 # Rules Quality Gate
 
-## Purpose
+Produce one read-only semantic verdict for one proposed or effective repository-rule state. This workflow never edits
+rules, invokes [rules propagation](rules/rules-propagation.md), or starts another gate run. Propagation is the sole
+writer.
 
-Find and resolve the ways written guidance decays: two documents that contradict each other, one rule stated in three
-places, a reference to something that no longer exists, and a harness that never received a rule the others did.
+## Sufficiency and Ownership
 
-## When to Use
+A passing rule is sufficient for the stated need, scope, and known risk, not perfect, exhaustive, or future-proof. Do
+not create findings for wording preference, speculative cases, optional explanation, or automation without a
+demonstrated need. Apply [minimum sufficiency](../principles/minimum-sufficiency.md).
 
-Run it on demand — after a large rule change, when a contradiction is suspected, or periodically to check drift. It is
-deliberately not mandatory: [rules-propagation](rules/rules-propagation.md) integrates one rule correctly on its own,
-and gating every one-line edit behind a full corpus review would make small corrections expensive enough to skip.
+This gate owns semantic rule quality. Deterministic tooling owns machine-decidable checks, including links, indexes,
+word budgets, formatting, coding-harness parity, and automated contracts. Do not manually reproduce, sample, or
+second-guess those checks. For a proposed check not yet implemented, Proposal mode verifies only explicit ownership,
+executable delivery, and proof obligations. Effective mode requires the canonical target to exist and pass; never
+simulate future tooling.
 
-Running the gate needs no plan, but resolving a finding can. Create a plan for a rule change only when the owner
-explicitly requests one; the [plans organization policy](../conventions/plans-organization-policy.md) owns that
-authorization boundary and the `rules-fixer` exemption.
+## Modes, Snapshot, and Ledger
 
-## Prerequisites
+Run in exactly one mode:
 
-A clean working tree, or a change complete enough to review as a whole. Choose a severity level; the gate reuses the
-levels defined for the [plan quality gate](plan-quality-gate/01-severity-and-modes.md), and strict is the default.
+- `PROPOSAL` compares the requested outcome with current effective rules before edits.
+- `EFFECTIVE` evaluates the repository after propagation edits.
 
-## Steps
+Freeze the mode, requested outcome and rationale, intended normative strength, scope and consumers, proposed move or
+deletion, relevant canonical sources and hierarchy, enforcement route, Git revision, and dirty paths. A material
+external-input change returns `BLOCKED_INPUT_CHANGED`; it never restarts the gate.
 
-1. Establish the corpus; see [scope and corpus](rules-quality-gate/01-scope-and-corpus.md).
-2. Run the [Harness Alignment](harness-alignment.md) workflow as a step. It owns the harness inventory, the command and
-   path verification, and the parity comparison, and this gate invokes it rather than restating it.
-3. Run `rules-checker` over the corpus. It reports findings by severity against the
-   [finding taxonomy](rules-quality-gate/02-finding-taxonomy.md), citing `file:line`.
-4. Run `rules-fixer` on the findings at or above the chosen level; see the
-   [check and fix loop](rules-quality-gate/03-check-fix-loop.md) and the
-   [fixer discipline](rules-quality-gate/04-fixer-discipline.md) it runs before each edit lands. A run that found
-   nothing skips this step but does not end the gate: one clean run can mean a checker that stopped early rather than a
-   corpus that is sound.
-5. Re-run `rules-checker`. Repeat until two consecutive runs are clean at that level, or seven cycles have passed.
-6. Record the outcome; see the [findings report](rules-quality-gate/05-findings-report.md).
+Audit without editing. Record a finite ledger containing `ID`, canonical source, material semantic gap, required
+resolution, evidence, and `OPEN`, `RESOLVED`, `NOT_APPLICABLE`, or `BLOCKED`. Admit only a rule violation or a gap that
+makes the requested outcome unsafe, contradictory, undiscoverable, or materially ambiguous. `NOT_APPLICABLE` requires
+evidence. Preserve the snapshot, mode, ledger, evidence, and result under
+[governance continuity](../principles/governance-continuity.md).
 
-## Verification
+## Semantic Audit
+
+Inspect only the affected rule, its point-of-use routes, relevant higher authority, and directly overlapping guidance.
+Decide whether:
+
+1. the need, intended outcome, and rationale are concrete enough to evaluate;
+2. `must`, `should`, or `may` expresses the intended strength;
+3. scope, trigger, action or prohibition, boundaries, and necessary exceptions are explicit;
+4. the canonical governance level is correct and no lower rule conflicts with higher authority;
+5. one canonical source owns the meaning while concise point-of-use links keep it discoverable without duplication;
+6. every enforcement claim names its truthful class and route, with required evidence where automation cannot decide;
+7. the instruction survives compaction and handoff at every applicable entry point;
+8. a reasonable reader can act without inventing policy while the rule remains minimally sufficient; and
+9. a move or deletion preserves unique intent and updates affected consumers.
+
+Do not audit unrelated governance or rerun checks owned by deterministic tooling.
+
+## Terminal Results
+
+In `PROPOSAL` mode, run the canonical repository gate and return:
+
+- `PASS_NO_CHANGE` when current effective meaning already satisfies the request;
+- `PASS_READY` when a material change is necessary and fully specified; or
+- `BLOCKED_INPUT`, `BLOCKED_CONFLICT`, `BLOCKED_TOOLING`, or `BLOCKED_INPUT_CHANGED` with the finite ledger, evidence,
+  and required external decision.
+
+In `EFFECTIVE` mode, run:
 
 ```sh
-npm run format:check
-npm run check:governance
-npm run check:harness-parity
-npm run check:markdown-links
+rtk npm exec -- nx run badakmini-cli:test:repo
 ```
 
-Every check passes, and two consecutive `rules-checker` runs report nothing at the chosen level. The parity check
-matters most after a run: `rules-fixer` may edit harness prompts, and parity is the only automated proof it left the
-harnesses equal.
-
-## Recovery
-
-See [recovery](rules-quality-gate/07-recovery.md) for what to do when a contradiction is found, and when the loop
-reaches seven cycles.
+Return `PASS_EFFECTIVE` only when the semantic ledger is clear and tooling passes. Otherwise return `BLOCKED_SEMANTIC`,
+`BLOCKED_TOOLING`, or `BLOCKED_INPUT_CHANGED` with evidence. Every result ends the invocation. The gate never repairs,
+invokes propagation, retries without bound, or authorizes commit/push.

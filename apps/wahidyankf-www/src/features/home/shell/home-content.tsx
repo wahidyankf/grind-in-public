@@ -26,7 +26,7 @@ import { filterItems } from "@/features/search/core/search";
 import { SearchComponent, HighlightText } from "@/features/ui/shell";
 // Imported from the module rather than the `@/features/ui/shell` barrel: that
 // barrel is wholly replaced by `vi.mock` in seven suites because the shell
-// primitives behind it carry behavior worth stubbing, and these two are inert
+// primitives behind it carry behaviour worth stubbing, and these two are inert
 // SVG that every one of those mocks would then have to restate.
 import { GithubIcon, LinkedinIcon } from "@/features/ui/shell/brand-icons";
 import { parseMarkdownLinks } from "@/features/cv/shell/markdown";

@@ -8,7 +8,7 @@ import { CvContent } from "./cv-content";
 // toggle's handler and the five-year window helper behind it went unexercised.
 // These tests drive that one control.
 const mockReplace = vi.fn();
-let mockSearchParams = new URLSearchParams();
+const mockSearchParams = new URLSearchParams();
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn(), replace: mockReplace }),

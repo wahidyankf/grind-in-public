@@ -13,6 +13,8 @@ rules in place.
 
 - [Maintenance Value](maintenance-value.md) — require every maintained surface to prove more recurring benefit than
   upkeep cost.
+- [Governance Continuity](governance-continuity.md) — preserve workflow state and authorization through compaction,
+  handoff, and resumed work.
 - [Minimum Sufficiency](minimum-sufficiency.md) — choose the smallest responsible change and stop after required
   verification passes.
 - [Progressive Disclosure](progressive-disclosure.md) — keep guidance focused and load only what the task needs.

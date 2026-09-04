@@ -29,51 +29,43 @@ npx nx run wahidyankf-www:test:coverage
 npx nx run wahidyankf-www:static-routes:validation
 ```
 
-`test:quick` is the ordered gate: `typecheck`, `lint`, `test:unit`, `test:coverage:unit`, then `test:coverage:behavior`,
-with `static-routes:validation` ahead of them all. It deliberately stops short of `test:coverage`, which would pull the
-integration layer in behind it and write PDFs to the real filesystem on every push.
+`test:quick` is the ordered gate: `typecheck`, `lint`, `test:unit`, `test:coverage:unit`, then
+`test:coverage:behaviour`, with `static-routes:validation` ahead of them all. It deliberately stops short of
+`test:coverage`, which would pull the integration layer in behind it and write PDFs to the real filesystem on every
+push.
 
 ## Specifications
 
 The canonical Gherkin corpus is
-[specs/apps/wahidyankf-www/behavior/](../../specs/apps/wahidyankf-www/behavior/README.md), and the as-built C4 model is
-[specs/apps/wahidyankf-www/architecture.md](../../specs/apps/wahidyankf-www/architecture.md).
+[specs/apps/wahidyankf-www/behaviours/](../../specs/apps/wahidyankf-www/behaviours/README.md), and the as-built C4 model
+is [specs/apps/wahidyankf-www/architecture.md](../../specs/apps/wahidyankf-www/architecture.md).
 
-Three adapters bind that one corpus, and which adapter a feature file reaches is a property of what the scenario touches
-rather than a preference:
+Three adapters bind that one corpus across the owner and dedicated E2E projects. Which adapter a scenario reaches is a
+property of the boundary it touches:
 
-- **Unit and behavior**, `tests/bdd/` — eleven feature files, under jsdom.
-- **Integration**, `tests/integration/` — `cv-export.feature` only, under `node` against the real filesystem, because
-  its scenarios write a PDF.
-- **Browser**, `tests/e2e/steps/` — Playwright against `next start`, with no Docker involved.
+- **Unit behaviour**, `tests/bdd/` plus the CV export adapter — all scenarios under jsdom with injected filesystem and
+  environment seams for local-boundary concerns.
+- **Integration behaviour**, `tests/integration/` plus the shared env and port adapters — every non-exempt local
+  scenario under `node` against isolated real filesystem, environment, or process boundaries.
+- **Browser**, `../wahidyankf-www-e2e/tests/steps/` — Playwright against `next start`, with no Docker involved.
 
-## The browser layer and its skip baseline
+The shared env, port, and CV adapters execute once per Unit and Integration project with a boundary-specific driver.
+Static compliance requires exactly one Unit marker for every scenario, exactly one Integration marker for every
+non-exempt scenario, and no Integration marker for an exempt scenario.
 
-`playwright.config.ts` sets `missingSteps: "skip-scenario"`, so `bddgen` renders every unbound scenario as `test.fixme`
-rather than refusing to generate anything. That keeps the suite runnable, but it also means the suite exits 0 whether
-the gap is the intended one or a binding someone just broke. `tests/e2e/e2e-skip-baseline.json` is what tells those two
-apart:
+## Browser exemptions
+
+The browser project rejects missing and unused bindings. Scenarios whose concern cannot be observed at the browser
+boundary carry a scenario-level `@e2e-exempt` tag and an immediately preceding structured comment naming their
+integration proof. Browser-rendered scenarios use `@integration-exempt` for the inverse boundary mismatch.
 
 ```bash
-npm exec nx -- run wahidyankf-www:specs:e2e:baseline
+npm exec nx -- run wahidyankf-www-e2e:test:coverage:behaviour:e2e
+npm exec nx -- run wahidyankf-www-e2e:test:e2e
 ```
 
-Four feature files carry scenarios the browser adapter deliberately does not bind, because they are Node-process
-environment concerns or a build-time export no browser reaches:
-
-| Feature                    | Scenarios | Bound instead by                    |
-| -------------------------- | --------- | ----------------------------------- |
-| `env-loader.feature`       | 4         | the application's unit layer        |
-| `tier-env-loading.feature` | 5         | the application's unit layer        |
-| `port-resolver.feature`    | 8         | the application's unit layer        |
-| `cv-export.feature`        | 2         | the application's integration layer |
-
-The baseline regenerates the tests, counts the `test.fixme` entries, and fails if the number moved. The recorded number
-is **34**, and it counts **generated tests, not scenarios**. The two differ because `playwright-bdd` generates one test
-per `Examples` row and three of the four unbound features are Scenario Outlines: `env-loader` produces 6,
-`tier-env-loading` 7, `port-resolver` 19, and `cv-export` 2. Nineteen scenarios, thirty-four generated tests.
-
-Raise the number only when a scenario is deliberately left unbound, and say here why.
+No skip baseline exists. Static compliance rejects legacy layer tags, malformed or broad exemptions, unconditional
+Playwright skips, direct journey specs, undefined bindings, and unused steps.
 
 ## Coverage
 
@@ -81,14 +73,14 @@ Raise the number only when a scenario is deliberately left unbound, and say here
 denominator, set explicitly in `vitest.config.ts`: without it only files some test imports would appear at all, and an
 untested module would vanish from the measurement rather than count against it.
 
-`test:coverage:unit` runs the `behavior` project alongside `unit`, because `src/features/env/core/tier-env.ts` and
+`test:coverage:unit` runs the `behaviour-unit` project alongside `unit`, because `src/features/env/core/tier-env.ts` and
 `port-resolver.ts` are exercised only through their Gherkin bindings and would otherwise report zero against a
 whole-`src/**` denominator.
 
 ## Code map
 
 Routes in `src/app/` stay thin. The work lives in `src/features/`, where each feature separates pure data and decisions
-in `core/` from React and browser behavior in `shell/`. Three modules that arrived as separate published libraries — a
+in `core/` from React and browser behaviour in `shell/`. Three modules that arrived as separate published libraries — a
 design system, its tokens, and an environment loader — are inlined here under `features/ui/`, `features/app-shell/`, and
 `features/env/`, because this repository publishes no libraries.
 

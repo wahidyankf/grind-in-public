@@ -47,7 +47,7 @@ prepares it for owner action.
       review confirms recursive discovery and its fixtures are present. No Go command runs yet because the
       Godog-importing shared BDD sources must exist before the single module tidy action.
 - [x] [AI] Implement scenario-scoped state in `apps/badakmini-cli/tests/bdd/state.go` — acceptance: source review
-      confirms scenario-isolation behavior and its fixtures are present. No Go command runs yet because the
+      confirms scenario-isolation behaviour and its fixtures are present. No Go command runs yet because the
       Godog-importing shared BDD sources must exist before the single module tidy action.
 - [x] [AI] Implement the shared driver contract in `apps/badakmini-cli/tests/bdd/driver.go` — acceptance: source review
       confirms complete and incomplete driver fixtures are present. No Go command runs yet because the Godog-importing
@@ -251,7 +251,7 @@ prepares it for owner action.
 - [x] [AI] Replace the temporary legacy `badakmini-cli:test:coverage` target in `apps/badakmini-cli/project.json` with
       exact command `npm exec nx -- run badakmini-cli:test:coverage:unit` — acceptance:
       `npm exec nx -- run badakmini-cli:test:coverage` exits 0 through the deterministic all-runtime unit slice; Phase 3
-      replaces this temporary alias with the reviewed unit, integration, and behavior coverage composition.
+      replaces this temporary alias with the reviewed unit, integration, and behaviour coverage composition.
 
 ### Phase 1 Gate
 
@@ -266,23 +266,23 @@ prepares it for owner action.
 - [x] [AI] Run `npm exec nx -- run badakmini-cli:test:quick` — acceptance: the cacheable pre-push target exits 0 with
       typecheck, lint, unit tests, and the unit-only all-runtime coverage slice.
 
-> **Pause Safety**: Production behavior is preserved, unit tests use only doubles, aggregate statement coverage across
+> **Pause Safety**: Production behaviour is preserved, unit tests use only doubles, aggregate statement coverage across
 > all `internal/...` runtime packages is at or above 99%, and migrated real-boundary cases pass from
-> `tests/integration`; the behavior target is added only after its canonical corpus exists in Phase 2. Safe to stop.
+> `tests/integration`; the behaviour target is added only after its canonical corpus exists in Phase 2. Safe to stop.
 > Resume with `npm exec nx -- run badakmini-cli:test:quick`.
 
-## Phase 2: Canonical Behavior and Required Adapters
+## Phase 2: Canonical Behaviour and Required Adapters
 
 Each scenario below follows its RED checkbox, GREEN checkbox, then REFACTOR checkbox before the next scenario begins.
 
 - [x] [AI] Create `apps/badakmini-cli/tests/unit/features_test.go` with runnable `TestFeatures` discovery of
-      `specs/apps/badakmini-cli/behavior/**/*.feature` through the shared Godog initializer — acceptance:
+      `specs/apps/badakmini-cli/behaviours/**/*.feature` through the shared Godog initializer — acceptance:
       `go -C apps/badakmini-cli test ./tests/unit -run '^$'` compiles the canonical unit runner before the first RED
       action without executing the still-empty corpus.
 
 ### Help is available outside a repository
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/cli-contract.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/cli-contract.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the new scenario support.
 
@@ -296,7 +296,7 @@ Scenario: Help is available outside a repository
 - [x] [AI] Register the help scenario's missing step expressions in `apps/badakmini-cli/tests/bdd/bindings.go` —
       acceptance: `go -C apps/badakmini-cli test -count=1 ./tests/bdd` exits 0 with each expression registered exactly
       once.
-- [x] [AI] Implement the help scenario behavior in `apps/badakmini-cli/tests/unit/driver_test.go` — acceptance:
+- [x] [AI] Implement the help scenario behaviour in `apps/badakmini-cli/tests/unit/driver_test.go` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits 0.
 - [x] [AI] Refactor the help scenario support in `apps/badakmini-cli/tests/unit/driver_test.go`; keep the shared
       responsibility-based driver filename and create no scenario-named file — acceptance:
@@ -304,7 +304,7 @@ Scenario: Help is available outside a repository
 
 ### Governance documents fit the word limit
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/instruction-size.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/instruction-size.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the fitting-document fixture.
 
@@ -326,7 +326,7 @@ Scenario: Governance documents fit the word limit
 
 ### A governance document exceeds the word limit
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/instruction-size.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/instruction-size.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the oversized-document fixture.
 
@@ -348,7 +348,7 @@ Scenario: A governance document exceeds the word limit
 
 ### Repository Markdown links resolve
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/markdown-links.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/markdown-links.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the valid-link fixture.
 
@@ -370,7 +370,7 @@ Scenario: Repository Markdown links resolve
 
 ### A tracked Markdown link is broken
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/markdown-links.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/markdown-links.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the broken-link fixture.
 
@@ -392,7 +392,7 @@ Scenario: A tracked Markdown link is broken
 
 ### Harness capabilities match
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/capability-parity.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/capability-parity.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the matching-harness fixture.
 
@@ -414,7 +414,7 @@ Scenario: Harness capabilities match
 
 ### A harness capability is missing
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/capability-parity.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/capability-parity.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the mismatched-harness fixture.
 
@@ -436,7 +436,7 @@ Scenario: A harness capability is missing
 
 ### A staged rule path announces the workflow
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/rule-change.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/rule-change.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the staged-rule fixture.
 
@@ -458,7 +458,7 @@ Scenario: A staged rule path announces the workflow
 
 ### An ordinary staged path stays silent
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/rule-change.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/rule-change.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the ordinary-path fixture.
 
@@ -480,7 +480,7 @@ Scenario: An ordinary staged path stays silent
 
 ### A harness edit announces both workflows
 
-- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behavior/rule-change.feature` — acceptance:
+- [x] [AI] Add the scenario to `specs/apps/badakmini-cli/behaviours/rule-change.feature` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/unit -run TestFeatures` exits nonzero because the unit adapter
       lacks the hook-payload fixture.
 
@@ -513,13 +513,13 @@ Scenario: A harness edit announces both workflows
       the uncached corpus-consuming unit suite executes and exits 0 at or above 99%.
 - [x] [AI] Add an uncached `test:integration` target to `apps/badakmini-cli/project.json` with command
       `go -C apps/badakmini-cli test -count=1 ./tests/integration` and inputs `default` plus
-      `{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature` — acceptance:
-      `node -e 'const p=require("./apps/badakmini-cli/project.json");const t=p.targets["test:integration"];const i=["default","{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"];if(!t||t.cache!==false||t.command!=="go -C apps/badakmini-cli test -count=1 ./tests/integration"||JSON.stringify(t.inputs)!==JSON.stringify(i))process.exit(1)'`
+      `{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature` — acceptance:
+      `node -e 'const p=require("./apps/badakmini-cli/project.json");const t=p.targets["test:integration"];const i=["default","{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"];if(!t||t.cache!==false||t.command!=="go -C apps/badakmini-cli test -count=1 ./tests/integration"||JSON.stringify(t.inputs)!==JSON.stringify(i))process.exit(1)'`
       exits 0 before the target is invoked elsewhere.
-- [x] [AI] Add `default` plus `{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature` inputs to
+- [x] [AI] Add `default` plus `{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature` inputs to
       `badakmini-cli:typecheck` in `apps/badakmini-cli/project.json` — acceptance:
       `npm exec nx -- show project badakmini-cli --json` shows both inputs on `typecheck`.
-- [x] [AI] Add `default` plus `{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature` inputs to
+- [x] [AI] Add `default` plus `{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature` inputs to
       `badakmini-cli:test:unit` in `apps/badakmini-cli/project.json` — acceptance:
       `npm exec nx -- show project badakmini-cli --json` shows both inputs on `test:unit`.
 - [x] [AI] Implement the canonical-scenario integration driver in `apps/badakmini-cli/tests/integration/driver_test.go`
@@ -541,7 +541,7 @@ Scenario: A harness edit announces both workflows
       30-second timeout — acceptance: source review confirms those contract branches exist. No Go command runs yet
       because the E2E module remains dependency-incomplete until `go mod tidy` after all imports exist.
 - [x] [AI] Add the exact `TestProcessDriverBinaryContract` test to `apps/badakmini-cli-e2e/tests/driver_test.go` for the
-      required `BADAKMINI_BIN` validation and absolute-path execution behavior — acceptance:
+      required `BADAKMINI_BIN` validation and absolute-path execution behaviour — acceptance:
       `rg -n '^func TestProcessDriverBinaryContract\(t \*testing\.T\)' apps/badakmini-cli-e2e/tests/driver_test.go`
       finds the exact declaration. No filtered Go command runs yet because the E2E module remains dependency-incomplete
       until `go mod tidy` after all imports exist.
@@ -569,10 +569,10 @@ Scenario: A harness edit announces both workflows
       exits 0.
 - [x] [AI] Create `apps/badakmini-cli-e2e/README.md` describing its owner corpus, public-process boundary, targets, and
       omitted unit and numeric coverage gates — acceptance: `npm run check:markdown-links` exits 0.
-- [x] [AI] Add `test:coverage:behavior` to `apps/badakmini-cli/project.json` with command
+- [x] [AI] Add `test:coverage:behaviour` to `apps/badakmini-cli/project.json` with command
       `go -C apps/badakmini-cli test -count=1 ./tests/bdd`, `default`, the recursive corpus input, and every E2E
       test/configuration input from `tech-docs/README.md` — acceptance:
-      `node -e 'const p=require("./apps/badakmini-cli/project.json");const t=p.targets["test:coverage:behavior"];const required=["default","{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature","{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*","{workspaceRoot}/apps/badakmini-cli-e2e/go.mod","{workspaceRoot}/apps/badakmini-cli-e2e/go.sum","{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml","{workspaceRoot}/apps/badakmini-cli-e2e/project.json"];if(!t||t.command!=="go -C apps/badakmini-cli test -count=1 ./tests/bdd"||required.some(x=>!t.inputs.includes(x)))process.exit(1)'`
+      `node -e 'const p=require("./apps/badakmini-cli/project.json");const t=p.targets["test:coverage:behaviour"];const required=["default","{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature","{workspaceRoot}/apps/badakmini-cli-e2e/tests/**/*","{workspaceRoot}/apps/badakmini-cli-e2e/go.mod","{workspaceRoot}/apps/badakmini-cli-e2e/go.sum","{workspaceRoot}/apps/badakmini-cli-e2e/.golangci.yml","{workspaceRoot}/apps/badakmini-cli-e2e/project.json"];if(!t||t.command!=="go -C apps/badakmini-cli test -count=1 ./tests/bdd"||required.some(x=>!t.inputs.includes(x)))process.exit(1)'`
       exits 0 before any E2E target delegates to it.
 - [x] [AI] Create the Nx application scaffold in `apps/badakmini-cli-e2e/project.json` with name and root
       `badakmini-cli-e2e`, `projectType: application`, and `implicitDependencies: ["badakmini-cli"]` — acceptance:
@@ -586,14 +586,14 @@ Scenario: A harness edit announces both workflows
       `apps/badakmini-cli-e2e/project.json` — acceptance:
       `node -e 'const p=require("./apps/badakmini-cli-e2e/project.json");if(p.targets.lint.command!=="go -C apps/badakmini-cli-e2e tool golangci-lint run")process.exit(1)'`
       exits 0.
-- [x] [AI] Add `badakmini-cli-e2e:test:coverage:behavior` with command
-      `npm exec nx -- run badakmini-cli:test:coverage:behavior` to `apps/badakmini-cli-e2e/project.json` — acceptance:
-      `node -e 'const p=require("./apps/badakmini-cli-e2e/project.json");if(p.targets["test:coverage:behavior"].command!=="npm exec nx -- run badakmini-cli:test:coverage:behavior")process.exit(1)'`
+- [x] [AI] Add `badakmini-cli-e2e:test:coverage:behaviour` with command
+      `npm exec nx -- run badakmini-cli:test:coverage:behaviour` to `apps/badakmini-cli-e2e/project.json` — acceptance:
+      `node -e 'const p=require("./apps/badakmini-cli-e2e/project.json");if(p.targets["test:coverage:behaviour"].command!=="npm exec nx -- run badakmini-cli:test:coverage:behaviour")process.exit(1)'`
       exits 0.
 - [x] [AI] Add `badakmini-cli-e2e:test:e2e` with command
       `BADAKMINI_BIN="$PWD/apps/badakmini-cli/dist/badak-mini" go -C apps/badakmini-cli-e2e test -count=1 ./tests` and
-      `dependsOn: ["^build", "test:coverage:behavior"]` to `apps/badakmini-cli-e2e/project.json` — acceptance:
-      `node -e 'const p=require("./apps/badakmini-cli-e2e/project.json"),t=p.targets["test:e2e"],c="BADAKMINI_BIN=\"$PWD/apps/badakmini-cli/dist/badak-mini\" go -C apps/badakmini-cli-e2e test -count=1 ./tests";if(t.command!==c||JSON.stringify(t.dependsOn)!==JSON.stringify(["^build","test:coverage:behavior"]))process.exit(1)'`
+      `dependsOn: ["^build", "test:coverage:behaviour"]` to `apps/badakmini-cli-e2e/project.json` — acceptance:
+      `node -e 'const p=require("./apps/badakmini-cli-e2e/project.json"),t=p.targets["test:e2e"],c="BADAKMINI_BIN=\"$PWD/apps/badakmini-cli/dist/badak-mini\" go -C apps/badakmini-cli-e2e test -count=1 ./tests";if(t.command!==c||JSON.stringify(t.dependsOn)!==JSON.stringify(["^build","test:coverage:behaviour"]))process.exit(1)'`
       exits 0.
 - [x] [AI] Verify the E2E owner-build and binary-path contract after the target exists — acceptance:
       `npm exec nx -- run badakmini-cli:build && test -x "$PWD/apps/badakmini-cli/dist/badak-mini" && npm exec nx -- run badakmini-cli-e2e:test:e2e`
@@ -610,9 +610,9 @@ Scenario: A harness edit announces both workflows
 - [x] [AI] Give `badakmini-cli-e2e:lint` the `default`, `^default`, and recursive corpus inputs in
       `apps/badakmini-cli-e2e/project.json` — acceptance: `npm exec nx -- show project badakmini-cli-e2e --json` shows
       all three inputs on `lint`.
-- [x] [AI] Give `badakmini-cli-e2e:test:coverage:behavior` the `default`, `^default`, and recursive corpus inputs in
+- [x] [AI] Give `badakmini-cli-e2e:test:coverage:behaviour` the `default`, `^default`, and recursive corpus inputs in
       `apps/badakmini-cli-e2e/project.json` — acceptance: `npm exec nx -- show project badakmini-cli-e2e --json` shows
-      all three inputs on `test:coverage:behavior`.
+      all three inputs on `test:coverage:behaviour`.
 - [x] [AI] Give `badakmini-cli-e2e:test:e2e` the `default`, `^default`, and recursive corpus inputs in
       `apps/badakmini-cli-e2e/project.json` — acceptance: `npm exec nx -- show project badakmini-cli-e2e --json` shows
       all three inputs on `test:e2e`.
@@ -621,12 +621,12 @@ Scenario: A harness edit announces both workflows
       all three inputs on `test:quick`.
 - [x] [AI] Complete the static unit, integration, and E2E adapter comparison in
       `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` — acceptance:
-      `npm exec nx -- run badakmini-cli:test:coverage:behavior` reports matching feature, expanded-scenario, step, and
+      `npm exec nx -- run badakmini-cli:test:coverage:behaviour` reports matching feature, expanded-scenario, step, and
       binding counts for all three adapters.
-- [x] [AI] Run `npm exec nx -- run badakmini-cli-e2e:test:coverage:behavior` — acceptance: the fully defined E2E target
-      delegates to the already-green owner behavior gate and exits 0.
+- [x] [AI] Run `npm exec nx -- run badakmini-cli-e2e:test:coverage:behaviour` — acceptance: the fully defined E2E target
+      delegates to the already-green owner behaviour gate and exits 0.
 - [x] [AI] Run `npm exec nx -- run badakmini-cli-e2e:test:e2e` — acceptance: the fully defined E2E target builds Badak
-      Mini, passes behavior coverage first, executes every canonical scenario through the binary, and exits 0.
+      Mini, passes behaviour coverage first, executes every canonical scenario through the binary, and exits 0.
 - [x] [AI] Add an added-feature fixture to `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/bdd` exits 0 after proving a new feature invalidates the catalog
       and fails until every adapter resolves it.
@@ -653,10 +653,10 @@ Scenario: A harness edit announces both workflows
       `go -C apps/badakmini-cli test -count=1 ./tests/bdd` exits 0 after proving its former step becomes undefined.
 - [x] [AI] Add an E2E-binding input regression to `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` — acceptance:
       `go -C apps/badakmini-cli test -count=1 ./tests/bdd` exits 0 after proving an E2E binding change invalidates
-      `badakmini-cli:test:coverage:behavior`.
+      `badakmini-cli:test:coverage:behaviour`.
 - [x] [AI] Add an E2E-configuration input regression to `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` —
       acceptance: `go -C apps/badakmini-cli test -count=1 ./tests/bdd` exits 0 after proving an E2E module, lint, or
-      project configuration change invalidates `badakmini-cli:test:coverage:behavior`.
+      project configuration change invalidates `badakmini-cli:test:coverage:behaviour`.
 
 ### Phase 2 Gate
 
@@ -667,11 +667,11 @@ Scenario: A harness edit announces both workflows
 - [x] [AI] Run `npm exec nx -- run badakmini-cli:test:integration` — acceptance: every local-only integration scenario
       exits 0.
 - [x] [AI] Run `npm exec nx -- run badakmini-cli-e2e:test:e2e` — acceptance: every process E2E scenario exits 0.
-- [x] [AI] Run `npm exec nx -- run badakmini-cli:test:coverage:behavior` — acceptance: exact corpus, binding, driver,
+- [x] [AI] Run `npm exec nx -- run badakmini-cli:test:coverage:behaviour` — acceptance: exact corpus, binding, driver,
       and adapter checks exit 0.
 
-> **Pause Safety**: All canonical scenarios execute through all three required adapters, and static behavior
-> completeness is green. Safe to stop. Resume with `npm exec nx -- run badakmini-cli:test:coverage:behavior`.
+> **Pause Safety**: All canonical scenarios execute through all three required adapters, and static behaviour
+> completeness is green. Safe to stop. Resume with `npm exec nx -- run badakmini-cli:test:coverage:behaviour`.
 
 ## Phase 3: Coverage, Automation, and Project Gates
 
@@ -687,7 +687,7 @@ Scenario: A harness edit announces both workflows
 - [x] [AI] Add the owner `default` plus recursive corpus inputs to `badakmini-cli:test:coverage:integration` in
       `apps/badakmini-cli/project.json` — acceptance: `npm exec nx -- show project badakmini-cli --json` shows both
       inputs on `test:coverage:integration`.
-- [x] [AI] Extend integration fixture behavior in `apps/badakmini-cli/tests/integration/driver_test.go` for uncovered
+- [x] [AI] Extend integration fixture behaviour in `apps/badakmini-cli/tests/integration/driver_test.go` for uncovered
       `internal/cli` application-boundary branches — acceptance:
       `npm exec nx -- run badakmini-cli:test:coverage:integration` exits 0 at or above 99% without broad exclusions.
 - [x] [AI] Document coverage ownership in `apps/badakmini-cli/README.md`: unit owns every `internal/...` validator and
@@ -695,12 +695,12 @@ Scenario: A harness edit announces both workflows
       by E2E and is outside both numeric denominators; `tests/unit` is the Gherkin unit adapter — acceptance:
       `npm run check:markdown-links` exits 0 and the README names both exact 99% targets.
 - [x] [AI] Compose the owner app's aggregate `test:coverage` target in `apps/badakmini-cli/project.json` — acceptance:
-      `npm exec nx -- run badakmini-cli:test:coverage` runs unit, integration, then behavior coverage and exits 0.
+      `npm exec nx -- run badakmini-cli:test:coverage` runs unit, integration, then behaviour coverage and exits 0.
 - [x] [AI] Add the owner corpus plus E2E binding/configuration inputs specified in `tech-docs/README.md` to
       `badakmini-cli:test:coverage` — acceptance: `npm exec nx -- show project badakmini-cli --json` shows every
       specified input on `test:coverage`.
 - [x] [AI] Compose the owner app's ordered `test:quick` target in `apps/badakmini-cli/project.json` — acceptance:
-      `npm exec nx -- run badakmini-cli:test:quick` runs typecheck, lint, unit, unit coverage, then behavior coverage
+      `npm exec nx -- run badakmini-cli:test:quick` runs typecheck, lint, unit, unit coverage, then behaviour coverage
       without integration or process E2E.
 - [x] [AI] Add the owner corpus plus E2E binding/configuration inputs specified in `tech-docs/README.md` to
       `badakmini-cli:test:quick` — acceptance: `npm exec nx -- show project badakmini-cli --json` shows every specified
@@ -708,8 +708,8 @@ Scenario: A harness edit announces both workflows
 - [x] [AI] Compose the E2E harness's `test:quick` target in `apps/badakmini-cli-e2e/project.json` — acceptance:
       `npm exec nx -- run badakmini-cli-e2e:test:quick` depends on the owner quick gate, then runs only E2E typecheck
       and lint.
-- [x] [AI] Add `"test:behavior": "nx run-many -t test:coverage:behavior"` to `package.json` — acceptance:
-      `node -e 'const p=require("./package.json");if(p.scripts["test:behavior"]!=="nx run-many -t test:coverage:behavior")process.exit(1)'`
+- [x] [AI] Add `"test:behaviour": "nx run-many -t test:coverage:behaviour"` to `package.json` — acceptance:
+      `node -e 'const p=require("./package.json");if(p.scripts["test:behaviour"]!=="nx run-many -t test:coverage:behaviour")process.exit(1)'`
       exits 0.
 - [x] [AI] Add `"test:e2e": "nx run-many -t test:e2e"` to `package.json` — acceptance:
       `node -e 'const p=require("./package.json");if(p.scripts["test:e2e"]!=="nx run-many -t test:e2e")process.exit(1)'`
@@ -769,14 +769,14 @@ Scenario: A harness edit announces both workflows
       coverage slice exits 0 at or above 99%.
 - [x] [AI] Run `npm run test:e2e` — acceptance: all dedicated E2E suites exit 0.
 - [x] [AI] Run `npm run test:scheduled` — acceptance: the canonical operational suite runs quick verification, including
-      unit 99% coverage and behavior coverage, then integration 99% coverage, then process E2E in that exact order and
+      unit 99% coverage and behaviour coverage, then integration 99% coverage, then process E2E in that exact order and
       exits 0.
 - [x] [AI] Run `npm exec -- prettier --check .github/workflows/full-bdd.yml` — acceptance: Prettier parses the workflow
       as YAML and reports it formatted.
 - [x] [AI] Run `npm run check:workflows` — acceptance: exact-pinned actionlint `v1.7.12` reports no GitHub Actions
       syntax, schema, expression, event, job, or step error in `.github/workflows/full-bdd.yml`.
 
-> **Pause Safety**: Layered tests, both 99% coverage slices, affected inputs, workflow schema, behavior coverage, and
+> **Pause Safety**: Layered tests, both 99% coverage slices, affected inputs, workflow schema, behaviour coverage, and
 > process E2E are operational. Safe to stop. Resume with `npm run check:workflows && npm run test:scheduled` to reverify
 > the authoritative workflow check followed by quick verification, integration coverage, and E2E.
 
@@ -791,7 +791,7 @@ Scenario: A harness edit announces both workflows
 - [x] [AI] Record the failed idempotency criteria and cited sources in
       `plans/in-progress/badakmini-layered-bdd/learnings.md` — acceptance: the entry names the missing automated
       verification. No separate command applies because the entry records the preceding workflow evidence.
-- [x] [AI] Add `repo-governance/development/behavior-driven-development-policy.md` as the canonical role-based BDD
+- [x] [AI] Add `repo-governance/development/behaviour-driven-development-policy.md` as the canonical role-based BDD
       policy — acceptance: it requires apps to use unit plus local-only integration plus dedicated-app E2E, libraries to
       use unit plus integration only for an owned local boundary and never E2E, and dedicated E2E apps to consume the
       owner's corpus while omitting meaningless unit and numeric coverage targets. No standalone semantic command
@@ -802,7 +802,7 @@ Scenario: A harness edit announces both workflows
       obsolete deferred-retrofit or no-automation statement.
 - [x] [AI] Update `repo-governance/development/testing-policy.md` to reference the canonical role matrix — acceptance:
       `npm run check:markdown-links` exits 0.
-- [x] [AI] Update `repo-governance/development/tdd-policy.md` to require Gherkin-first behavior cycles — acceptance:
+- [x] [AI] Update `repo-governance/development/tdd-policy.md` to require Gherkin-first behaviour cycles — acceptance:
       `npm run check:markdown-links` exits 0.
 - [x] [AI] Update `repo-governance/development/badakmini-cli-policy.md` with the implemented Badak targets — acceptance:
       `npm run check:markdown-links` exits 0.
@@ -811,7 +811,7 @@ Scenario: A harness edit announces both workflows
       `rg -n 'actionlint|check:workflows' apps/badakmini-cli/README.md` finds both command ownership terms.
 - [x] [AI] Update `repo-governance/development/workspace-commands.md` with the implemented root scripts and project
       targets — acceptance:
-      `node -e 'const p=require("./package.json"),o=require("./apps/badakmini-cli/project.json"),e=require("./apps/badakmini-cli-e2e/project.json");const rs=["check:workflows","test:behavior","test:e2e","test:integration","test:quick","test:scheduled"],ot=["test:unit","test:integration","test:coverage:unit","test:coverage:integration","test:coverage:behavior","test:coverage","test:quick"],et=["typecheck","lint","test:coverage:behavior","test:e2e","test:quick"];if(rs.some(x=>!p.scripts[x])||ot.some(x=>!o.targets[x])||et.some(x=>!e.targets[x]))process.exit(1)'`
+      `node -e 'const p=require("./package.json"),o=require("./apps/badakmini-cli/project.json"),e=require("./apps/badakmini-cli-e2e/project.json");const rs=["check:workflows","test:behaviour","test:e2e","test:integration","test:quick","test:scheduled"],ot=["test:unit","test:integration","test:coverage:unit","test:coverage:integration","test:coverage:behaviour","test:coverage","test:quick"],et=["typecheck","lint","test:coverage:behaviour","test:e2e","test:quick"];if(rs.some(x=>!p.scripts[x])||ot.some(x=>!o.targets[x])||et.some(x=>!e.targets[x]))process.exit(1)'`
       exits 0, proving root commands against `package.json` and project commands against their `project.json` sources.
 - [x] [AI] Link the canonical BDD policy from `AGENTS.md` — acceptance: `npm run check:markdown-links` exits 0.
 - [x] [AI] Index the canonical BDD policy in `repo-governance/development/README.md` — acceptance:
@@ -862,7 +862,7 @@ Scenario: A harness edit announces both workflows
 - [x] [AI] Run `npm run test:integration` — acceptance: the final local-integration gate exits 0.
 - [x] [AI] Run `npm run test:e2e` — acceptance: the final E2E gate exits 0.
 - [x] [AI] Run `npm run test:scheduled` — acceptance: after knowledge capture, the final scheduled gate reruns quick
-      verification with unit 99% and behavior coverage, then integration 99% coverage, then process E2E and exits 0.
+      verification with unit 99% and behaviour coverage, then integration 99% coverage, then process E2E and exits 0.
 - [x] [AI] Run `npm run check:workflows` — acceptance: the final authoritative GitHub Actions structural and schema
       check exits 0.
 - [x] [AI] Run `npm run format:check` — acceptance: the final format gate exits 0.
@@ -876,13 +876,13 @@ Scenario: A harness edit announces both workflows
 
 - [x] [AI] Run `npm run check:workflows` — acceptance: exact-pinned actionlint reports the final scheduled workflow
       structurally valid.
-- [x] [AI] Run `npm run test:scheduled` — acceptance: the archival gate proves unit 99% coverage, behavior coverage,
+- [x] [AI] Run `npm run test:scheduled` — acceptance: the archival gate proves unit 99% coverage, behaviour coverage,
       integration 99% coverage, and process E2E remain green after all Phase 5 work.
 - [x] [AI] Run `git diff --check` — acceptance: no whitespace error is reported.
 - [x] [AI] Run `git status --short` — acceptance: only completed Phase 5 and plan-record changes remain for the phase
       commit.
 
 > **Pause Safety**: Implementation, tests, governance, security checks, captured learnings, workflow schema, both 99%
-> coverage slices, behavior coverage, and process E2E are complete and green. Safe to stop. Resume with
+> coverage slices, behaviour coverage, and process E2E are complete and green. Safe to stop. Resume with
 > `npm run check:workflows && npm run test:scheduled` to reprove the final workflow, quick, integration-coverage, and
 > E2E boundary.

@@ -17,6 +17,7 @@ type Suite struct {
 	ScenarioInitializer func(*godog.ScenarioContext)
 	Output              io.Writer
 	FS                  fs.FS
+	Tags                string
 }
 
 // Run executes every recursively discovered scenario serially and strictly.
@@ -46,6 +47,7 @@ func (suite Suite) Run(t *testing.T) int {
 			Output:      output,
 			Paths:       suite.Catalog.Paths(),
 			Strict:      true,
+			Tags:        suite.Tags,
 			Concurrency: 1,
 		},
 	}.Run()

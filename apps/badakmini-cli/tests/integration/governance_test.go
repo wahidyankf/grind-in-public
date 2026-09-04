@@ -13,6 +13,7 @@ func TestIntegrationGovernanceChecksRealRepositoryFilesystem(t *testing.T) {
 	root := t.TempDir()
 	writeGovernanceFile(t, root, "AGENTS.md", strings.Repeat("word ", governance.MaxWords+1))
 	writeGovernanceFile(t, root, "CLAUDE.md", "short")
+	writeGovernanceFile(t, root, "RTK.md", "short")
 	writeGovernanceFile(t, root, "repo-governance/policy.md", "short")
 
 	findings, err := governance.CheckFS(os.DirFS(root))
@@ -28,6 +29,7 @@ func TestIntegrationGovernanceReportsRealSymlinkFailure(t *testing.T) {
 	root := t.TempDir()
 	writeGovernanceFile(t, root, "AGENTS.md", "short")
 	writeGovernanceFile(t, root, "CLAUDE.md", "short")
+	writeGovernanceFile(t, root, "RTK.md", "short")
 	if err := os.Mkdir(filepath.Join(root, "repo-governance"), 0o750); err != nil {
 		t.Fatalf("create governance directory: %v", err)
 	}

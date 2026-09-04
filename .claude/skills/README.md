@@ -1,7 +1,7 @@
 # Claude Code Skills
 
 Claude Code discovers these skills automatically from this directory. It ignores this README; the
-[agent harness support policy](../../repo-governance/conventions/agent-harness-support.md) records that behavior.
+[agent harness support policy](../../repo-governance/conventions/agent-harness-support.md) records that behaviour.
 
 ## Available Skills
 

@@ -25,7 +25,7 @@ and hold no authored content.
 | application README | `apps/wahidyankf-www/README.md`             | names the co-located directory          |
 | apps corpus index  | `specs/apps/README.md`                      | corpus owned by one project             |
 | corpus index       | `specs/apps/wahidyankf-www/README.md`       | co-located adapter paths                |
-| behavior index     | `specs/.../behavior/README.md`              | repointed at the application README     |
+| behaviour index    | `specs/.../behaviours/README.md`            | repointed at the application README     |
 | C4 model           | `specs/apps/wahidyankf-www/architecture.md` | one project, co-located adapter         |
 | config comment     | the moved `playwright.config.ts`            | intra-project `dependsOn` name          |
 | step comment       | `tests/bdd/accessibility.steps.ts`          | co-located step-file path               |
@@ -51,11 +51,11 @@ dropped. `apps/README.md` loses its third application entry. `apps/wahidyankf-ww
 record of the browser layer, and three of its clauses are load-bearing rather than descriptive because that README is
 their only home in the repository: the list of the four feature files the Playwright adapter deliberately does not bind,
 the recorded skip baseline of 34 stated as generated tests rather than scenarios, and the standing rule "Raise the
-number only when a scenario is deliberately left unbound, and say here why." `specs/.../behavior/README.md` is repointed
-at that same README and asserts of it that it "names them and records the generated skip baseline", so the repoint's
-acceptance reads the target for those clauses. It is not the link check: that reference is inline code and not a
-Markdown link, so `check:markdown-links` never resolves it and a pointer at a document holding none of the content would
-pass. `repo-governance/development/testing-policy/tooling.md` carries a Recorded Deviations entry stating that
+number only when a scenario is deliberately left unbound, and say here why." `specs/.../behaviours/README.md` is
+repointed at that same README and asserts of it that it "names them and records the generated skip baseline", so the
+repoint's acceptance reads the target for those clauses. It is not the link check: that reference is inline code and not
+a Markdown link, so `check:markdown-links` never resolves it and a pointer at a document holding none of the content
+would pass. `repo-governance/development/testing-policy/tooling.md` carries a Recorded Deviations entry stating that
 `apps/wahidyankf-www-e2e` sets `module` and `moduleResolution` as the application does with `target` at `ES2022`, and a
 sentence explaining that the E2E project follows the runner it hosts. That entry is removed in Phase 2, not in Phase 3
 with the other governance edits, because Phase 2 deletes `apps/wahidyankf-www-e2e/tsconfig.json` and the deviation's
@@ -63,16 +63,16 @@ subject stops existing at the merge. The `apps/wahidyankf-www` half of the same 
 project and its three overrides remain. Most of them are proved by `npm run check:markdown-links` together with a
 `git grep` for the retired name returning nothing outside `plans/`. Two are not, and each names its own proof instead:
 the `workspace-commands.md` once-per-machine sentence is proved by a `grep` for that phrase still counting `1`, and the
-`apps/wahidyankf-www/README.md` fold-in by the greps the behavior-index repoint runs against it.
+`apps/wahidyankf-www/README.md` fold-in by the greps the behaviour-index repoint runs against it.
 
 **The `specs/` readers and the C4 model** are as-built truth and are the ones that would be wrong rather than merely
 stale. `specs/apps/wahidyankf-www/README.md` carries the adapter path, two verification-command rows, and the
-skip-baseline sentence; `behavior/README.md` points at the retired project's README; `architecture.md` draws the project
-as a container. `specs/apps/README.md` describes the `wahidyankf-www` behavior corpus as "shared with the dedicated E2E
-project `apps/wahidyankf-www-e2e`", a sentence that becomes false at the merge: after it the corpus is owned and bound
-by one project. All of them are proved against `npx nx show projects` output, which must list exactly two projects, and
-by the link check — except `behavior/README.md`, whose sentence is an inline-code reference the link check cannot see
-and whose proof is therefore a read of the document it now points at.
+skip-baseline sentence; `behaviours/README.md` points at the retired project's README; `architecture.md` draws the
+project as a container. `specs/apps/README.md` describes the `wahidyankf-www` behaviour corpus as "shared with the
+dedicated E2E project `apps/wahidyankf-www-e2e`", a sentence that becomes false at the merge: after it the corpus is
+owned and bound by one project. All of them are proved against `npx nx show projects` output, which must list exactly
+two projects, and by the link check — except `behaviours/README.md`, whose sentence is an inline-code reference the link
+check cannot see and whose proof is therefore a read of the document it now points at.
 
 **The moved configuration's own comment** describes `test:e2e` as declaring `dependsOn` on `wahidyankf-www:build`. It
 travels with the file and is corrected to the intra-project `build`, proved by reading that comment line against the
@@ -146,11 +146,11 @@ place for the skip baseline to drift — a worse position than the one it would 
 ## Mixed-Version Boundaries, Retry, and Rollback
 
 There is no mixed-version boundary: at no committed state do both projects exist with the merged one active, because the
-expand and contract steps land in a single commit whose gate runs the suite. There is no retry behavior to define,
+expand and contract steps land in a single commit whose gate runs the suite. There is no retry behaviour to define,
 because no step is partially applicable — `git mv` either moves the tree or fails, and the Nx graph either resolves the
 project or reports it as unknown.
 
-Rollback reader and writer behavior is symmetric: reverting the commit restores the deleted project's six configuration
+Rollback reader and writer behaviour is symmetric: reverting the commit restores the deleted project's six configuration
 files and the eight step files at their original paths, restores the three `wahidyankf-www-e2e` invocations in
 `package.json` and the workflow, and leaves `package-lock.json` to be regenerated by `npm install`. The recovery source
 is Git history, and Phase 2's gate rehearses restoration by confirming the pre-merge commit is reachable and its tree
@@ -162,5 +162,5 @@ The one place this transition could meet input it does not understand is `bddgen
 path. A step file that fails to parse, or that parses but registers no matching step, is not coerced or discarded:
 `playwright-bdd` is configured with `missingSteps: "skip-scenario"`, which renders the affected scenarios as
 `test.fixme` and leaves them visible in the generated output. The skip baseline then reports the changed count as a
-failure. That is the opaque-record-with-a-reported-outcome behavior the rule requires, and it is carried over unchanged
+failure. That is the opaque-record-with-a-reported-outcome behaviour the rule requires, and it is carried over unchanged
 rather than introduced here.

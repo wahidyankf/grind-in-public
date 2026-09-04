@@ -40,19 +40,14 @@ the whole command before trusting the strip.
 
 ## Shared Inputs
 
-A path more than one target names is declared once as a project-level `namedInputs` entry and referenced by name.
-Repeating the glob is what lets two targets in the same file drift into different input sets.
+Follow the Beaver Nest descriptor shape: each affected target names its canonical Gherkin corpus directly in `inputs`.
+An E2E target also includes `^default`; an owner behaviour aggregate directly includes its E2E adapter. This repetition
+is intentional because each target remains auditable without resolving a named indirection.
 
-Declare it per project rather than in `nx.json`. Two projects each need "the corpus that belongs to me", and those are
-different paths, so a workspace-level entry would need two differently-named keys and every target would still pick the
-right one by hand.
+The deterministic project-contract validator checks ownership, target presence, one-way E2E dependencies, cache
+decisions, and aggregate delegation. Before deleting an input because something broader already covers it, search for a
+test that names it. "Covered by a wider rule" and "safe to remove" are different claims.
 
-Before deleting a declaration because something broader already covers it, search the repository for a test that names
-it. "Covered by a wider rule" and "safe to remove" are different claims, and a declaration can exist to state an intent
-— that this target invalidates on this path whatever the defaults happen to reach — rather than to add coverage. A
-behavioural probe answers only the first question.
-
-Verify a named input behaviourally, not by reading the resolved configuration. `nx show project --json` prints the
-declared array and never expands `default` or a `namedInputs` reference, so it cannot show what a name resolves to.
-Change the content of a file the input should cover and confirm a cached target misses; Nx hashes content rather than
-timestamps, so a miss is only possible if the input truly reaches that file.
+Verify input reach behaviourally as well as structurally. Change the content of a file the input should cover and
+confirm a cached target misses; Nx hashes content rather than timestamps, so a miss is only possible if the input truly
+reaches that file.

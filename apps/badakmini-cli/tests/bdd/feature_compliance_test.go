@@ -8,7 +8,7 @@ import (
 
 func TestFeatureComplianceRejectsMalformedFeature(t *testing.T) {
 	_, err := discoverSource("Scenario: Orphan\n  Given a fixture\n  When it runs\n  Then it succeeds\n")
-	if err == nil || !strings.Contains(err.Error(), "parse behavior features with Godog") {
+	if err == nil || !strings.Contains(err.Error(), "parse behaviour features with Godog") {
 		t.Fatalf("expected malformed feature rejection, got %v", err)
 	}
 }
@@ -70,6 +70,6 @@ func TestFeatureComplianceUsesGodogParserForMalformedExamples(t *testing.T) {
 
 func discoverSource(source string) (Catalog, error) {
 	return DiscoverFS(fstest.MapFS{
-		"behavior.feature": &fstest.MapFile{Data: []byte(source)},
+		"behaviour.feature": &fstest.MapFile{Data: []byte(source)},
 	}, ".")
 }

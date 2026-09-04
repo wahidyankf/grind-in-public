@@ -1,0 +1,78 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "badakmini-cli-e2e",
+  "projectType": "application",
+  "root": "apps/badakmini-cli-e2e",
+  "implicitDependencies": ["badakmini-cli"],
+  "targets": {
+    "typecheck": {
+      "command": "go vet ./...",
+      "options": { "cwd": "{projectRoot}" },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "lint": {
+      "command": "go tool golangci-lint run --config ../badakmini-cli/.golangci.yml",
+      "options": { "cwd": "{projectRoot}" },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:coverage:behaviour:e2e": {
+      "command": "go -C ../badakmini-cli test -count=1 ./tests/bdd -run 'TestE2E|TestEveryAdapterBindingsMatchTheRecursiveCorpus|TestAdaptersShareCanonicalCatalogAndBindings'",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:coverage:behaviour": {
+      "command": "npm exec nx -- run badakmini-cli:test:coverage:behaviour",
+      "options": { "cwd": "{workspaceRoot}" },
+      "cache": false,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:e2e": {
+      "command": "BADAKMINI_BIN=\"$PWD/../badakmini-cli/dist/badak-mini\" go test -count=1 ./...",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false,
+      "dependsOn": [
+        "test:coverage:behaviour",
+        { "projects": ["badakmini-cli"], "target": "build" }
+      ],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm exec nx -- run badakmini-cli-e2e:typecheck",
+          "npm exec nx -- run badakmini-cli-e2e:lint",
+          "npm exec nx -- run badakmini-cli-e2e:test:coverage:behaviour:e2e"
+        ],
+        "parallel": false
+      },
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    }
+  },
+  "tags": []
+}

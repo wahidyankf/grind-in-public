@@ -1,7 +1,7 @@
 import path from "node:path";
 import React from "react";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { expect, vi } from "vitest";
 import { ThemeToggle } from "@/features/ui/shell";
 import { Navigation } from "@/features/app-shell/shell/navigation";
@@ -10,21 +10,21 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
-// @amiceli/vitest-cucumber registers every Given/When/Then/And as its own vitest
-// test, and this project's src/test/setup.ts runs @testing-library/react's
-// cleanup() after every test — a render() done in "When" does not survive into
-// the following "Then"/"And" step. Every assertion step below renders
-// Navigation itself rather than depending on a previous step's render.
+// DOM cleanup runs after each scenario, so all assertions observe the exact
+// Navigation or ThemeToggle instance invoked by When.
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/responsive.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/responsive.feature",
   ),
 );
 
-describeFeature(feature, ({ Scenario, Background }) => {
+describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
+  AfterEachScenario(cleanup);
   Background(({ Given }) => {
-    Given("the app is running", () => {});
+    Given("the app is running", () => {
+      window.history.replaceState({}, "", "/");
+    });
   });
 
   Scenario(
@@ -37,12 +37,22 @@ describeFeature(feature, ({ Scenario, Background }) => {
       // assert the breakpoint classes are wired the way a 1440x900 (>=1024px,
       // i.e. "lg") viewport requires: the sidebar becomes visible and the tab
       // bar becomes hidden.
-      When("a visitor opens the home page at 1440 by 900 viewport", () => {});
+      When("a visitor opens the home page at 1440 by 900 viewport", () => {
+        window.history.replaceState({}, "", "/");
+        Object.defineProperty(window, "innerWidth", {
+          configurable: true,
+          value: 1440,
+        });
+        Object.defineProperty(window, "innerHeight", {
+          configurable: true,
+          value: 900,
+        });
+        render(React.createElement(Navigation));
+      });
 
       Then(
         "a left sidebar is visible with Home, CV, and Independent Projects links",
         () => {
-          render(React.createElement(Navigation));
           const desktopNav = screen.getByTestId("desktop-nav");
           expect(desktopNav.className).toContain("lg:block");
           for (const name of ["Home", "CV", "Independent Projects"]) {
@@ -53,9 +63,8 @@ describeFeature(feature, ({ Scenario, Background }) => {
         },
       );
 
-      // @covers specs/apps/wahidyankf-www/behavior/responsive.feature:Desktop viewport shows a fixed left sidebar
+      // @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:Desktop viewport shows a fixed left sidebar
       And("no bottom tab bar is rendered", () => {
-        render(React.createElement(Navigation));
         const mobileNav = screen.getByTestId("mobile-nav");
         expect(mobileNav.className).toContain("lg:hidden");
       });
@@ -65,21 +74,30 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Tablet viewport hides the sidebar and renders a bottom tab bar",
     ({ When, Then, And }) => {
-      When("a visitor opens the home page at 768 by 1024 viewport", () => {});
+      When("a visitor opens the home page at 768 by 1024 viewport", () => {
+        window.history.replaceState({}, "", "/");
+        Object.defineProperty(window, "innerWidth", {
+          configurable: true,
+          value: 768,
+        });
+        Object.defineProperty(window, "innerHeight", {
+          configurable: true,
+          value: 1024,
+        });
+        render(React.createElement(Navigation));
+      });
 
       Then("no left sidebar is visible", () => {
-        render(React.createElement(Navigation));
         const desktopNav = screen.getByTestId("desktop-nav");
         // Hidden below the "lg" (1024px) breakpoint; 768px is below it.
         expect(desktopNav.className).toContain("hidden");
         expect(desktopNav.className).toContain("lg:block");
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/responsive.feature:Tablet viewport hides the sidebar and renders a bottom tab bar
+      // @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:Tablet viewport hides the sidebar and renders a bottom tab bar
       And(
         "a bottom tab bar is visible with Home, CV, and Independent Projects items",
         () => {
-          render(React.createElement(Navigation));
           const mobileNav = screen.getByTestId("mobile-nav");
           expect(mobileNav.className).toContain("flex");
           for (const name of ["Home", "CV", "Independent Projects"]) {
@@ -95,21 +113,30 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Mobile viewport hides the sidebar and renders a bottom tab bar",
     ({ When, Then, And }) => {
-      When("a visitor opens the home page at 375 by 812 viewport", () => {});
+      When("a visitor opens the home page at 375 by 812 viewport", () => {
+        window.history.replaceState({}, "", "/");
+        Object.defineProperty(window, "innerWidth", {
+          configurable: true,
+          value: 375,
+        });
+        Object.defineProperty(window, "innerHeight", {
+          configurable: true,
+          value: 812,
+        });
+        render(React.createElement(Navigation));
+      });
 
       Then("no left sidebar is visible", () => {
-        render(React.createElement(Navigation));
         const desktopNav = screen.getByTestId("desktop-nav");
         // Hidden below the "lg" (1024px) breakpoint; 375px is below it.
         expect(desktopNav.className).toContain("hidden");
         expect(desktopNav.className).toContain("lg:block");
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/responsive.feature:Mobile viewport hides the sidebar and renders a bottom tab bar
+      // @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:Mobile viewport hides the sidebar and renders a bottom tab bar
       And(
         "a bottom tab bar is visible with Home, CV, and Independent Projects items",
         () => {
-          render(React.createElement(Navigation));
           const mobileNav = screen.getByTestId("mobile-nav");
           expect(mobileNav.className).toContain("flex");
           for (const name of ["Home", "CV", "Independent Projects"]) {
@@ -123,17 +150,18 @@ describeFeature(feature, ({ Scenario, Background }) => {
   );
 
   Scenario("The theme toggle is always reachable", ({ When, Then }) => {
-    When("a visitor opens the home page at any viewport", () => {});
-
-    // @covers specs/apps/wahidyankf-www/behavior/responsive.feature:The theme toggle is always reachable
-    Then("the theme toggle button is present in the DOM and clickable", () => {
+    When("a visitor opens the home page at any viewport", () => {
+      window.history.replaceState({}, "", "/");
       render(React.createElement(ThemeToggle));
+    });
+
+    // @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:The theme toggle is always reachable
+    Then("the theme toggle button is present in the DOM and clickable", () => {
       const toggle = screen.getByRole("button", {
         name: /Switch to (light|dark) theme/,
       });
       expect(toggle).toBeInTheDocument();
       expect(toggle).not.toBeDisabled();
-      fireEvent.click(toggle);
     });
   });
 });

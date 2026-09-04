@@ -30,7 +30,7 @@ linters:
     - noinlineerr
     # This small filesystem-heavy suite gains no useful speed from concurrency scaffolding.
     - paralleltest
-    # Badak Mini intentionally uses same-package white-box tests for unexported validation behavior.
+    # Badak Mini intentionally uses same-package white-box tests for unexported validation behaviour.
     - testpackage
     # External hook input is snake_case while Codex and Claude hook output is camelCase by protocol.
     - tagliatelle

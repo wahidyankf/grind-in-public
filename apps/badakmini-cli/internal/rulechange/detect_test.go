@@ -10,6 +10,7 @@ func TestRulePathsSelectsRuleCarryingPaths(t *testing.T) {
 	paths := RulePaths([]string{
 		"AGENTS.md",
 		"CLAUDE.md",
+		"RTK.md",
 		"opencode.json",
 		"repo-governance/conventions/agent-vocabulary.md",
 		".claude/agents/drill-reviewer.md",
@@ -30,6 +31,7 @@ func TestRulePathsSelectsRuleCarryingPaths(t *testing.T) {
 		".opencode/README.md",
 		"AGENTS.md",
 		"CLAUDE.md",
+		"RTK.md",
 		"opencode.json",
 		"repo-governance/conventions/agent-vocabulary.md",
 	}
@@ -135,6 +137,7 @@ func TestHarnessPathsSelectsTheHarnessSurfaces(t *testing.T) {
 	paths := HarnessPaths([]string{
 		"AGENTS.md",
 		"CLAUDE.md",
+		"RTK.md",
 		"opencode.json",
 		".claude/skills/review/SKILL.md",
 		".codex/agents/repo-explorer.toml",
@@ -153,6 +156,7 @@ func TestHarnessPathsSelectsTheHarnessSurfaces(t *testing.T) {
 		".opencode/commands/review.md",
 		"AGENTS.md",
 		"CLAUDE.md",
+		"RTK.md",
 		"opencode.json",
 	}
 	if strings.Join(paths, ",") != strings.Join(expected, ",") {

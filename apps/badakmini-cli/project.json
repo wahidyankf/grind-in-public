@@ -1,83 +1,88 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "badakmini-cli",
   "projectType": "application",
   "root": "apps/badakmini-cli",
-  "sourceRoot": "apps/badakmini-cli",
-  "namedInputs": {
-    "behaviorCorpus": [
-      "{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"
-    ]
-  },
   "targets": {
     "build": {
-      "options": { "cwd": "{projectRoot}" },
       "command": "go build -o dist/badak-mini ./cmd/badak-mini",
+      "options": { "cwd": "{projectRoot}" },
       "outputs": ["{projectRoot}/dist"]
     },
-    "governance": {
+    "typecheck": {
+      "command": "go vet ./...",
       "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "go run ./cmd/badak-mini harness instruction-size validate"
-    },
-    "markdown-links": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "go run ./cmd/badak-mini harness markdown-links validate"
-    },
-    "capability-parity": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "go run ./cmd/badak-mini harness capability-parity validate"
-    },
-    "rule-change": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "go run ./cmd/badak-mini harness rule-change validate"
-    },
-    "lint": {
-      "options": { "cwd": "{projectRoot}" },
-      "command": "go tool golangci-lint run"
-    },
-    "test:unit": {
-      "options": { "cwd": "{projectRoot}" },
-      "command": "go test -count=1 ./cmd/... ./internal/... ./tests/bdd ./tests/unit",
-      "inputs": ["default", "behaviorCorpus"]
-    },
-    "test:integration": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "go test -count=1 ./tests/integration",
-      "inputs": ["default", "behaviorCorpus"]
-    },
-    "test:e2e": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "BADAKMINI_BIN=\"$PWD/dist/badak-mini\" go test -count=1 ./tests/e2e",
-      "dependsOn": ["build", "test:coverage:behavior"],
-      "inputs": ["default", "behaviorCorpus"]
-    },
-    "test:coverage:unit": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": true,
-      "outputs": ["{workspaceRoot}/local-tmp/badakmini-unit.out"],
-      "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
-      "inputs": ["default", "behaviorCorpus"]
-    },
-    "test:coverage:behavior": {
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false,
-      "command": "go test -count=1 ./tests/bdd",
       "inputs": [
         "default",
-        "behaviorCorpus",
-        "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
+      ]
+    },
+    "lint": {
+      "command": "go tool golangci-lint run",
+      "options": { "cwd": "{projectRoot}" }
+    },
+    "test:unit": {
+      "command": "go test -count=1 ./cmd/... ./internal/... ./tests/bdd ./tests/unit",
+      "options": { "cwd": "{projectRoot}" },
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
+      ]
+    },
+    "test:integration": {
+      "command": "go test -count=1 ./tests/integration",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:coverage:unit": {
+      "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/... -coverprofile=../../local-tmp/badakmini-unit.out ./cmd/... ./internal/... ./tests/bdd ./tests/unit && go tool cover -func=../../local-tmp/badakmini-unit.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"unit statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
+      "options": { "cwd": "{projectRoot}" },
+      "outputs": ["{workspaceRoot}/local-tmp/badakmini-unit.out"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
       ]
     },
     "test:coverage:integration": {
+      "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/cli -coverprofile=../../local-tmp/badakmini-integration.out ./tests/integration && go tool cover -func=../../local-tmp/badakmini-integration.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"integration statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
       "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "mkdir -p ../../local-tmp && go test -count=1 -coverpkg=./internal/cli -coverprofile=../../local-tmp/badakmini-integration.out ./tests/integration && go tool cover -func=../../local-tmp/badakmini-integration.out | awk '/^total:/ { coverage=$3; sub(/%$/, \"\", coverage); printf \"integration statement coverage: %.1f%%\\n\", coverage; found=1; if (coverage + 0 < 99) exit 1 } END { if (!found) exit 1 }'",
-      "inputs": ["default", "behaviorCorpus"]
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:coverage:behaviour:badakmini-cli": {
+      "command": "go test -count=1 ./tests/bdd -run 'TestFeature|TestFoundation|TestState|TestDriver|TestUnit|TestIntegration|TestAdapterParity'",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"
+      ]
+    },
+    "test:coverage:behaviour": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm exec nx -- run badakmini-cli:test:coverage:behaviour:badakmini-cli",
+          "npm exec nx -- run badakmini-cli-e2e:test:coverage:behaviour:e2e"
+        ],
+        "parallel": false
+      },
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
+      ]
     },
     "test:coverage": {
       "executor": "nx:run-commands",
@@ -85,14 +90,14 @@
         "commands": [
           "npm exec nx -- run badakmini-cli:test:coverage:unit",
           "npm exec nx -- run badakmini-cli:test:coverage:integration",
-          "npm exec nx -- run badakmini-cli:test:coverage:behavior"
+          "npm exec nx -- run badakmini-cli:test:coverage:behaviour"
         ],
         "parallel": false
       },
       "inputs": [
         "default",
-        "behaviorCorpus",
-        "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
       ]
     },
     "test:quick": {
@@ -103,20 +108,71 @@
           "npm exec nx -- run badakmini-cli:lint",
           "npm exec nx -- run badakmini-cli:test:unit",
           "npm exec nx -- run badakmini-cli:test:coverage:unit",
-          "npm exec nx -- run badakmini-cli:test:coverage:behavior"
+          "npm exec nx -- run badakmini-cli:test:coverage:behaviour"
         ],
         "parallel": false
       },
       "inputs": [
         "default",
-        "behaviorCorpus",
-        "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*"
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
       ]
     },
-    "typecheck": {
+    "governance": {
+      "command": "go run ./cmd/badak-mini harness instruction-size validate",
       "options": { "cwd": "{projectRoot}" },
-      "command": "go vet ./...",
-      "inputs": ["default", "behaviorCorpus"]
+      "cache": false
+    },
+    "markdown-links": {
+      "command": "go run ./cmd/badak-mini harness markdown-links validate",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "capability-parity": {
+      "command": "go run ./cmd/badak-mini harness capability-parity validate",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "rule-change": {
+      "command": "go run ./cmd/badak-mini harness rule-change validate",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "test:repo": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "commands": [
+          "npm exec nx -- run badakmini-cli:governance",
+          "npm exec nx -- run badakmini-cli:markdown-links",
+          "npm exec nx -- run badakmini-cli:capability-parity",
+          "node ../../scripts/project-contract.test.mjs",
+          "node ../../scripts/check-project-contract.mjs",
+          "node ../../scripts/governance-structure.test.mjs",
+          "node ../../scripts/check-governance-structure.mjs",
+          "go test -count=1 ./internal/... ./tests/bdd",
+          "cd ../.. && if rg -n -i 'behavio[r]' AGENTS.md CLAUDE.md RTK.md repo-governance apps specs scripts .github .husky .agents .claude .codex .opencode --glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.tsx' --glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.unit.test.tsx'; then echo 'ERROR: repository-owned terms must use the British spelling behaviour' >&2; exit 1; fi"
+        ],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      },
+      "cache": false,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature",
+        "{workspaceRoot}/apps/badakmini-cli-e2e/**/*",
+        "{workspaceRoot}/**/*.md",
+        "{workspaceRoot}/.agents/**/*",
+        "{workspaceRoot}/.claude/**/*",
+        "{workspaceRoot}/.codex/**/*",
+        "{workspaceRoot}/.opencode/**/*",
+        "{workspaceRoot}/.github/**/*",
+        "{workspaceRoot}/.husky/**/*",
+        "{workspaceRoot}/apps/*/project.json",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/nx.json"
+      ]
     }
-  }
+  },
+  "tags": []
 }

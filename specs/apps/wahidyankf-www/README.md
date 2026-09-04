@@ -1,38 +1,36 @@
 # wahidyankf-www Specifications
 
 The canonical as-built boundaries for `wahidyankf-www` live in [architecture.md](architecture.md), and its executable
-behavior lives in [behavior/](behavior/README.md). Eleven feature files carry 53 scenarios.
+behaviour lives in [behaviours/](behaviours/README.md). Twelve feature files carry the executable scenarios.
 
-One project owns this corpus: the application at `apps/wahidyankf-www`, which hosts all three adapters including the
-browser one under `tests/e2e/`.
+The owner application hosts Unit and Integration adapters. `apps/wahidyankf-www-e2e` owns the browser adapter and
+depends one-way on the owner; it owns no feature files.
 
 ## Adapters
 
 Three adapters run against this corpus, and they do not all reach the same scenarios.
 
-| Adapter           | Where                                    | Reaches                                                                           |
-| ----------------- | ---------------------------------------- | --------------------------------------------------------------------------------- |
-| Behavior          | `apps/wahidyankf-www/tests/bdd/`         | All eleven feature files, under `@amiceli/vitest-cucumber` with jsdom.            |
-| Local integration | `apps/wahidyankf-www/tests/integration/` | `cv-export.feature`, against the real filesystem and build output.                |
-| Process E2E       | `apps/wahidyankf-www/tests/e2e/steps/`   | The browser-observable features, under `playwright-bdd` against a started server. |
+| Adapter           | Where                                                      | Reaches                                                                    |
+| ----------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Unit behaviour    | `apps/wahidyankf-www/tests/bdd/`                           | All 70 expanded scenarios, with injected seams for OS-facing dependencies. |
+| Local integration | `apps/wahidyankf-www/tests/integration/` + shared adapters | All 34 local-boundary scenarios against isolated real resources.           |
+| Browser E2E       | `apps/wahidyankf-www-e2e/tests/steps/`                     | All 36 browser-observable scenarios against a started production server.   |
 
-The E2E adapter deliberately leaves four features unbound — `env-loader.feature`, `tier-env-loading.feature`,
-`port-resolver.feature`, and `cv-export.feature` — because they specify Node-process environment concerns and a
-build-time export that no browser reaches. That gap is not left to be noticed:
-`apps/wahidyankf-www/tests/e2e/e2e-skip-baseline.json` records a generated skip baseline and `specs:e2e:baseline` fails
-when the number moves, so a newly broken binding cannot hide among the intended skips.
+Scenario-level `@integration-exempt` and `@e2e-exempt` tags document genuine boundary mismatches and name an alternative
+Nx target plus scenario. Static compliance rejects missing, malformed, broad, doubled, and operationally motivated
+exemptions; the semantic implementation review verifies their substance.
 
 ## Targets
 
-| Target                                                | What it proves                                                                               |
-| ----------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `npx nx run wahidyankf-www:test:coverage:behavior`    | Every feature file is loaded by exactly one binding and every scenario in it is implemented. |
-| `npx nx run wahidyankf-www:test:coverage:unit`        | Unit and behavior together reach the 99% line floor.                                         |
-| `npx nx run wahidyankf-www:test:coverage:integration` | The integration adapter reaches the 99% line floor.                                          |
-| `npx nx run wahidyankf-www:test:e2e`                  | The browser suite passes against `next start`.                                               |
-| `npx nx run wahidyankf-www:specs:e2e:baseline`        | The count of generated skipped scenarios still matches the recorded baseline.                |
+| Target                                                      | What it proves                                                      |
+| ----------------------------------------------------------- | ------------------------------------------------------------------- |
+| `npx nx run wahidyankf-www:test:coverage:behaviour`         | Unit, Integration, E2E rows, exemptions, and bindings are complete. |
+| `npx nx run wahidyankf-www:test:coverage:unit`              | Unit and behaviour together reach the 99% line floor.               |
+| `npx nx run wahidyankf-www:test:coverage:integration`       | The integration adapter reaches the 99% line floor.                 |
+| `npx nx run wahidyankf-www-e2e:test:coverage:behaviour:e2e` | Browser corpus, exemptions, and bindings are complete.              |
+| `npx nx run wahidyankf-www-e2e:test:e2e`                    | The browser suite passes against `next start`.                      |
 
 ## Directory Map
 
-- [Architecture](architecture.md) is the current as-built C4 model, its boundaries, and behavior traceability.
-- [Behavior](behavior/README.md) contains the canonical executable Gherkin corpus.
+- [Architecture](architecture.md) is the current as-built C4 model, its boundaries, and behaviour traceability.
+- [Behaviour](behaviours/README.md) contains the canonical executable Gherkin corpus.

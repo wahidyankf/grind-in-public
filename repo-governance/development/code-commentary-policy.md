@@ -17,9 +17,9 @@ syntax alone, including:
 
 - the intent and boundary of a module, function, or test;
 - important control-flow stages and data transformations;
-- invariants, security or correctness checks, and failure behavior;
+- invariants, security or correctness checks, and failure behaviour;
 - why a dependency is injected, mocked, cached, or intentionally avoided; and
-- non-obvious shell, Git, parsing, regular-expression, or library behavior.
+- non-obvious shell, Git, parsing, regular-expression, or library behaviour.
 
 ## Lint Enforcement
 

@@ -1,6 +1,6 @@
 ---
 tldr: "Indexes the per-harness detail behind the agent harness support policy."
-when_to_use: "Use when looking up one harness's files or one directory's index behavior."
+when_to_use: "Use when looking up one harness's files or one directory's index behaviour."
 ---
 
 # Agent Harness Support Details
@@ -14,5 +14,5 @@ the order that helps a reader.
 ## Contents
 
 - [Supported Harnesses](supported-harnesses.md) — the instruction file and project config each harness reads.
-- [Directory Index Behavior](directory-index-behavior.md) — what each registering harness directory does with a
+- [Directory Index Behaviour](directory-index-behaviour.md) — what each registering harness directory does with a
   `README.md`.

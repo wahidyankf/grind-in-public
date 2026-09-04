@@ -1,41 +1,27 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "wahidyankf-www",
   "projectType": "application",
   "root": "apps/wahidyankf-www",
-  "sourceRoot": "apps/wahidyankf-www/src",
-  "namedInputs": {
-    "behaviorCorpus": [
-      "{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"
-    ],
-    "workspaceScripts": ["{workspaceRoot}/scripts/next-with-port.mjs"]
-  },
   "targets": {
     "build": {
       "command": "next build",
-      "options": {
-        "cwd": "{projectRoot}"
-      },
+      "options": { "cwd": "{projectRoot}" },
       "outputs": ["{projectRoot}/.next"]
     },
     "dev": {
-      "cache": false,
       "command": "node ../../scripts/next-with-port.mjs dev --env WAHIDYANKF_WWW_PORT --default 3201",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
     },
     "start": {
-      "cache": false,
       "command": "node ../../scripts/next-with-port.mjs start --env WAHIDYANKF_WWW_PORT --default 3201",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
     },
     "typecheck": {
       "command": "tsc --noEmit",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "options": { "cwd": "{projectRoot}" }
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -48,56 +34,80 @@
       }
     },
     "lint:biome": {
-      "cache": true,
       "command": "biome check",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "options": { "cwd": "{projectRoot}" },
+      "cache": true
     },
     "lint:commentary": {
-      "cache": true,
-      "command": "eslint --config eslint.config.mjs src tests/e2e/steps",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "command": "eslint --config eslint.config.mjs src",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": true
     },
     "test:unit": {
       "command": "vitest run --project unit",
-      "options": {
-        "cwd": "{projectRoot}"
-      },
-      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
+      "options": { "cwd": "{projectRoot}" },
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs"
+      ]
     },
     "test:integration": {
-      "cache": false,
       "command": "vitest run --project integration",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs"
+      ]
     },
     "test:coverage:unit": {
-      "cache": true,
-      "command": "vitest run --project unit --project behavior --coverage --coverage.thresholds.lines=99",
-      "options": {
-        "cwd": "{projectRoot}"
-      },
+      "command": "vitest run --project unit --project behaviour-unit --coverage --coverage.thresholds.lines=99",
+      "options": { "cwd": "{projectRoot}" },
       "outputs": ["{projectRoot}/coverage"],
-      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs"
+      ]
     },
     "test:coverage:integration": {
-      "cache": false,
       "command": "vitest run --project integration --coverage --coverage.include='src/features/cv/**/pdf.ts' --coverage.thresholds.lines=99",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
-    },
-    "test:coverage:behavior": {
+      "options": { "cwd": "{projectRoot}" },
       "cache": false,
-      "command": "vitest run --project behavior",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs"
+      ]
+    },
+    "test:coverage:behaviour:wahidyankf-www": {
+      "command": "vitest run --project behaviour-unit",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs"
+      ]
+    },
+    "test:coverage:behaviour": {
+      "executor": "nx:run-commands",
       "options": {
-        "cwd": "{projectRoot}"
+        "commands": [
+          "npm exec nx -- run wahidyankf-www:test:coverage:behaviour:wahidyankf-www",
+          "npm exec nx -- run wahidyankf-www-e2e:test:coverage:behaviour:e2e"
+        ],
+        "parallel": false
       },
-      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs",
+        "{workspaceRoot}/apps/wahidyankf-www-e2e/**/*"
+      ]
     },
     "test:coverage": {
       "executor": "nx:run-commands",
@@ -105,18 +115,21 @@
         "commands": [
           "npm exec nx -- run wahidyankf-www:test:coverage:unit",
           "npm exec nx -- run wahidyankf-www:test:coverage:integration",
-          "npm exec nx -- run wahidyankf-www:test:coverage:behavior"
+          "npm exec nx -- run wahidyankf-www:test:coverage:behaviour"
         ],
         "parallel": false
       },
-      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs",
+        "{workspaceRoot}/apps/wahidyankf-www-e2e/**/*"
+      ]
     },
     "static-routes:validation": {
-      "cache": false,
       "command": "npm exec nx -- run wahidyankf-www:build --skip-nx-cache && node scripts/validate-static-routes.mjs",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
     },
     "test:quick": {
       "executor": "nx:run-commands",
@@ -127,44 +140,22 @@
           "npm exec nx -- run wahidyankf-www:lint",
           "npm exec nx -- run wahidyankf-www:test:unit",
           "npm exec nx -- run wahidyankf-www:test:coverage:unit",
-          "npm exec nx -- run wahidyankf-www:test:coverage:behavior"
+          "npm exec nx -- run wahidyankf-www:test:coverage:behaviour"
         ],
         "parallel": false
       },
-      "inputs": ["default", "behaviorCorpus", "workspaceScripts"]
+      "inputs": [
+        "default",
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
+        "{workspaceRoot}/scripts/next-with-port.mjs",
+        "{workspaceRoot}/apps/wahidyankf-www-e2e/**/*"
+      ]
     },
     "generate:cv-pdf": {
-      "cache": false,
       "command": "npx tsx scripts/generate-cv-pdf.ts",
-      "options": {
-        "cwd": "{projectRoot}"
-      }
-    },
-    "install": {
-      "cache": false,
-      "command": "npx playwright install --with-deps chromium",
-      "options": {
-        "cwd": "{projectRoot}"
-      },
-      "inputs": ["default", "behaviorCorpus"]
-    },
-    "test:e2e": {
-      "cache": false,
-      "command": "if grep -rn -E --include='*.ts' --exclude-dir=node_modules --exclude-dir=.features-gen --exclude-dir=test-results --exclude-dir=playwright-report '\\$?test\\.skip\\([^,)]*\\)' tests/e2e; then echo 'ERROR: unconditional test.skip() found in test files above - use test.skip(condition, reason) for legitimate environment guards, or remove'; exit 1; fi && npx bddgen && npx playwright test",
-      "options": {
-        "cwd": "{projectRoot}"
-      },
-      "dependsOn": ["build"],
-      "inputs": ["default", "behaviorCorpus"]
-    },
-    "specs:e2e:baseline": {
-      "cache": true,
-      "outputs": ["{projectRoot}/.features-gen"],
-      "command": "npx bddgen && expected=$(node -e \"process.stdout.write(String(require('./tests/e2e/e2e-skip-baseline.json').skippedScenarios))\") && actual=$(grep -rho 'test\\.fixme(' .features-gen | wc -l | tr -d ' ') && if [ \"$actual\" != \"$expected\" ]; then echo \"e2e skip baseline moved: expected $expected fixme scenarios, found $actual\"; exit 1; fi",
-      "options": {
-        "cwd": "{projectRoot}"
-      },
-      "inputs": ["default", "behaviorCorpus"]
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
     }
-  }
+  },
+  "tags": []
 }

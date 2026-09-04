@@ -16,6 +16,7 @@ link to related governance guidance instead of duplicating it.
 
 ## Available Workflows
 
+- [Rule workflows](rules/README.md) index the automatically triggered procedures for rule-path changes.
 - [Harness Alignment](harness-alignment.md) verifies that every supported harness receives the same rules through its
   instruction file, config, and subagents. Its detail lives in [`harness-alignment/`](harness-alignment/README.md).
 - [Rules Propagation](rules/rules-propagation.md) automatically starts for a rule-path change and integrates changed
@@ -23,16 +24,18 @@ link to related governance guidance instead of duplicating it.
   [`rules/rules-propagation/`](rules/rules-propagation/README.md).
 - [README Refresh](readme-refresh.md) keeps root, project, documentation, and governance READMEs accurate before a
   thematic commit.
-- [Rules Quality Gate](rules-quality-gate.md) runs `rules-checker` and `rules-fixer` over every rule-bearing file until
-  no findings remain, composing Harness Alignment as a step. Its detail lives in
-  [`rules-quality-gate/`](rules-quality-gate/README.md).
+- [Rules Quality Gate](rules-quality-gate.md) returns one read-only semantic verdict for a proposed or effective rule
+  state; Rules Propagation is the sole writer.
 - [Plan Planning](plan-planning.md) turns a described change into a validated five-core-document plan under `plans/`.
-- [Plan Quality Gate](plan-quality-gate.md) runs `plan-checker` and `plan-fixer` until a plan has no findings left.
+- [Plan Quality Gate](plan-quality-gate.md) uses a frozen snapshot and finite ledger to return one bounded semantic
+  verdict after at most two cycles.
+- [Gherkin Implementation Review](gherkin-implementation-review.md) inspects each expanded scenario and applicable
+  adapter for substantive Given-When-Then evidence.
 - [Plan Execution](plan-execution.md) executes a plan phase by phase, delivering to `main` at each gate, then archives
   it.
 
-The three plan workflows keep their detail in [`plan-planning/`](plan-planning/README.md),
-[`plan-quality-gate/`](plan-quality-gate/README.md), and [`plan-execution/`](plan-execution/README.md).
+Plan Planning and Plan Execution keep detail in [`plan-planning/`](plan-planning/README.md) and
+[`plan-execution/`](plan-execution/README.md).
 
 ## Workflow Template
 

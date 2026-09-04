@@ -32,8 +32,7 @@ The final phase of every substantive plan, immediately before archival, is Knowl
 Before routing, every surviving entry passes two checks: it contains no secret or sensitive detail, and it is relevant
 to this repository rather than to one incident.
 
-Every `plan-checker` prompt states this capture phase in the imperative, because a subagent prompt has to stand alone.
-Change it in the same edit, in all three harness copies.
+The [plan quality gate](../../workflows/plan-quality-gate.md) verifies this capture phase.
 
 ## Archival Is Blocked
 

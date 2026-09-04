@@ -3,9 +3,9 @@
 Adopt BeaverNest's executable-specification model for `apps/badakmini-cli`, add the dedicated `apps/badakmini-cli-e2e`
 harness, and make the same role-based model compulsory for future projects below `apps/` and `libs/`.
 
-The canonical corpus will live below `specs/apps/badakmini-cli/behavior/`. Unit, local-only integration, and process E2E
-adapters will consume that same recursive corpus. A fast static behavior gate will reject malformed features, corpus
-drift, undefined or ambiguous steps, unused bindings, incomplete drivers, and layer filtering.
+The canonical corpus will live below `specs/apps/badakmini-cli/behaviours/`. Unit, local-only integration, and process
+E2E adapters will consume that same recursive corpus. A fast static behaviour gate will reject malformed features,
+corpus drift, undefined or ambiguous steps, unused bindings, incomplete drivers, and layer filtering.
 
 ## Directory Map
 

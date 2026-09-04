@@ -29,15 +29,8 @@ This directory contains shared repository governance for human contributors and 
 
 - [Plans](../plans/README.md) — the working record of change, staged from idea to archive. Use it when planning,
   executing, or reviewing a piece of work.
-- [Specifications](../specs/README.md) — Gherkin behavior and as-built application architecture. Use it when changing
+- [Specifications](../specs/README.md) — Gherkin behaviour and as-built application architecture. Use it when changing
   what the software does or its documented boundaries.
-
-## Gate History
-
-Each [rules-quality-gate](workflows/rules-quality-gate.md) run appends one line to
-`local-tmp/gate-history/rules-quality-gate.md`, which is untracked. The
-[findings report](workflows/rules-quality-gate/05-findings-report.md) owns what a run records and what an open finding
-requires.
 
 ## How to Use This Directory
 

@@ -30,7 +30,7 @@ Each checkbox carries every element that applies:
   no shell wrapper rewrites.
 - **Relevant `[AC-…]` labels** that trace the work to `prd.md`; a purely mechanical task carries none only when it
   cannot implement or prove an acceptance criterion.
-- **One Gherkin scenario** per behavior cycle, inlined verbatim, as the [TDD policy](../../development/tdd-policy.md)
+- **One Gherkin scenario** per behaviour cycle, inlined verbatim, as the [TDD policy](../../development/tdd-policy.md)
   requires.
 
 Bad, because it names no file, no command, and no observable outcome:
@@ -65,6 +65,5 @@ Recovery or rollback work names its trigger and remains dormant until triggered,
 wording rather than against the presence of a failure. During final reconciliation, a dormant item receives a dated,
 evidence-backed `Not triggered` disposition instead of a false completion mark.
 
-Every `plan-checker` prompt states one action per checkbox, execution-grade clarity, and the executor tags with their
-legend in the imperative, because a subagent prompt has to stand alone. Change them in the same edit, in all three
-harness copies.
+The [plan quality gate](../../workflows/plan-quality-gate.md) checks one action per checkbox, execution-grade clarity,
+and the executor-tag legend during its semantic audit.

@@ -91,7 +91,7 @@ validation packages own their focused inspections.
 - Governance documents remain authoritative. Badak Mini reports structural problems and announces required workflows,
   but it does not decide whether a workflow has been followed.
 
-## Behavior Traceability
+## Behaviour Traceability
 
-Executable behavior is specified in [behavior/](behavior/). The unit, local-integration, and process E2E adapters all
-consume that same recursive corpus.
+Executable behaviour is specified in [behaviours/](behaviours/). The unit, local-integration, and process E2E adapters
+all consume that same recursive corpus.

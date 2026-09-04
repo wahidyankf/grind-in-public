@@ -18,7 +18,7 @@ pick up, so each is named rather than left to be noticed as an omission:
   that point and this list is amended.
 - `apps/wahidyankf-www/project.json` and `apps/wahidyankf-www-e2e/project.json`, because both target contracts are
   authored fresh against this repository's Nx rules rather than ported. Copying either would bring `test:specs`,
-  `specs:structure-validation`, `specs:behavior:coverage`, `specs:e2e:coverage`, and their `dotnet run` commands with
+  `specs:structure-validation`, `specs:behaviour:coverage`, `specs:e2e:coverage`, and their `dotnet run` commands with
   it. The two destination `project.json` files below are therefore `[N]` as authored files, not as copies. Authoring
   fresh also drops two guard clauses the source prepends to its own commands, and each is settled here rather than left
   as an omission. The source `test:unit` prepends a `grep` that fails the run when `it`, `test`, or `describe` is
@@ -223,27 +223,27 @@ specs/
 +-- apps/README.md                                           [E]
 +-- apps/wahidyankf-www/README.md                            [N]
 +-- apps/wahidyankf-www/architecture.md                      [N]
-+-- apps/wahidyankf-www/behavior/README.md                   [N]
-+-- apps/wahidyankf-www/behavior/accessibility.feature       [N]
-+-- apps/wahidyankf-www/behavior/cv.feature                  [N]
-+-- apps/wahidyankf-www/behavior/cv-export.feature           [N]
-+-- apps/wahidyankf-www/behavior/env-loader.feature          [N]
-+-- apps/wahidyankf-www/behavior/home.feature                [N]
-+-- apps/wahidyankf-www/behavior/personal-projects.feature   [N]
-+-- apps/wahidyankf-www/behavior/port-resolver.feature       [N]
-+-- apps/wahidyankf-www/behavior/responsive.feature          [N]
-+-- apps/wahidyankf-www/behavior/search.feature              [N]
-+-- apps/wahidyankf-www/behavior/static-filterable-routes.feature  [N]
-+-- apps/wahidyankf-www/behavior/theme.feature               [N]
-+-- apps/wahidyankf-www/behavior/tier-env-loading.feature    [N]
++-- apps/wahidyankf-www/behaviours/README.md                   [N]
++-- apps/wahidyankf-www/behaviours/accessibility.feature       [N]
++-- apps/wahidyankf-www/behaviours/cv.feature                  [N]
++-- apps/wahidyankf-www/behaviours/cv-export.feature           [N]
++-- apps/wahidyankf-www/behaviours/env-loader.feature          [N]
++-- apps/wahidyankf-www/behaviours/home.feature                [N]
++-- apps/wahidyankf-www/behaviours/personal-projects.feature   [N]
++-- apps/wahidyankf-www/behaviours/port-resolver.feature       [N]
++-- apps/wahidyankf-www/behaviours/responsive.feature          [N]
++-- apps/wahidyankf-www/behaviours/search.feature              [N]
++-- apps/wahidyankf-www/behaviours/static-filterable-routes.feature  [N]
++-- apps/wahidyankf-www/behaviours/theme.feature               [N]
++-- apps/wahidyankf-www/behaviours/tier-env-loading.feature    [N]
 ```
 
 Eleven of these come from `ose-public` and hold 53 scenarios; `cv-export.feature` is authored fresh in Phase 3 with the
 two new scenarios, for twelve files and 55 scenarios. `port-resolver.feature` and `tier-env-loading.feature` come from
-`$SRC/specs/libs/ts-env-loader/behavior/gherkin/`; the other nine come from
-`$SRC/specs/apps/wahidyankf/behavior/wahidyankf-www/gherkin/`. All twelve are `[N]`: the eleven copied ones have sources
-that stay in `ose-public`, so nothing moves, and the twelfth is new here. `cv-export.feature` is the only one bound from
-`tests/integration/` rather than `tests/bdd/`.
+`$SRC/specs/libs/ts-env-loader/behaviours/gherkin/`; the other nine come from
+`$SRC/specs/apps/wahidyankf/behaviours/wahidyankf-www/gherkin/`. All twelve are `[N]`: the eleven copied ones have
+sources that stay in `ose-public`, so nothing moves, and the twelfth is new here. `cv-export.feature` is the only one
+bound from `tests/integration/` rather than `tests/bdd/`.
 
 ## Workspace and Governance
 
@@ -269,7 +269,7 @@ that stay in `ose-public`, so nothing moves, and the twelfth is new here. `cv-ex
 +-- repo-governance/development/testing-policy/tooling.md    [E]
 +-- repo-governance/development/code-style-policy.md         [E]
 +-- repo-governance/development/dependency-selection-policy.md  [E]
-+-- repo-governance/development/behavior-driven-development-policy.md  [E]
++-- repo-governance/development/behaviour-driven-development-policy.md  [E]
 +-- repo-governance/conventions/plans-organization-policy/delivery-checklists.md  [E]
 +-- repo-governance/conventions/plans-organization-policy/execution-record.md  [N]
 +-- repo-governance/conventions/plans-organization-policy/README.md  [E]
@@ -286,7 +286,7 @@ that stay in `ose-public`, so nothing moves, and the twelfth is new here. `cv-ex
 ```
 
 **Eleven of those entries were added during execution, at the Phase 7 quality gate.** `code-style-policy.md`,
-`dependency-selection-policy.md`, `behavior-driven-development-policy.md`, `delivery-checklists.md`, and the three
+`dependency-selection-policy.md`, `behaviour-driven-development-policy.md`, `delivery-checklists.md`, and the three
 `plan-checker` prompts are where Phase 7's `learnings.md` triage routes its entries, and which documents a triage
 reaches cannot be known before the learnings exist. `code-style-policy.md` is reached twice: once in Phase 3, by the
 Rules Propagation run that added a reference to the deviation register, and once in Phase 7. The three `plan-checker`

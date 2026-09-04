@@ -11,6 +11,10 @@ English is the authored language of this repository. That covers source identifi
 specifications and their Gherkin, test names and descriptions, configuration labels, commit messages, plans, and every
 rule under `repo-governance/`.
 
+Use the Beaver Nest vocabulary for behaviour-related terminology. Spell `behaviour` and `behavioural`, including source
+identifiers, directory names, and Nx targets; do not introduce the American variant. This deliberate British spelling
+also matches Elixir's `@behaviour` terminology and keeps cross-repository searches deterministic.
+
 ## Conversation Is Not Covered
 
 This policy governs repository artifacts, not people. The owner may talk to an agent in Bahasa Indonesia, English, or a
@@ -28,6 +32,6 @@ language can still follow what the passage is for.
 
 ## Verification
 
-No check reads for language, so this is verified in review. The failure it prevents is a mixed corpus: a policy written
-half in one language and half in another cannot be searched, compared, or propagated reliably, and this repository's
-rules are read far more often by search than by browsing.
+Language meaning is verified in review. `badakmini-cli:test:repo` additionally rejects the American variant in
+maintained surfaces. The failure it prevents is a mixed corpus that cannot be searched, compared, or propagated
+reliably.

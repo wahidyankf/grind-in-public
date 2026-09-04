@@ -18,10 +18,8 @@ depends on, and what evidence proves it finished. Plans are temporary and belong
 Create a plan only when the owner explicitly requests one. Do not infer authorization from the size or kind of work,
 including application work, infrastructure work, or substantial rule work. When requested, a plan may cover any of those
 changes. Drills and study are not planned unless the owner asks: the owner practices by hand and tracks the session in a
-harness task list, as the [task tracking policy](task-tracking-policy.md) requires. `rules-fixer` is exempt inside a
-[rules quality gate](../workflows/rules-quality-gate.md) run: it may create a receiving document and touch several
-documents in one pass without a plan, because it records both in the run's
-[findings report](../workflows/rules-quality-gate/05-findings-report.md).
+harness task list, as the [task tracking policy](task-tracking-policy.md) requires. Rules Propagation may edit multiple
+governance surfaces without a delivery plan because its bounded transaction records the authorized rule outcome.
 
 ## Rules
 
@@ -53,8 +51,6 @@ phase ends, its gate passes, and the work is committed and pushed. The
 
 ## Verification
 
-`plans/` is outside `repo-governance/`, so no word limit applies to a plan and the word-count check never reads one. Two
-checks do reach a plan: the Markdown link check reads every Git-tracked document, a plan included, and `rules-checker`
-sweeps every planning directory for the README index the [documentation index policy](../documentation-index-policy.md)
-requires, without reading the plan's content. The [plan-quality-gate](../workflows/plan-quality-gate.md) workflow is the
-verification: `plan-checker` reports findings against these rules and `plan-fixer` resolves them.
+`plans/` is outside `repo-governance/`, so no word limit applies to a plan. Repository checks still validate its tracked
+Markdown links and required indexes. The [plan quality gate](../workflows/plan-quality-gate.md) owns semantic review and
+bounded repairs, then consumes those deterministic results before returning `PASS`.

@@ -36,7 +36,7 @@ instruction files serve agents; `repo-governance/` serves both. `CLAUDE.md` must
 - `apps/` runnable applications; `libs/` reusable packages.
 - `docs/` human-facing Diátaxis documentation.
 - `repo-governance/` shared policies and workflows; `plans/` delivery plans; `specs/` as-built application architecture
-  and Gherkin behavior.
+  and Gherkin behaviour.
 - Root configs: `package.json`, `nx.json`, `tsconfig.base.json`.
 
 Keep implementation and tests under `src/`; use lowercase-hyphenated project directories. Add assets only within the
@@ -75,9 +75,9 @@ Comments must explain intent, flow, and non-obvious decisions without narrating 
 ## Testing and Commits
 
 Each Nx project follows the [testing policy](repo-governance/development/testing-policy.md) and the compulsory
-[BDD policy](repo-governance/development/behavior-driven-development-policy.md). Each non-drill application also
+[BDD policy](repo-governance/development/behaviour-driven-development-policy.md). Each non-drill application also
 maintains its as-built C4 model in `specs/`; see the
-[architecture specification policy](repo-governance/development/architecture-specifications.md). Behavior is specified
+[architecture specification policy](repo-governance/development/architecture-specifications.md). Behaviour is specified
 as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the
 [specs policy](repo-governance/development/specs-policy.md) and the
 [TDD policy](repo-governance/development/tdd-policy.md).

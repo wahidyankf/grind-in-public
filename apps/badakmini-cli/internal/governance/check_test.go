@@ -12,6 +12,7 @@ import (
 func TestCheckAcceptsDocumentsAtTheWordLimit(t *testing.T) {
 	fileSystem := newRepositoryFixture()
 	putFile(fileSystem, agentsFile, words(MaxWords))
+	putFile(fileSystem, rtkFile, words(MaxWords))
 	putFile(fileSystem, claudeFile, words(MaxWords))
 	putFile(fileSystem, governanceDirectory+"/policy.md", words(MaxWords))
 
@@ -28,6 +29,7 @@ func TestCheckReportsDocumentsOverTheWordLimit(t *testing.T) {
 	fileSystem := newRepositoryFixture()
 	putFile(fileSystem, agentsFile, words(MaxWords+1))
 	putFile(fileSystem, claudeFile, words(MaxWords+1))
+	putFile(fileSystem, rtkFile, words(MaxWords+1))
 	putFile(fileSystem, governanceDirectory+"/nested/policy.md", words(MaxWords+1))
 	putFile(fileSystem, governanceDirectory+"/nested/ignored.txt", words(MaxWords+1))
 
@@ -35,8 +37,8 @@ func TestCheckReportsDocumentsOverTheWordLimit(t *testing.T) {
 	if err != nil {
 		t.Fatalf("expected a completed check, got %v", err)
 	}
-	if len(findings) != 3 {
-		t.Fatalf("expected three findings, got %#v", findings)
+	if len(findings) != 4 {
+		t.Fatalf("expected four findings, got %#v", findings)
 	}
 	if findings[0].Path != agentsFile || findings[0].WordCount != MaxWords+1 {
 		t.Fatalf("unexpected root finding: %#v", findings[0])
@@ -44,8 +46,11 @@ func TestCheckReportsDocumentsOverTheWordLimit(t *testing.T) {
 	if findings[1].Path != claudeFile || findings[1].WordCount != MaxWords+1 {
 		t.Fatalf("unexpected instruction file finding: %#v", findings[1])
 	}
-	if findings[2].Path != "repo-governance/nested/policy.md" {
-		t.Fatalf("expected recursive Markdown finding, got %#v", findings[2])
+	if findings[2].Path != rtkFile || findings[2].WordCount != MaxWords+1 {
+		t.Fatalf("unexpected RTK instruction finding: %#v", findings[2])
+	}
+	if findings[3].Path != "repo-governance/nested/policy.md" {
+		t.Fatalf("expected recursive Markdown finding, got %#v", findings[3])
 	}
 }
 
@@ -97,12 +102,14 @@ func TestCheckRequiresGovernanceStructure(t *testing.T) {
 		message    string
 	}{
 		{name: "agents file", fileSystem: repositoryWith(claudeFile), message: "required file not found: AGENTS.md"},
-		{name: "claude file", fileSystem: repositoryWith(agentsFile), message: "required file not found: CLAUDE.md"},
+		{name: "claude file", fileSystem: repositoryWith(agentsFile, rtkFile), message: "required file not found: CLAUDE.md"},
+		{name: "rtk file", fileSystem: repositoryWith(agentsFile, claudeFile), message: "required file not found: RTK.md"},
 		{
 			name: "governance directory",
 			fileSystem: fstest.MapFS{
 				agentsFile: &fstest.MapFile{Data: []byte("short")},
 				claudeFile: &fstest.MapFile{Data: []byte("short")},
+				rtkFile:    &fstest.MapFile{Data: []byte("short")},
 			},
 			message: "required directory not found: repo-governance",
 		},
@@ -129,6 +136,7 @@ func TestCheckRejectsWrongGovernancePathTypes(t *testing.T) {
 			fileSystem: fstest.MapFS{
 				agentsFile:          &fstest.MapFile{Mode: fs.ModeDir},
 				claudeFile:          &fstest.MapFile{Data: []byte("short")},
+				rtkFile:             &fstest.MapFile{Data: []byte("short")},
 				governanceDirectory: &fstest.MapFile{Mode: fs.ModeDir},
 			},
 			message: "required file is not regular: AGENTS.md",
@@ -138,6 +146,7 @@ func TestCheckRejectsWrongGovernancePathTypes(t *testing.T) {
 			fileSystem: fstest.MapFS{
 				agentsFile:          &fstest.MapFile{Data: []byte("short")},
 				claudeFile:          &fstest.MapFile{Data: []byte("short")},
+				rtkFile:             &fstest.MapFile{Data: []byte("short")},
 				governanceDirectory: &fstest.MapFile{Data: []byte("short")},
 			},
 			message: "required path is not a directory: repo-governance",
@@ -193,7 +202,7 @@ func TestFilesystemFailuresRetainPolicyContext(t *testing.T) {
 		{
 			name: "governance document read",
 			fileSystem: failingFS{
-				FS:   repositoryWith(agentsFile, claudeFile, "repo-governance/broken.md"),
+				FS:   repositoryWith(agentsFile, claudeFile, rtkFile, "repo-governance/broken.md"),
 				path: "repo-governance/broken.md",
 				err:  injectedErr,
 			},
@@ -206,7 +215,7 @@ func TestFilesystemFailuresRetainPolicyContext(t *testing.T) {
 		{
 			name: "harness README read",
 			fileSystem: failingFS{
-				FS:   repositoryWith(agentsFile, claudeFile, ".agents/README.md"),
+				FS:   repositoryWith(agentsFile, claudeFile, rtkFile, ".agents/README.md"),
 				path: ".agents/README.md",
 				err:  injectedErr,
 			},
@@ -290,6 +299,7 @@ func newRepositoryFixture() fstest.MapFS {
 	return fstest.MapFS{
 		agentsFile:          &fstest.MapFile{Data: []byte("short")},
 		claudeFile:          &fstest.MapFile{Data: []byte("short")},
+		rtkFile:             &fstest.MapFile{Data: []byte("short")},
 		governanceDirectory: &fstest.MapFile{Mode: fs.ModeDir},
 	}
 }

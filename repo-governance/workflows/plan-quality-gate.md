@@ -1,57 +1,67 @@
 ---
-tldr: "Runs plan-checker and plan-fixer in a loop until a plan has no findings left."
-when_to_use: "Use after authoring or changing a plan, and before executing one."
+tldr: "Produces one bounded semantic verdict for a formal plan's execution readiness."
+when_to_use: "Use before plan execution, after a material plan change, and at plan completion."
 ---
 
 # Plan Quality Gate
 
-## Purpose
+Produce exactly one terminal result: `PASS` or one `BLOCKED_*` variant for one formal plan. Run before execution, after
+material plan changes, and at completion. Never recurse or automatically start another run.
 
-Validate that a plan is complete, accurate, and executable against the current repository, then fix what is not. The
-gate exists because a plan is executed literally: an ambiguous checkbox does not produce a question at execution time,
-it produces a wrong action.
+## Sufficiency and Ownership
 
-## When to Use
+`PASS` means sufficient for the authorized scope, known risks, and applicable rules, not perfect, exhaustive, or
+future-proof. Do not block on stylistic preference, speculative hardening, optional detail, or an improvement that can
+wait without making execution unsafe or ambiguous. Apply [minimum sufficiency](../principles/minimum-sufficiency.md).
 
-Use it after [plan-planning](plan-planning.md) authors a plan, after any edit to a plan under `backlog/` or
-`in-progress/`, and before [plan-execution](plan-execution.md) begins. A plan that has never passed this gate is not
-ready to start.
+This workflow evaluates meaning, consistency, safety, executability, and proof. Deterministic tooling owns
+machine-decidable checks, including links, indexes, word budgets, formatting, harness parity, and automated contracts.
+Do not manually reproduce, sample, or second-guess those checks. Run canonical tooling only during verification and
+consume its findings. For a check delivered by the plan, verify before execution that `delivery.md` contains an
+executable implementation and proof task; at completion, require the target to exist and pass.
 
-## Prerequisites
+## Snapshot and Ledger
 
-The plan exists with all five core documents and has been through the
-[structural review](plan-planning/04-structural-review.md). Choose a severity level; see
-[severity and modes](plan-quality-gate/01-severity-and-modes.md). Strict is the default.
+Freeze the plan path and stage, Git revision and dirty paths, scope, relevant specifications and governance, unresolved
+decisions, authorization, and cycle `1`. A material external-input change ends the run as `BLOCKED_INPUT_CHANGED`; it
+never causes an automatic restart. Repairs recorded by this run do not trigger another quality-gate run.
 
-## Steps
+Audit before editing. Freeze a finite ledger containing `ID`, canonical rule, location, material gap, required repair,
+proof, and `OPEN`, `FIXED`, `NOT_APPLICABLE`, or `BLOCKED`. Admit only rule violations or gaps making scoped execution
+unsafe, ambiguous, or unprovable. Mandatory findings cannot be waived; `NOT_APPLICABLE` requires evidence. Preserve the
+snapshot, cycle, ledger, pending verification, and authorization under
+[governance continuity](../principles/governance-continuity.md).
 
-1. Run `plan-checker` against the plan folder. It reads every document, applies
-   [Minimum Sufficiency](../principles/minimum-sufficiency.md), and reports findings by severity, citing `file:line`;
-   see the [check and fix loop](plan-quality-gate/02-check-fix-loop.md).
-2. Skip the next step if no finding meets the chosen level. A clean run does not end the gate; step 5 says what does.
-3. Run `plan-fixer` on the findings at or above that level. It edits the plan documents only; it never touches the code
-   the plan describes, and it runs the [fixer discipline](rules-quality-gate/04-fixer-discipline.md) before each edit
-   lands.
-4. Re-run `plan-checker`. A fix that introduced a new finding is caught here rather than at execution.
-5. Repeat until two consecutive runs report nothing at the chosen level, or seven cycles have passed.
-6. Record the outcome in the plan's `README.md`: the level used, the cycles run, and the final status; see the
-   [findings report](plan-quality-gate/04-findings-report.md).
+## Bounded Procedure
 
-## Verification
+1. Recursively inventory and read the plan, assets, relevant implementation, specifications, governance, and active plan
+   conflicts. Do not validate machine-owned concerns.
+2. Complete one semantic audit without edits. Check:
+   - lifecycle truth, one stage, required documents, one technical shape, and truthful status under
+     [plan organization](../conventions/plans-organization-policy.md);
+   - coherent purpose, decision, scope, risks, acceptance, and a junior-readable BRD/PRD-to-delivery route;
+   - necessary non-placeholder artifacts with distinct reader jobs;
+   - synchronized architecture, Gherkin, file impact, dependencies, and applicable
+     [software-quality routes](../development/software-quality-enforcement.md);
+   - executable ownership, acceptance traceability, RED/GREEN/REFACTOR tasks, checkpoints, evidence, cleanup, recovery,
+     and rollback; and
+   - applicable migration, UI, isolation, and live-service contracts, plus conflicts with current rules or plans.
+3. Freeze the initial ledger. Repair only its findings in dependency and safety order. Each repair closes one `OPEN` row
+   without expanding product scope. Missing decisions, authority, or irreconcilable rules become `BLOCKED`; never invent
+   answers.
+4. Verify semantically in read-only mode, reviewing only repaired meaning and cross-document effects. Then run:
 
-The gate passes when two consecutive `plan-checker` runs report no finding at the chosen level. One clean run is not
-enough: a single pass can reflect a checker that stopped early rather than a plan that is sound.
+   ```sh
+   rtk npm exec -- nx run badakmini-cli:test:repo
+   ```
 
-## Loop Bounds
+5. Return `PASS` when no row is `OPEN` or `BLOCKED`, tooling passes, no new material semantic gap appears, and the
+   snapshot changed only through recorded repairs.
+6. Otherwise allow exactly one stabilization cycle. Add only repair-caused semantic gaps and deterministic-tool
+   findings, set cycle `2`, repair them once, and repeat step 4. A fixed finding cannot reopen without changed input.
+7. After cycle `2`, return `PASS` if step 5 holds. Otherwise return `BLOCKED_NON_CONVERGENT` with remaining ledger and
+   evidence. Do not repair, restart, or invoke this workflow again automatically.
 
-Two consecutive clean runs end the loop. Seven cycles end it too, with the remaining findings reported. Cycle five
-raises a warning: a plan still finding new problems that late is usually structurally wrong rather than imprecise.
-
-## Recovery
-
-If the loop reaches seven cycles, stop and read the remaining findings yourself. Repeated failure to converge usually
-means the plan's approach is wrong rather than its wording, and `plan-fixer` cannot fix an approach. Rewrite the
-affected phase through [plan-planning](plan-planning.md) instead of iterating further.
-
-If `plan-fixer` changes the meaning of a decision rather than its expression, revert that edit and resolve the decision
-with the owner. The fixer's mandate is clarity, not authority.
+If canonical tooling cannot obtain a deterministic verdict, return `BLOCKED_TOOLING` with its evidence. Never simulate
+the check or retry without bound. `PASS` authorizes neither execution nor commit/push. Every blocker names the reason,
+remaining rows, and required external change; new input or authority starts a fresh run through plan execution.

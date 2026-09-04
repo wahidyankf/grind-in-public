@@ -2,16 +2,16 @@
 
 ## Scope Note on Gherkin
 
-Every acceptance criterion below is a **plan-only operational outcome**, not durable application behavior. This plan
+Every acceptance criterion below is a **plan-only operational outcome**, not durable application behaviour. This plan
 changes build configuration, project layout, and one governance document; it adds no production code path and changes no
 scenario in `specs/`. The [specs policy](../../../repo-governance/development/specs-policy.md) permits a plan to retain
 such outcomes when [tech-docs/specification-changes.md](tech-docs/specification-changes.md) labels them plan-only, gives
 the reason, and names the delivery proof. That document does so for all seven, and each criterion below names its own
 proof command.
 
-Because nothing here is durable behavior, no criterion becomes a RED → GREEN → REFACTOR cycle and none lands in
-`specs/apps/*/behavior/`. The [TDD policy](../../../repo-governance/development/tdd-policy.md) cycle rule binds behavior
-changes in `apps/` and `libs/`; there are none.
+Because nothing here is durable behaviour, no criterion becomes a RED → GREEN → REFACTOR cycle and none lands in
+`specs/apps/*/behaviours/`. The [TDD policy](../../../repo-governance/development/tdd-policy.md) cycle rule binds
+behaviour changes in `apps/` and `libs/`; there are none.
 
 ## User Stories
 
@@ -32,7 +32,7 @@ step file is covered by the same push-time gate as editing the application.
 Scenario: Both projects expose the ten contract targets
   Given the workspace after this plan lands
   When the target list of every discovered project is inspected
-  Then each project declares typecheck, lint, test:unit, test:integration, test:e2e, test:coverage, test:coverage:unit, test:coverage:integration, test:coverage:behavior, and test:quick
+  Then each project declares typecheck, lint, test:unit, test:integration, test:e2e, test:coverage, test:coverage:unit, test:coverage:integration, test:coverage:behaviour, and test:quick
 ```
 
 Proof: `npx nx show project <name> --json` for each of `badakmini-cli` and `wahidyankf-www`.
@@ -65,18 +65,18 @@ deleted project and its map predates a target the merge introduced.
 ### [AC-3] A shared input glob is declared once
 
 ```gherkin
-Scenario: The behavior corpus is named by a shared input
+Scenario: The behaviour corpus is named by a shared input
   Given the workspace after this plan lands
   When a project target depends on the canonical Gherkin corpus
-  Then it references a behaviorCorpus namedInput declared once in that project's own project.json rather than repeating the glob
+  Then it references a behaviourCorpus namedInput declared once in that project's own project.json rather than repeating the glob
 ```
 
 Proof, in two halves that fail differently. **Declared once**: `grep -c` for the raw corpus glob over each
 `project.json` prints `1`, the single remaining occurrence being the `namedInputs` declaration itself. **Resolves to
 something real**: a cache probe, because `npx nx show project --json` reports the declared `inputs` array verbatim and
-expands neither `default` nor a named input, so it cannot show what `behaviorCorpus` resolves to. Nx hashes file
+expands neither `default` nor a named input, so it cannot show what `behaviourCorpus` resolves to. Nx hashes file
 content, so appending a Gherkin comment line to a corpus feature file must turn a cache hit into a miss on every target
-that names `behaviorCorpus`, and `git checkout --` of that file must turn it back into a hit. `delivery.md`'s Phase 1
+that names `behaviourCorpus`, and `git checkout --` of that file must turn it back into a hit. `delivery.md`'s Phase 1
 gate runs that probe for `badakmini-cli:test:unit`, `wahidyankf-www:test:unit`, and `wahidyankf-www-e2e:typecheck`, and
 runs the same probe over `scripts/next-with-port.mjs` for the `workspaceScripts` name.
 

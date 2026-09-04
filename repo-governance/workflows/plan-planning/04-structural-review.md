@@ -18,7 +18,7 @@ gate focused on judgment rather than on missing headings.
 5. **Every checkbox carries an executor tag and relevant `[AC-…]` label**, and the file opens with the tag legend.
 6. **Every phase ends with a gate** and a Pause Safety note, and every gate item states a command and its acceptance.
 7. **Phase 0 records a baseline** and changes nothing else.
-8. **Every behavior cycle binds one Gherkin scenario**, inlined verbatim.
+8. **Every behaviour cycle binds one Gherkin scenario**, inlined verbatim.
 9. **The final phase is Knowledge Capture**, and `learnings.md` exists or is created by it.
 10. **`tech-docs/file-impact.md` covers every checklist path** with an `[E]`, `[N]`, `[M]`, or `[D]` label, and the
     technical map explains every companion's reader job.

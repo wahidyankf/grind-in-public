@@ -29,7 +29,7 @@ validation only.
   direction. The project's dependency guard enforces this file boundary. Owner-approved, exact-pinned Go `tool`
   dependencies may support build, lint, test, or vulnerability checks, but must not become runtime dependencies.
 - For each new check, add a focused command, an Nx target, executable Gherkin, unit and local integration coverage,
-  public-process E2E coverage in `tests/e2e`, and human-facing usage documentation.
+  public-process E2E coverage in `apps/badakmini-cli-e2e`, and human-facing usage documentation.
 - Wire a check that blocks into pre-push, scoped to the paths that can break it, so a push that cannot fail the check
   does not pay for it. A check that no path narrows runs on every push.
 - Wire a check that only reports into pre-commit, where the author can still act on what it says. A notice that arrives
@@ -38,6 +38,6 @@ validation only.
   what each hook runs.
 
 Badak Mini exposes the full target contract the [testing policy](testing-policy.md) states, rather than a list repeated
-here that would drift from it. Its co-located `tests/e2e` package owns process E2E. See
+here that would drift from it. The dedicated `apps/badakmini-cli-e2e` project owns process E2E. See
 [Badak Mini's README](../../apps/badakmini-cli/README.md) for its current command surface and local verification
 commands.

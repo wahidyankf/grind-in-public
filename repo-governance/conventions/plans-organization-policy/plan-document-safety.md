@@ -12,5 +12,4 @@ All plan diagrams are terminal-first ASCII in fenced `text` blocks. Mermaid is n
 studies a system which uses it elsewhere. UI mockup SVG is an accessibility-reviewed design asset, not an architecture
 diagram, and remains subject to the UI-design rule.
 
-Every `plan-checker` prompt states the ASCII and secrets rules in the imperative because a subagent prompt must stand
-alone. Change the three harness copies in the same edit.
+The [plan quality gate](../../workflows/plan-quality-gate.md) verifies the ASCII and secrets rules directly.

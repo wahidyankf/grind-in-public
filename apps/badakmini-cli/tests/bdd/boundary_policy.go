@@ -25,7 +25,7 @@ var forbiddenUnitImports = []string{
 var forbiddenUnitMethods = []string{"Chdir", "Setenv", "TempDir"}
 
 var allowedUnitImportsByFile = map[string][]string{
-	// Adapter parity statically reads Nx target inputs to prove E2E changes invalidate the behavior gate.
+	// Adapter parity statically reads Nx target inputs to prove E2E changes invalidate the behaviour gate.
 	"adapter_parity_test.go": {"os"},
 }
 
@@ -90,7 +90,7 @@ func e2eBoundaryFindings() ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	e2eRoot := filepath.Join(root, "tests", "e2e")
+	e2eRoot := filepath.Join(root, "..", "badakmini-cli-e2e")
 	var findings []string
 	err = filepath.WalkDir(e2eRoot, func(path string, entry fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
@@ -99,7 +99,7 @@ func e2eBoundaryFindings() ([]string, error) {
 		if entry.IsDir() {
 			return nil
 		}
-		if filepath.Ext(entry.Name()) == ".feature" {
+		if filepath.Ext(entry.Name()) == featureFileExtension {
 			findings = append(findings, path+" must consume canonical specs instead of owning a feature")
 			return nil
 		}

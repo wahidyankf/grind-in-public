@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 
-// The loader's own behavior — tier resolution, the stray-file guard, and
+// The loader's own behaviour — tier resolution, the stray-file guard, and
 // process-env-wins — is specified by `tier-env-loading.feature` and bound under
 // `tests/bdd/`. This test is about the composition root instead: that importing
 // this module calls `loadTierEnv()` exactly once, and that it re-exports the

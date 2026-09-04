@@ -42,8 +42,7 @@ Phase 0 is environment setup and baseline. It records a clean starting state —
 before any change — so a later failure can be attributed to the work rather than to the machine. Its gate is that
 recorded baseline, and it commits nothing but the plan itself.
 
-Every `plan-checker` prompt states the phase gate, the Pause Safety note, and Phase 0 in the imperative, because a
-subagent prompt has to stand alone. Change them in the same edit, in all three harness copies.
+The [plan quality gate](../../workflows/plan-quality-gate.md) verifies the phase gate, Pause Safety note, and Phase 0.
 
 ## Ordering
 

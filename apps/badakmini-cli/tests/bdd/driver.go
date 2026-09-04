@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-// Result is the complete public command observation used by behavior assertions.
+// Result is the complete public command observation used by behaviour assertions.
 type Result struct {
 	ExitCode int
 	Stdout   string

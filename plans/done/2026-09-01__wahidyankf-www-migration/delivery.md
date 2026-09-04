@@ -21,10 +21,10 @@
   `eslint-plugin-jsdoc` `64.3.2`, and `tsx` `4.23.13` pinned exactly; root `biome.json` authored with its formatter and
   assist disabled; `scripts/next-with-port.mjs` ported, repointed, and rewritten for this repository; six generated
   paths ignored at the root.
-- 2026-09-01: Phase 2 found one ordering defect in this checklist. The behavior `README.md` item precedes the
+- 2026-09-01: Phase 2 found one ordering defect in this checklist. The behaviour `README.md` item precedes the
   `architecture.md` item but links to the file that one creates, so its `check:markdown-links` acceptance could not pass
   in checklist order. The two were executed in the opposite order; nothing else depends on the sequence.
-- 2026-09-01: Phase 2 gate passed. Eleven feature files and 53 scenarios in `specs/apps/wahidyankf-www/behavior/`,
+- 2026-09-01: Phase 2 gate passed. Eleven feature files and 53 scenarios in `specs/apps/wahidyankf-www/behaviours/`,
   scenario titles diffed against both source corpora with no loss, all 53 conforming to the one-primary-step rule, and
   the as-built C4 model authored.
 - 2026-09-01: Phase 3 found five defects that seven quality-gate cycles did not. `lint:commentary` could not parse one
@@ -125,7 +125,7 @@
   says the same thing twice in two tenses.
 - 2026-09-01: Phase 7's learnings triage routed twelve entries into six documents and discarded two halves with a
   reason. It reached seven paths no phase had anticipated — `code-style-policy.md`, `dependency-selection-policy.md`,
-  `behavior-driven-development-policy.md`, `delivery-checklists.md`, and all three `plan-checker` prompts — because
+  `behaviour-driven-development-policy.md`, `delivery-checklists.md`, and all three `plan-checker` prompts — because
   which documents a triage reaches cannot be known before the learnings exist. Those seven were added to
   `tech-docs/file-impact.md` as `[E]` entries rather than improvised past, which is what that document's own opening
   rule asks for.
@@ -179,8 +179,8 @@
   `repo-governance/conventions/plans-organization-policy/execution-record.md`, indexed in the parent policy and the
   child README with the one inbound anchor repointed. The last two were plan drift: a misattributed caret-range pin in
   `tech-docs/README.md` and a `## Quality Gate` section still carrying the per-cycle table that
-  [findings report](../../../repo-governance/workflows/plan-quality-gate/04-findings-report.md) forbids. All five were
-  resolved, and `file-impact.md` gained the four paths the relocation reached.
+  [plan quality gate](../../../repo-governance/workflows/plan-quality-gate.md) forbids. All five were resolved, and
+  `file-impact.md` gained the four paths the relocation reached.
 - 2026-09-01: Phase 7's fourth strict `plan-checker` cycle verified all five cycle-3 fixes and reported seven findings,
   one of which cycle 3 created. Wiring `specs:e2e:baseline` into `test:scheduled` broke the Phase 5 item that had
   accepted on that script printing its Phase 3 value "and nothing else changed" — a criterion that forbids every later
@@ -222,17 +222,16 @@
   pairs with a positive `rg` twice elsewhere. Both now carry commands. The five LOWs were record and prose precision,
   three of them recurrences of classes an earlier cycle had closed one line away. All seven were resolved.
 - 2026-09-01: the archival quality gate ended on the seven-cycle bound with every finding of every cycle resolved and
-  none waived, which is the second ending
-  [findings report](../../../repo-governance/workflows/plan-quality-gate/04-findings-report.md) provides for. Across
-  five archival cycles it reported 32 findings: 3 HIGH, 11 MEDIUM, and 18 LOW. Three were defects in the delivered
-  repository rather than in the plan — two governance clauses that never reached the `plan-checker` prompts the plan
-  asserted they had, a `specs:e2e:baseline` target nothing automated called, and a comment in
+  none waived, which is the second ending [plan quality gate](../../../repo-governance/workflows/plan-quality-gate.md)
+  provides for. Across five archival cycles it reported 32 findings: 3 HIGH, 11 MEDIUM, and 18 LOW. Three were defects
+  in the delivered repository rather than in the plan — two governance clauses that never reached the `plan-checker`
+  prompts the plan asserted they had, a `specs:e2e:baseline` target nothing automated called, and a comment in
   `apps/wahidyankf-www/tests/bdd/accessibility.steps.ts` routing a reader at a project this repository does not have.
   The status is `settled` rather than `pass`, because cycle 7's fixes were applied after the last check and no cycle has
   read them.
 - 2026-09-01: Phase 7 gate passed. `test:quick`, `typecheck`, `lint`, `test:integration`, and `test:e2e` all exit 0 —
-  258 unit and behavior tests, 8 integration tests, and 36 E2E scenarios with the 34 skips the tracked baseline records.
-  `format:check`, `check:markdown-links`, `check:governance`, `check:workflows`, `check:harness-parity`, and
+  258 unit and behaviour tests, 8 integration tests, and 36 E2E scenarios with the 34 skips the tracked baseline
+  records. `format:check`, `check:markdown-links`, `check:governance`, `check:workflows`, `check:harness-parity`, and
   `npm audit --audit-level=low` all exit 0, the audit reporting no vulnerability. `git ls-files cv` is silent with
   `test ! -e cv` succeeding beside it, and `ls libs` prints only `README.md`. `typecheck` and `lint` were re-run with
   `--skip-nx-cache`, because a 100% cache hit proves a hash matched rather than that a command passed.
@@ -535,54 +534,55 @@ code this plan copies rather than writes, so there is no failing-first state to 
 exemption and its boundary: the only scenarios in this plan that are genuinely new are the two CV export scenarios in
 Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
 
-- [x] [AI] Create `specs/apps/wahidyankf-www/behavior/` and copy all nine `.feature` files from
-      `$SRC/specs/apps/wahidyankf/behavior/wahidyankf-www/gherkin/` into it, flattening the `app-shell/`, `cv/`,
+- [x] [AI] Create `specs/apps/wahidyankf-www/behaviours/` and copy all nine `.feature` files from
+      `$SRC/specs/apps/wahidyankf/behaviours/wahidyankf-www/gherkin/` into it, flattening the `app-shell/`, `cv/`,
       `env-loader/`, `home/`, `personal-projects/`, and `search/` subdirectories away — acceptance:
-      `ls specs/apps/wahidyankf-www/behavior/*.feature | wc -l` prints `9` and no subdirectory exists under `behavior/`.
+      `ls specs/apps/wahidyankf-www/behaviours/*.feature | wc -l` prints `9` and no subdirectory exists under
+      `behaviours/`.
   - Note: the source directory also holds nine `.feature` files, so the flatten collapsed six subdirectories without a
     single basename collision. Counting both sides matters here: a collision would have overwritten one file and still
     left `ls | wc -l` short of nine, which the acceptance would have caught, but a collision plus a spare file would
     not.
-- [x] [AI] Copy `$SRC/specs/libs/ts-env-loader/behavior/gherkin/env-loader/env-loader.feature` to
-      `specs/apps/wahidyankf-www/behavior/tier-env-loading.feature`, carrying its five scenarios — "Loads the selected
+- [x] [AI] Copy `$SRC/specs/libs/ts-env-loader/behaviours/gherkin/env-loader/env-loader.feature` to
+      `specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature`, carrying its five scenarios — "Loads the selected
       tier's file", "Process env always wins over the tier file", "Tolerates a missing tier file", the Scenario Outline
       "Fails loudly on a stray auto-loaded env file" with its Examples table, and "Tolerates a stray file at the local
       tier" — acceptance:
-      `rg -c '^\s*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behavior/tier-env-loading.feature` prints `5`.
-      Inlining `ts-env-loader` brings its behavior into this application, so its corpus comes with it.
-- [x] [AI] Change the `Feature:` line of `specs/apps/wahidyankf-www/behavior/tier-env-loading.feature` from
+      `rg -c '^\s*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature` prints
+      `5`. Inlining `ts-env-loader` brings its behaviour into this application, so its corpus comes with it.
+- [x] [AI] Change the `Feature:` line of `specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature` from
       `APP_ENV tier env-file loading` to `Tier env-file loader module`, leaving every scenario byte-identical —
       acceptance:
-      `rg -n '^Feature: Tier env-file loader module' specs/apps/wahidyankf-www/behavior/tier-env-loading.feature` finds
-      the new title and `rg -c '^Feature: APP_ENV tier env-file loading' specs/apps/wahidyankf-www/behavior/*.feature`
-      reports the count only for `env-loader.feature`. The rename is required because the app corpus already carries a
-      feature with the original title; two features sharing a title in one directory is ambiguous to a reader and to a
-      binding.
+      `rg -n '^Feature: Tier env-file loader module' specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature`
+      finds the new title and
+      `rg -c '^Feature: APP_ENV tier env-file loading' specs/apps/wahidyankf-www/behaviours/*.feature` reports the count
+      only for `env-loader.feature`. The rename is required because the app corpus already carries a feature with the
+      original title; two features sharing a title in one directory is ambiguous to a reader and to a binding.
   - Note: the collision Decision A anticipated is real and was confirmed before the rename — `env-loader.feature` and
     the copied `tier-env-loading.feature` both opened `Feature: APP_ENV tier env-file loading`. After the rename all
     eleven files carry eleven distinct `Feature:` titles, and the scenario count of the renamed file is unchanged.
-- [x] [AI] Copy `$SRC/specs/libs/ts-env-loader/behavior/gherkin/port-resolver/port-resolver.feature` to
-      `specs/apps/wahidyankf-www/behavior/port-resolver.feature` unchanged, carrying its eight scenarios — "The CLI flag
-      outranks every other source", "The prefixed variable outranks the fallback", "The fallback applies when nothing
-      else supplies a port", "A bare PORT variable never moves the listener", the Scenario Outline "A blank value at a
-      tier falls through to the next tier", the Scenario Outline "A present but malformed port fails loudly instead of
-      falling through", "A malformed prefixed variable names that variable in the error", and "An out-of-range
-      compiled-in fallback is caught at startup" — acceptance:
-      `diff "$SRC/specs/libs/ts-env-loader/behavior/gherkin/port-resolver/port-resolver.feature" specs/apps/wahidyankf-www/behavior/port-resolver.feature`
+- [x] [AI] Copy `$SRC/specs/libs/ts-env-loader/behaviours/gherkin/port-resolver/port-resolver.feature` to
+      `specs/apps/wahidyankf-www/behaviours/port-resolver.feature` unchanged, carrying its eight scenarios — "The CLI
+      flag outranks every other source", "The prefixed variable outranks the fallback", "The fallback applies when
+      nothing else supplies a port", "A bare PORT variable never moves the listener", the Scenario Outline "A blank
+      value at a tier falls through to the next tier", the Scenario Outline "A present but malformed port fails loudly
+      instead of falling through", "A malformed prefixed variable names that variable in the error", and "An
+      out-of-range compiled-in fallback is caught at startup" — acceptance:
+      `diff "$SRC/specs/libs/ts-env-loader/behaviours/gherkin/port-resolver/port-resolver.feature" specs/apps/wahidyankf-www/behaviours/port-resolver.feature`
       reports no difference.
-- [x] [AI] Confirm the corpus is complete — acceptance: `ls specs/apps/wahidyankf-www/behavior/*.feature | wc -l` prints
-      `11` and
-      `grep -rhE '^[[:space:]]*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behavior/*.feature | wc -l`
+- [x] [AI] Confirm the corpus is complete — acceptance: `ls specs/apps/wahidyankf-www/behaviours/*.feature | wc -l`
+      prints `11` and
+      `grep -rhE '^[[:space:]]*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behaviours/*.feature | wc -l`
       prints `53`.
 - [x] [AI] Verify the nine app feature files moved without loss by comparing scenario titles — acceptance:
-      `diff <(grep -rhE '^\s*(Scenario|Scenario Outline):' "$SRC/specs/apps/wahidyankf/behavior/wahidyankf-www/gherkin" | sort) <(grep -rhE '^\s*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behavior/accessibility.feature specs/apps/wahidyankf-www/behavior/cv.feature specs/apps/wahidyankf-www/behavior/env-loader.feature specs/apps/wahidyankf-www/behavior/home.feature specs/apps/wahidyankf-www/behavior/personal-projects.feature specs/apps/wahidyankf-www/behavior/responsive.feature specs/apps/wahidyankf-www/behavior/search.feature specs/apps/wahidyankf-www/behavior/static-filterable-routes.feature specs/apps/wahidyankf-www/behavior/theme.feature | sort)`
+      `diff <(grep -rhE '^\s*(Scenario|Scenario Outline):' "$SRC/specs/apps/wahidyankf/behaviours/wahidyankf-www/gherkin" | sort) <(grep -rhE '^\s*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behaviours/accessibility.feature specs/apps/wahidyankf-www/behaviours/cv.feature specs/apps/wahidyankf-www/behaviours/env-loader.feature specs/apps/wahidyankf-www/behaviours/home.feature specs/apps/wahidyankf-www/behaviours/personal-projects.feature specs/apps/wahidyankf-www/behaviours/responsive.feature specs/apps/wahidyankf-www/behaviours/search.feature specs/apps/wahidyankf-www/behaviours/static-filterable-routes.feature specs/apps/wahidyankf-www/behaviours/theme.feature | sort)`
       reports no difference, and each side prints 40 lines. [AC-4]
 - [x] [AI] Verify the two ported loader feature files moved without loss by comparing scenario titles — acceptance:
-      `diff <(grep -rhE '^\s*(Scenario|Scenario Outline):' "$SRC/specs/libs/ts-env-loader/behavior/gherkin" | sort) <(grep -rhE '^\s*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behavior/tier-env-loading.feature specs/apps/wahidyankf-www/behavior/port-resolver.feature | sort)`
+      `diff <(grep -rhE '^\s*(Scenario|Scenario Outline):' "$SRC/specs/libs/ts-env-loader/behaviours/gherkin" | sort) <(grep -rhE '^\s*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature specs/apps/wahidyankf-www/behaviours/port-resolver.feature | sort)`
       reports no difference, and each side prints 13 lines. Only the `Feature:` title changed, so no scenario title may
       differ. [AC-4]
 - [x] [AI] Produce the step-cardinality report over the copied corpus by running
-      `mkdir -p local-tmp && awk 'FNR==1 && name!="" {printf "%s | Given=%d When=%d Then=%d\n", name, g, w, t; name=""} /^[[:space:]]*(Scenario|Scenario Outline):/ {if (name != "") printf "%s | Given=%d When=%d Then=%d\n", name, g, w, t; name=FILENAME": "$0; g=0; w=0; t=0} /^[[:space:]]*Given /{g++} /^[[:space:]]*When /{w++} /^[[:space:]]*Then /{t++} END {if (name != "") printf "%s | Given=%d When=%d Then=%d\n", name, g, w, t}' specs/apps/wahidyankf-www/behavior/*.feature > local-tmp/step-cardinality.txt`
+      `mkdir -p local-tmp && awk 'FNR==1 && name!="" {printf "%s | Given=%d When=%d Then=%d\n", name, g, w, t; name=""} /^[[:space:]]*(Scenario|Scenario Outline):/ {if (name != "") printf "%s | Given=%d When=%d Then=%d\n", name, g, w, t; name=FILENAME": "$0; g=0; w=0; t=0} /^[[:space:]]*Given /{g++} /^[[:space:]]*When /{w++} /^[[:space:]]*Then /{t++} END {if (name != "") printf "%s | Given=%d When=%d Then=%d\n", name, g, w, t}' specs/apps/wahidyankf-www/behaviours/*.feature > local-tmp/step-cardinality.txt`
       — acceptance: `wc -l < local-tmp/step-cardinality.txt` prints `53` and
       `grep -cvE 'Given=[01] When=1 Then=1' local-tmp/step-cardinality.txt` prints `0`. The pattern names `Given`
       explicitly: `grep -cv 'When=1 Then=1'` matches a line reading `Given=2 When=1 Then=1` and so counts it as
@@ -595,8 +595,8 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
 - [x] [AI] Confirm every `Given=0` line in the report belongs to a file that carries a `Background` supplying the Given
       — acceptance: the file list from `grep 'Given=0' local-tmp/step-cardinality.txt | sed 's/:.*//' | sort -u` is a
       subset of the file list from
-      `rg -l '^[[:space:]]*Background:' specs/apps/wahidyankf-www/behavior/*.feature | sort`, the comparison is recorded
-      in `evidence/phase-2-background-coverage.md`, and that file's entry in the `## Directory Map` of
+      `rg -l '^[[:space:]]*Background:' specs/apps/wahidyankf-www/behaviours/*.feature | sort`, the comparison is
+      recorded in `evidence/phase-2-background-coverage.md`, and that file's entry in the `## Directory Map` of
       `evidence/README.md` is converted to a relative link in this same item, which this phase's gate then resolves.
   - Note: the two lists are equal, not merely in a subset relation — the same eight files carry every `Given=0` scenario
     and every `Background`. `comm -23` over the sorted lists printed nothing.
@@ -612,14 +612,14 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
     tick would claim work that did not happen, and a dated disposition is what the
     [delivery checklist rules](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md)
     require of a dormant item instead.
-- [x] [AI] Create `specs/apps/wahidyankf-www/behavior/README.md` with a `## Directory Map` linking all eleven feature
-      files, then run `git add -N specs/apps/wahidyankf-www/behavior/README.md` before checking it — acceptance:
+- [x] [AI] Create `specs/apps/wahidyankf-www/behaviours/README.md` with a `## Directory Map` linking all eleven feature
+      files, then run `git add -N specs/apps/wahidyankf-www/behaviours/README.md` before checking it — acceptance:
       `npm run check:markdown-links` exits 0 and the map lists eleven entries. The check takes its document list from
       `git ls-files`, as
       [workspace commands](../../../repo-governance/development/workspace-commands.md#repository-checks) states, so
       without the intent-to-add it would skip this file entirely and exit 0 whether or not a single link resolved.
   - Note: executed **after** the `architecture.md` item below rather than before it. As authored, this item's acceptance
-    was unreachable in checklist order: the behavior README links to `../architecture.md`, which the next item creates,
+    was unreachable in checklist order: the behaviour README links to `../architecture.md`, which the next item creates,
     so `npm run check:markdown-links` failed with `"../architecture.md" targets a file that does not exist`. The eleven
     feature links resolved on the first run — the checker resolves against the filesystem, so the intent-add matters for
     the README being _read_, not for its targets being _found_. Swapping the two items is enough; nothing else depends
@@ -628,7 +628,7 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
       `$SRC/specs/apps/wahidyankf/product/overview.md`, `system-context/context.md`, `containers/container.md`, and
       `components/web/component-web.md` into one model that describes the post-migration state: no Docker container
       node, no external design-system component, and one CV store — acceptance: the file contains a system-context view
-      and a container view as fenced `text` ASCII blocks, contains no Mermaid, links to `behavior/`, and
+      and a container view as fenced `text` ASCII blocks, contains no Mermaid, links to `behaviours/`, and
       `rg -n 'docker|web-ui|open-sharia' specs/apps/wahidyankf-www/architecture.md` finds nothing. The model is written
       here as an as-built description of a system Phases 3, 4, and 5 build, so authoring it is not the whole of it: the
       Phase 5 reconciliation item checks each of its three stated differences from the source against the delivered tree
@@ -638,9 +638,9 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
     components the migration inlines, `ui/shell` and `env/core`, which no source document mentions because they were
     external packages there. Three views authored as fenced `text` ASCII: system context, containers, and components.
     The container view draws the E2E project, because starting a server and driving it over a local port is a real
-    process boundary and is what makes it a different toolchain from the in-process behavior adapter.
+    process boundary and is what makes it a different toolchain from the in-process behaviour adapter.
 - [x] [AI] Create `specs/apps/wahidyankf-www/README.md` naming the corpus path, the three required adapters, and the Nx
-      targets, with a `## Directory Map` linking `architecture.md` and `behavior/README.md`, then run
+      targets, with a `## Directory Map` linking `architecture.md` and `behaviours/README.md`, then run
       `git add -N specs/apps/wahidyankf-www/README.md specs/apps/wahidyankf-www/architecture.md` before checking —
       acceptance: `npm run check:markdown-links` exits 0 and reports on both files. `architecture.md` is intent-added
       too, because it is new and carries links of its own.
@@ -649,7 +649,7 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
 - [x] [AI] Edit `specs/README.md` to index the new corpus and repair the one sentence this corpus makes false. Its
       `## Current Specifications` section opens with a link to Badak Mini followed by "is the only subject so far";
       rewrite it to name both subjects — Badak Mini's five-feature corpus with its unit, local integration, and
-      public-process E2E adapters, and `wahidyankf-www`'s eleven-feature corpus with its unit, behavior, integration,
+      public-process E2E adapters, and `wahidyankf-www`'s eleven-feature corpus with its unit, behaviour, integration,
       and process E2E adapters — keeping the closing claim that the adapters fail when a feature, step, binding, or
       adapter drifts, which stays true of both — acceptance: `rg -c 'wahidyankf-www' specs/README.md` prints a non-zero
       count, `rg -n 'only subject' specs/README.md` finds nothing, and `npm run check:markdown-links` exits 0 on the
@@ -674,7 +674,7 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
 
 ## Phase 3: Port the Application to a Green 99% State
 
-This phase is large by owner direction: no gate may close while coverage is below 99% or a required behavior layer is
+This phase is large by owner direction: no gate may close while coverage is below 99% or a required behaviour layer is
 missing, so the application arrives complete or not at all. The checklist is ordered so each area reaches green before
 the next begins.
 
@@ -749,35 +749,35 @@ the next begins.
       the testing policy forbids duplicating an executable threshold as metadata, where the two can silently disagree.
       [AC-2]
 - [x] [AI] Replace the two ported vitest projects `unit-fe` and `integration` in `apps/wahidyankf-www/vitest.config.ts`
-      with three named `unit`, `integration`, and `behavior`, where `unit` includes only `src/**/*.unit.test.{ts,tsx}`
-      under `jsdom`, `behavior` includes only `tests/bdd/**` under `jsdom`, and `integration` includes only
+      with three named `unit`, `integration`, and `behaviour`, where `unit` includes only `src/**/*.unit.test.{ts,tsx}`
+      under `jsdom`, `behaviour` includes only `tests/bdd/**` under `jsdom`, and `integration` includes only
       `tests/integration/**` under `node`, carrying forward the two attributes the ported `unit-fe` project holds beyond
       its name, environment, and include list: `plugins: sharedPlugins` goes on all three, and
-      `setupFiles: ["./src/test/setup.ts"]` goes on `unit` and `behavior` only — acceptance:
-      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts list --project unit --project integration --project behavior)`
+      `setupFiles: ["./src/test/setup.ts"]` goes on `unit` and `behaviour` only — acceptance:
+      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts list --project unit --project integration --project behaviour)`
       runs without an unknown-project error, `rg -c 'plugins: sharedPlugins' apps/wahidyankf-www/vitest.config.ts`
       reports four — the root entry plus one per project — and `rg -c 'setupFiles' apps/wahidyankf-www/vitest.config.ts`
-      reports two, on `unit` and `behavior`. Neither attribute is optional. `sharedPlugins` is
+      reports two, on `unit` and `behaviour`. Neither attribute is optional. `sharedPlugins` is
       `[react(), tsconfigPaths()]`: `@vitejs/plugin-react` is what compiles the JSX every component test and step file
       renders, and `vite-tsconfig-paths` is what resolves the `@/features/…` specifiers they import, so a project
       without it fails to resolve its own subject. `integration` needs `sharedPlugins` for the same path resolution —
       the CV export test imports the export module by its `@/` path — but not the setup file, whose
       `@testing-library/jest-dom/vitest` matchers and `afterEach(cleanup)` have nothing to act on in a `node`
-      environment. `unit` and `behavior` do need it: the ported step files carry a header comment saying that
+      environment. `unit` and `behaviour` do need it: the ported step files carry a header comment saying that
       `@amiceli/vitest-cucumber` registers every `Given`/`When`/`Then` as its own Vitest test and that
       `src/test/setup.ts` runs `cleanup()` after every test, so a `render()` done in a `When` step does not survive into
       the following `Then` — which is why each assertion step re-renders. Without the setup file those repeated renders
       accumulate in one document and the `screen` queries start matching several elements, and the `jest-dom` matchers
       those files call are not registered at all. Neither failure names the config that caused it. The ported config
       names the first project `unit-fe` and points it at `test/**/*.steps.{ts,tsx}`, neither of which matches the target
-      contract's `--project unit` and `--project behavior`. Every direct `npx vitest` invocation in this checklist runs
+      contract's `--project unit` and `--project behaviour`. Every direct `npx vitest` invocation in this checklist runs
       from `apps/wahidyankf-www` in a subshell, with the config path written relative to that directory. Vitest's `root`
       defaults to `process.cwd()` rather than to the directory holding the config file, so the same command issued from
       the workspace root resolves `src/**`, `tests/bdd/**`, and `tests/integration/**` against the workspace root and
       matches nothing at all. The ported config sets `passWithNoTests: true` and no item here removes it, so a run that
       matched nothing still exits 0 — the miss is silent, which is why the working directory is written into each
       command rather than left to the reader. The `test:unit`, `test:integration`, `test:coverage:unit`,
-      `test:coverage:integration`, and `test:coverage:behavior` targets have the same requirement met for them by the
+      `test:coverage:integration`, and `test:coverage:behaviour` targets have the same requirement met for them by the
       `cwd: {projectRoot}` the Target Contract in [technical design](tech-docs/README.md#target-contract) gives every
       single-command target.
   - Note: the `rg -c 'setupFiles'` half of the acceptance is sensitive to prose. A first draft explained the integration
@@ -826,7 +826,7 @@ the next begins.
       `test:coverage`, and giving each target the `cwd` that table names: `{projectRoot}` on every single-command
       target, `{workspaceRoot}` on `static-routes:validation` alone, and none on the three aggregates — acceptance:
       `npx nx show project wahidyankf-www --json` lists every target in that table with the `cwd` the table states, and
-      `rg -n 'rhino-cli|dotnet|\.fsproj|test:specs|specs:structure-validation|specs:behavior:coverage' apps/wahidyankf-www/project.json`
+      `rg -n 'rhino-cli|dotnet|\.fsproj|test:specs|specs:structure-validation|specs:behaviour:coverage' apps/wahidyankf-www/project.json`
       finds nothing. The two working directories are not interchangeable: `next build`, `tsc --noEmit`, `biome check`,
       and the `../../scripts/next-with-port.mjs` path only resolve from the project directory, while
       `static-routes:validation` names `apps/wahidyankf-www/scripts/validate-static-routes.mjs` from the root. The
@@ -857,7 +857,7 @@ the next begins.
 - [x] [AI] Declare `"cache"` explicitly on every target in `apps/wahidyankf-www/project.json` that the Target Contract
       in [technical design](tech-docs/README.md) marks cached or uncached and that root `nx.json` `targetDefaults` does
       not already cover — `lint:biome`, `lint:commentary`, `test:coverage:unit`, `test:coverage:integration`,
-      `test:coverage:behavior`, `test:integration`, `static-routes:validation`, `generate:cv-pdf`, `dev`, and `start` —
+      `test:coverage:behaviour`, `test:integration`, `static-routes:validation`, `generate:cv-pdf`, `dev`, and `start` —
       acceptance: `npx nx show project wahidyankf-www --json` reports each of those ten targets with the cache setting
       the table states. Root `targetDefaults` names six target names and no more — `build`, `typecheck`, `lint`,
       `test:unit`, `test:coverage`, and `test:quick` — and a default keyed on `lint` does not reach `lint:biome` or
@@ -880,9 +880,9 @@ the next begins.
 - [x] [AI] Confirm `apps/wahidyankf-www/project.json` defines no `test:e2e` target — acceptance:
       `npx nx show project wahidyankf-www --json | rg -n '"test:e2e"'` finds nothing, because the testing policy names
       an echoing placeholder as the failure mode and absence as the correct signal.
-- [x] [AI] Declare the `inputs` array of `test:unit`, `test:coverage:unit`, `test:coverage:behavior`, `test:coverage`,
+- [x] [AI] Declare the `inputs` array of `test:unit`, `test:coverage:unit`, `test:coverage:behaviour`, `test:coverage`,
       and `test:quick` in `apps/wahidyankf-www/project.json` with `"default"` as its first entry and
-      `{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature` as its second — acceptance:
+      `{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature` as its second — acceptance:
       `npx nx show project wahidyankf-www --json` shows both entries on all five targets, with `"default"` first, so a
       feature edit invalidates each and so does an edit to the project's own files. `"default"` is load-bearing rather
       than decorative: a target-level `inputs` array replaces Nx's default input set instead of extending it, and
@@ -892,7 +892,7 @@ the next begins.
       put it first: every `inputs` array in `apps/badakmini-cli/project.json`, and `test:unit`, `test:quick`, and
       `static-routes:validation` in the source `apps/wahidyankf-www/project.json`.
 - [x] [AI] Add `{workspaceRoot}/scripts/next-with-port.mjs` as a further entry in the `inputs` of `test:unit`,
-      `test:coverage:unit`, `test:coverage:behavior`, `test:coverage`, and `test:quick` in
+      `test:coverage:unit`, `test:coverage:behaviour`, `test:coverage`, and `test:quick` in
       `apps/wahidyankf-www/project.json` — acceptance: `npx nx show project wahidyankf-www --json` shows the wrapper
       input on all five targets alongside the two the preceding item declared, with `"default"` still first, so an edit
       to that script invalidates each of them. `apps/wahidyankf-www/tests/bdd/next-with-port-wrapper.unit.test.ts`,
@@ -901,7 +901,7 @@ the next begins.
       would skip this project entirely and the cached `test:coverage:unit` and `test:quick` would replay unchanged. The
       contract test would then silently stop running on exactly the change it exists to catch.
       `apps/badakmini-cli/project.json` sets the precedent, naming `{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*`
-      on its own `test:coverage:behavior` for the same reason.
+      on its own `test:coverage:behaviour` for the same reason.
 - [x] [AI] Run `npm install` — acceptance: `apps/wahidyankf-www` resolves as an npm workspace and `npx nx show projects`
       lists `wahidyankf-www`.
   - Note: the install surfaced three **high**-severity advisories against the ported `next@16.2.6` pin, reaching `next`,
@@ -1132,7 +1132,7 @@ the next begins.
       exist and `node --check apps/wahidyankf-www/scripts/validate-static-routes.mjs` exits 0. `--check` parses without
       executing, which is the only smoke test available here: the script handles no flags and reads
       `.next/prerender-manifest.json` and `.next/routes-manifest.json` at module top level, so any run at all —
-      including `--help` — exits on `ENOENT` before the build below produces `.next`. Its behavior is proved later by
+      including `--help` — exits on `ENOENT` before the build below produces `.next`. Its behaviour is proved later by
       `static-routes:validation`.
 - [x] [AI] Try Node's own type stripping before relying on the `tsx` pin — run
       `node apps/wahidyankf-www/scripts/generate-cv-pdf.ts` and record the command, its exit status, and any error text
@@ -1243,16 +1243,16 @@ the next begins.
 
 - [x] [AI] Copy the nine step files from `$SRC/apps/wahidyankf-www/test/unit/steps/` to
       `apps/wahidyankf-www/tests/bdd/`, matching the `tests/bdd` layout `apps/badakmini-cli` already uses, and repoint
-      each `loadFeature` path at `specs/apps/wahidyankf-www/behavior/<name>.feature` — acceptance:
+      each `loadFeature` path at `specs/apps/wahidyankf-www/behaviours/<name>.feature` — acceptance:
       `ls apps/wahidyankf-www/tests/bdd/*.steps.ts | wc -l` prints `9` and
       `rg -n 'gherkin/' apps/wahidyankf-www/tests/bdd` finds no stale nested path.
   - Note, 2026-09-01: nine files copied; `ls apps/wahidyankf-www/tests/bdd/*.steps.ts | wc -l` prints `9` and
     `rg -n 'gherkin/' apps/wahidyankf-www/tests/bdd` finds nothing. The repointing was wider than the `loadFeature` call
     in each file. Every step in every file carries a `@covers specs/.../gherkin/<group>/<name>.feature:<scenario name>`
     comment naming the scenario it implements, so the old nested path appeared 53 more times than the nine load sites.
-    One substitution of the nested prefix `specs/apps/wahidyankf/behavior/wahidyankf-www/gherkin/<group>/` for the flat
-    `specs/apps/wahidyankf-www/behavior/` covered both, and the `gherkin/` sweep in this item's own acceptance is what
-    would have caught it had it not. Each of the nine now names a feature file that exists.
+    One substitution of the nested prefix `specs/apps/wahidyankf/behaviours/wahidyankf-www/gherkin/<group>/` for the
+    flat `specs/apps/wahidyankf-www/behaviours/` covered both, and the `gherkin/` sweep in this item's own acceptance is
+    what would have caught it had it not. Each of the nine now names a feature file that exists.
 - [x] [AI] Repoint the fourteen references to the renamed PascalCase modules inside the copied step files. Six name
       `Navigation`: the `@/features/app-shell/shell/Navigation` import in `responsive.steps.ts`, and the
       `vi.mock("@/features/app-shell/shell/Navigation")` targets in `cv.steps.ts`, `home.steps.ts`,
@@ -1275,8 +1275,8 @@ the next begins.
       imports in `theme.steps.ts`, `accessibility.steps.ts`, and `responsive.steps.ts`, and the
       `vi.mock("@open-sharia-enterprise/web-ui")` in `static-filterable-routes.steps.ts`, all at `@/features/ui/shell`;
       and the `loadTierEnv` import in `env-loader.steps.ts` at `@/features/env/core/tier-env` — acceptance:
-      `rg -n 'open-sharia-enterprise' apps/wahidyankf-www/tests` finds nothing. Without this the behavior run cannot
-      resolve its imports at all, so the `test:coverage:behavior` check below would never reach exit 0. [AC-6]
+      `rg -n 'open-sharia-enterprise' apps/wahidyankf-www/tests` finds nothing. Without this the behaviour run cannot
+      resolve its imports at all, so the `test:coverage:behaviour` check below would never reach exit 0. [AC-6]
   - Note, 2026-09-01: five references rewritten and `rg -n 'open-sharia-enterprise' apps/wahidyankf-www/tests` finds
     nothing. Four `web-ui` specifiers now read `@/features/ui/shell`, which resolves to the barrel the inlining step
     wrote; that barrel re-exports `ThemeToggle` as a named symbol even though the component declares itself as a
@@ -1285,7 +1285,7 @@ the next begins.
     module and the mock will take effect. The fifth is `loadTierEnv`, now at `@/features/env/core/tier-env`.
 - [x] [AI] Copy `$SRC/libs/ts-env-loader/src/env-loader.unit.test.ts` to
       `apps/wahidyankf-www/tests/bdd/tier-env.unit.test.ts`, repointing its `loadFeature` path at
-      `specs/apps/wahidyankf-www/behavior/tier-env-loading.feature` and its module import at
+      `specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature` and its module import at
       `@/features/env/core/tier-env` — acceptance:
       `rg -n 'tier-env-loading.feature' apps/wahidyankf-www/tests/bdd/tier-env.unit.test.ts` finds the binding and
       `rg -n 'ts-env-loader|\./index' apps/wahidyankf-www/tests/bdd/tier-env.unit.test.ts` finds nothing. It lives under
@@ -1300,7 +1300,7 @@ the next begins.
     feature the same way and none depends on `__dirname` being defined under whichever module format vitest gives them.
 - [x] [AI] Copy `$SRC/libs/ts-env-loader/src/port-resolver.unit.test.ts` to
       `apps/wahidyankf-www/tests/bdd/port-resolver.unit.test.ts`, repointing its `loadFeature` path at
-      `specs/apps/wahidyankf-www/behavior/port-resolver.feature` and its module import at
+      `specs/apps/wahidyankf-www/behaviours/port-resolver.feature` and its module import at
       `@/features/env/core/port-resolver` — acceptance:
       `rg -n 'port-resolver.feature' apps/wahidyankf-www/tests/bdd/port-resolver.unit.test.ts` finds the binding and
       `rg -n 'ts-env-loader|\./index' apps/wahidyankf-www/tests/bdd/port-resolver.unit.test.ts` finds nothing.
@@ -1323,7 +1323,7 @@ the next begins.
 - [x] [AI] Copy `$SRC/libs/ts-env-loader/src/next-with-port-wrapper.unit.test.ts` to
       `apps/wahidyankf-www/tests/bdd/next-with-port-wrapper.unit.test.ts`, repointing the wrapper path it spawns at the
       repository-root `scripts/next-with-port.mjs` — acceptance:
-      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts run --project behavior tests/bdd/next-with-port-wrapper.unit.test.ts)`
+      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts run --project behaviour tests/bdd/next-with-port-wrapper.unit.test.ts)`
       exits 0 **and** its summary reports one test file with at least one passing test, not `No test files found`. Both
       halves are needed: `passWithNoTests: true` in the ported config makes a run that collected nothing exit 0 too, so
       an exit status alone would not distinguish the contract test passing from the contract test never being reached.
@@ -1370,8 +1370,8 @@ the next begins.
     `--server` paragraph first ended by saying the spawning form is what the end-to-end suite covers, which is a claim
     about a harness Phase 5 has not built yet. A comment asserting a fact about work not yet done is wrong at the moment
     it is written, so the sentence now states only what booting the spawning form would cost.
-- [x] [AI] Confirm the `behavior` project defined in Scaffold now discovers every binding — acceptance:
-      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts list --project behavior)` lists exactly twelve
+- [x] [AI] Confirm the `behaviour` project defined in Scaffold now discovers every binding — acceptance:
+      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts list --project behaviour)` lists exactly twelve
       files, the nine `.steps.ts` bindings plus `tier-env.unit.test.ts`, `port-resolver.unit.test.ts`, and
       `next-with-port-wrapper.unit.test.ts`, and no other file.
   - Note, 2026-09-01: exactly twelve files, and exactly the twelve the item names — the nine `.steps.ts` bindings plus
@@ -1383,13 +1383,14 @@ the next begins.
     proxy did not drop a flag here, it reformatted output as though a different command had run.
   - Note, 2026-09-01: the recovered listing showed every `port-resolver` scenario naming the environment variable
     `OSE_WWW_PORT`. That is followed up by the item added directly below.
-- [x] [AI] Rename `OSE_WWW_PORT` to `WAHIDYANKF_WWW_PORT` in `specs/apps/wahidyankf-www/behavior/port-resolver.feature`
-      and `apps/wahidyankf-www/tests/bdd/port-resolver.unit.test.ts`, changing both in one edit so the Gherkin step text
-      and the binding's step string stay identical — acceptance:
+- [x] [AI] Rename `OSE_WWW_PORT` to `WAHIDYANKF_WWW_PORT` in
+      `specs/apps/wahidyankf-www/behaviours/port-resolver.feature` and
+      `apps/wahidyankf-www/tests/bdd/port-resolver.unit.test.ts`, changing both in one edit so the Gherkin step text and
+      the binding's step string stay identical — acceptance:
       `rg -l 'OSE_WWW_PORT' --hidden --glob '!node_modules' --glob '!plans/**' .` finds nothing,
-      `grep -cE '^[[:space:]]*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behavior/port-resolver.feature`
+      `grep -cE '^[[:space:]]*(Scenario|Scenario Outline):' specs/apps/wahidyankf-www/behaviours/port-resolver.feature`
       still prints `8`, and
-      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts run --project behavior tests/bdd/port-resolver.unit.test.ts)`
+      `(cd apps/wahidyankf-www && npx vitest --config vitest.config.ts run --project behaviour tests/bdd/port-resolver.unit.test.ts)`
       exits 0. **This item was added during execution.** The discovered header rewrite earlier in this phase stripped
       `OSE_WWW_PORT` from `port-resolver.ts` on the grounds that it names a variable this repository does not have, but
       it reached only that one file; the corpus and its binding kept the name, and no sweep in Close the Migration looks
@@ -1405,7 +1406,7 @@ the next begins.
     type error or a lint finding. This edit does not disturb any Phase 2 acceptance: those compare scenario **titles**
     between this corpus and the source, and the variable appears only in step lines beneath them.
 - [x] [AI] Verify — do not re-set — that the `test:coverage:unit` command in `apps/wahidyankf-www/project.json` reads
-      `vitest run --project unit --project behavior --coverage --coverage.thresholds.lines=99`, exactly as the Target
+      `vitest run --project unit --project behaviour --coverage --coverage.thresholds.lines=99`, exactly as the Target
       Contract in [technical design](tech-docs/README.md#target-contract) writes it and as the `project.json` authoring
       item in Scaffold transcribed it — acceptance: `npx nx show project wahidyankf-www --json` shows both project flags
       on that target. If only `--project unit` is there, the authoring item was not executed as written; add the second
@@ -1415,7 +1416,7 @@ the next begins.
       unit-only run would report them at zero against a `src/**` denominator. `badakmini-cli` does the same thing for
       the same reason: its `test:coverage:unit` passes `./tests/bdd` alongside `./tests/unit`. [AC-2]
   - Note, 2026-09-01: verified rather than re-set, and it matches. `apps/wahidyankf-www/project.json` holds
-    `vitest run --project unit --project behavior --coverage --coverage.thresholds.lines=99`, character for character
+    `vitest run --project unit --project behaviour --coverage --coverage.thresholds.lines=99`, character for character
     what the Target Contract's row states. The surrounding keys agree too — `cwd` is `{projectRoot}`, `cache` is true,
     `outputs` is `{projectRoot}/coverage`, and `inputs` begins with `"default"` before naming the corpus glob and the
     wrapper script. The point of verifying instead of setting is that the Scaffold item already wrote this target and
@@ -1423,7 +1424,7 @@ the next begins.
     with the contract, so a drift introduced in Scaffold would be quietly repaired instead of reported.
 - [x] [AI] Confirm each of the eleven feature files is named by exactly one binding file under `tests/bdd/` —
       acceptance:
-      `for f in specs/apps/wahidyankf-www/behavior/*.feature; do n=$(basename "$f"); printf '%s %s\n' "$n" "$(rg -l "behavior/$n" apps/wahidyankf-www/tests/bdd | wc -l | tr -d ' ')"; done`
+      `for f in specs/apps/wahidyankf-www/behaviours/*.feature; do n=$(basename "$f"); printf '%s %s\n' "$n" "$(rg -l "behaviours/$n" apps/wahidyankf-www/tests/bdd | wc -l | tr -d ' ')"; done`
       prints eleven lines and every one ends in `1`. The runner cannot detect a feature file that no binding loads at
       all, so this count is what proves the mapping. [AC-4]
   - Note, 2026-09-01: eleven lines, every one ending in `1` — no feature is loaded twice and, more to the point, none is
@@ -1432,7 +1433,7 @@ the next begins.
     directory contributing to the count of eleven while specifying nothing that runs. The twelfth file,
     `cv-export.feature`, does not exist yet and is authored by the next subsection, which is why this count is eleven
     rather than twelve.
-- [x] [AI] Run `npx nx run wahidyankf-www:test:coverage:behavior` — acceptance: exits 0, and the run reports all 53
+- [x] [AI] Run `npx nx run wahidyankf-www:test:coverage:behaviour` — acceptance: exits 0, and the run reports all 53
       scenarios across the eleven loaded features. `@amiceli/vitest-cucumber` fails the run on a missing scenario, a
       missing or mistyped step, and a missing Scenario Outline variable inside a loaded feature; it does not detect an
       unused binding. [AC-4]
@@ -1447,7 +1448,7 @@ the next begins.
     `project.title`, and it changed the `id` on the same element at the same time —
     `id={`project-${index}`}` became `id={`project-${project.title}`}`. The `key` change was right and is kept: an index
     reused as identity makes React carry the wrong card's state across a search filter. The `id` change was wrong,
-    because the behavior corpus addresses cards positionally and an element id is observable DOM in a way a React key
+    because the behaviour corpus addresses cards positionally and an element id is observable DOM in a way a React key
     never is. The element now carries a positional `id` and a title-based `key`, with a comment saying why the two
     deliberately disagree, and all 53 scenarios pass. Both attributes were audited across the whole ported tree
     afterwards: this is the only dynamic `id` in `src/`, and every other `key` the lint pass rewrote changes nothing a
@@ -1473,16 +1474,16 @@ the next begins.
     mistake was made. The lesson is not that a check was missing; it is that a check already passed is not evidence
     about files created after it ran.
 
-### New Behavior: CV Export at the Filesystem Boundary
+### New Behaviour: CV Export at the Filesystem Boundary
 
-- [x] [AI] Create `specs/apps/wahidyankf-www/behavior/cv-export.feature` with the title `Feature: CV export` and the
+- [x] [AI] Create `specs/apps/wahidyankf-www/behaviours/cv-export.feature` with the title `Feature: CV export` and the
       first scenario "Generating the CV writes a PDF to the local filesystem" — acceptance:
-      `rg -n '^Feature: CV export' specs/apps/wahidyankf-www/behavior/cv-export.feature` finds the title and
-      `rg -n 'Generating the CV writes a PDF' specs/apps/wahidyankf-www/behavior/cv-export.feature` finds the scenario.
-      These two scenarios get their own file rather than joining `cv.feature`, because `prd.md` writes them under
-      `Feature: CV export`, and because `cv.feature` is loaded by `tests/bdd/cv.steps.ts` — `@amiceli/vitest-cucumber`
-      throws `ScenarioNotCalledError` for any scenario in a loaded feature that the binding does not declare, so an
-      integration-only scenario placed there would fail `test:coverage:behavior`. [AC-3]
+      `rg -n '^Feature: CV export' specs/apps/wahidyankf-www/behaviours/cv-export.feature` finds the title and
+      `rg -n 'Generating the CV writes a PDF' specs/apps/wahidyankf-www/behaviours/cv-export.feature` finds the
+      scenario. These two scenarios get their own file rather than joining `cv.feature`, because `prd.md` writes them
+      under `Feature: CV export`, and because `cv.feature` is loaded by `tests/bdd/cv.steps.ts` —
+      `@amiceli/vitest-cucumber` throws `ScenarioNotCalledError` for any scenario in a loaded feature that the binding
+      does not declare, so an integration-only scenario placed there would fail `test:coverage:behaviour`. [AC-3]
   - Note, 2026-09-01: both acceptances hold. The scenario's four step lines are `prd.md`'s verbatim, and the file
     carries the `As / I want / So that` narrative and a `@integration` tag to match the house style of the eleven files
     beside it. One structural choice was made and then reversed: the `Given` was first lifted into a `Background`, which
@@ -1532,8 +1533,8 @@ Scenario: Generating the CV writes a PDF to the local filesystem
     function in this file rather than a `beforeEach`, because the second scenario added below needs a path in a
     directory that does **not** exist, and a hook that creates one unconditionally would work against it.
 - [x] [AI] Add the scenario "Generating the CV reports an unwritable output location" to
-      `specs/apps/wahidyankf-www/behavior/cv-export.feature` — acceptance:
-      `rg -n 'reports an unwritable output location' specs/apps/wahidyankf-www/behavior/cv-export.feature` finds it.
+      `specs/apps/wahidyankf-www/behaviours/cv-export.feature` — acceptance:
+      `rg -n 'reports an unwritable output location' specs/apps/wahidyankf-www/behaviours/cv-export.feature` finds it.
       [AC-3]
   - Note, 2026-09-01: added verbatim from `prd.md`, tagged `@integration` like its sibling, and the file now holds two
     scenarios. Its `Given` names a directory that does not exist, which is the opposite precondition to the first
@@ -1546,7 +1547,7 @@ Scenario: Generating the CV writes a PDF to the local filesystem
     nothing has been assigned to `failure`. Adding the scenario to the feature file had already turned the suite red
     before a line of binding was written, with
     `ScenarioNotCalledError: Scenario: Generating the CV reports an unwritable output location was not called`; that is
-    the runner reporting an unbound scenario rather than a failing behavior, so it was not treated as this item's RED.
+    the runner reporting an unbound scenario rather than a failing behaviour, so it was not treated as this item's RED.
     The `Given` is worth noting: it creates a temp directory through the fixture and then removes it, rather than naming
     a path that never existed, so the parent is a real location this process owns and the only thing absent is the
     directory the export was pointed at.
@@ -1587,18 +1588,18 @@ Scenario: Generating the CV reports an unwritable output location
     to reintroduce the `try` this refactor removed. The success case asserts the returned value is `undefined`, so a
     write that silently failed cannot pass as a write that succeeded.
 - [x] [AI] Confirm `cv-export.feature` is bound exactly once, from the integration layer — acceptance:
-      `rg -l 'behavior/cv-export.feature' apps/wahidyankf-www` lists only
+      `rg -l 'behaviours/cv-export.feature' apps/wahidyankf-www` lists only
       `apps/wahidyankf-www/tests/integration/cv-pdf.integration.test.ts`, and
       `rg -n 'cv-export' apps/wahidyankf-www/tests/bdd` finds nothing. The corpus now holds twelve feature files and 55
       scenarios: eleven files and 53 scenarios bound from `tests/bdd/`, and this one bound from `tests/integration/`.
       [AC-4]
-  - Note, 2026-09-01: `rg -l 'behavior/cv-export.feature' apps/wahidyankf-www` lists exactly one file,
+  - Note, 2026-09-01: `rg -l 'behaviours/cv-export.feature' apps/wahidyankf-www` lists exactly one file,
     `tests/integration/cv-pdf.integration.test.ts`, and `rg -n 'cv-export' apps/wahidyankf-www/tests/bdd` finds nothing.
     The corpus totals the item predicts also hold: twelve `.feature` files and 55 scenarios. The single-binding rule
     matters more here than for the other eleven, because a second binding under `tests/bdd/` would put these two
-    scenarios in the `behavior` project, where they would run under jsdom with no setup file and write real PDFs on
+    scenarios in the `behaviour` project, where they would run under jsdom with no setup file and write real PDFs on
     every quick gate.
-- [x] [AI] Add `cv-export.feature` to the `## Directory Map` in `specs/apps/wahidyankf-www/behavior/README.md`, noting
+- [x] [AI] Add `cv-export.feature` to the `## Directory Map` in `specs/apps/wahidyankf-www/behaviours/README.md`, noting
       that it binds at the integration layer rather than under `tests/bdd/` — acceptance: `npm run check:markdown-links`
       exits 0 and the map lists twelve entries.
   - Note, 2026-09-01: the entry is added, noting the integration binding, and the map now lists twelve. Two counts in
@@ -1608,7 +1609,7 @@ Scenario: Generating the CV reports an unwritable output location
     them would have made the document's own summary disagree with the list beneath it.
   - Note, 2026-09-01: `npm run check:markdown-links` failed on the first attempt, and not because of this edit. Both
     errors were at `apps/wahidyankf-www/README.md:26`, in the stale README the port carried in, pointing at
-    `../../specs/apps/wahidyankf/behavior/wahidyankf-www/README.md` and `../wahidyankf-www-fe-e2e/README.md` — the
+    `../../specs/apps/wahidyankf/behaviours/wahidyankf-www/README.md` and `../wahidyankf-www-fe-e2e/README.md` — the
     source repository's corpus path and the old E2E project name. The item that replaces that README sits in Close the
     Migration, several items later, so this acceptance could not pass in the order written. It was executed out of
     order, exactly as the Phase 2 ordering defect was; see the note on that item below. The check exits 0 now.
@@ -1702,7 +1703,7 @@ item below is complete when its own files exist and the whole unit suite is stil
     from when a test starts rather than from when its worker is ready, so the first test in a file pays that file's
     jsdom setup and module import out of its own budget; `CvContent` renders the entire CV in one component, and under
     contention that crossed five seconds. The limit is raised rather than the test narrowed, because the render is the
-    behavior under test — a version that rendered less would be faster and would stop measuring the thing. The value is
+    behaviour under test — a version that rendered less would be faster and would stop measuring the thing. The value is
     set on each project rather than once at the root, and the first attempt did exactly that and kept failing: this file
     already documents that Vitest projects do not inherit plugins from the root config, and the same is true of a
     project's other `test` options. That inheritance assumption cost two more failing runs before it was checked rather
@@ -1745,7 +1746,7 @@ item below is complete when its own files exist and the whole unit suite is stil
       [workspace commands](../../../repo-governance/development/workspace-commands.md#build-and-test) states —
       acceptance: `node -e "console.log(require('./package.json').scripts['test:scheduled'])"` prints exactly that
       string. No other script is touched: `build`, `lint`, `typecheck`, `test:unit`, `test:quick`, `test:coverage`,
-      `test:behavior`, `test:integration`, and `test:e2e` are all `nx run-many -t <target>` and pick up a new project
+      `test:behaviour`, `test:integration`, and `test:e2e` are all `nx run-many -t <target>` and pick up a new project
       with no edit at all. `test:scheduled` is the only script that names projects, which is why it is the only one that
       has to change.
   - Note, 2026-09-01: the script prints exactly the specified string, and `git diff --stat package.json` reports one
@@ -1759,13 +1760,13 @@ item below is complete when its own files exist and the whole unit suite is stil
       `git add -N apps/wahidyankf-www/README.md` before checking — acceptance: `npm run check:markdown-links` exits 0
       and `rg -n 'architecture.md' apps/wahidyankf-www/README.md` finds the backlink. Without the intent-to-add the
       check does not see this file at all.
-  - Note, 2026-09-01: **executed out of order**, from the `cv-export.feature` indexing item in New Behavior, because
+  - Note, 2026-09-01: **executed out of order**, from the `cv-export.feature` indexing item in New Behaviour, because
     that item's acceptance is `npm run check:markdown-links` exiting 0 and this README was the only thing failing it.
     `rg -n 'architecture.md'` finds the backlink and the link check exits 0. The `git add -N` the item calls for was not
     needed: this file arrived with the ported tree and was already tracked by the time the item ran, so the check
     already saw it. The rewrite names the corpus path, the three adapters and what decides which one a feature reaches,
     the targets with `test:quick`'s ordering and why it stops short of `test:coverage`, and both coverage denominators
-    including why `test:coverage:unit` runs the `behavior` project too. What it drops is what the port made false: the
+    including why `test:coverage:unit` runs the `behaviour` project too. What it drops is what the port made false: the
     OSE framing, a `test:specs` target this repository does not define, and the two dead links.
 - [x] [AI] Edit the `## Current Applications` list in `apps/README.md` to index the new application — acceptance:
       `rg -n '\[`wahidyankf-www`\]' apps/README.md` finds the entry with a descriptive relative link to
@@ -1804,7 +1805,7 @@ item below is complete when its own files exist and the whole unit suite is stil
     to it. [AC-9]
 - [x] [AI] Add the new project's narrower runs to the `Narrower runs` fenced block in
       `repo-governance/development/workspace-commands.md` — `npx nx run wahidyankf-www:test:unit`, `:test:integration`,
-      `:test:coverage:unit`, `:test:coverage:integration`, `:test:coverage:behavior`, `:test:coverage`, `:test:quick`,
+      `:test:coverage:unit`, `:test:coverage:integration`, `:test:coverage:behaviour`, `:test:coverage`, `:test:quick`,
       `:static-routes:validation`, and `:generate:cv-pdf` — acceptance:
       `rg -c 'wahidyankf-www' repo-governance/development/workspace-commands.md` reports at least nine matches and
       `npm run check:governance` exits 0, the document being 470 words before this edit and governed by the 750-word
@@ -1886,10 +1887,10 @@ item below is complete when its own files exist and the whole unit suite is stil
       for the same reason the Phase 1 one does: after every copy, rename, and repoint, so nothing is reformatted twice,
       and before the gate, so the gate's `format:check` does not depend on a step that has not run. `npm run format` is
       `prettier --write .`, so it sweeps the whole tree, but Prettier has no parser for `.feature` and skips those files
-      in a directory run, which is what leaves `specs/apps/wahidyankf-www/behavior/` byte-identical and keeps the Phase
-      2 `diff` against the source corpus and the scenario counts above valid. It sweeps `cv/` as well — those files are
-      already formatted to this repository's configuration, `npx prettier --check cv/` passes today, and this run
-      therefore leaves them byte-identical, which is what keeps the Phase 4 SHA-256 comparisons between `cv/` and
+      in a directory run, which is what leaves `specs/apps/wahidyankf-www/behaviours/` byte-identical and keeps the
+      Phase 2 `diff` against the source corpus and the scenario counts above valid. It sweeps `cv/` as well — those
+      files are already formatted to this repository's configuration, `npx prettier --check cv/` passes today, and this
+      run therefore leaves them byte-identical, which is what keeps the Phase 4 SHA-256 comparisons between `cv/` and
       `apps/wahidyankf-www/docs/` valid. Nothing is added to an ignore file: `apps/wahidyankf-www/**` is held to the
       repository's formatting standard like every other tracked path, and [file impact](tech-docs/file-impact.md) rules
       out introducing a root `.prettierignore` at all.
@@ -1900,7 +1901,7 @@ item below is complete when its own files exist and the whole unit suite is stil
     nothing left to do. The sweep was still run in full rather than declared unnecessary, because "I formatted as I
     went" is a claim about memory and `format:check` is a measurement. Two of the item's own predictions were verified
     against the result. The eleven ported `.feature` files are byte-identical across the run — SHA-256 of every file in
-    `specs/apps/wahidyankf-www/behavior/` taken before and after, with an empty `diff` — so the Phase 2 comparisons
+    `specs/apps/wahidyankf-www/behaviours/` taken before and after, with an empty `diff` — so the Phase 2 comparisons
     against the source corpus and the scenario counts still hold. And `npx prettier --check cv/` exits 0, leaving those
     files untouched, which is what keeps the Phase 4 digest comparisons between `cv/` and `apps/wahidyankf-www/docs/`
     valid. Nothing was added to any ignore file.
@@ -1911,11 +1912,11 @@ item below is complete when its own files exist and the whole unit suite is stil
 > not close while any coverage target is below threshold or any required layer is missing.
 
 - [x] [AI] Run `npx nx run wahidyankf-www:test:quick` — acceptance: exits 0, running `typecheck`, `lint`, `test:unit`,
-      `test:coverage:unit`, then `test:coverage:behavior` in that order, with `static-routes:validation` satisfied as
+      `test:coverage:unit`, then `test:coverage:behaviour` in that order, with `static-routes:validation` satisfied as
       its dependency. It does not run `test:coverage:integration`, because pre-push invokes `test:quick` and the
       integration layer touches the real filesystem. [AC-2] [AC-4]
   - Note, 2026-09-01: exits 0, running `static-routes:validation` first through `dependsOn`, then `typecheck`, `lint`,
-    `test:unit`, `test:coverage:unit`, and `test:coverage:behavior` in order.
+    `test:unit`, `test:coverage:unit`, and `test:coverage:behaviour` in order.
 - [x] [AI] Run `npx nx run wahidyankf-www:test:integration` — acceptance: exits 0 on both new scenarios. [AC-3]
   - Note, 2026-09-01: exits 0 on both CV export scenarios.
 - [x] [AI] Run `npm run test:quick` — acceptance: exits 0 across both projects.
@@ -1971,7 +1972,7 @@ item below is complete when its own files exist and the whole unit suite is stil
     then the plan record. This tick is written after that push and rides along with the next commit, which is
     unavoidable — a checkbox asserting a push cannot be inside the push it asserts.
 
-> **Pause Safety**: The application builds, lints, type-checks, and passes unit, integration, and behavior layers at
+> **Pause Safety**: The application builds, lints, type-checks, and passes unit, integration, and behaviour layers at
 > 99%. `libs/` is still empty and no .NET toolchain exists. The repository deliberately holds two CV records at this
 > boundary — `data.ts` and `cv/` — which is the expand step of the migration and is closed in Phase 4. No E2E adapter
 > exists yet. Safe to stop. Resume with `npx nx run wahidyankf-www:test:quick`.
@@ -2461,7 +2462,7 @@ is proven in the same phase.
       the item below defines; `test:e2e` running `npx bddgen && npx playwright test` behind the guard the item below
       prepends; and `specs:e2e:baseline` running the command the dedicated item later in this phase writes out. Give
       each an `inputs` array whose first entry is `"default"` and whose second is
-      `{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature` — acceptance:
+      `{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature` — acceptance:
       `npx nx show project wahidyankf-www-e2e --json` lists those five targets with the command and `cwd` that table
       states, each with `"default"` first and the corpus input second, and
       `rg -n 'rhino-cli|dotnet|bddgen.*rhino|run-docker-e2e' apps/wahidyankf-www-e2e/project.json` finds nothing.
@@ -2531,17 +2532,17 @@ is proven in the same phase.
       — acceptance: `npx nx show project wahidyankf-www-e2e --json` shows `"dependsOn": ["wahidyankf-www:build"]` on
       `test:e2e`. The acceptance stops at the declaration: the suite cannot run here, because `npm install` is still
       ahead, the `webServer` block is added after that, and `featuresRoot` still names the `ose-public` path until later
-      in this phase. The cold-`.next` behavior this declaration exists for is proved by the item below that runs
+      in this phase. The cold-`.next` behaviour this declaration exists for is proved by the item below that runs
       `rm -rf apps/wahidyankf-www/.next` immediately before the suite. The `webServer` block runs `next start`, which
       needs a `.next` directory it does not build; `implicitDependencies` shapes the project graph and the affected
       calculation, not task ordering, so without this the suite fails on a cold checkout. `badakmini-cli` carries the
-      same shape on its own `test:e2e`, whose `dependsOn` names `build` and `test:coverage:behavior`. [AC-5]
+      same shape on its own `test:e2e`, whose `dependsOn` names `build` and `test:coverage:behaviour`. [AC-5]
   - Note, 2026-09-01: `"dependsOn": ["wahidyankf-www:build"]` is on `test:e2e`. Proved rather than declared: the
     cold-`.next` run below deletes `apps/wahidyankf-www/.next` first and the suite still passes, because the dependency
     builds it. [AC-5]
 - [x] [AI] Confirm the E2E project defines no numeric coverage gate and no separate corpus — acceptance:
       `rg -n 'coverage.thresholds|\.feature' apps/wahidyankf-www-e2e/project.json` finds only the shared
-      `specs/apps/wahidyankf-www/behavior` input, as the BDD role matrix requires of a dedicated E2E project.
+      `specs/apps/wahidyankf-www/behaviour` input, as the BDD role matrix requires of a dedicated E2E project.
   - Note, 2026-09-01: `rg -n 'coverage.thresholds|\.feature' apps/wahidyankf-www-e2e/project.json` finds nothing. The
     corpus reaches this project through `featuresRoot` in `playwright.config.ts` and through the `inputs` globs, never
     as a corpus of its own.
@@ -2557,16 +2558,17 @@ is proven in the same phase.
     replaced the container says "container image" rather than naming the tool, so the sweep stays true without the
     reasoning being lost. [AC-5]
 - [x] [AI] Repoint `featuresRoot` in `apps/wahidyankf-www-e2e/playwright.config.ts` at
-      `../../specs/apps/wahidyankf-www/behavior` — acceptance:
+      `../../specs/apps/wahidyankf-www/behaviour` — acceptance:
       `rg -n 'featuresRoot' apps/wahidyankf-www-e2e/playwright.config.ts` names the new path.
-  - Note, 2026-09-01: `featuresRoot` reads `../../specs/apps/wahidyankf-www/behavior`.
-- [x] [AI] Repoint the `@covers` comments in the eight step files at `specs/apps/wahidyankf-www/behavior/<name>.feature`
-      — acceptance: `rg -n 'behavior/wahidyankf-www/gherkin' apps/wahidyankf-www-e2e` finds no stale path, and
+  - Note, 2026-09-01: `featuresRoot` reads `../../specs/apps/wahidyankf-www/behaviour`.
+- [x] [AI] Repoint the `@covers` comments in the eight step files at
+      `specs/apps/wahidyankf-www/behaviours/<name>.feature` — acceptance:
+      `rg -n 'behaviours/wahidyankf-www/gherkin' apps/wahidyankf-www-e2e` finds no stale path, and
       `rg -c '@covers' apps/wahidyankf-www-e2e/steps` still reports the same number of lines as before the edit, so no
       coverage note was dropped rather than repointed.
-  - Note, 2026-09-01: `rg -n 'behavior/wahidyankf-www/gherkin' apps/wahidyankf-www-e2e` finds nothing, and the `@covers`
-    count is 36 before the edit and 36 after — nothing dropped. The source nests the corpus by domain directory and this
-    repository keeps it flat, so the rewrite removed one path segment as well as renaming the root.
+  - Note, 2026-09-01: `rg -n 'behaviours/wahidyankf-www/gherkin' apps/wahidyankf-www-e2e` finds nothing, and the
+    `@covers` count is 36 before the edit and 36 after — nothing dropped. The source nests the corpus by domain
+    directory and this repository keeps it flat, so the rewrite removed one path segment as well as renaming the root.
 - [x] [AI] Rewrite the `missingSteps` comment block inside the `defineBddConfig` call in
       `apps/wahidyankf-www-e2e/playwright.config.ts`, which cites the `specs:e2e:coverage` target and
       `ayokoding-www-fe-e2e` — neither of which exists in this repository — replacing it with the named inventory of
@@ -2582,7 +2584,7 @@ is proven in the same phase.
       `apps/wahidyankf-www-e2e/playwright.config.ts`, which cites
       `plans/in-progress/restrict-env-access-to-prod-and-stag` — a plan that does not exist in this repository —
       repointing it at the loader contract as it lands here, `apps/wahidyankf-www/src/features/env/core/tier-env.ts` and
-      `specs/apps/wahidyankf-www/behavior/tier-env-loading.feature` — acceptance:
+      `specs/apps/wahidyankf-www/behaviours/tier-env-loading.feature` — acceptance:
       `rg -n 'restrict-env-access' apps/wahidyankf-www-e2e/playwright.config.ts` finds nothing,
       `rg -n 'tier-env' apps/wahidyankf-www-e2e/playwright.config.ts` finds the repointed citation, and the comment
       still states both halves of why the pin exists: that an unset `APP_ENV` falls back to `local`, and that `local`
@@ -2663,8 +2665,8 @@ is proven in the same phase.
     first in its `inputs`, followed by the four explicit entries. A run leaves `git status --short` empty —
     `git check-ignore` confirms `.features-gen/` is ignored by the copied `.gitignore`. [AC-5]
 - [x] [AI] Record why this E2E adapter gets a dedicated project at all in `apps/wahidyankf-www-e2e/README.md` — the
-      [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md) role matrix permits one
-      only as a different-toolchain exception, and this one qualifies because the application's behavior adapter runs
+      [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md) role matrix permits one
+      only as a different-toolchain exception, and this one qualifies because the application's behaviour adapter runs
       `@amiceli/vitest-cucumber` under Vitest and jsdom while this adapter runs `playwright-bdd` under the Playwright
       runner against a downloaded Chromium binary, with its own generated test directory — acceptance:
       `rg -n 'playwright-bdd' apps/wahidyankf-www-e2e/README.md` finds the justification and it names both toolchains.
@@ -2684,13 +2686,13 @@ is proven in the same phase.
     project name and explains that there is no container, that `webServer` starts the application, and that `dependsOn`
     builds it. `Checks and specs` became `Checks`, dropping the `test:specs` target this project does not have.
 - [x] [AI] Repoint the corpus link at the end of `apps/wahidyankf-www-e2e/README.md` from
-      `../../specs/apps/wahidyankf/behavior/wahidyankf-www/gherkin/README.md`, which does not exist in this repository,
-      at `../../specs/apps/wahidyankf-www/behavior/README.md`, and add a link to
+      `../../specs/apps/wahidyankf/behaviours/wahidyankf-www/gherkin/README.md`, which does not exist in this
+      repository, at `../../specs/apps/wahidyankf-www/behaviours/README.md`, and add a link to
       `../../specs/apps/wahidyankf-www/architecture.md`, then run `git add -N apps/wahidyankf-www-e2e/README.md` before
       checking — acceptance: `npm run check:markdown-links` exits 0 and
       `rg -n 'architecture.md' apps/wahidyankf-www-e2e/README.md` finds the backlink. This README is copied rather than
       authored, so it is untracked here and invisible to the check until it is intent-added.
-  - Note, 2026-09-01: the link now points at `../../specs/apps/wahidyankf-www/behavior/README.md`, which exists, and
+  - Note, 2026-09-01: the link now points at `../../specs/apps/wahidyankf-www/behaviours/README.md`, which exists, and
     `npm run check:markdown-links` exits 0.
 - [x] [AI] Run `npx nx run wahidyankf-www-e2e:install`, then
       `rm -rf apps/wahidyankf-www/.next && npx nx run wahidyankf-www-e2e:test:e2e` — acceptance: the suite runs against
@@ -2909,7 +2911,7 @@ is proven in the same phase.
     rule from being added.** The sentence first written into `workspace-commands.md` asserted freestanding that this
     project owns no `test:quick` and why; but `testing-policy.md` already says a permitted dedicated project owns
     _equivalent targets_ rather than the full set, and the
-    [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md) role matrix already says
+    [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md) role matrix already says
     such a project has no separate corpus, unit layer, or numeric coverage gate. Read together those two settle it, so
     no new rule was warranted and the sentence was rewritten to link to both instead of restating them. That is also
     what rules out the shape the source used: `ose-public`'s `project.json` gives this project `test:unit`,
@@ -2922,7 +2924,7 @@ is proven in the same phase.
     gate checks above were run and recorded first and this one was missed in the same pass, which is the second time in
     this plan a finished item kept an unticked box. Recorded plainly rather than backdated.
 
-> **Pause Safety**: All three behavior layers exist and run: unit and behavior in the application, integration against
+> **Pause Safety**: All three behaviour layers exist and run: unit and behaviour in the application, integration against
 > the real filesystem, and process E2E in a real browser against `next start`. Scheduled verification covers all three.
 > Nothing is deployed. Safe to stop. Resume with `npm run test:quick`.
 
@@ -3077,7 +3079,7 @@ Configuration lands dormant. No branch is created and no deploy is triggered.
       and no verification, and the destinations cannot be known before the learnings exist.
   - Note, 2026-09-01: no entry remains untriaged and the escape was not needed. Twelve entries reach six documents
     rather than twelve — `delivery-checklists.md`, `dependency-selection-policy.md`, `code-style-policy.md`,
-    `testing-policy/tooling.md`, `behavior-driven-development-policy.md`, and the three mirrored `plan-checker` prompts
+    `testing-policy/tooling.md`, `behaviour-driven-development-policy.md`, and the three mirrored `plan-checker` prompts
     — because several entries are one lesson met in different places, and a rule stated once holds better than the same
     rule stated three times. Two halves are discarded with a reason rather than deleted silently. `learnings.md` carries
     the routing table, all seven newly-reached paths are now `[E]` entries in [file impact](tech-docs/file-impact.md),
@@ -3096,7 +3098,7 @@ Configuration lands dormant. No branch is created and no deploy is triggered.
       sentence that predates this plan. The item as first written stated a bar with no command and no artifact.
   - Note, 2026-09-01: both checks pass over the whole set and `learnings.md` records the result. **Secrets:** no entry
     names a credential or token; the only environment variables any of them names are `APP_ENV`, `NO_COLOR`, and
-    `WAHIDYANKF_WWW_PORT`, each as a name whose behavior is the lesson and never with a value. **Generalizable:**
+    `WAHIDYANKF_WWW_PORT`, each as a name whose behaviour is the lesson and never with a value. **Generalizable:**
     `rg -n 'wahidyankf|ose-public|migration'` over the routed files matches no routed rule, and matches exactly the two
     lines the criterion names as correct survivors — the deviation register's project names and the `ose-public` clause
     that predates this plan. Neither is a rule this triage wrote. That is the mechanical form of the bar — it is also

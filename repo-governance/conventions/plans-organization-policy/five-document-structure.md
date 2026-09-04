@@ -25,7 +25,7 @@ plans/<stage>/<identifier>/
 ## What Each File Owns
 
 **`README.md`** — context, scope with affected projects named explicitly, a summary of the approach, and links to the
-other four. It is the first file opened and the first file `plan-checker` reads for scope.
+other four. It is the first file the [plan quality gate](../../workflows/plan-quality-gate.md) reads for scope.
 
 **`brd.md`** — the business rationale: why the work is worth doing, who it affects, what success means, business-level
 non-goals, and the risks. In a personal repository the "business" is the owner's own goals, so write real reasoning and
@@ -40,7 +40,7 @@ every expected path exactly as `[E]` edit, `[N]` new, `[M]` moved, or `[D]` dele
 documents named by the [specification-change](specification-changes.md), [migration](plan-migrations.md), and
 [UI-design](plan-ui-design.md) rules; do not create an empty companion.
 
-**`delivery.md`** — the phased, ticked checklist that execution reads and `plan-checker` verifies; see
+**`delivery.md`** — the phased, ticked checklist that execution reads and the plan quality gate verifies; see
 [delivery checklists](delivery-checklists.md).
 
 **`learnings.md`** — the transient running log described in [knowledge capture](knowledge-capture.md).
@@ -50,5 +50,4 @@ documents named by the [specification-change](specification-changes.md), [migrat
 An owner-requested plan uses all five core documents. Do not delete or skip a requested plan because its size appears
 small; ask the owner whether to amend or cancel it instead.
 
-Every `plan-checker` prompt names these documents and requires all five in the imperative, because a subagent prompt has
-to stand alone. Change them in the same edit, in all three harness copies.
+The plan quality gate requires all five documents and verifies their distinct reader jobs.

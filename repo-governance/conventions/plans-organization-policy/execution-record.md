@@ -27,5 +27,4 @@ A record written during execution then stays for good. `learnings.md` is drained
 scatter the sequence across the file, so this is the one place a reader of an archived plan can see the order, the
 failures, and the retries.
 
-Every `plan-checker` prompt states this record's shape in the imperative, because a subagent prompt has to stand alone.
-Change them in the same edit, in all three harness copies.
+The [plan quality gate](../../workflows/plan-quality-gate.md) checks this record's shape during its semantic audit.

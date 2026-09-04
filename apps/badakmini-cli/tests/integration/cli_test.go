@@ -44,6 +44,7 @@ func cliAdapterCases() []cliAdapterCase {
 				root := t.TempDir()
 				writeGovernanceFile(t, root, "AGENTS.md", "short")
 				writeGovernanceFile(t, root, "CLAUDE.md", "short")
+				writeGovernanceFile(t, root, "RTK.md", "short")
 				writeGovernanceFile(t, root, "repo-governance/policy.md", "short")
 				return root
 			},
@@ -90,6 +91,7 @@ func TestIntegrationCLIReportsRealValidationFinding(t *testing.T) {
 	root := t.TempDir()
 	writeGovernanceFile(t, root, "AGENTS.md", strings.Repeat("word ", governance.MaxWords+1))
 	writeGovernanceFile(t, root, "CLAUDE.md", "short")
+	writeGovernanceFile(t, root, "RTK.md", "short")
 	writeGovernanceFile(t, root, "repo-governance/policy.md", "short")
 
 	exitCode, _, stderr := runCLIAtRoot([]string{"harness", "instruction-size", "validate"}, root)

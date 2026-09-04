@@ -4,10 +4,10 @@ import { tmpdir } from "node:os";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
 import { afterAll, expect } from "vitest";
 import { loadTierEnv } from "@/features/env/core/tier-env";
+import { behaviourTestLayer } from "./test-layer";
 
-// Each scenario below drives loadTierEnv() with an isolated appDir (a throwaway temp directory
-// holding fixture .env.* files) and an isolated env object (a plain record, not the real
-// process.env), so this suite never touches this app's real environment or filesystem tier files.
+// Unit execution drives loadTierEnv() through an injected in-memory filesystem. Integration uses
+// throwaway temp directories. Both use an isolated env record and never mutate process.env.
 //
 // @amiceli/vitest-cucumber schedules every Given/When/Then/And of a Scenario as its own vitest
 // `test()` (see node_modules/@amiceli/vitest-cucumber's describe-scenario.js `test.for(...)`), so
@@ -16,15 +16,21 @@ import { loadTierEnv } from "@/features/env/core/tier-env";
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/env-loader.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/env-loader.feature",
   ),
 );
 
 type EnvRecord = Record<string, string | undefined>;
 
 const tmpDirs: string[] = [];
+const virtualFiles = new Map<string, string>();
+let virtualDirectorySequence = 0;
 
 function makeTmpAppDir(): string {
+  if (behaviourTestLayer === "unit") {
+    virtualDirectorySequence += 1;
+    return path.join("/virtual", `env-loader-${virtualDirectorySequence}`);
+  }
   const dir = mkdtempSync(
     path.join(tmpdir(), "wahidyankf-www-env-loader-test-"),
   );
@@ -37,13 +43,41 @@ function writeEnvFile(
   fileName: string,
   contents: string,
 ): void {
+  if (behaviourTestLayer === "unit") {
+    virtualFiles.set(path.join(appDir, fileName), contents);
+    return;
+  }
   writeFileSync(path.join(appDir, fileName), contents, "utf-8");
+}
+
+function loadAtCurrentLayer(appDir: string, env: EnvRecord): void {
+  if (behaviourTestLayer === "integration") {
+    loadTierEnv({ appDir, env });
+    return;
+  }
+
+  loadTierEnv({
+    appDir,
+    env,
+    fileExists: (filePath) => virtualFiles.has(filePath),
+    loadFile: (filePath, targetEnv) => {
+      for (const line of (virtualFiles.get(filePath) ?? "").split("\n")) {
+        const separator = line.indexOf("=");
+        if (separator < 1) continue;
+        const key = line.slice(0, separator);
+        if (targetEnv[key] === undefined) {
+          targetEnv[key] = line.slice(separator + 1);
+        }
+      }
+    },
+  });
 }
 
 afterAll(() => {
   for (const dir of tmpDirs.splice(0)) {
     rmSync(dir, { recursive: true, force: true });
   }
+  virtualFiles.clear();
 });
 
 describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
@@ -64,15 +98,15 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
 
       When('"next build" runs with APP_ENV set to "stag"', () => {
         env = { APP_ENV: "stag" };
-        loadTierEnv({ appDir, env });
+        loadAtCurrentLayer(appDir, env);
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/env-loader.feature:wahidyankf-www builds against the staging tier
+      // @covers specs/apps/wahidyankf-www/behaviours/env-loader.feature:wahidyankf-www builds against the staging tier
       Then(
         'every variable consumed by the build resolves to its ".env.stag" value',
         () => {
-          expect(env["SHARED_VAR"]).toBe("stag-value");
-          expect(env["STAG_ONLY_VAR"]).toBe("stag-only");
+          expect(env.SHARED_VAR).toBe("stag-value");
+          expect(env.STAG_ONLY_VAR).toBe("stag-only");
         },
       );
     },
@@ -93,17 +127,17 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
         'the process starts with that variable already exported at tier "local"',
         () => {
           env = { APP_ENV: "local", SOME_VAR: "process-value" };
-          loadTierEnv({ appDir, env });
+          loadAtCurrentLayer(appDir, env);
         },
       );
 
       Then("the exported process value is used", () => {
-        expect(env["SOME_VAR"]).toBe("process-value");
+        expect(env.SOME_VAR).toBe("process-value");
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/env-loader.feature:wahidyankf-www process env wins over the local tier file
+      // @covers specs/apps/wahidyankf-www/behaviours/env-loader.feature:wahidyankf-www process env wins over the local tier file
       And('the ".env.local" value is not applied over it', () => {
-        expect(env["SOME_VAR"]).not.toBe("file-value");
+        expect(env.SOME_VAR).not.toBe("file-value");
       });
     },
   );
@@ -122,7 +156,7 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
       When('the loader runs with APP_ENV set to "stag"', () => {
         env = { APP_ENV: "stag", EXISTING_VAR: "already-set" };
         try {
-          loadTierEnv({ appDir, env });
+          loadAtCurrentLayer(appDir, env);
         } catch (error) {
           thrown = error;
         }
@@ -132,11 +166,11 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
         expect(thrown).toBeUndefined();
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/env-loader.feature:wahidyankf-www tolerates a missing tier file
+      // @covers specs/apps/wahidyankf-www/behaviours/env-loader.feature:wahidyankf-www tolerates a missing tier file
       And(
         "startup proceeds using whatever the process environment already supplies",
         () => {
-          expect(env["EXISTING_VAR"]).toBe("already-set");
+          expect(env.EXISTING_VAR).toBe("already-set");
         },
       );
     },
@@ -157,13 +191,13 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
       When("the loader runs with APP_ENV set to a non-local tier", () => {
         const env: EnvRecord = { APP_ENV: "stag" };
         try {
-          loadTierEnv({ appDir, env });
+          loadAtCurrentLayer(appDir, env);
         } catch (error) {
           thrown = error;
         }
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/env-loader.feature:wahidyankf-www fails loudly on a stray auto-loaded env file
+      // @covers specs/apps/wahidyankf-www/behaviours/env-loader.feature:wahidyankf-www fails loudly on a stray auto-loaded env file
       Then(
         'the loader throws, naming "<file>" and the correct ".env.<tier>" replacement',
         () => {

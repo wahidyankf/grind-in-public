@@ -18,7 +18,7 @@ Read the table the task needs rather than the whole policy:
 
 - [Supported Harnesses](agent-harness-support/supported-harnesses.md) — the instruction file and project config each
   harness reads.
-- [Directory Index Behavior](agent-harness-support/directory-index-behavior.md) — what each registering harness
+- [Directory Index Behaviour](agent-harness-support/directory-index-behaviour.md) — what each registering harness
   directory does with a `README.md`.
 
 ## Rules
@@ -41,7 +41,7 @@ time or never. Keep the wording equivalent across formats.
 Index a harness directory with a `README.md`, as the [documentation index policy](../documentation-index-policy.md)
 requires, and update it in the same change that adds, renames, or removes a file there. Which directories register a
 file by name, and what each does with an index, is recorded in
-[directory index behavior](agent-harness-support/directory-index-behavior.md).
+[directory index behaviour](agent-harness-support/directory-index-behaviour.md).
 
 A permission control that one harness lacks is recorded where it is missing. Codex has no per-agent shell switch, so its
 read-only explorer relies on `sandbox_mode` plus an explicit instruction; that divergence is noted in the agent file
@@ -50,5 +50,5 @@ rather than left implicit.
 ## Verification
 
 Run the [Harness Alignment](../workflows/harness-alignment.md) workflow after changing any instruction file, harness
-config, or subagent. Test a new tool's discovery behavior yourself before relying on it, because support changes between
-releases.
+config, or subagent. Test a new tool's discovery behaviour yourself before relying on it, because support changes
+between releases.

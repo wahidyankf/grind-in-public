@@ -1,7 +1,7 @@
 ---
 tldr:
   "Makes material UI plans compare accessible directions and prove the selected experience on every affected device."
-when_to_use: "Use when a formal plan creates or materially changes user interface behavior."
+when_to_use: "Use when a formal plan creates or materially changes user interface behaviour."
 ---
 
 # Plan UI Design
@@ -9,7 +9,7 @@ when_to_use: "Use when a formal plan creates or materially changes user interfac
 A material UI plan creates `tech-docs/ui-design.md` and `tech-docs/assets/README.md`, both mapped from
 `tech-docs/README.md`. The design document states the user's job, real product copy, states, three alternatives,
 selected direction, rationale, trade-offs, reusable components, and keyboard, focus, error, empty, loading,
-reduced-motion, responsive, and accessibility behavior.
+reduced-motion, responsive, and accessibility behaviour.
 
 Create three distinct lo-fi alternatives for desktop, tablet, and mobile: nine assets total. Compare usability,
 accessibility, implementation cost, and product fit, then name one selected alternative. Create selected-direction hi-fi

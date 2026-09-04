@@ -1,7 +1,7 @@
 import path from "node:path";
 import React from "react";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { cleanup, render, screen, fireEvent } from "@testing-library/react";
 import { expect, vi } from "vitest";
 import { HomeContent } from "@/features/home/shell/home-content";
 
@@ -18,21 +18,17 @@ vi.mock("@/features/app-shell/shell/navigation", () => ({
     React.createElement("div", { "data-testid": "navigation" }, "Navigation"),
 }));
 
-// @amiceli/vitest-cucumber registers every Given/When/Then/And as its own
-// vitest test, and this project's src/test/setup.ts runs
-// @testing-library/react's cleanup() after every test — a render() done in one
-// step does not survive into the next. mockPush's call history is a plain JS
-// object, though, and persists regardless of DOM teardown, so each step that
-// interacts with the page renders + interacts in one atomic step, and the
-// following "Then" step only inspects mockPush's recorded calls.
+// DOM cleanup runs after each scenario, so assertion steps inspect the state
+// produced by the preceding action instead of remounting their subject.
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/search.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/search.feature",
   ),
 );
 
-describeFeature(feature, ({ Scenario, Background }) => {
+describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
+  AfterEachScenario(cleanup);
   Background(({ Given }) => {
     Given("the app is running", () => {
       mockPush.mockClear();
@@ -44,7 +40,9 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Typing a term updates the URL query string",
     ({ When, And, Then }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+      });
 
       And('the visitor types "TypeScript" in the search input', () => {
         render(React.createElement(HomeContent));
@@ -54,7 +52,7 @@ describeFeature(feature, ({ Scenario, Background }) => {
         fireEvent.change(input, { target: { value: "TypeScript" } });
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/search.feature:Typing a term updates the URL query string
+      // @covers specs/apps/wahidyankf-www/behaviours/search.feature:Typing a term updates the URL query string
       Then("the URL becomes /?search=TypeScript", () => {
         expect(mockPush).toHaveBeenCalledWith("/?search=TypeScript", {
           scroll: false,
@@ -70,12 +68,13 @@ describeFeature(feature, ({ Scenario, Background }) => {
         'a visitor opens the home page with search term "TypeScript"',
         () => {
           window.history.replaceState({}, "", "/?search=TypeScript");
+          mockSearchParams = new URLSearchParams("search=TypeScript");
+          render(React.createElement(HomeContent));
         },
       );
 
-      // @covers specs/apps/wahidyankf-www/behavior/search.feature:Matching content is highlighted with a yellow mark
+      // @covers specs/apps/wahidyankf-www/behaviours/search.feature:Matching content is highlighted with a yellow mark
       Then('the matching pill wraps "TypeScript" in a mark element', () => {
-        render(React.createElement(HomeContent));
         const marks = Array.from(document.querySelectorAll("mark"));
         expect(
           marks.some((mark) => /TypeScript/i.test(mark.textContent ?? "")),
@@ -87,13 +86,14 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario("Non-matching About Me shows a placeholder", ({ When, Then }) => {
     When('a visitor opens the home page with search term "NoSuchTerm"', () => {
       window.history.replaceState({}, "", "/?search=NoSuchTerm");
+      mockSearchParams = new URLSearchParams("search=NoSuchTerm");
+      render(React.createElement(HomeContent));
     });
 
-    // @covers specs/apps/wahidyankf-www/behavior/search.feature:Non-matching About Me shows a placeholder
+    // @covers specs/apps/wahidyankf-www/behaviours/search.feature:Non-matching About Me shows a placeholder
     Then(
       'the About Me card shows "No matching content in the About Me section."',
       () => {
-        render(React.createElement(HomeContent));
         expect(
           screen.getByText("No matching content in the About Me section."),
         ).toBeInTheDocument();
@@ -104,14 +104,16 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Clicking a skill pill navigates to the CV with scrollTop",
     ({ When, And, Then }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+      });
 
       And('the visitor clicks the "TypeScript" skill pill', () => {
         render(React.createElement(HomeContent));
         fireEvent.click(screen.getByRole("button", { name: "TypeScript" }));
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/search.feature:Clicking a skill pill navigates to the CV with scrollTop
+      // @covers specs/apps/wahidyankf-www/behaviours/search.feature:Clicking a skill pill navigates to the CV with scrollTop
       Then("the URL becomes /cv?search=TypeScript&scrollTop=true", () => {
         expect(mockPush).toHaveBeenCalledWith(
           "/cv?search=TypeScript&scrollTop=true",

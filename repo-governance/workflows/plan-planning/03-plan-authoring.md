@@ -16,7 +16,7 @@ owns.
    downstream.
 2. **`prd.md`** — user stories and Gherkin acceptance criteria, each with a stable `[AC-…]` label, per the
    [specs policy](../../development/specs-policy.md). Mark any rollout or operational criterion that remains plan-only
-   and give its reason and delivery proof; durable behavior scenarios land in `specs/`.
+   and give its reason and delivery proof; durable behaviour scenarios land in `specs/`.
 3. **`tech-docs/README.md`** — architecture, design decisions with rationale, dependencies, risks, rollback path, and
    technical reading order. Write `file-impact.md` with every exact path and `[E]`, `[N]`, `[M]`, or `[D]` label; add
    the applicable specification-change, migration, and UI-design companions before authoring delivery.
@@ -32,7 +32,7 @@ Phase 0 records the clean baseline. Each later phase ends at a gate and a Pause 
 that gate passes. The final phase before archival is Knowledge Capture; see the
 [knowledge capture rules](../../conventions/plans-organization-policy/knowledge-capture.md).
 
-Every behavior change is a RED → GREEN → REFACTOR cycle bound to exactly one Gherkin scenario, per the
+Every behaviour change is a RED → GREEN → REFACTOR cycle bound to exactly one Gherkin scenario, per the
 [TDD policy](../../development/tdd-policy.md).
 
 ## Diagrams

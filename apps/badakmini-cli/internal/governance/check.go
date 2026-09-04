@@ -15,6 +15,7 @@ const (
 
 	agentsFile          = "AGENTS.md"
 	claudeFile          = "CLAUDE.md"
+	rtkFile             = "RTK.md"
 	governanceDirectory = "repo-governance"
 	readmeFile          = "README.md"
 )
@@ -27,7 +28,7 @@ var harnessDirectories = []string{".agents", ".claude", ".codex", ".opencode"}
 
 // instructionFiles are the root agent instruction files. They share one limit
 // because each must stay equally concise for the harness that reads it.
-var instructionFiles = []string{agentsFile, claudeFile}
+var instructionFiles = []string{agentsFile, claudeFile, rtkFile}
 
 // Finding describes one governance document that exceeds MaxWords.
 type Finding struct {

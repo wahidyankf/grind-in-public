@@ -54,10 +54,10 @@ npx nx run badakmini-cli:typecheck
 npx nx run badakmini-cli:lint
 npx nx run badakmini-cli:test:unit
 npx nx run badakmini-cli:test:integration
-npx nx run badakmini-cli:test:e2e
+npx nx run badakmini-cli-e2e:test:e2e
 npx nx run badakmini-cli:test:coverage:unit
 npx nx run badakmini-cli:test:coverage:integration
-npx nx run badakmini-cli:test:coverage:behavior
+npx nx run badakmini-cli:test:coverage:behaviour
 npx nx run badakmini-cli:test:coverage
 npx nx run badakmini-cli:test:quick
 ```
@@ -68,11 +68,11 @@ development module also pins GolangCI-Lint and govulncheck; run them through `go
 Lint starts from every applicable nondeprecated check, uses strict Go formatters, and treats every finding as blocking.
 Unit coverage owns every `internal/...` validator and orchestration package; integration coverage owns only
 `internal/cli`; both exact numeric gates require at least 99% statements. The thin `cmd/badak-mini` process entrypoint
-is owned by the co-located [`tests/e2e`](tests/e2e/) package and is outside both numeric denominators. `tests/unit` is
-the Gherkin unit adapter. Badak Mini is an intentional replacement for the former shell governance checker, not a
-general Rhino CLI port.
+is owned by the dedicated [`badakmini-cli-e2e`](../badakmini-cli-e2e/README.md) project and is outside both numeric
+denominators. `tests/unit` is the Gherkin unit adapter. Badak Mini is an intentional replacement for the former shell
+governance checker, not a general Rhino CLI port.
 
 Its canonical [C4 architecture model](../../specs/apps/badakmini-cli/architecture.md) describes the current as-built
-boundaries. Its [canonical behavior corpus](../../specs/apps/badakmini-cli/README.md) is executed by unit,
+boundaries. Its [canonical behaviour corpus](../../specs/apps/badakmini-cli/README.md) is executed by unit,
 local-integration, and process E2E adapters. The owner module pins Actionlint and owns `npm run check:workflows`, which
 validates the scheduled GitHub Actions workflow before it is relied on.

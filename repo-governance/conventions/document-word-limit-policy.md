@@ -9,8 +9,7 @@ when_to_use: "Use when a governed document nears or exceeds the word limit, or w
 
 `npm run check:governance` holds `AGENTS.md`, `CLAUDE.md`, every `repo-governance/` document, and every harness
 directory README to 750 words. Agent and command definitions are prompts, not indexes, and stay unmeasured. This policy
-governs every document that check measures, and it binds anyone editing one of them, not only a
-[rules quality gate](../workflows/rules-quality-gate.md) run.
+governs every document that check measures, including a Rules Propagation transaction.
 
 ## The Limit
 
@@ -31,14 +30,9 @@ move the related documents into it, give it a README, and register that child fr
 line instead of many. The [documentation index policy](../documentation-index-policy.md) owns what an index must never
 do to fit.
 
-Every `rules-checker` prompt states this scope, this limit, and this remedy in the imperative, because a subagent prompt
-has to stand alone. Change them in the same edit, in all three harness copies.
-
-Severity levels are the ones defined for the
-[plan quality gate](../workflows/plan-quality-gate/01-severity-and-modes.md). Relocation is one of the edits the
-[check and fix loop](../workflows/rules-quality-gate/03-check-fix-loop.md) permits a fixer, and the
-[fixer discipline](../workflows/rules-quality-gate/04-fixer-discipline.md) is what keeps a relocation from losing a
-clause on the way.
+The deterministic repository gate reports the breach. The read-only
+[rules quality gate](../workflows/rules-quality-gate.md) consumes that finding, and Rules Propagation performs any
+required relocation without dropping unique intent.
 
 ## Verification
 
@@ -47,5 +41,4 @@ npm run check:governance
 ```
 
 [Workspace commands](../development/workspace-commands.md#repository-checks) lists this check beside the repository's
-others. The [finding taxonomy](../workflows/rules-quality-gate/02-finding-taxonomy.md) records how the gate measures
-headroom and reports a document that has reached the band without breaching the limit.
+other deterministic validations.

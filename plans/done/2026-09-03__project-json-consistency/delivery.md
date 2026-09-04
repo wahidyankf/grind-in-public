@@ -20,7 +20,7 @@ here.
   Propagation run). Every Not Touched path is absent from the range, `nx.json` among them.
 - 2026-09-03 — Phase 4: `[AC-1]` through `[AC-6]` re-run and reconciled against the delivered system. Both projects
   expose all ten contract targets; cache declared on 15 and 19 targets; the outputs rule holds over both with the
-  extended `wahidyankf-www` artifact map; the raw corpus glob appears once per file and the `behaviorCorpus` probe
+  extended `wahidyankf-www` artifact map; the raw corpus glob appears once per file and the `behaviourCorpus` probe
   missed on a content change and hit on restore for both projects; no command carries a literal project path and
   `badakmini-cli:test:quick` and `wahidyankf-www:static-routes:validation` both exit 0; two projects discovered, the
   browser suite passes 36 and skips 34, and the baseline holds. `[AC-3]`'s third probe target, `wahidyankf-www-e2e`,
@@ -58,7 +58,7 @@ here.
   100% lines.
 - 2026-09-03 — Phase 1 plan change: the `tests/e2e` input removal was reverted. The cache probe passed, but
   `TestE2EBindingInputRegression` in `apps/badakmini-cli/tests/bdd/adapter_parity_test.go` reads `project.json` and
-  fails unless `test:coverage:behavior` declares that exact string. The input is test-enforced rather than redundant,
+  fails unless `test:coverage:behaviour` declares that exact string. The input is test-enforced rather than redundant,
   and the plan's non-goal forbids editing Badak Mini's Go code. Recorded in `learnings.md`.
 - 2026-09-03 — Phase 0 gate passed: `test:quick` for both projects, `test:integration`, `badakmini-cli:test:e2e`,
   `format:check`, and `check:markdown-links` all exit 0.
@@ -147,14 +147,14 @@ deletes it, so this phase ends with the property true across the whole workspace
 workspace-wide.
 
 - [x] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: add a top-level
-      `"namedInputs": {"behaviorCorpus": ["{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature"]}` beside
+      `"namedInputs": {"behaviourCorpus": ["{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature"]}` beside
       `"targets"` — acceptance: `npx nx show project badakmini-cli --json` exits 0, proving Nx still parses the file.
 - [x] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: in every target whose `inputs` array contains the literal
-      `{workspaceRoot}/specs/apps/badakmini-cli/behavior/**/*.feature`, replace that string with `"behaviorCorpus"` —
-      acceptance: `grep -c 'specs/apps/badakmini-cli/behavior' apps/badakmini-cli/project.json` prints `1`, the single
+      `{workspaceRoot}/specs/apps/badakmini-cli/behaviours/**/*.feature`, replace that string with `"behaviourCorpus"` —
+      acceptance: `grep -c 'specs/apps/badakmini-cli/behaviour' apps/badakmini-cli/project.json` prints `1`, the single
       occurrence being the `namedInputs` declaration.
 - [x] [AI] [AC-3] Edit `apps/badakmini-cli/project.json`: remove the `{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*`
-      input from `test:coverage:behavior`, `test:coverage`, and `test:quick` — acceptance: the path lies inside
+      input from `test:coverage:behaviour`, `test:coverage`, and `test:quick` — acceptance: the path lies inside
       `{projectRoot}` and is therefore already covered by the built-in `default` input, and a cache probe proves that
       coverage rather than assuming it. Run `npx nx run badakmini-cli:test:quick` twice and confirm the second run
       prints `Nx read the output from the cache`; then
@@ -172,8 +172,8 @@ workspace-wide.
       evidence this item did not anticipate.** The cache probe passed exactly as designed: the third run missed the
       cache, so `default` does reach `tests/e2e/`. The removal was reverted anyway, because
       `apps/badakmini-cli/tests/bdd/adapter_parity_test.go`'s `TestE2EBindingInputRegression` reads `project.json` and
-      fails unless `test:coverage:behavior` declares that exact string. The input is test-enforced rather than
-      redundant. Restored in all three targets, with `behaviorCorpus` still replacing the corpus glob beside it.
+      fails unless `test:coverage:behaviour` declares that exact string. The input is test-enforced rather than
+      redundant. Restored in all three targets, with `behaviourCorpus` still replacing the corpus glob beside it.
       Recorded in `learnings.md`; Phase 4's disposition for this conditional is "triggered", not "Not triggered".
 - [x] [AI] [AC-2] Edit `apps/badakmini-cli/project.json`: add `"cache": true` to `test:coverage:unit` together with
       `"outputs": ["{workspaceRoot}/local-tmp/badakmini-unit.out"]` — acceptance:
@@ -187,7 +187,7 @@ workspace-wide.
       artifact rather than reporting a success that produced nothing.
 - [x] [AI] [AC-4] Edit `apps/badakmini-cli/project.json`: add `"options": {"cwd": "{projectRoot}"}` to `build`,
       `governance`, `markdown-links`, `capability-parity`, `rule-change`, `lint`, `typecheck`, `test:unit`,
-      `test:integration`, `test:coverage:behavior` — acceptance: each of those ten targets carries the `options` object
+      `test:integration`, `test:coverage:behaviour` — acceptance: each of those ten targets carries the `options` object
       and `npx nx show project badakmini-cli --json` still parses.
 - [x] [AI] [AC-4] Edit the same ten targets in `apps/badakmini-cli/project.json` to strip the `-C apps/badakmini-cli`
       argument from their `go` invocations — acceptance: `npx nx run badakmini-cli:typecheck` and
@@ -205,14 +205,14 @@ workspace-wide.
       strip `-C apps/badakmini-cli`, and change `BADAKMINI_BIN="$PWD/apps/badakmini-cli/dist/badak-mini"` to
       `BADAKMINI_BIN="$PWD/dist/badak-mini"` — acceptance: `npx nx run badakmini-cli:test:e2e` exits 0, which requires
       the built binary to be found at the rewritten path.
-- [x] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: add a top-level `"namedInputs"` declaring `behaviorCorpus` as
-      `["{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"]` and `workspaceScripts` as
+- [x] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: add a top-level `"namedInputs"` declaring `behaviourCorpus`
+      as `["{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"]` and `workspaceScripts` as
       `["{workspaceRoot}/scripts/next-with-port.mjs"]` — acceptance: `npx nx show project wahidyankf-www --json`
       exits 0.
 - [x] [AI] [AC-3] Edit `apps/wahidyankf-www/project.json`: in `test:unit`, `test:coverage:unit`,
-      `test:coverage:behavior`, `test:coverage`, and `test:quick`, replace the two literal workspace paths with
-      `"behaviorCorpus"` and `"workspaceScripts"` — acceptance:
-      `grep -c 'specs/apps/wahidyankf-www/behavior' apps/wahidyankf-www/project.json` prints `1` and
+      `test:coverage:behaviour`, `test:coverage`, and `test:quick`, replace the two literal workspace paths with
+      `"behaviourCorpus"` and `"workspaceScripts"` — acceptance:
+      `grep -c 'specs/apps/wahidyankf-www/behaviour' apps/wahidyankf-www/project.json` prints `1` and
       `grep -c 'scripts/next-with-port.mjs' apps/wahidyankf-www/project.json` prints `3`, the three being the
       `namedInputs` declaration and the two `dev` and `start` command strings that genuinely invoke the script.
 - [x] [AI] [AC-2] Edit `apps/wahidyankf-www/project.json`: delete the `"outputs": ["{projectRoot}/coverage"]` line from
@@ -239,10 +239,10 @@ workspace-wide.
       is; `npx nx run wahidyankf-www:generate:cv-pdf` exits 0 and still writes the PDF to `apps/wahidyankf-www/public/`.
       Removing one and leaving the other would make the Phase 3 rule false of the file it was derived from.
 - [x] [AI] [AC-3] Edit `apps/wahidyankf-www-e2e/project.json`: add a top-level `"namedInputs"` declaring
-      `behaviorCorpus` as `["{workspaceRoot}/specs/apps/wahidyankf-www/behavior/**/*.feature"]`, and replace all five
+      `behaviourCorpus` as `["{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"]`, and replace all five
       literal occurrences in `install`, `typecheck`, `lint`, `test:e2e`, and `specs:e2e:baseline` with
-      `"behaviorCorpus"` — acceptance:
-      `grep -c 'specs/apps/wahidyankf-www/behavior' apps/wahidyankf-www-e2e/project.json` prints `1`.
+      `"behaviourCorpus"` — acceptance:
+      `grep -c 'specs/apps/wahidyankf-www/behaviour' apps/wahidyankf-www-e2e/project.json` prints `1`.
 - [x] [AI] [AC-2] Edit `apps/wahidyankf-www-e2e/project.json` target `specs:e2e:baseline`: add
       `"outputs": ["{projectRoot}/.features-gen"]` — acceptance: the target is `cache: true` and its command runs
       `bddgen`, which writes that directory, so without the declaration a cache hit replays the baseline comparison and
@@ -266,9 +266,9 @@ workspace-wide.
       `diff` each against its `-before.json` — acceptance: every difference is one this phase's checklist named. This
       diff does not prove the named inputs still reach the corpus, and is not read as if it did:
       `npx nx show project --json` reports the **declared** `inputs` array verbatim and expands neither `default` nor a
-      `namedInputs` reference, so after this phase every affected target prints `["default", "behaviorCorpus"]` and the
+      `namedInputs` reference, so after this phase every affected target prints `["default", "behaviourCorpus"]` and the
       corpus path is absent from the output by construction. The two probe items below carry that half.
-- [x] [AI] [AC-3] Probe the `behaviorCorpus` reference through the cache key, which is what `--json` cannot show. Nx
+- [x] [AI] [AC-3] Probe the `behaviourCorpus` reference through the cache key, which is what `--json` cannot show. Nx
       hashes file content, so a content change under a genuinely resolved input must miss the cache. For each pairing
       below: run the target twice and confirm the second run prints `Nx read the output from the cache`; then
       `printf '\n# hash probe\n' >> <feature file>` and run it a third time, confirming that line is now absent; then
@@ -281,8 +281,8 @@ workspace-wide.
       [specification-changes.md](tech-docs/specification-changes.md) states and the probe's own `git diff --stat`
       assertion re-checks. `# ` opens a Gherkin comment, so the appended line is valid Gherkin and changes no scenario.
       The three pairings are `badakmini-cli:test:unit` with
-      `specs/apps/badakmini-cli/behavior/capability-parity.feature`, `wahidyankf-www:test:unit` with
-      `specs/apps/wahidyankf-www/behavior/accessibility.feature`, and `wahidyankf-www-e2e:typecheck` with that same
+      `specs/apps/badakmini-cli/behaviours/capability-parity.feature`, `wahidyankf-www:test:unit` with
+      `specs/apps/wahidyankf-www/behaviours/accessibility.feature`, and `wahidyankf-www-e2e:typecheck` with that same
       `wahidyankf-www` feature file. All three targets resolve to `cache: true` through the root `targetDefaults` and
       all three declare the corpus input today.
 - [x] [AI] [AC-3] Probe the `workspaceScripts` reference the same way, because it is the other glob this phase hoists
@@ -300,13 +300,13 @@ workspace-wide.
       lines 4 and 5 are `"root": "apps/badakmini-cli"` and `"sourceRoot": "apps/badakmini-cli"`, which declare where the
       project lives rather than what a command runs and which this plan leaves alone. The only other surviving line is
       the `namedInputs` declaration, which the earlier checklist item pins with
-      `grep -c 'specs/apps/badakmini-cli/behavior' apps/badakmini-cli/project.json` printing `1`; every `inputs` entry
+      `grep -c 'specs/apps/badakmini-cli/behaviour' apps/badakmini-cli/project.json` printing `1`; every `inputs` entry
       references it by name and holds no path of its own — **unless** this phase's conditional fired. If the `tests/e2e`
       cache probe hit the cache and the checklist item restored `{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*` to
-      `test:coverage:behavior`, `test:coverage`, and `test:quick`, three more lines print here. Those three are `inputs`
-      entries rather than `"command"` strings, so they do not fail this acceptance, and `learnings.md` already carries
-      the entry that item required. Read against that entry: three extra input lines with no matching `learnings.md`
-      record means something else put them there.
+      `test:coverage:behaviour`, `test:coverage`, and `test:quick`, three more lines print here. Those three are
+      `inputs` entries rather than `"command"` strings, so they do not fail this acceptance, and `learnings.md` already
+      carries the entry that item required. Read against that entry: three extra input lines with no matching
+      `learnings.md` record means something else put them there.
 - [x] [AI] [AC-5]
       `grep -nE '"command": *"([^"]*[^-] )?nx run' apps/badakmini-cli/project.json apps/wahidyankf-www/project.json apps/wahidyankf-www-e2e/project.json`
       — acceptance: prints nothing and exits non-zero. The group is optional because the workspace's one bare invocation
@@ -334,7 +334,7 @@ workspace-wide.
       Phase 0 recorded at baseline — the generated `test.fixme` count still equals the 34 in
       `apps/wahidyankf-www-e2e/e2e-skip-baseline.json` — and this run is now made against the rewritten target. This
       phase gives that target a new `"outputs": ["{projectRoot}/.features-gen"]` declaration and moves its `inputs` onto
-      `behaviorCorpus`, and nothing else in this gate reaches it: the project declares no `test:quick` and no
+      `behaviourCorpus`, and nothing else in this gate reaches it: the project declares no `test:quick` and no
       `test:integration`, so neither `npm run test:quick` nor `npm run test:integration` selects it through `run-many`,
       and the only other item here that executes one of its targets runs `typecheck`. The `cache` and `outputs`
       inspections above do name this project, but they read `npx nx show project --json` and execute nothing. Without
@@ -344,9 +344,9 @@ workspace-wide.
 - [x] [AI] [AC-3] `npx nx run wahidyankf-www-e2e:lint` — acceptance: exits 0, with both `lint:biome` and
       `lint:commentary` reported as run. It is unreached by this gate's aggregates for the same reason, and it is the
       one of this project's five rewritten targets that is an `nx:run-commands` aggregate rather than a single
-      `command`, so it exercises the `behaviorCorpus` substitution on a differently shaped target. The remaining two,
+      `command`, so it exercises the `behaviourCorpus` substitution on a differently shaped target. The remaining two,
       `install` and `test:e2e`, are deliberately not run here and the reason is stated rather than left as a gap: each
-      receives only the shared `behaviorCorpus` substitution, which the `typecheck` cache probe above already proves
+      receives only the shared `behaviourCorpus` substitution, which the `typecheck` cache probe above already proves
       resolves for this project, and each is minutes of browser download and browser driving that Phase 2 runs in full
       at the merged target names.
 - [x] [AI] [AC-2] Check the outputs rule mechanically, in the same inspection style as the `cache` check above. Run this
@@ -381,7 +381,7 @@ workspace-wide.
   - [x] [AI] [AC-5] `fix(wahidyankf-www): resolve nx through the workspace binary` — the bare `nx run` change alone. It
         is a defect fix, not a normalization, and it is the only Phase 1 change that alters which binary runs; it
         commits first so a bisect that lands on it names one suspect.
-  - [x] [AI] [AC-3] `refactor(workspace): declare shared behavior inputs once per project` — the three `namedInputs`
+  - [x] [AI] [AC-3] `refactor(workspace): declare shared behaviour inputs once per project` — the three `namedInputs`
         declarations, every glob they replace, and the redundant `tests/e2e` input removal.
   - [x] [AI] [AC-4] `refactor(workspace): resolve project commands through options.cwd` — the thirteen `badakmini-cli`
         `cwd` declarations with the two `mkdir` and one `BADAKMINI_BIN` rewrites, and `static-routes:validation`'s move
@@ -481,7 +481,7 @@ commit because the compatibility window is zero.
 - [x] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `test:e2e` target carrying the
       unconditional-`test.skip` guard and `npx bddgen && npx playwright test` from the deleted project's target, with
       `"cache": false`, `"options": {"cwd": "{projectRoot}"}`, `"dependsOn": ["build"]`, and
-      `"inputs": ["default", "behaviorCorpus"]` — acceptance: `dependsOn` names the intra-project `build` rather than
+      `"inputs": ["default", "behaviourCorpus"]` — acceptance: `dependsOn` names the intra-project `build` rather than
       `wahidyankf-www:build`, matching how `badakmini-cli:test:e2e` names its own `build`.
 - [x] [AI] [AC-6] Edit the guard's search path in that same command: its trailing `.` becomes `tests/e2e` — acceptance:
       the `grep -rn` argument reads `tests/e2e`, so the guard scans one directory as it did before the merge. Carried
@@ -535,7 +535,7 @@ commit because the compatibility window is zero.
 - [x] [AI] [AC-1] [AC-6] Edit `apps/wahidyankf-www/project.json`: add a `specs:e2e:baseline` target carrying the deleted
       project's command with exactly one substitution, with `"cache": true`, `"options": {"cwd": "{projectRoot}"}`,
       `"outputs": ["{projectRoot}/.features-gen"]` carried over from Phase 1, and `inputs` naming only `default` and
-      `behaviorCorpus`. The command is not copied verbatim: its `require('./e2e-skip-baseline.json')` is repointed to
+      `behaviourCorpus`. The command is not copied verbatim: its `require('./e2e-skip-baseline.json')` is repointed to
       `require('./tests/e2e/e2e-skip-baseline.json')` to match the moved file. Its other two relative paths are left
       alone and the reason is stated so a reader does not "fix" them — `npx bddgen` and the
       `grep -rho 'test\.fixme(' .features-gen` that follows it are both resolved against `options.cwd`, which is
@@ -588,8 +588,8 @@ commit because the compatibility window is zero.
       browser adapter rather than adding one.
 - [x] [AI] Edit `apps/wahidyankf-www/README.md` again: fold in the retired README's record of the browser layer whole,
       because this phase deletes the only document in the repository that holds it and repoints
-      `specs/apps/wahidyankf-www/behavior/README.md` at this one for exactly that content. Three things move and none is
-      a summary of the others. First, the list of the four feature files the Playwright adapter deliberately does not
+      `specs/apps/wahidyankf-www/behaviours/README.md` at this one for exactly that content. Three things move and none
+      is a summary of the others. First, the list of the four feature files the Playwright adapter deliberately does not
       bind — `env-loader.feature`, `tier-env-loading.feature`, `port-resolver.feature`, and `cv-export.feature` — each
       with the layer that binds it instead. Second, the recorded skip baseline as it stands after the measurement item
       above, 34 unless that measurement corrected it, stated as generated tests rather than scenarios, and naming
@@ -638,14 +638,14 @@ commit because the compatibility window is zero.
 - [x] [AI] [AC-6] Edit the paragraph below that diagram in `specs/apps/wahidyankf-www/architecture.md` to keep the
       toolchain-difference fact while dropping the separate-project inference, and to say why a box that is not a
       container is drawn in a container view — acceptance: it still states that the adapter starts the application
-      through `next start`, drives it over HTTP through a browser, is a different toolchain from the in-process behavior
-      adapter, and exists only at test time and is never deployed; and `npm run check:markdown-links` still exits 0 over
-      the file. The `grep -c` in the item above is not this item's proof and must not be read as one: this paragraph
-      holds the retired name in none of its sentences today, so the count reaches `0` whether the paragraph is
+      through `next start`, drives it over HTTP through a browser, is a different toolchain from the in-process
+      behaviour adapter, and exists only at test time and is never deployed; and `npm run check:markdown-links` still
+      exits 0 over the file. The `grep -c` in the item above is not this item's proof and must not be read as one: this
+      paragraph holds the retired name in none of its sentences today, so the count reaches `0` whether the paragraph is
       rewritten, deleted, or left exactly as it is. The listed sentence content is the only thing that observes it.
-- [x] [AI] Edit `specs/apps/wahidyankf-www/behavior/README.md`: repoint the sentence naming
+- [x] [AI] Edit `specs/apps/wahidyankf-www/behaviours/README.md`: repoint the sentence naming
       `apps/wahidyankf-www-e2e/README.md` at `apps/wahidyankf-www/README.md` — acceptance:
-      `grep -c 'wahidyankf-www-e2e' specs/apps/wahidyankf-www/behavior/README.md` prints `0`, and the document the
+      `grep -c 'wahidyankf-www-e2e' specs/apps/wahidyankf-www/behaviours/README.md` prints `0`, and the document the
       sentence now points at is read for the content the sentence claims it holds: the sentence says that document
       "names them and records the generated skip baseline that keeps the gap from widening unnoticed", so
       `apps/wahidyankf-www/README.md` must satisfy the four `grep` counts and the skip-baseline greps of the fold-in
@@ -674,7 +674,7 @@ commit because the compatibility window is zero.
       `npm run check:governance` exits 0. This lands in Phase 2 rather than Phase 3 because Phase 2 deletes
       `apps/wahidyankf-www-e2e/tsconfig.json`, so leaving the entry until Phase 3 would leave one committed state where
       governance records a deviation of a file that does not exist.
-- [x] [AI] [AC-6] Edit `specs/apps/README.md`: rewrite the Directory Map line for `wahidyankf-www` so the behavior
+- [x] [AI] [AC-6] Edit `specs/apps/README.md`: rewrite the Directory Map line for `wahidyankf-www` so the behaviour
       corpus is described as belonging to that one project rather than "shared with the dedicated E2E project
       `apps/wahidyankf-www-e2e`" — acceptance: `grep -c 'wahidyankf-www-e2e' specs/apps/README.md` prints `0` and the
       line still states the feature count it states today.
@@ -714,7 +714,7 @@ commit because the compatibility window is zero.
       `badakmini-cli`.
 - [x] [AI] [AC-1] `npx nx show project wahidyankf-www --json` — acceptance: the target list contains all ten contract
       targets: `typecheck`, `lint`, `test:unit`, `test:integration`, `test:e2e`, `test:coverage`, `test:coverage:unit`,
-      `test:coverage:integration`, `test:coverage:behavior`, and `test:quick`.
+      `test:coverage:integration`, `test:coverage:behaviour`, and `test:quick`.
 - [x] [AI] [AC-1] `npx nx show project badakmini-cli --json` — acceptance: the same ten targets are present, so both
       projects expose one identical contract.
 - [x] [AI] [AC-2] Re-run the Phase 1 gate's `cache` inspection over the post-merge project set, which is `badakmini-cli`
@@ -744,10 +744,10 @@ commit because the compatibility window is zero.
       three cache probes below restore from still matches the working tree.
 - [x] [AI] [AC-3] Probe that the built-in `default` reaches the three paths whose explicit `inputs` entries the merge
       drops, rather than reading them back out of `npx nx show project --json`, which prints only the declared array and
-      expands neither `default` nor `behaviorCorpus`. `specs:e2e:baseline` is `cache: true`, so run it twice and confirm
-      the second run prints `Nx read the output from the cache`, then repeat this three times, once per path: append a
-      content change, re-run, confirm the cache line is absent, `git checkout --` the file, and re-run to a hit. The
-      three probe files are `apps/wahidyankf-www/tests/e2e/e2e-skip-baseline.json` (append one blank line with
+      expands neither `default` nor `behaviourCorpus`. `specs:e2e:baseline` is `cache: true`, so run it twice and
+      confirm the second run prints `Nx read the output from the cache`, then repeat this three times, once per path:
+      append a content change, re-run, confirm the cache line is absent, `git checkout --` the file, and re-run to a
+      hit. The three probe files are `apps/wahidyankf-www/tests/e2e/e2e-skip-baseline.json` (append one blank line with
       `printf '\n' >>`, which changes the bytes and leaves the JSON parsing to the same `skippedScenarios` value of 34),
       `apps/wahidyankf-www/tests/e2e/steps/theme.steps.ts` (append `\n// hash probe\n`), and
       `apps/wahidyankf-www/playwright.config.ts` (append `\n// hash probe\n`) — acceptance: each of the three misses the
@@ -814,7 +814,7 @@ rather than two files to compare.
 
 - [x] [AI] [AC-7] Edit `repo-governance/development/testing-policy.md`: in the Quick Tests section, replace the partial
       target list with the full contract naming `typecheck`, `lint`, `test:unit`, `test:integration`, `test:e2e`,
-      `test:coverage:unit`, `test:coverage:integration`, `test:coverage:behavior`, `test:coverage`, and `test:quick`,
+      `test:coverage:unit`, `test:coverage:integration`, `test:coverage:behaviour`, `test:coverage`, and `test:quick`,
       and state which are eligibility-dependent — acceptance: the existing rule that a library defines no
       `test:integration` when it owns no local boundary, and that a library never owns `test:e2e`, is preserved rather
       than contradicted.
@@ -903,10 +903,10 @@ rather than two files to compare.
 - [x] [AI] Run the [Rules Propagation](../../../repo-governance/workflows/rules/rules-propagation.md) workflow for the
       edited policies — acceptance: it reports no unresolved contradiction between the new contract and the
       [Nx workspace policy](../../../repo-governance/development/nx-workspace-policy.md), the
-      [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), or
+      [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md), or
       [workspace commands](../../../repo-governance/development/workspace-commands.md).
 - [x] [AI] `npm run test:quick` — acceptance: exits 0 for both projects, confirming a documentation-only phase changed
-      no executable behavior.
+      no executable behaviour.
 - [x] [AI] Commit with message `docs(testing): state the project target contract` and push to `main` — acceptance:
       `git status --short` is empty and the commit's SHA is written into the Execution Record as Phase 0 requires. This
       is the SHA Phase 4's file-impact reconciliation uses as the far end of its range.

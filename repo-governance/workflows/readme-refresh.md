@@ -13,7 +13,7 @@ smallest affected set in the same thematic commit as the change it explains.
 
 ## When to Use
 
-Run this workflow before committing a change that alters purpose, directory layout, public behavior, commands, setup,
+Run this workflow before committing a change that alters purpose, directory layout, public behaviour, commands, setup,
 dependencies, documentation navigation, governance, or contributor expectations. Also run it when adding, moving, or
 deleting a README or its indexed Markdown content.
 
@@ -30,7 +30,7 @@ deleting a README or its indexed Markdown content.
    rg --files apps libs docs repo-governance cv scripts .agents .claude .codex .opencode -g 'README.md' | sort
    ```
 
-2. Map each changed behavior to its human entry point. The root README explains the workspace; app and library READMEs
+2. Map each changed behaviour to its human entry point. The root README explains the workspace; app and library READMEs
    explain each project's purpose, use, and contracts; `docs/` READMEs navigate Diátaxis content; and `repo-governance/`
    READMEs explain shared rules. Create a project README when a new runnable or reusable project needs a human starting
    point.
@@ -43,8 +43,8 @@ deleting a README or its indexed Markdown content.
    `repo-governance/`, `scripts/`, and the harness directories. It owns which directories need a README, what each must
    register, the frontmatter requirement, and the exemptions.
 
-5. Update only stale or missing material. Do not rewrite accurate prose, invent behavior, or mix unrelated documentation
-   cleanup into the commit.
+5. Update only stale or missing material. Do not rewrite accurate prose, invent behaviour, or mix unrelated
+   documentation cleanup into the commit.
 
 ## Verification
 
@@ -56,8 +56,8 @@ npm run check:markdown-links
 npm run check:governance
 ```
 
-Confirm every changed human-facing behavior is discoverable from the appropriate README and that no README promises
-behavior absent from the repository.
+Confirm every changed human-facing behaviour is discoverable from the appropriate README and that no README promises
+behaviour absent from the repository.
 
 ## Recovery
 

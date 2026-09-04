@@ -89,12 +89,12 @@ fourth, exactly as `badakmini-cli` runs `go test` over four separate packages.
 
 ## Design Decisions
 
-**Per-project `namedInputs`, not workspace-level.** Both projects need "the behavior corpus that belongs to me", and
+**Per-project `namedInputs`, not workspace-level.** Both projects need "the behaviour corpus that belongs to me", and
 those are different paths. A workspace-level entry would need two differently-named keys and each target would still
-pick the right one by hand. A project-level `namedInputs` lets both projects declare the same name, `behaviorCorpus`, so
-every affected target in both files reads `"inputs": ["default", "behaviorCorpus"]`. `wahidyankf-www` declares a second,
-`workspaceScripts`, for `{workspaceRoot}/scripts/next-with-port.mjs`, because that path is a shared script rather than a
-specification and folding it into `behaviorCorpus` would make the name lie.
+pick the right one by hand. A project-level `namedInputs` lets both projects declare the same name, `behaviourCorpus`,
+so every affected target in both files reads `"inputs": ["default", "behaviourCorpus"]`. `wahidyankf-www` declares a
+second, `workspaceScripts`, for `{workspaceRoot}/scripts/next-with-port.mjs`, because that path is a shared script
+rather than a specification and folding it into `behaviourCorpus` would make the name lie.
 
 **`{projectRoot}` and `cwd` for `badakmini-cli`, with three commands rewritten rather than trimmed.** Dropping
 `-C apps/badakmini-cli` in favour of `options.cwd` is mechanical for ten of the thirteen commands. Three are not, and
@@ -209,8 +209,8 @@ carried over unchanged and its gate asserts the recorded count of 34 specificall
 
 **A changed cache key** could let Nx replay a stale result as a success. The obvious check does not work:
 `npx nx show project --json` prints the _declared_ `inputs` array and never expands `default` or a `namedInputs`
-reference, so after the refactor every affected target reads `["default", "behaviorCorpus"]` and a before-and-after diff
-differs by construction on exactly the targets that were changed correctly. Phase 1 therefore proves input coverage
+reference, so after the refactor every affected target reads `["default", "behaviourCorpus"]` and a before-and-after
+diff differs by construction on exactly the targets that were changed correctly. Phase 1 therefore proves input coverage
 behaviourally instead: it changes the content of one corpus feature file, confirms a cached target misses the cache, and
 restores the file. Nx hashes content rather than mtime, so a miss is only possible if the named input really does
 resolve to the corpus — which is the property the declared array cannot show.

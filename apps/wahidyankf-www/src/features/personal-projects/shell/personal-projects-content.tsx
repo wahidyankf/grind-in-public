@@ -33,7 +33,7 @@ const LinkIcon = ({ type }: { type: string }) => {
 /**
  * Renders the searchable project list itself, without any page chrome around
  * it. The exported wrapper below supplies the navigation and layout, which
- * keeps the search and filter behavior in a component that depends on
+ * keeps the search and filter behaviour in a component that depends on
  * neither.
  */
 function ProjectsContent() {
@@ -82,7 +82,7 @@ function ProjectsContent() {
       {filteredProjects.length > 0 ? (
         filteredProjects.map((project, index) => (
           // The `id` is positional and the `key` is not, deliberately. The
-          // behavior corpus addresses cards as `project-0`, `project-1`, and so
+          // behaviour corpus addresses cards as `project-0`, `project-1`, and so
           // on, so the id has to track position in the filtered list. React's
           // key must not, because reusing a position as identity makes it
           // reuse the wrong card's state when a search filters the list.

@@ -1,7 +1,7 @@
 import path from "node:path";
 import React from "react";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
-import { render, screen, within } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import { expect, vi } from "vitest";
 import { HomeContent } from "@/features/home/shell/home-content";
 
@@ -15,29 +15,32 @@ vi.mock("@/features/app-shell/shell/navigation", () => ({
     React.createElement("div", { "data-testid": "navigation" }, "Navigation"),
 }));
 
-// @amiceli/vitest-cucumber registers every Given/When/Then/And as its own
-// vitest test, and this project's src/test/setup.ts runs
-// @testing-library/react's cleanup() after every test — a render() done in
-// "When" does not survive into the following "Then"/"And" step. Each
-// assertion step below renders HomeContent itself.
+// Vitest Cucumber registers each step as a test inside one scenario describe.
+// The behaviour setup deliberately defers DOM cleanup to AfterEachScenario so
+// When can invoke the component and Then can observe that exact render.
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/home.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/home.feature",
   ),
 );
 
-describeFeature(feature, ({ Scenario, Background }) => {
+describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
+  AfterEachScenario(cleanup);
   Background(({ Given }) => {
-    Given("the app is running", () => {});
+    Given("the app is running", () => {
+      window.history.replaceState({}, "", "/");
+    });
   });
 
   Scenario("Home renders the welcome heading", ({ When, Then }) => {
-    When("a visitor opens the home page", () => {});
-
-    // @covers specs/apps/wahidyankf-www/behavior/home.feature:Home renders the welcome heading
-    Then('the H1 shows "Welcome to My Portfolio"', () => {
+    When("a visitor opens the home page", () => {
+      window.history.replaceState({}, "", "/");
       render(React.createElement(HomeContent));
+    });
+
+    // @covers specs/apps/wahidyankf-www/behaviours/home.feature:Home renders the welcome heading
+    Then('the H1 shows "Welcome to My Portfolio"', () => {
       expect(
         screen.getByRole("heading", {
           level: 1,
@@ -48,11 +51,13 @@ describeFeature(feature, ({ Scenario, Background }) => {
   });
 
   Scenario("Home renders the About Me card", ({ When, Then }) => {
-    When("a visitor opens the home page", () => {});
-
-    // @covers specs/apps/wahidyankf-www/behavior/home.feature:Home renders the About Me card
-    Then("an About Me card is visible", () => {
+    When("a visitor opens the home page", () => {
+      window.history.replaceState({}, "", "/");
       render(React.createElement(HomeContent));
+    });
+
+    // @covers specs/apps/wahidyankf-www/behaviours/home.feature:Home renders the About Me card
+    Then("an About Me card is visible", () => {
       expect(
         screen.getByRole("heading", { name: "About Me" }),
       ).toBeInTheDocument();
@@ -62,10 +67,12 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Home renders the Skills & Expertise card with three subsections",
     ({ When, Then, And }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+        render(React.createElement(HomeContent));
+      });
 
       Then("a Skills & Expertise card is visible", () => {
-        render(React.createElement(HomeContent));
         expect(
           screen.getByRole("heading", { name: "Skills & Expertise" }),
         ).toBeInTheDocument();
@@ -74,7 +81,6 @@ describeFeature(feature, ({ Scenario, Background }) => {
       And(
         'the card has a "Top Skills Used in The Last 5 Years" subsection',
         () => {
-          render(React.createElement(HomeContent));
           expect(
             screen.getByText("Top Skills Used in The Last 5 Years"),
           ).toBeInTheDocument();
@@ -84,7 +90,6 @@ describeFeature(feature, ({ Scenario, Background }) => {
       And(
         'the card has a "Top Programming Languages Used in The Last 5 Years" subsection',
         () => {
-          render(React.createElement(HomeContent));
           expect(
             screen.getByText(
               "Top Programming Languages Used in The Last 5 Years",
@@ -93,11 +98,10 @@ describeFeature(feature, ({ Scenario, Background }) => {
         },
       );
 
-      // @covers specs/apps/wahidyankf-www/behavior/home.feature:Home renders the Skills & Expertise card with three subsections
+      // @covers specs/apps/wahidyankf-www/behaviours/home.feature:Home renders the Skills & Expertise card with three subsections
       And(
         'the card has a "Top Frameworks & Libraries Used in The Last 5 Years" subsection',
         () => {
-          render(React.createElement(HomeContent));
           expect(
             screen.getByText(
               "Top Frameworks & Libraries Used in The Last 5 Years",
@@ -111,27 +115,27 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Home renders the Quick Links card with two internal links",
     ({ When, Then, And }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+        render(React.createElement(HomeContent));
+      });
 
       Then("a Quick Links card is visible", () => {
-        render(React.createElement(HomeContent));
         expect(
           screen.getByRole("heading", { name: "Quick Links" }),
         ).toBeInTheDocument();
       });
 
       And('the card contains a "View My CV" link to /cv', () => {
-        render(React.createElement(HomeContent));
         expect(
           screen.getByRole("link", { name: "View My CV" }),
         ).toHaveAttribute("href", "/cv");
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/home.feature:Home renders the Quick Links card with two internal links
+      // @covers specs/apps/wahidyankf-www/behaviours/home.feature:Home renders the Quick Links card with two internal links
       And(
         'the card contains a "Browse My Independent Projects" link to /personal-projects',
         () => {
-          render(React.createElement(HomeContent));
           expect(
             screen.getByRole("link", {
               name: "Browse My Independent Projects",
@@ -145,20 +149,21 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Home renders the Connect With Me card with five external links",
     ({ When, Then, And }) => {
-      When("a visitor opens the home page", () => {});
+      When("a visitor opens the home page", () => {
+        window.history.replaceState({}, "", "/");
+        render(React.createElement(HomeContent));
+      });
 
       Then("a Connect With Me card is visible", () => {
-        render(React.createElement(HomeContent));
         expect(
           screen.getByRole("heading", { name: "Connect With Me" }),
         ).toBeInTheDocument();
       });
 
-      // @covers specs/apps/wahidyankf-www/behavior/home.feature:Home renders the Connect With Me card with five external links
+      // @covers specs/apps/wahidyankf-www/behaviours/home.feature:Home renders the Connect With Me card with five external links
       And(
         "the card has Github, GithubOrg, Linkedin, Website, and Email links",
         () => {
-          render(React.createElement(HomeContent));
           const heading = screen.getByRole("heading", {
             name: "Connect With Me",
           });

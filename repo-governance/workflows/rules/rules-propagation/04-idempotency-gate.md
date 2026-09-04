@@ -9,7 +9,7 @@ Compare the intended rule with the current rule corpus before editing. Existing 
 applicable condition leads to one required or prohibited action without relying on an unstated assumption, and all of
 these facts can be cited in the corpus:
 
-- one canonical source states the scope, trigger, and required behavior;
+- one canonical source states the scope, trigger, and required behaviour;
 - authority and precedence are explicit wherever multiple sources apply;
 - references are accurate, and no equivalent, overlapping, inverse, or contradictory guidance produces a different
   action for the same condition; and

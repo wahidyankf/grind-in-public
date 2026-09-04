@@ -1,7 +1,13 @@
 import path from "node:path";
 import React from "react";
 import { loadFeature, describeFeature } from "@amiceli/vitest-cucumber";
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import {
+  cleanup,
+  render,
+  screen,
+  fireEvent,
+  within,
+} from "@testing-library/react";
 import { expect, vi } from "vitest";
 import { PersonalProjectsContent } from "@/features/personal-projects/shell/personal-projects-content";
 import { projects } from "@/features/personal-projects/core/projects";
@@ -18,34 +24,32 @@ vi.mock("@/features/app-shell/shell/navigation", () => ({
     React.createElement("div", { "data-testid": "navigation" }, "Navigation"),
 }));
 
-// @amiceli/vitest-cucumber registers every Given/When/Then/And as its own
-// vitest test, and this project's src/test/setup.ts runs
-// @testing-library/react's cleanup() after every test — a render() done in
-// "When" does not survive into the following "Then" step. Each assertion step
-// below renders PersonalProjectsContent itself. mockPush's call history is a
-// plain JS object, though, and persists regardless of DOM teardown, so the
-// click scenario renders + interacts in one atomic step and the following
-// "Then" step only inspects mockPush's recorded calls.
+// DOM cleanup runs after each scenario, allowing Then to inspect the component
+// instance mounted by When while keeping scenarios isolated.
 const feature = await loadFeature(
   path.resolve(
     process.cwd(),
-    "../../specs/apps/wahidyankf-www/behavior/personal-projects.feature",
+    "../../specs/apps/wahidyankf-www/behaviours/personal-projects.feature",
   ),
 );
 
-describeFeature(feature, ({ Scenario, Background }) => {
+describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
+  AfterEachScenario(cleanup);
   Background(({ Given }) => {
     Given("the app is running", () => {
       mockPush.mockClear();
+      window.history.replaceState({}, "", "/personal-projects");
     });
   });
 
   Scenario("Personal projects page renders the heading", ({ When, Then }) => {
-    When("a visitor opens the personal projects page", () => {});
-
-    // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Personal projects page renders the heading
-    Then('the H1 shows "Independent Projects"', () => {
+    When("a visitor opens the personal projects page", () => {
+      window.history.replaceState({}, "", "/personal-projects");
       render(React.createElement(PersonalProjectsContent));
+    });
+
+    // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Personal projects page renders the heading
+    Then('the H1 shows "Independent Projects"', () => {
       expect(
         screen.getByRole("heading", { level: 1, name: "Independent Projects" }),
       ).toBeInTheDocument();
@@ -55,13 +59,15 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Personal projects page renders a search input",
     ({ When, Then }) => {
-      When("a visitor opens the personal projects page", () => {});
+      When("a visitor opens the personal projects page", () => {
+        window.history.replaceState({}, "", "/personal-projects");
+        render(React.createElement(PersonalProjectsContent));
+      });
 
-      // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Personal projects page renders a search input
+      // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Personal projects page renders a search input
       Then(
         'a search input with placeholder "Search projects..." is visible',
         () => {
-          render(React.createElement(PersonalProjectsContent));
           expect(
             screen.getByPlaceholderText("Search projects..."),
           ).toBeInTheDocument();
@@ -73,11 +79,13 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Personal projects page lists at least one project card",
     ({ When, Then }) => {
-      When("a visitor opens the personal projects page", () => {});
-
-      // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Personal projects page lists at least one project card
-      Then("at least one project card is visible", () => {
+      When("a visitor opens the personal projects page", () => {
+        window.history.replaceState({}, "", "/personal-projects");
         render(React.createElement(PersonalProjectsContent));
+      });
+
+      // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Personal projects page lists at least one project card
+      Then("at least one project card is visible", () => {
         const headings = screen.getAllByRole("heading", { level: 2 });
         expect(headings.length).toBeGreaterThan(0);
       });
@@ -87,13 +95,15 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Each project card exposes external links where applicable",
     ({ When, Then }) => {
-      When("a visitor opens the personal projects page", () => {});
+      When("a visitor opens the personal projects page", () => {
+        window.history.replaceState({}, "", "/personal-projects");
+        render(React.createElement(PersonalProjectsContent));
+      });
 
-      // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Each project card exposes external links where applicable
+      // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Each project card exposes external links where applicable
       Then(
         "every project card exposes a Repository, Website, or YouTube link where the project has that resource",
         () => {
-          render(React.createElement(PersonalProjectsContent));
           const links = screen.getAllByRole("link", {
             name: /Repository|Website|YouTube/i,
           });
@@ -106,11 +116,13 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Each project card shows how long the project has been running",
     ({ When, Then }) => {
-      When("a visitor opens the personal projects page", () => {});
-
-      // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Each project card shows how long the project has been running
-      Then("every project card shows a duration next to its start date", () => {
+      When("a visitor opens the personal projects page", () => {
+        window.history.replaceState({}, "", "/personal-projects");
         render(React.createElement(PersonalProjectsContent));
+      });
+
+      // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Each project card shows how long the project has been running
+      Then("every project card shows a duration next to its start date", () => {
         projects.forEach((_, index) => {
           const card = document.getElementById(`project-${index}`);
           expect(card).not.toBeNull();
@@ -127,13 +139,15 @@ describeFeature(feature, ({ Scenario, Background }) => {
   Scenario(
     "Each project card exposes clickable skill tags",
     ({ When, Then }) => {
-      When("a visitor opens the personal projects page", () => {});
+      When("a visitor opens the personal projects page", () => {
+        window.history.replaceState({}, "", "/personal-projects");
+        render(React.createElement(PersonalProjectsContent));
+      });
 
-      // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Each project card exposes clickable skill tags
+      // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Each project card exposes clickable skill tags
       Then(
         "every project card exposes at least one clickable skill tag",
         () => {
-          render(React.createElement(PersonalProjectsContent));
           projects.forEach((_, index) => {
             const card = document.getElementById(`project-${index}`);
             expect(card).not.toBeNull();
@@ -158,7 +172,7 @@ describeFeature(feature, ({ Scenario, Background }) => {
         },
       );
 
-      // @covers specs/apps/wahidyankf-www/behavior/personal-projects.feature:Clicking a skill tag filters the project list
+      // @covers specs/apps/wahidyankf-www/behaviours/personal-projects.feature:Clicking a skill tag filters the project list
       Then("the URL becomes /personal-projects?search=TypeScript", () => {
         expect(mockPush).toHaveBeenCalledWith(
           "/personal-projects?search=TypeScript",

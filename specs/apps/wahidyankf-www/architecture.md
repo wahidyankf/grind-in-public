@@ -1,7 +1,7 @@
 # wahidyankf-www — Architecture
 
-The as-built C4 model for `wahidyankf-www`, a personal portfolio and CV site. Its executable behavior lives in
-[behavior/](behavior/README.md); this document describes the boundaries those scenarios exercise.
+The as-built C4 model for `wahidyankf-www`, a personal portfolio and CV site. Its executable behaviour lives in
+[behaviours/](behaviours/README.md); this document describes the boundaries those scenarios exercise.
 
 The site is fully static. No server-side code runs at request time, every page is rendered at build time, and no user
 data is collected, stored, or transmitted beyond the access logs the CDN keeps. That single constraint is why several
@@ -10,13 +10,12 @@ no database, no session, and no authentication to draw.
 
 ## Scope
 
-One deployable application, which hosts every adapter that binds this corpus, including the browser one under
-`tests/e2e/`.
+One deployable application and one test-only E2E project bind the corpus.
 
-| Project               | Role                                                                                              |
-| --------------------- | ------------------------------------------------------------------------------------------------- |
-| `apps/wahidyankf-www` | The Next.js application and every adapter that binds its corpus: unit, behavior, integration, and |
-|                       | the browser suite under `tests/e2e/`.                                                             |
+| Project                   | Role                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `apps/wahidyankf-www`     | The Next.js application plus Unit and Integration adapters.                    |
+| `apps/wahidyankf-www-e2e` | The test-only Playwright adapter; it depends one-way on the owner application. |
 
 ## People and External Systems
 
@@ -64,19 +63,17 @@ One container. There is no backend, no database, and no message bus; all content
                                                  | starts and drives
                                                  | over a local port
                                   +--------------------------------+
-                                  |   tests/e2e  [Test-time only]  |
-                                  |  Playwright process E2E        |
-                                  |  adapter, inside wahidyankf-www|
+                                  | wahidyankf-www-e2e [Test only] |
+                                  | Playwright public-boundary     |
+                                  | adapter, separate Nx project   |
                                   +--------------------------------+
 ```
 
 The E2E adapter is drawn because it is a real process boundary: it starts the application through `next start` and
-drives it over HTTP through a browser, which is a different toolchain from the in-process behavior adapter. It is not a
-container, which is why the count above still reads one: it exists only at test time, is never deployed, and lives
-inside `apps/wahidyankf-www` rather than in a project of its own. The toolchain difference is what makes the boundary
-real; it is not what would require a separate project, and the
-[BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md) role matrix makes a dedicated
-E2E project permitted rather than required.
+drives it over HTTP through a browser, which is a different toolchain from the in-process behaviour adapter. It is not a
+container, which is why the count above still reads one: it exists only at test time and is never deployed. The
+[BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md) requires this public boundary
+to live in its dedicated E2E project.
 
 ## Components
 
@@ -144,18 +141,18 @@ user input that reaches a server. The one boundary that matters is deployment: `
 **Environment.** `env/core` resolves which tier's env file to read and refuses to fall through to a developer's local
 file when the tier is anything other than `local`. The E2E adapter pins its tier explicitly for the same reason.
 
-## Behavior Traceability
+## Behaviour Traceability
 
-| Feature                                                                       | Component it exercises                       |
-| ----------------------------------------------------------------------------- | -------------------------------------------- |
-| [accessibility.feature](behavior/accessibility.feature)                       | `app-shell`, and every page it frames        |
-| [cv.feature](behavior/cv.feature)                                             | `cv`                                         |
-| [env-loader.feature](behavior/env-loader.feature)                             | `env/core`                                   |
-| [home.feature](behavior/home.feature)                                         | `home`                                       |
-| [personal-projects.feature](behavior/personal-projects.feature)               | `personal-projects`                          |
-| [port-resolver.feature](behavior/port-resolver.feature)                       | `env/core`                                   |
-| [responsive.feature](behavior/responsive.feature)                             | `app-shell`                                  |
-| [search.feature](behavior/search.feature)                                     | `search`                                     |
-| [static-filterable-routes.feature](behavior/static-filterable-routes.feature) | `personal-projects`, at the routing boundary |
-| [theme.feature](behavior/theme.feature)                                       | `ui/shell`                                   |
-| [tier-env-loading.feature](behavior/tier-env-loading.feature)                 | `env/core`                                   |
+| Feature                                                                         | Component it exercises                       |
+| ------------------------------------------------------------------------------- | -------------------------------------------- |
+| [accessibility.feature](behaviours/accessibility.feature)                       | `app-shell`, and every page it frames        |
+| [cv.feature](behaviours/cv.feature)                                             | `cv`                                         |
+| [env-loader.feature](behaviours/env-loader.feature)                             | `env/core`                                   |
+| [home.feature](behaviours/home.feature)                                         | `home`                                       |
+| [personal-projects.feature](behaviours/personal-projects.feature)               | `personal-projects`                          |
+| [port-resolver.feature](behaviours/port-resolver.feature)                       | `env/core`                                   |
+| [responsive.feature](behaviours/responsive.feature)                             | `app-shell`                                  |
+| [search.feature](behaviours/search.feature)                                     | `search`                                     |
+| [static-filterable-routes.feature](behaviours/static-filterable-routes.feature) | `personal-projects`, at the routing boundary |
+| [theme.feature](behaviours/theme.feature)                                       | `ui/shell`                                   |
+| [tier-env-loading.feature](behaviours/tier-env-loading.feature)                 | `env/core`                                   |

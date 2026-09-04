@@ -1,7 +1,7 @@
 # Phase 2 Background Coverage
 
-Checked 2026-09-01 over the eleven feature files in `specs/apps/wahidyankf-www/behavior/`, against the step-cardinality
-report in the gitignored `local-tmp/step-cardinality.txt`.
+Checked 2026-09-01 over the eleven feature files in `specs/apps/wahidyankf-www/behaviours/`, against the
+step-cardinality report in the gitignored `local-tmp/step-cardinality.txt`.
 
 ## The Report
 
@@ -11,7 +11,7 @@ report in the gitignored `local-tmp/step-cardinality.txt`.
 
 ## Given=0 Against Background
 
-The [Gherkin cardinality rule](../../../../repo-governance/development/behavior-driven-development-policy.md) exempts a
+The [Gherkin cardinality rule](../../../../repo-governance/development/behaviour-driven-development-policy.md) exempts a
 scenario whose `Given` comes from a `Background`. The two file lists are not merely in a subset relation, they are
 equal:
 

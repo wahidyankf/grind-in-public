@@ -14,7 +14,7 @@ Contract — explicit `cache` on every target the root `targetDefaults` does not
 that writes an artifact, `{projectRoot}` as the working directory for every single-command target. That contract was
 never written down anywhere a third project could read it, so it exists only as an artifact of one archived plan.
 
-The concrete cost today is one behavioral defect and one structural oddity:
+The concrete cost today is one behavioural defect and one structural oddity:
 
 - `badakmini-cli:test:coverage:unit` resolves to `cache=undefined` while `wahidyankf-www:test:coverage:unit` resolves to
   `cache=true`. Two projects run the same-named target inside the same ordered quick gate with opposite caching. In Nx
@@ -32,7 +32,7 @@ rule to choose by. That is the failure this plan closes.
 ## What Success Means
 
 Both remaining projects expose the identical ten-target contract, written in one style, and that contract is stated in
-`testing-policy.md` where the next project will find it. No application or CLI behavior changes. One build behavior
+`testing-policy.md` where the next project will find it. No application or CLI behaviour changes. One build behaviour
 changes deliberately and is named below: `badakmini-cli:test:coverage:unit` becomes cacheable. Every gate that passes
 today passes afterwards, at the same or lower cost.
 
@@ -62,8 +62,8 @@ existed at `0e213bc` and was deleted at `b94d85c` with no recorded reason, so re
 undocumented decision in order to build a Go feature carrying Gherkin, three adapters, and a 99% coverage gate.
 
 **Co-locating the suite.** This makes the application expose the same ten targets `badakmini-cli` exposes, which is the
-shape the [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md) role matrix states as
-the default for an application. A dedicated E2E project is permitted there, not required.
+shape the [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md) role matrix states
+as the default for an application. A dedicated E2E project is permitted there, not required.
 
 **Putting the rule in the testing policy.** It already owns a partial contract — "cacheable `typecheck`, `lint`,
 `test:unit`, `test:coverage`, and `test:quick`". A second document stating a fuller version of the same contract is

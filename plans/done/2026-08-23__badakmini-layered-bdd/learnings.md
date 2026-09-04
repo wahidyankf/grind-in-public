@@ -39,7 +39,7 @@ commands, indexes, and `AGENTS.md`.
 
 ## Phase 5 Review
 
-- Markdown-link staging behavior: safe, generalizable; terminal destination is
+- Markdown-link staging behaviour: safe, generalizable; terminal destination is
   [Workspace Commands](../../../repo-governance/development/workspace-commands.md#repository-checks), which already
   records the Git-tracked-file caveat.
 - Phase 0 baseline: safe, local; terminal destination is this plan record because its command versions and results are
@@ -51,8 +51,8 @@ commands, indexes, and `AGENTS.md`.
   [Testing](../../../repo-governance/development/testing-policy.md), whose explicit target roles prevent a quick gate
   from acquiring an unattainable denominator.
 - External-spec cache invalidation: safe, generalizable; terminal destination is the
-  [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), which requires recursive Nx
+  [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md), which requires recursive Nx
   inputs and uncached execution when native cache keys cannot include the corpus.
 - Rules-propagation idempotency result: safe, generalizable; terminal destination is the
-  [BDD policy](../../../repo-governance/development/behavior-driven-development-policy.md), the canonical role and
+  [BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md), the canonical role and
   enforcement rule created from that failed criterion.

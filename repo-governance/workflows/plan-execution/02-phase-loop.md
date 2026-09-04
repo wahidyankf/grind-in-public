@@ -1,5 +1,5 @@
 ---
-tldr: "Describes how one phase is executed, including behavior cycles and notes."
+tldr: "Describes how one phase is executed, including behaviour cycles and notes."
 when_to_use: "Use while working the items of a delivery phase."
 ---
 
@@ -18,9 +18,9 @@ Respect the executor tag. An `[AI]` item is performed directly. A `[HUMAN]` item
 owner with a statement of what remains; it is never performed on their behalf, and never ticked as though it were. An
 `[AI+HUMAN]` item is prepared fully, then handed over for the final action.
 
-## Behavior Cycles
+## Behaviour Cycles
 
-A behavior change runs RED → GREEN → REFACTOR against exactly one Gherkin scenario, per the
+A behaviour change runs RED → GREEN → REFACTOR against exactly one Gherkin scenario, per the
 [TDD policy](../../development/tdd-policy.md):
 
 1. Write the test and run it. Confirm it fails, and that it fails for the stated reason. A test that passes immediately

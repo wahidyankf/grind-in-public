@@ -50,6 +50,43 @@ func TestAdapterParityRejectsLayerFilteringTag(t *testing.T) {
 	}
 }
 
+func TestBehaviourComplianceAcceptsDocumentedHigherLayerExemption(t *testing.T) {
+	source := "Feature: Valid\n" +
+		"# Exemption(integration): browser geometry needs a layout engine; " +
+		"alternative-proof: example-e2e:test:e2e / Valid\n" +
+		"@integration-exempt\nScenario: Valid\nGiven a fixture\nWhen it runs\nThen it succeeds\n"
+	if _, err := discoverSource(source); err != nil {
+		t.Fatalf("expected documented exemption to pass: %v", err)
+	}
+}
+
+func TestBehaviourComplianceRejectsInvalidExemptions(t *testing.T) {
+	fixtures := []string{
+		"@unit-exempt\nScenario: Valid",
+		"@no-e2e\nScenario: Valid",
+		"@e2e-exempt\nFeature: Valid\nScenario: Valid",
+		"@integration-exempt\nScenario: Valid",
+		"# Exemption(integration): browser-only geometry; " +
+			"alternative-proof: example-e2e:test:e2e / Valid\n" +
+			"@integration-exempt @e2e-exempt\nScenario: Valid",
+	}
+	for _, fixture := range fixtures {
+		source := strings.Replace(validFeatureSource, "Feature: Valid\nScenario: Valid", "Feature: Valid\n"+fixture, 1)
+		if _, err := discoverSource(source); err == nil {
+			t.Errorf("expected exemption policy failure for %q", fixture)
+		}
+	}
+}
+
+func TestBehaviourComplianceRejectsOperationalExcuse(t *testing.T) {
+	source := "Feature: Valid\n" +
+		"# Exemption(e2e): too flaky and not yet implemented; alternative-proof: example:test:integration / Valid\n" +
+		"@e2e-exempt\nScenario: Valid\nGiven a fixture\nWhen it runs\nThen it succeeds\n"
+	if _, err := discoverSource(source); err == nil || !strings.Contains(err.Error(), "difficulty") {
+		t.Fatalf("expected operational excuse rejection, got %v", err)
+	}
+}
+
 func TestAdaptersShareCanonicalCatalogAndBindings(t *testing.T) {
 	catalog, err := CanonicalCatalog()
 	if err != nil {
@@ -68,7 +105,7 @@ func TestAdaptersShareCanonicalCatalogAndBindings(t *testing.T) {
 		assertOwnerAdapterSource(t, name, sourcePath)
 		adapters[name] = catalog
 	}
-	e2eSourcePath := filepath.Join(root, "tests", "e2e", "features_test.go")
+	e2eSourcePath := filepath.Join(root, "..", "badakmini-cli-e2e", "features_test.go")
 	assertE2EAdapterSource(t, e2eSourcePath)
 	adapters["e2e"] = catalog
 	if err := ValidateAdapterParity(adapters); err != nil {
@@ -132,9 +169,9 @@ func TestAdapterParityAddedFeatureFixture(t *testing.T) {
 
 func TestAdapterParityEditedStepFixture(t *testing.T) {
 	assertCatalogMismatch(t,
-		fstest.MapFS{"behavior.feature": &fstest.MapFile{Data: []byte(validFeatureSource)}},
+		fstest.MapFS{"behaviour.feature": &fstest.MapFile{Data: []byte(validFeatureSource)}},
 		fstest.MapFS{
-			"behavior.feature": &fstest.MapFile{
+			"behaviour.feature": &fstest.MapFile{
 				Data: []byte(strings.Replace(validFeatureSource, "it succeeds", "it fails", 1)),
 			},
 		},
@@ -149,12 +186,12 @@ func TestAdapterParityRenamedFeatureFixture(t *testing.T) {
 }
 
 func TestAdapterParityNestedFeatureFixture(t *testing.T) {
-	filesystem := fstest.MapFS{"nested/deeper/behavior.feature": &fstest.MapFile{Data: []byte(validFeatureSource)}}
+	filesystem := fstest.MapFS{"nested/deeper/behaviour.feature": &fstest.MapFile{Data: []byte(validFeatureSource)}}
 	catalog, err := DiscoverFS(filesystem, ".")
 	if err != nil {
 		t.Fatalf("discover nested feature: %v", err)
 	}
-	if !reflect.DeepEqual(catalog.Paths(), []string{"nested/deeper/behavior.feature"}) {
+	if !reflect.DeepEqual(catalog.Paths(), []string{"nested/deeper/behaviour.feature"}) {
 		t.Fatalf("expected nested feature in catalog, got %v", catalog.Paths())
 	}
 }
@@ -170,16 +207,16 @@ func TestAdapterParityDeletedFeatureFixture(t *testing.T) {
 }
 
 func TestE2EBindingInputRegression(t *testing.T) {
-	inputs := behaviorTargetInputs(t)
-	if !slicesContain(inputs, "{workspaceRoot}/apps/badakmini-cli/tests/e2e/**/*") {
-		t.Fatalf("behavior target must invalidate for E2E binding changes: %v", inputs)
+	inputs := behaviourTargetInputs(t)
+	if !slicesContain(inputs, "{workspaceRoot}/apps/badakmini-cli-e2e/**/*") {
+		t.Fatalf("behaviour target must invalidate for E2E binding changes: %v", inputs)
 	}
 }
 
 func TestE2EConfigurationInputRegression(t *testing.T) {
-	inputs := behaviorTargetInputs(t)
+	inputs := behaviourTargetInputs(t)
 	if !slicesContain(inputs, "default") {
-		t.Fatalf("behavior target must invalidate for owner configuration changes: %v", inputs)
+		t.Fatalf("behaviour target must invalidate for owner configuration changes: %v", inputs)
 	}
 }
 
@@ -198,7 +235,7 @@ func assertCatalogMismatch(t *testing.T, firstFiles, secondFiles fstest.MapFS) {
 	}
 }
 
-func behaviorTargetInputs(t *testing.T) []string {
+func behaviourTargetInputs(t *testing.T) []string {
 	t.Helper()
 	root, err := moduleRoot()
 	if err != nil {
@@ -217,9 +254,9 @@ func behaviorTargetInputs(t *testing.T) []string {
 	if err := json.Unmarshal(contents, &project); err != nil {
 		t.Fatalf("parse owner project: %v", err)
 	}
-	target, ok := project.Targets["test:coverage:behavior"]
+	target, ok := project.Targets["test:coverage:behaviour"]
 	if !ok {
-		t.Fatal("owner test:coverage:behavior target is missing")
+		t.Fatal("owner test:coverage:behaviour target is missing")
 	}
 	return target.Inputs
 }
