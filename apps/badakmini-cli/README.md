@@ -46,22 +46,22 @@ canonical content. Findings are stable, path-specific, read-only, and network-fr
 From the repository root:
 
 ```sh
-npm run check:governance
-npm run check:harness-parity
-npm run check:markdown-links
-npm run check:workflows
-npm run check:go-vulnerabilities
-npx nx run badakmini-cli:build
-npx nx run badakmini-cli:typecheck
-npx nx run badakmini-cli:lint
-npx nx run badakmini-cli:test:unit
-npx nx run badakmini-cli:test:integration
-npx nx run badakmini-cli-e2e:test:e2e
-npx nx run badakmini-cli:test:coverage:unit
-npx nx run badakmini-cli:test:coverage:integration
-npx nx run badakmini-cli:test:coverage:behaviour
-npx nx run badakmini-cli:test:coverage
-npx nx run badakmini-cli:test:quick
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:governance
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:harness-parity
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:workflows
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:go-vulnerabilities
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t build
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t typecheck
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t lint
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:unit
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:integration
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli-e2e -t test:e2e
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:coverage:unit
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:coverage:integration
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:coverage:behaviour
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:coverage
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:quick
 ```
 
 Badak Mini is pinned to Go 1.26.6. Its command tree uses exact-pinned Cobra as its only direct production library, while

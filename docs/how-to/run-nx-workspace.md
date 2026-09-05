@@ -12,7 +12,7 @@ Use this guide to build, test, or lint the workspace after installing the reposi
 From the repository root, install the pinned dependency tree:
 
 ```sh
-npm install
+rtk ./hippo run --class transactional --disk-path . -- npm install
 ```
 
 ## Build and Test
@@ -20,8 +20,8 @@ npm install
 Build every project, then run the cacheable ordered quick gate:
 
 ```sh
-npm run build
-npm run test:quick
+rtk ./hippo run --class ephemeral --disk-path . -- npm run build
+rtk ./hippo run --class ephemeral --disk-path . -- npm run test:quick
 ```
 
 For every project, `test:quick` runs type-checking, linting, deterministic unit tests, and native coverage enforcement
@@ -29,10 +29,10 @@ in that order. Coverage must reach at least 95% aggregate statements. Run a stag
 failure:
 
 ```sh
-npm run typecheck
-npm run lint
-npm run test:unit
-npm run test:coverage
+rtk ./hippo run --class ephemeral --disk-path . -- npm run typecheck
+rtk ./hippo run --class ephemeral --disk-path . -- npm run lint
+rtk ./hippo run --class ephemeral --disk-path . -- npm run test:unit
+rtk ./hippo run --class ephemeral --disk-path . -- npm run test:coverage
 ```
 
 `npm test` is an alias for `npm run test:quick`.
@@ -42,7 +42,7 @@ npm run test:coverage
 Run real cross-project checks separately when needed:
 
 ```sh
-npm run test:integration
+rtk ./hippo run --class ephemeral --disk-path . -- npm run test:integration
 ```
 
 Integration tests are not part of the pre-push hook.
@@ -54,9 +54,9 @@ Run these checks after changing the agent instruction files, `AGENTS.md` and `CL
 `nx.json`:
 
 ```sh
-npm run check:governance
-npm run check:harness-parity
-npm run check:markdown-links
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:governance
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:harness-parity
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
 ```
 
 What each of these checks enforces is stated once in
@@ -69,7 +69,8 @@ Before each push, Nx compares every pushed local commit with `origin/main` and r
 affected projects under `apps/` and `libs/`. See the shared
 [testing policy](../../repo-governance/development/testing-policy.md) for the target rules.
 
-Nx discovers the projects from their `project.json` files. Inspect them with `npx nx show projects`. This repository
-uses only raw Nx command targets; see the
-[Nx workspace policy](../../repo-governance/development/nx-workspace-policy.md) before adding Nx tooling, and
-[Target Shape](../../repo-governance/development/testing-policy/target-shape.md) for what a target declares.
+Nx discovers the projects from their `project.json` files. Inspect them with
+`rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx show projects`. This repository uses only raw Nx
+command targets; see the [Nx workspace policy](../../repo-governance/development/nx-workspace-policy.md) before adding
+Nx tooling, and [Target Shape](../../repo-governance/development/testing-policy/target-shape.md) for what a target
+declares.

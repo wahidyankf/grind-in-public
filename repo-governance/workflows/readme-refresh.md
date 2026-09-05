@@ -53,9 +53,9 @@ deleting a README or its indexed Markdown content.
 Run the relevant commands and inspect the rendered Markdown links:
 
 ```sh
-npm run format:check
-npm run check:markdown-links
-npm run check:governance
+rtk ./hippo run --class ephemeral --disk-path . -- npm run format:check
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:governance
 ```
 
 Confirm every changed human-facing behaviour is discoverable from the appropriate README and that no README promises

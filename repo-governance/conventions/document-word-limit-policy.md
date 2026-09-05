@@ -37,7 +37,7 @@ required relocation without dropping unique intent.
 ## Verification
 
 ```sh
-npm run check:governance
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:governance
 ```
 
 [Workspace commands](../development/workspace-commands.md#repository-checks) lists this check beside the repository's

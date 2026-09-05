@@ -43,10 +43,11 @@ Tests create only synthetic state inside boundaries owned by their run and fail 
 process, identity, filesystem root, browser context, or data store. Follow [test data isolation](test-data-isolation.md)
 for boundary validation, marking, and cleanup.
 
-Pre-push invokes affected `test:quick` against `origin/main`, sequentially. It conditionally runs repository validation
-when governance, harness, workflow, project configuration, or behaviour-compliance machinery changes. It intentionally
-uses the Nx cache. Invoke compute-bearing outer commands through the pinned consumer described by
-[resource-aware development](resource-aware-development.md); aggregate targets remain unaware of host admission.
+Pre-push invokes affected `test:quick` against `origin/main`; independent selected projects may overlap within HIPPO's
+fixed allocation. It conditionally runs repository validation when governance, harness, workflow, project configuration,
+or behaviour-compliance machinery changes. It intentionally uses the Nx cache. Invoke compute-bearing outer commands
+through the pinned consumer described by [resource-aware development](resource-aware-development.md); aggregate targets
+remain unaware of host admission.
 
 Aggregate targets invoke named Nx targets and never duplicate their tool commands. `options.commands` expresses an
 ordered gate; `dependsOn` expresses prerequisites that precede the whole target. Use the standard library and existing

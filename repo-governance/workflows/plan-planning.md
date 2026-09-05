@@ -41,8 +41,8 @@ remain separate permissions.
 ## Verification
 
 ```sh
-npm run format:check
-npm run check:markdown-links
+rtk ./hippo run --class ephemeral --disk-path . -- npm run format:check
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
 ```
 
 The plan is ready for semantic review when every document exists, every checklist item names a path, command, and

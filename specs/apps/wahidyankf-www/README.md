@@ -23,13 +23,13 @@ review verifies their substance and confirms Unit remains implemented.
 
 ## Targets
 
-| Target                                                      | What it proves                                                      |
-| ----------------------------------------------------------- | ------------------------------------------------------------------- |
-| `npx nx run wahidyankf-www:test:coverage:behaviour`         | Unit, Integration, E2E rows, exemptions, and bindings are complete. |
-| `npx nx run wahidyankf-www:test:coverage:unit`              | Unit and behaviour together reach the 99% line floor.               |
-| `npx nx run wahidyankf-www:test:coverage:integration`       | The integration adapter reaches the 99% line floor.                 |
-| `npx nx run wahidyankf-www-e2e:test:coverage:behaviour:e2e` | Browser corpus, exemptions, and bindings are complete.              |
-| `npx nx run wahidyankf-www-e2e:test:e2e`                    | The browser suite passes against `next start`.                      |
+| Target                                                                                                                       | What it proves                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage:behaviour`         | Unit, Integration, E2E rows, exemptions, and bindings are complete. |
+| `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage:unit`              | Unit and behaviour together reach the 99% line floor.               |
+| `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage:integration`       | The integration adapter reaches the 99% line floor.                 |
+| `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e` | Browser corpus, exemptions, and bindings are complete.              |
+| `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e`                    | The browser suite passes against `next start`.                      |
 
 ## Directory Map
 

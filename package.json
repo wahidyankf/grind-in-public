@@ -27,11 +27,11 @@
     "prepare": "husky",
     "test": "npm run test:quick",
     "test:coverage": "nx run-many -t test:coverage",
-    "test:behaviour": "nx run badakmini-cli:test:coverage:behaviour && nx run wahidyankf-www:test:coverage:behaviour",
+    "test:behaviour": "nx run-many -t test:coverage:behaviour -p badakmini-cli wahidyankf-www",
     "test:e2e": "nx run-many -t test:e2e",
     "test:integration": "nx run-many -t test:integration",
     "test:repo": "nx run badakmini-cli:test:repo",
-    "test:scheduled": "nx run badakmini-cli:test:quick && nx run badakmini-cli-e2e:test:quick && nx run wahidyankf-www:test:quick && nx run wahidyankf-www-e2e:test:quick && nx run badakmini-cli:test:coverage:integration && nx run wahidyankf-www:test:coverage:integration && nx run badakmini-cli-e2e:test:e2e && nx run wahidyankf-www-e2e:test:e2e",
+    "test:scheduled": "nx run-many -t test:quick && nx run-many -t test:coverage:integration -p badakmini-cli wahidyankf-www && nx run-many -t test:e2e -p badakmini-cli-e2e wahidyankf-www-e2e",
     "test:unit": "nx run-many -t test:unit",
     "test:quick": "nx run-many -t test:quick",
     "typecheck": "nx run-many -t typecheck"

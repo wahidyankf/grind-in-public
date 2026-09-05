@@ -153,6 +153,7 @@
           "node ../../scripts/workflow-contract.test.mjs",
           "node ../../scripts/check-workflow-contract.mjs",
           "../../.github/scripts/test-hippo-bootstrap.sh",
+          "../../.github/scripts/test-pre-push-contract.sh",
           "go test -count=1 ./internal/... ./tests/bdd",
           "cd ../.. && if rg -n -i 'behavio[r]' AGENTS.md CLAUDE.md RTK.md repo-governance apps specs scripts .github .husky .agents .claude .codex .opencode --glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.tsx' --glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.unit.test.tsx'; then echo 'ERROR: repository-owned terms must use the British spelling behaviour' >&2; exit 1; fi"
         ],

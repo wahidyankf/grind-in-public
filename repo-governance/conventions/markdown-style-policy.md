@@ -52,5 +52,6 @@ non-Markdown files back to 80 through an `overrides` entry so the code formattin
 governs table padding, which is why a table whose cells stay short is padded into aligned columns and a wider one falls
 back to the unpadded form.
 
-Run `npm run format` after changing Markdown; use `npm run format:check` to verify it before committing. Pre-commit
+Run `rtk ./hippo run --class transactional --disk-path . -- npm run format` after changing Markdown; use
+`rtk ./hippo run --class ephemeral --disk-path . -- npm run format:check` to verify it before committing. Pre-commit
 formats staged files, so the wrap is applied whether or not it was run by hand.

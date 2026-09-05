@@ -16,6 +16,6 @@ both tags may annotate one scenario when each has its own valid justification an
 Run from the repository root:
 
 ```sh
-npm exec nx -- run badakmini-cli-e2e:test:quick
-npm exec nx -- run badakmini-cli-e2e:test:e2e
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli-e2e -t test:quick
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli-e2e -t test:e2e
 ```

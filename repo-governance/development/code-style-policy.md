@@ -43,8 +43,8 @@ dependency boundary; tool dependencies in its Go module do not authorize runtime
 ## Verification
 
 ```sh
-npm run lint
-npm run typecheck
+rtk ./hippo run --class ephemeral --disk-path . -- npm run lint
+rtk ./hippo run --class ephemeral --disk-path . -- npm run typecheck
 ```
 
 Linting and type checking catch the mechanical part. Naming is reviewed by a person, because a name is only wrong

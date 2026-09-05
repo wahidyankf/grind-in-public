@@ -14,7 +14,9 @@ options, not prose; see the [grilling-with-options policy](repo-governance/conve
 ## Reference Repositories
 
 Use [ose-public](https://github.com/wahidyankf/ose-public), [ose-primer](https://github.com/wahidyankf/ose-primer), and
-[beaver-nest](https://github.com/wahidyankf/beaver-nest) as read-only references; local rules govern. For CV work, read
+[beaver-nest](https://github.com/wahidyankf/beaver-nest) as read-only references; local rules govern. Consume
+[HIPPO](https://github.com/wahidyankf/hippo) only through this repository's pinned external bootstrap; its
+implementation and release specifications stay upstream. For CV work, read
 [apps/wahidyankf-www/docs/README.md](apps/wahidyankf-www/docs/README.md).
 
 ## Rule Changes and Audience

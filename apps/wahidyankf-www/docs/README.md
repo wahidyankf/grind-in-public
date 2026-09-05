@@ -5,8 +5,9 @@ LinkedIn work; read the relevant file before making a claim, an edit, or an expo
 
 They live inside this application because the application holds the repository's single authoritative CV record. That
 record is `src/features/cv/core/data.ts`, not a document here: the site renders it, and
-`npx nx run wahidyankf-www:generate:cv-pdf` exports it to `public/wahidyankf-kresna-fridayoka-cv.pdf`. Nothing in this
-directory is imported by a route, so editing one changes no rendered page.
+`rtk ./hippo run --class transactional --disk-path . -- npm exec -- nx run -p wahidyankf-www -t generate:cv-pdf` exports
+it to `public/wahidyankf-kresna-fridayoka-cv.pdf`. Nothing in this directory is imported by a route, so editing one
+changes no rendered page.
 
 ## Working Rules
 

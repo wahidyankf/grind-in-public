@@ -51,7 +51,7 @@ jobs:
           cache: true
           cache-dependency-path: apps/*/go.sum
       - name: Install npm dependencies
-        run: ./hippo run --class ephemeral --disk-path . -- npm ci
+        run: ./hippo run --class transactional --disk-path . -- npm ci
       - name: Run local integration coverage
         run:
           ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p
@@ -74,7 +74,7 @@ jobs:
           node-version: "24.15.0"
           cache: npm
       - name: Install npm dependencies
-        run: ./hippo run --class ephemeral --disk-path . -- npm ci
+        run: ./hippo run --class transactional --disk-path . -- npm ci
       - name: Run local integration coverage
         run:
           ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p

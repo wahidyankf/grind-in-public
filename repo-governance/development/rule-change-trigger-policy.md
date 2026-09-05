@@ -41,8 +41,10 @@ switched off outside this repository.
 ## Verification
 
 ```sh
-npm run check:rule-change
-echo '{"tool_input":{"file_path":"AGENTS.md"}}' | go -C apps/badakmini-cli run ./cmd/badak-mini harness rule-change hook
+rtk ./hippo run --class ephemeral --disk-path . -- npm run check:rule-change
+echo '{"tool_input":{"file_path":"AGENTS.md"}}' |
+  rtk ./hippo run --class ephemeral --disk-path . -- \
+    go -C apps/badakmini-cli run ./cmd/badak-mini harness rule-change hook
 ```
 
 The first prints nothing unless a staged path carries rules. The second prints the hook response for a rule path, and

@@ -23,7 +23,9 @@ Each checkbox carries every element that applies:
 
 - **The file path**, exactly, when it is known. When a new file's location is implementation-dependent, give the parent
   directory, the naming pattern, and a sibling to imitate.
-- **The command**, verbatim — `npx nx run badakmini-cli:test:quick`, not "run the tests".
+- **The command**, verbatim —
+  `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:quick`, not "run the
+  tests".
 - **An acceptance criterion** stating the observable outcome that proves it done. No bare "implement", "set up", or
   "configure". A criterion satisfied by finding nothing — an empty output, a zero count — pairs that with a check
   proving the command looked at something real, and a criterion reading a tool's own output names a command whose output
@@ -44,7 +46,8 @@ Good:
 
 ```markdown
 - [ ] [AI] Edit `apps/badakmini-cli/internal/rulechange/detect.go`: preserve one rule-change path after normalization.
-      Verify with `npx nx run badakmini-cli:test:quick` — the suite exits 0.
+      Verify with `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:quick`
+      — the suite exits 0.
 ```
 
 ## Executor Tags

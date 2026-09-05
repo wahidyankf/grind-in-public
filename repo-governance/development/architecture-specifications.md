@@ -52,4 +52,6 @@ not replace either.
 ## Verification
 
 Confirm the model describes the final implemented state, every required link resolves, and affected project tests pass.
-Run `npm run format:check` and `npm run check:markdown-links` after changing the model or this policy.
+Run `rtk ./hippo run --class ephemeral --disk-path . -- npm run format:check` and
+`rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links` after changing the model or this
+policy.

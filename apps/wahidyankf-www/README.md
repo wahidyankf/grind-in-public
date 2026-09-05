@@ -8,13 +8,13 @@ accessible Next.js application, and it holds the repository's single authoritati
 
 ```bash
 # Start at http://localhost:3201
-npx nx run wahidyankf-www:dev
+rtk ./hippo run --class service --disk-path . -- npm exec -- nx run -p wahidyankf-www -t dev
 
 # Create a production build
-npx nx run wahidyankf-www:build
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t build
 
 # Serve a completed local build
-npx nx run wahidyankf-www:start
+rtk ./hippo run --class service --disk-path . -- npm exec -- nx run -p wahidyankf-www -t start
 ```
 
 The listener port resolves in one order everywhere — an explicit `--port` flag, then `WAHIDYANKF_WWW_PORT`, then the
@@ -24,9 +24,9 @@ compiled-in `3201`. A bare `PORT` never moves it. See `src/features/env/core/por
 ## Check your changes
 
 ```bash
-npx nx run wahidyankf-www:test:quick
-npx nx run wahidyankf-www:test:coverage
-npx nx run wahidyankf-www:static-routes:validation
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:quick
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www -t static-routes:validation
 ```
 
 `test:quick` is the ordered gate: `typecheck`, `lint`, `test:unit`, `test:coverage:unit`, then
@@ -61,8 +61,8 @@ alternative proof. Browser-rendered scenarios use `@integration-exempt` for the 
 annotate one scenario when each omitted boundary is independently justified and Unit supplies substantive proof.
 
 ```bash
-npm exec nx -- run wahidyankf-www-e2e:test:coverage:behaviour:e2e
-npm exec nx -- run wahidyankf-www-e2e:test:e2e
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e
+rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e
 ```
 
 No skip baseline exists. Static compliance rejects legacy layer tags, malformed or broad exemptions, unconditional

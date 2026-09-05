@@ -10,7 +10,8 @@ list cannot drift between them.
 
 ## Setup
 
-- `npm install` installs pinned dependencies and enables Husky hooks.
+- `rtk ./hippo run --class transactional --disk-path . -- npm install` installs pinned dependencies and enables Husky
+  hooks.
 
 ## Build and Test
 
@@ -28,34 +29,35 @@ Aggregate targets remain unguarded internally so one outer admission owns the wh
 - `npm run test:scheduled` runs all four project quick gates, both owner integration-coverage gates, then both dedicated
   E2E suites in that operational order.
 
-Narrower runs:
+Narrower runs — prefix each with `rtk ./hippo run --class ephemeral --disk-path . --`, except the two marked
+`# transactional`, which take `--class transactional`:
 
 ```sh
 go -C apps/badakmini-cli test ./internal/governance -run TestName
-npx nx run badakmini-cli:test:unit
-npx nx run badakmini-cli:test:integration
-npx nx run badakmini-cli:test:coverage:unit
-npx nx run badakmini-cli:test:coverage:integration
-npx nx run badakmini-cli:test:coverage:behaviour
-npx nx run badakmini-cli:test:coverage
-npx nx run badakmini-cli:test:quick
-npx nx run badakmini-cli-e2e:test:coverage:behaviour:e2e
-npx nx run badakmini-cli-e2e:test:quick
-npx nx run badakmini-cli-e2e:test:e2e
-npx nx run wahidyankf-www:test:unit
-npx nx run wahidyankf-www:test:integration
-npx nx run wahidyankf-www:test:coverage:unit
-npx nx run wahidyankf-www:test:coverage:integration
-npx nx run wahidyankf-www:test:coverage:behaviour
-npx nx run wahidyankf-www:test:coverage
-npx nx run wahidyankf-www:test:quick
-npx nx run wahidyankf-www:static-routes:validation
-npx nx run wahidyankf-www:generate:cv-pdf
-npx nx run wahidyankf-www-e2e:test:coverage:behaviour:e2e
-npx nx run wahidyankf-www-e2e:test:quick
-npx nx run wahidyankf-www-e2e:install
-npx nx run wahidyankf-www-e2e:test:e2e
-npx nx affected -t test:quick --base=origin/main --head=HEAD
+npm exec -- nx run badakmini-cli:test:unit
+npm exec -- nx run badakmini-cli:test:integration
+npm exec -- nx run badakmini-cli:test:coverage:unit
+npm exec -- nx run badakmini-cli:test:coverage:integration
+npm exec -- nx run badakmini-cli:test:coverage:behaviour
+npm exec -- nx run badakmini-cli:test:coverage
+npm exec -- nx run badakmini-cli:test:quick
+npm exec -- nx run badakmini-cli-e2e:test:coverage:behaviour:e2e
+npm exec -- nx run badakmini-cli-e2e:test:quick
+npm exec -- nx run badakmini-cli-e2e:test:e2e
+npm exec -- nx run wahidyankf-www:test:unit
+npm exec -- nx run wahidyankf-www:test:integration
+npm exec -- nx run wahidyankf-www:test:coverage:unit
+npm exec -- nx run wahidyankf-www:test:coverage:integration
+npm exec -- nx run wahidyankf-www:test:coverage:behaviour
+npm exec -- nx run wahidyankf-www:test:coverage
+npm exec -- nx run wahidyankf-www:test:quick
+npm exec -- nx run wahidyankf-www:static-routes:validation
+npm exec -- nx run wahidyankf-www:generate:cv-pdf  # transactional
+npm exec -- nx run wahidyankf-www-e2e:test:coverage:behaviour:e2e
+npm exec -- nx run wahidyankf-www-e2e:test:quick
+npm exec -- nx run wahidyankf-www-e2e:install  # transactional
+npm exec -- nx run wahidyankf-www-e2e:test:e2e
+npm exec -- nx affected -t test:quick --base=origin/main --head=HEAD
 ```
 
 Run `wahidyankf-www-e2e:install` once per machine before its E2E suite. The E2E target builds and starts the owner.
@@ -93,6 +95,6 @@ the [Badak Mini policy](badakmini-cli-policy.md) before changing it; the usual f
 ## Hooks
 
 Pre-commit formats staged files and automatically triggers applicable rule workflows. Pre-push requires `origin/main`,
-runs affected `test:quick` targets serially through HIPPO with Nx Cloud disabled, conditionally runs guarded `test:repo`
-for repository-mechanism changes, and always validates Markdown links through the guard. See the
+runs affected `test:quick` targets within HIPPO's fixed allocation with Nx Cloud disabled, conditionally runs guarded
+`test:repo` for repository-mechanism changes, and always validates Markdown links through the guard. See the
 [commit hook policy](commit-hook-policy.md).

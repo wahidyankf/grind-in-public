@@ -15,7 +15,8 @@ record says what the author already believed.
 ```markdown
 ## Execution Record
 
-- 2026-08-31: Phase 1 gate passed; `npx nx run badakmini-cli:test:quick` green.
+- 2026-08-31: Phase 1 gate passed;
+  `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:quick` green.
 - 2026-08-31: Phase 2 stopped at the link check — a renamed policy left two dead links in `docs/`. Fixed at the source,
   reran green.
 ```
