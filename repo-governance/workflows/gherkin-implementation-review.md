@@ -42,7 +42,8 @@ test run.
    unchanged server; or can touch production data. A helper action or embedded assertion does not make a later literal
    `true` independent evidence.
 5. For each exemption, verify its scenario-level tag, immediately preceding canonical comment, genuine boundary
-   mismatch, and substantive alternative target/scenario. Unit exemptions fail. Remove no-op or success branches from
+   mismatch, and substantive alternative target/scenario. Review Integration and E2E independently when both annotate
+   one scenario, and verify Unit still proves the behaviour. Unit exemptions fail. Remove no-op or success branches from
    exempt adapters so accidental execution fails rather than reporting false proof.
 6. Verify fixtures, identities, roots, processes, sessions, ports, browser contexts, and cleanup are synthetic,
    isolated, marked, and fail closed before the subject starts.
@@ -55,6 +56,7 @@ Store a requested audit under ignored `generated-reports/`. Include corpus total
 inventory, commands, findings, fixes, and results. The row count equals expanded scenarios multiplied by required
 adapters; exemptions remain explicit `EXEMPT` rows and are never subtracted.
 
-If a row cannot pass, repair the production seam or adapter. Use an exemption only when the layer fundamentally cannot
-express the scenario and another named layer proves the omitted concern; never use one to finish faster, quarantine a
-flake, or defer implementation. Review the final diff for placeholder patterns after repairs.
+If a row cannot pass, repair the production seam or adapter. Use one or both upper-layer exemptions only when each
+omitted layer fundamentally cannot express the scenario and an unexempted named layer proves the omitted concern. Never
+use an exemption to finish faster, avoid cost, quarantine a flake, or defer implementation. Review the final diff for
+placeholder patterns after repairs.

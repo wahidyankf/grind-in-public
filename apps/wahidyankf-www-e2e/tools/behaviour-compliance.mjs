@@ -15,7 +15,7 @@ const forbiddenTags = new Set([
 const exemptionCommentPattern =
   /^# Exemption\((integration|e2e)\): (.+); alternative-proof: (.+)$/u;
 const invalidReasonPattern =
-  /\b(?:hard|slow|flaky|not yet implemented|todo)\b/iu;
+  /\b(?:hard|slow|flaky|cost(?:ly)?|expensive|not yet implemented|todo)\b/iu;
 
 function startsStep(keyword, line) {
   return line.toLowerCase().startsWith(`${keyword.toLowerCase()} `);
@@ -158,11 +158,6 @@ function declarationErrors(
       `${resourceName}:${lineNumber}: exemption tags may only annotate a Scenario or Scenario Outline.`,
     );
   }
-  if (new Set(exemptions.map(({ name }) => name)).size > 1) {
-    errors.push(
-      `${resourceName}:${lineNumber}: a scenario cannot carry both exemption tags.`,
-    );
-  }
   return errors;
 }
 
@@ -179,7 +174,7 @@ function documentedExemptionErrors(resourceName, lines, exemption) {
   const errors = [];
   if (invalidReasonPattern.test(match[2] ?? "")) {
     errors.push(
-      `${resourceName}:${exemption.line}: exemption reason cannot be difficulty, speed, flakiness, or unfinished work.`,
+      `${resourceName}:${exemption.line}: exemption reason cannot be difficulty, speed, cost, flakiness, or unfinished work.`,
     );
   }
   if (!/^[a-z0-9-]+:test(?::[a-z0-9-]+)*\s+\/\s+\S/iu.test(match[3] ?? "")) {

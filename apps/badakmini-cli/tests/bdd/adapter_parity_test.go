@@ -60,14 +60,27 @@ func TestBehaviourComplianceAcceptsDocumentedHigherLayerExemption(t *testing.T) 
 	}
 }
 
+func TestBehaviourComplianceAcceptsIndependentIntegrationAndE2EExemptions(t *testing.T) {
+	source := "Feature: Valid\n" +
+		"# Exemption(integration): the local boundary cannot inject the private invariant failure; " +
+		"alternative-proof: example:test:unit / Valid\n" +
+		"@integration-exempt\n" +
+		"# Exemption(e2e): no public trigger can inject the private invariant failure; " +
+		"alternative-proof: example:test:unit / Valid\n" +
+		"@e2e-exempt\nScenario: Valid\nGiven a fixture\nWhen it runs\nThen it succeeds\n"
+	if _, err := discoverSource(source); err != nil {
+		t.Fatalf("expected independently documented exemptions to pass: %v", err)
+	}
+}
+
 func TestBehaviourComplianceRejectsInvalidExemptions(t *testing.T) {
 	fixtures := []string{
 		"@unit-exempt\nScenario: Valid",
 		"@no-e2e\nScenario: Valid",
 		"@e2e-exempt\nFeature: Valid\nScenario: Valid",
 		"@integration-exempt\nScenario: Valid",
-		"# Exemption(integration): browser-only geometry; " +
-			"alternative-proof: example-e2e:test:e2e / Valid\n" +
+		"# Exemption(integration): the local boundary cannot inject the private invariant failure; " +
+			"alternative-proof: example:test:unit / Valid\n" +
 			"@integration-exempt @e2e-exempt\nScenario: Valid",
 	}
 	for _, fixture := range fixtures {
@@ -79,11 +92,13 @@ func TestBehaviourComplianceRejectsInvalidExemptions(t *testing.T) {
 }
 
 func TestBehaviourComplianceRejectsOperationalExcuse(t *testing.T) {
-	source := "Feature: Valid\n" +
-		"# Exemption(e2e): too flaky and not yet implemented; alternative-proof: example:test:integration / Valid\n" +
-		"@e2e-exempt\nScenario: Valid\nGiven a fixture\nWhen it runs\nThen it succeeds\n"
-	if _, err := discoverSource(source); err == nil || !strings.Contains(err.Error(), "difficulty") {
-		t.Fatalf("expected operational excuse rejection, got %v", err)
+	for _, reason := range []string{"too flaky and not yet implemented", "too expensive to implement"} {
+		source := "Feature: Valid\n" +
+			"# Exemption(e2e): " + reason + "; alternative-proof: example:test:integration / Valid\n" +
+			"@e2e-exempt\nScenario: Valid\nGiven a fixture\nWhen it runs\nThen it succeeds\n"
+		if _, err := discoverSource(source); err == nil || !strings.Contains(err.Error(), "difficulty") {
+			t.Errorf("expected operational excuse rejection for %q, got %v", reason, err)
+		}
 	}
 }
 

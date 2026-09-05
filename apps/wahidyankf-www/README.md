@@ -57,7 +57,8 @@ non-exempt scenario, and no Integration marker for an exempt scenario.
 
 The browser project rejects missing and unused bindings. Scenarios whose concern cannot be observed at the browser
 boundary carry a scenario-level `@e2e-exempt` tag and an immediately preceding structured comment naming their
-integration proof. Browser-rendered scenarios use `@integration-exempt` for the inverse boundary mismatch.
+alternative proof. Browser-rendered scenarios use `@integration-exempt` for the inverse boundary mismatch. Both tags may
+annotate one scenario when each omitted boundary is independently justified and Unit supplies substantive proof.
 
 ```bash
 npm exec nx -- run wahidyankf-www-e2e:test:coverage:behaviour:e2e

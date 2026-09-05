@@ -76,5 +76,6 @@ governance checker, not a general Rhino CLI port.
 
 Its canonical [C4 architecture model](../../specs/apps/badakmini-cli/architecture.md) describes the current as-built
 boundaries. Its [canonical behaviour corpus](../../specs/apps/badakmini-cli/README.md) is executed by unit,
-local-integration, and process E2E adapters. The owner module pins Actionlint and owns `npm run check:workflows`, which
-validates the scheduled GitHub Actions workflow before it is relied on.
+local-integration, and process E2E adapters. Unit runs every scenario; either or both higher layers may be independently
+exempt only for documented boundary mismatches with substantive alternative proof. The owner module pins Actionlint and
+owns `npm run check:workflows`, which validates the scheduled GitHub Actions workflow before it is relied on.

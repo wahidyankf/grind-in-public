@@ -10,6 +10,8 @@ fixture, and observes command arguments, exit status, standard output, standard 
 
 `test:coverage:behaviour:e2e` statically proves the E2E bindings against the owner's recursively discovered corpus.
 `test:coverage:behaviour` delegates to the owner aggregate. Runtime E2E depends on that aggregate and the owner build.
+Unit implements every scenario. Integration and process E2E may each be omitted through their layer-specific exemption;
+both tags may annotate one scenario when each has its own valid justification and substantive alternative proof.
 
 Run from the repository root:
 

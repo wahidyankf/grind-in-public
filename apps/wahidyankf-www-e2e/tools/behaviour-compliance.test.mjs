@@ -60,7 +60,7 @@ test("accepts a documented higher-layer exemption", () => {
   assert.deepEqual(validateFeatureSource("example.feature", source), []);
 });
 
-test("rejects legacy, unit, undocumented, broad, and double exemptions", () => {
+test("rejects legacy, unit, undocumented, and broad exemptions", () => {
   for (const tag of [
     "@unit",
     "@integration",
@@ -96,29 +96,51 @@ test("rejects legacy, unit, undocumented, broad, and double exemptions", () => {
       error.includes("only annotate"),
     ),
   );
-  const doubled = validFeature.replace(
+});
+
+test("accepts independently documented integration and E2E exemptions", () => {
+  const source = validFeature.replace(
     "  Scenario: Observable behaviour",
-    "  # Exemption(integration): browser-only geometry; alternative-proof: example-e2e:test:e2e / Observable behaviour\n" +
-      "  @integration-exempt @e2e-exempt\n  Scenario: Observable behaviour",
+    "  # Exemption(integration): the local boundary cannot inject the private invariant failure; alternative-proof: example:test:unit / Observable behaviour\n" +
+      "  @integration-exempt\n" +
+      "  # Exemption(e2e): no public trigger can inject the private invariant failure; alternative-proof: example:test:unit / Observable behaviour\n" +
+      "  @e2e-exempt\n" +
+      "  Scenario: Observable behaviour",
+  );
+  assert.deepEqual(validateFeatureSource("example.feature", source), []);
+});
+
+test("requires independent documentation for each exemption", () => {
+  const source = validFeature.replace(
+    "  Scenario: Observable behaviour",
+    "  # Exemption(integration): the local boundary cannot inject the private invariant failure; alternative-proof: example:test:unit / Observable behaviour\n" +
+      "  @integration-exempt @e2e-exempt\n" +
+      "  Scenario: Observable behaviour",
   );
   assert.ok(
-    validateFeatureSource("example.feature", doubled).some((error) =>
-      error.includes("both"),
+    validateFeatureSource("example.feature", source).some((error) =>
+      error.includes("@e2e-exempt requires the immediately preceding"),
     ),
   );
 });
 
-test("rejects exemptions for unfinished or flaky work", () => {
-  const source = validFeature.replace(
-    "  Scenario: Observable behaviour",
-    "  # Exemption(e2e): too flaky and not yet implemented; alternative-proof: example:test:integration / Observable behaviour\n" +
-      "  @e2e-exempt\n  Scenario: Observable behaviour",
-  );
-  assert.ok(
-    validateFeatureSource("example.feature", source).some((error) =>
-      error.includes("cannot be"),
-    ),
-  );
+test("rejects exemptions for unfinished, flaky, or costly work", () => {
+  for (const reason of [
+    "too flaky and not yet implemented",
+    "too expensive to implement",
+  ]) {
+    const source = validFeature.replace(
+      "  Scenario: Observable behaviour",
+      `  # Exemption(e2e): ${reason}; alternative-proof: example:test:integration / Observable behaviour\n` +
+        "  @e2e-exempt\n" +
+        "  Scenario: Observable behaviour",
+    );
+    assert.ok(
+      validateFeatureSource("example.feature", source).some((error) =>
+        error.includes("cannot be"),
+      ),
+    );
+  }
 });
 
 test("alternative proof must resolve to an existing target and scenario", () => {

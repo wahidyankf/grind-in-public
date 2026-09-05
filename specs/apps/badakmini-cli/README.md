@@ -1,8 +1,9 @@
 # Badak Mini Specifications
 
 Badak Mini's canonical as-built boundaries live in [architecture.md](architecture.md), and its executable behaviour
-lives in [behaviours/](behaviours/). Every feature is run unchanged by its unit, local-integration, and public-process
-E2E adapters.
+lives in [behaviours/](behaviours/). Unit runs every scenario unchanged. Local Integration and public-process E2E run
+each scenario unless its boundary has an independently documented layer-specific exemption; both may be exempt when
+neither boundary can express the behaviour and Unit provides substantive alternative proof.
 
 ## Directory Map
 

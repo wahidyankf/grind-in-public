@@ -1,8 +1,9 @@
 # Badak Mini Behaviour
 
-The canonical Gherkin corpus for Badak Mini. Every feature here is run unchanged by the unit, local-integration, and
-public-process E2E adapters, so a scenario added to this directory has to be bound in all three or
-`test:coverage:behaviour` fails.
+The canonical Gherkin corpus for Badak Mini. Unit implements every scenario. A scenario may omit Integration, E2E, or
+both only when each omitted boundary fundamentally cannot express the behaviour, using independently documented
+`@integration-exempt` and `@e2e-exempt` tags from the repository
+[BDD policy](../../../../repo-governance/development/behaviour-driven-development-policy.md).
 
 Scenario shape and cardinality belong to the [specs policy](../../../../repo-governance/development/specs-policy.md);
 how a scenario reaches a test belongs to the [TDD policy](../../../../repo-governance/development/tdd-policy.md). The

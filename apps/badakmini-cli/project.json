@@ -60,7 +60,7 @@
       ]
     },
     "test:coverage:behaviour:badakmini-cli": {
-      "command": "go test -count=1 ./tests/bdd -run 'TestFeature|TestFoundation|TestState|TestDriver|TestUnit|TestIntegration|TestAdapterParity'",
+      "command": "go test -count=1 ./tests/bdd -run 'TestFeature|TestFoundation|TestState|TestDriver|TestUnit|TestIntegration|TestAdapterParity|TestBehaviour'",
       "options": { "cwd": "{projectRoot}" },
       "cache": true,
       "inputs": [

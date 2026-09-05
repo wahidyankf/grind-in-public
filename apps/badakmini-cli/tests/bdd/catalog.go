@@ -146,7 +146,7 @@ func DiscoverFS(filesystem fs.FS, root string) (Catalog, error) {
 var (
 	scenarioDeclaration = regexp.MustCompile(`(?i)^Scenario(?: Outline| Template)?:`)
 	exemptionComment    = regexp.MustCompile(`^# Exemption\((integration|e2e)\): (.+); alternative-proof: (.+)$`)
-	invalidReason       = regexp.MustCompile(`(?i)\b(?:hard|slow|flaky|not yet implemented|todo)\b`)
+	invalidReason       = regexp.MustCompile(`(?i)\b(?:hard|slow|flaky|cost(?:ly)?|expensive|not yet implemented|todo)\b`)
 	alternativeProof    = regexp.MustCompile(`(?i)^[a-z0-9-]+:test(?::[a-z0-9-]+)*\s+/\s+\S`)
 )
 
@@ -262,16 +262,8 @@ func exemptionDeclarationFindings(
 			resourceName, lineNumber,
 		))
 	}
-	seen := map[string]bool{}
 	for _, exemption := range exemptions {
-		seen[exemption.name] = true
 		findings = append(findings, documentedExemptionFindings(resourceName, lines, exemption)...)
-	}
-	if len(seen) > 1 {
-		findings = append(findings, fmt.Sprintf(
-			"%s:%d: a scenario cannot carry both exemption tags",
-			resourceName, lineNumber,
-		))
 	}
 	return findings
 }
@@ -292,7 +284,7 @@ func documentedExemptionFindings(resourceName string, lines []string, exemption 
 	var findings []string
 	if invalidReason.MatchString(match[2]) {
 		findings = append(findings, fmt.Sprintf(
-			"%s:%d: an exemption cannot be justified by difficulty, speed, flakiness, or missing implementation",
+			"%s:%d: an exemption cannot be justified by difficulty, speed, cost, flakiness, or missing implementation",
 			resourceName, exemption.line,
 		))
 	}

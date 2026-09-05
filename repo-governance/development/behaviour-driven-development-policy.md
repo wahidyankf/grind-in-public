@@ -24,9 +24,9 @@ characterization coverage, and remain green.
 - Integration proves real local filesystem, environment, or same-machine process behaviour without network.
 - E2E proves a built application's public browser or process boundary.
 
-Every scenario has a substantive unit binding and either a substantive binding or a valid exemption for Integration and
-E2E. When both upper layers appear inapplicable, split or redesign the scenario so one meaningful boundary supplies
-alternative proof. The [quality-gates standard](quality-gates.md) owns exact boundaries.
+Every scenario has a substantive Unit binding. Implement Integration and E2E by default whenever their boundaries can
+express the scenario. A scenario may carry a valid exemption for either or both upper layers only when each omitted
+boundary fundamentally cannot express it. The [quality-gates standard](quality-gates.md) owns exact boundaries.
 
 Applications require Unit, local-only Integration, and dedicated-project E2E adapters. Libraries require Unit and add
 Integration only when they own a real local resource boundary; libraries never own E2E. Dedicated E2E projects implement
@@ -39,17 +39,16 @@ Only these scenario-level tags are valid:
 ```gherkin
 # Exemption(integration): <boundary reason>; alternative-proof: <Nx target> / <scenario>
 @integration-exempt
-Scenario: ...
-
 # Exemption(e2e): <boundary reason>; alternative-proof: <Nx target> / <scenario>
 @e2e-exempt
 Scenario: ...
 ```
 
-The structured comment must be immediately before its tag. One scenario may not carry both tags. Feature-level,
-`@unit-exempt`, malformed, and legacy layer-filter tags are forbidden. Slowness, implementation difficulty, flakiness,
-and deferred work are not boundary reasons. The named target and scenario must exist and provide substantive proof.
-Remove layer-specific no-op or success-sentinel branches for exempt scenarios.
+Use either tag independently or stack both as shown. Each structured comment must be immediately before its tag, and
+each exemption must be justified independently. Feature-level, `@unit-exempt`, malformed, and legacy layer-filter tags
+are forbidden. Slowness, implementation difficulty, cost, flakiness, and deferred work are not boundary reasons. The
+named target and scenario must exist in an unexempted layer and provide substantive proof. Remove layer-specific no-op
+or success-sentinel branches for exempt scenarios.
 
 ## Deterministic Compliance
 

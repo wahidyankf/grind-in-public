@@ -12,7 +12,8 @@ because this repository publishes no libraries and the module they specify now l
 Local-boundary features execute the same thin adapter in two modes. Unit uses injected filesystem or environment seams;
 Integration uses isolated real temporary directories, `process.env`, or child processes under the Node environment.
 Browser-only scenarios carry `@integration-exempt`; local-only scenarios carry `@e2e-exempt` and name their Integration
-proof.
+proof. A scenario may carry both tags when each omitted boundary is independently justified and the mandatory Unit
+adapter provides substantive alternative proof.
 
 Scenario shape and cardinality belong to the [specs policy](../../../../repo-governance/development/specs-policy.md);
 how a scenario reaches a test belongs to the [TDD policy](../../../../repo-governance/development/tdd-policy.md). The

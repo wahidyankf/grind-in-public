@@ -6,7 +6,8 @@ threshold.
 
 Scenarios tagged `@e2e-exempt` are excluded only after deterministic compliance validates their structured reason and
 alternative proof. Every other scenario must generate with exact Playwright bindings; missing steps fail generation. The
-project uses an ESM package boundary so generated modules load without reparsing warnings.
+project uses an ESM package boundary so generated modules load without reparsing warnings. Both higher-layer exemptions
+may annotate one scenario when each has its own valid justification; Unit has no exemption.
 
 The same compliance target also proves exact owner-adapter rows: every canonical scenario has one Unit marker, every
 non-exempt local scenario has one Integration marker, and Integration-exempt browser scenarios have none. This keeps a

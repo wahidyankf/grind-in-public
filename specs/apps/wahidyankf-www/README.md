@@ -17,8 +17,9 @@ Three adapters run against this corpus, and they do not all reach the same scena
 | Browser E2E       | `apps/wahidyankf-www-e2e/tests/steps/`                     | All 36 browser-observable scenarios against a started production server.   |
 
 Scenario-level `@integration-exempt` and `@e2e-exempt` tags document genuine boundary mismatches and name an alternative
-Nx target plus scenario. Static compliance rejects missing, malformed, broad, doubled, and operationally motivated
-exemptions; the semantic implementation review verifies their substance.
+Nx target plus scenario. Either or both tags may annotate a scenario when each exemption is independently documented.
+Static compliance rejects missing, malformed, broad, and operationally motivated exemptions; the semantic implementation
+review verifies their substance and confirms Unit remains implemented.
 
 ## Targets
 
