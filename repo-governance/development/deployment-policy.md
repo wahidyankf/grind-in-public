@@ -9,7 +9,7 @@ when_to_use: "Use when adding or changing deploy configuration, promoting a buil
 
 `main` is the delivery target. Work lands there directly, as the
 [plans organization policy](../conventions/plans-organization-policy.md) states of every plan, and no branch stands
-between a merge and `main`.
+between a completed change and `main`.
 
 Landing on `main` is not deploying. A commit on `main` is delivered; it is promoted only by the step below.
 
@@ -18,9 +18,12 @@ Landing on `main` is not deploying. A commit on `main` is delivered; it is promo
 A deployed project is promoted by a branch named `prod-<project>`, where `<project>` is the Nx project name. For the
 personal site that branch is `prod-wahidyankf-www`.
 
+This governed pointer is the only persistent exception to the development-branch rule in the
+[integration path policy](../conventions/integration-path-policy.md). It is not an integration branch.
+
 The branch is a pointer to the commit currently promoted, and nothing advances it automatically. No plan, workflow,
 hook, or CI job may move it: a promotion is the owner's decision about a specific commit, made at a moment they choose,
-and an automatic advance would make every merge to `main` a deploy.
+and an automatic advance would make every direct push to `main` a deploy.
 
 Because the branch is a pointer, it may lag `main` by any distance without that being a defect. A `prod-` branch behind
 `main` means the newer commits are delivered and not yet promoted, which is the normal state.

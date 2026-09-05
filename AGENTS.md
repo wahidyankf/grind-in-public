@@ -91,9 +91,9 @@ Represent every behaviour increment and bug fix as separate evidenced RED, GREEN
 isolated test data, keep integration network-free and E2E outside quick hooks, and run the one-by-one Gherkin
 implementation review after material corpus or adapter changes. Manually confirm affected browser and API boundaries.
 
-Use Conventional Commits, and give each commit one purpose under the
-[thematic commits policy](repo-governance/conventions/thematic-commits-policy.md). Landing on `main` is not deploying:
-promoting a commit and cutting a domain over are separate authorized acts under the
+Use the direct-main [integration path](repo-governance/conventions/integration-path-policy.md), Conventional Commits,
+and one purpose per commit under the [thematic commits policy](repo-governance/conventions/thematic-commits-policy.md).
+Landing on `main` is not deploying: promoting a commit and cutting a domain over are separate authorized acts under the
 [deployment policy](repo-governance/development/deployment-policy.md). Commit and push are separate permissions, and
 neither is implied by the work that produced the changes: the
 [commit hook policy](repo-governance/development/commit-hook-policy.md) owns authorization, public-repository safety,

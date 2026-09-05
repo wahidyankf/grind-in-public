@@ -59,11 +59,10 @@ owner. Configure each agent to suppress its own attribution; for Claude Code, `.
 
 ## Pull Request Content
 
-Keep a pull request focused on one theme. State the motivation, the commands run, and any linked issue; add screenshots
-only for a visual change. Delivery here normally goes directly to `main`, so a pull request is the exception and carries
-its reason.
+This repository does not use pull requests for integration. Follow the
+[integration path policy](../conventions/integration-path-policy.md).
 
 ## Exception
 
 A bypass is allowed only with explicit approval from the repository owner. Record the approval and reason in the commit
-or pull request so the skipped validation is visible and can be rerun promptly.
+record so the skipped validation is visible and can be rerun promptly.

@@ -47,6 +47,7 @@ Read the rule you need rather than the whole set:
 
 Plans deliver directly to `main`. This repository runs no pull-request flow, no worktrees, and no delivery modes: a
 phase ends, its gate passes, and separately authorized commit and push actions deliver the work. The
+[integration path policy](integration-path-policy.md) owns the repository-wide route, and the
 [commit hook policy](../development/commit-hook-policy.md) still governs every commit.
 
 ## Verification
