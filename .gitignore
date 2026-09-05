@@ -5,6 +5,8 @@ libs/*/dist/
 .memsearch/
 # Untracked working area: gate logs and other machine-local records.
 local-tmp/
+# Requested generated audits and reports are evidence, never authoritative source.
+generated-reports/
 # Optional machine policy for the checksum-pinned HIPPO.
 hippo.local.json
 # Personal harness overrides: never repository rules.
