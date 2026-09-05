@@ -24,6 +24,8 @@ only the policy that matches the work at hand:
 - [End-to-End Testing](end-to-end-testing.md) for dedicated public-boundary harnesses and browser/process proof.
 - [Harness Pre-Edit Triggers](harness-pre-edit-triggers.md) for what each harness wires before an edit, and how far it
   is verified.
+- [GitHub Actions Storage](github-actions-storage.md) for artifact retention, Packages lifecycle, cache limits, and the
+  external paid-usage stop.
 - [Nx Workspace](nx-workspace-policy.md) for raw-Nx boundaries and verification.
 - [Quality Gates](quality-gates.md) for test boundaries and owner/E2E target contracts.
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow
