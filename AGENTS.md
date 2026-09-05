@@ -35,6 +35,7 @@ instruction files serve agents; `repo-governance/` serves both. `CLAUDE.md` must
 ## Project Structure
 
 - `apps/` runnable applications; `libs/` reusable packages.
+- Every Nx project maintains its [project README](repo-governance/conventions/project-readme-policy.md).
 - `docs/` human-facing Diátaxis documentation.
 - `repo-governance/` shared policies and workflows; `plans/` delivery plans; `specs/` as-built application architecture
   and Gherkin behaviour.

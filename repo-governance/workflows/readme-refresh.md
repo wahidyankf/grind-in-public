@@ -9,7 +9,9 @@ when_to_use: "Use when a change affects repository, project, documentation, or g
 
 Keep human-facing READMEs accurate as the repository changes. Review the root `README.md` and every existing README
 below `apps/`, `libs/`, `docs/`, `repo-governance/`, `scripts/`, and the harness directories recursively; update the
-smallest affected set in the same thematic commit as the change it explains.
+smallest affected set in the same thematic commit as the change it explains. The
+[project README policy](../conventions/project-readme-policy.md) owns the required project entry points and their
+content.
 
 ## When to Use
 
@@ -32,8 +34,8 @@ deleting a README or its indexed Markdown content.
 
 2. Map each changed behaviour to its human entry point. The root README explains the workspace; app and library READMEs
    explain each project's purpose, use, and contracts; `docs/` READMEs navigate Diátaxis content; and `repo-governance/`
-   READMEs explain shared rules. Create a project README when a new runnable or reusable project needs a human starting
-   point.
+   READMEs explain shared rules. Every application and library project already has the project README its policy
+   requires.
 
 3. Read each affected README as a newcomer. Confirm names, commands, versions, paths, links, prerequisites, outputs, and
    claims match the implementation. Link to canonical detailed documents instead of copying rules. Keep agent

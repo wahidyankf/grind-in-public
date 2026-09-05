@@ -32,6 +32,7 @@ foundational principles without replacing focused development policies or repeat
   anything that lands in a file.
 - [Thematic Commits Policy](thematic-commits-policy.md) — where the boundary between two commits falls. Use it when
   staging a session that touched several concerns.
+- [Project README Policy](project-readme-policy.md) — the required entry point and impact check for every Nx project.
 - [Task Tracking Policy](task-tracking-policy.md) — how granular a task list must be and when it must be updated. Use it
   before starting or reviewing any task.
 - [Grilling-With-Options Policy](grilling-with-options-policy.md) — the structured form an agent must use to resolve an
