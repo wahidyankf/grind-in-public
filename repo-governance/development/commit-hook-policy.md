@@ -44,6 +44,11 @@ Immediately before every commit, run `git diff --cached --check`, inspect `git d
 the staged additions for credential-shaped values and user-specific home paths. These checks supplement judgment; a
 clean pattern search never proves that arbitrary content is safe.
 
+If sensitive material enters Git history, do not repeat it in diagnostics, reports, issues, or replacement commits.
+Treat authentication material as compromised and revoke or rotate it through its owning system. Preserve only sanitized
+evidence, report the affected paths and revisions without the value, and obtain separate owner authorization before
+rewriting shared history. Deleting the value in a later commit does not restore confidentiality.
+
 ## Markdown Link Validation
 
 Pre-push validates every Git-tracked repository Markdown file, not only changed documents, because a rename breaks links
