@@ -9,8 +9,8 @@ when_to_use:
 ## Scope
 
 This repository supports three harnesses, in the sense the [agent vocabulary](agent-vocabulary.md) defines: the tool
-that runs the model. Each reads a different instruction file, which is why `AGENTS.md` is canonical and `CLAUDE.md`
-exists as its derivative.
+that runs the model. `AGENTS.md` is the sole repository-rule body. Codex and opencode read it directly; Claude Code
+reaches it through the exact `@AGENTS.md` import in `CLAUDE.md`.
 
 ## Details
 
@@ -43,9 +43,9 @@ requires, and update it in the same change that adds, renames, or removes a file
 file by name, and what each does with an index, is recorded in
 [directory index behaviour](agent-harness-support/directory-index-behaviour.md).
 
-A permission control that one harness lacks is recorded where it is missing. Codex has no per-agent shell switch, so its
-read-only explorer relies on `sandbox_mode` plus an explicit instruction; that divergence is noted in the agent file
-rather than left implicit.
+A permission control that one harness lacks is recorded in the canonical definition, the native mapping, and the
+supported-harness table. Codex has no per-agent shell switch, so its read-only explorer combines `sandbox_mode` with the
+canonical instruction instead of pretending that an unavailable native control exists.
 
 ## Verification
 

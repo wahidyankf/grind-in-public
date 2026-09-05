@@ -1,5 +1,5 @@
 ---
-tldr: "Verifies every harness receives the same rules through its instruction file, config, and subagents."
+tldr: "Verifies exact instruction routing and canonical capability adapters across every supported harness."
 when_to_use:
   "Use after changing AGENTS.md, governance, tooling, or any harness's instruction file, config, or subagents."
 ---
@@ -38,14 +38,14 @@ Run `npm install` so the validation commands work.
 
 1. Inventory what every harness reads; see [inventory](harness-alignment/01-inventory.md).
 
-2. Classify every difference between a derivative and `AGENTS.md`; see
+2. Compare each harness's effective instruction route with the sole `AGENTS.md` rule body; see
    [derivative comparison](harness-alignment/02-derivative-comparison.md).
 
-3. Verify the commands and paths that an instruction file quotes; same document.
+3. Verify exact instruction routing and reject overlays; same document.
 
-4. Confirm each derivative's statement of authority; same document.
+4. Confirm no instruction overlay or copied rule body remains; same document.
 
-5. Compare the shared subagents, skills, and commands; see
+5. Compare canonical skill bundles, agents, and native adapters; see
    [capability and config parity](harness-alignment/03-capability-and-config-parity.md).
 
 6. Confirm each project config and each directory index; same document.

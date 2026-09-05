@@ -35,9 +35,11 @@ in either the file-path or the `apply_patch` shape, and places the triggered wor
 ordinary work and always exit zero, so neither can block an edit or a commit. See the
 [rule change trigger policy](../../repo-governance/development/rule-change-trigger-policy.md).
 
-The capability-parity command compares the subagents, skills, and commands each harness exposes and fails when one
-harness lacks an entry its peers have. It skips a capability no harness uses and exempts a harness that cannot load one.
-See the [harness capability parity policy](../../repo-governance/conventions/harness-capability-parity-policy.md).
+The capability-parity command validates the content-level harness contract: the exact Claude instruction import,
+canonical skill bundles, canonical custom-agent prompts, thin native adapters, descriptions, routes, and supported
+permission mappings. Success reports dynamic harness, skill, and agent counts plus a SHA-256 digest of normalized
+canonical content. Findings are stable, path-specific, read-only, and network-free. See the
+[harness capability parity policy](../../repo-governance/conventions/harness-capability-parity-policy.md).
 
 ## Run and Verify
 

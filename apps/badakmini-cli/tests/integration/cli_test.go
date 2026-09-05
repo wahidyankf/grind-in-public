@@ -80,9 +80,11 @@ func cliAdapterCases() []cliAdapterCase {
 			args: []string{"harness", "capability-parity", "validate"},
 			prepare: func(t *testing.T) string {
 				t.Helper()
-				return t.TempDir()
+				root := t.TempDir()
+				writeCanonicalHarnessFixture(t, root)
+				return root
 			},
-			expectText: "Every harness exposes",
+			expectText: "Harness contract passed",
 		},
 	}
 }
@@ -120,7 +122,7 @@ func runCLIAtRoot(args []string, root string) (int, string, string) {
 			return markdownlinks.Check(root, realMarkdownRuntime())
 		},
 		ListStagedPaths: realStagedPaths,
-		CheckParity:     func(root string) ([]parity.Finding, error) { return parity.CheckFS(os.DirFS(root)) },
+		CheckParity:     func(root string) (parity.Report, error) { return parity.CheckFS(os.DirFS(root)) },
 	}
 	exitCode := cli.Run(context.Background(), runtime, args)
 	return exitCode, stdout.String(), stderr.String()

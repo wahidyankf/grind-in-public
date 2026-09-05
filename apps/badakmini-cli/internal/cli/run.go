@@ -21,7 +21,7 @@ type Runtime struct {
 	CheckGovernance    func(string) ([]governance.Finding, error)
 	CheckMarkdownLinks func(string) ([]markdownlinks.Finding, error)
 	ListStagedPaths    func(string) ([]string, error)
-	CheckParity        func(string) ([]parity.Finding, error)
+	CheckParity        func(string) (parity.Report, error)
 }
 
 // announceStagedRuleChange reports a staged rule change to a contributor. It
@@ -129,7 +129,7 @@ func validateInstructionSize(runtime Runtime, root string) int {
 // supporting harness lacks, because an agent that exists for one tool and not
 // the next makes the repository behave differently depending on who runs it.
 func validateCapabilityParity(runtime Runtime, root string) int {
-	findings, err := runtime.CheckParity(root)
+	report, err := runtime.CheckParity(root)
 	if err != nil {
 		writeErr := writef(runtime.Stderr, "ERROR: %v\n", err)
 		if writeErr != nil {
@@ -137,22 +137,24 @@ func validateCapabilityParity(runtime Runtime, root string) int {
 		}
 		return 1
 	}
-	if len(findings) == 0 {
-		err := writef(runtime.Stdout, "Every harness exposes the same subagents, skills, and commands.\n")
+	if len(report.Findings) == 0 {
+		err := writef(
+			runtime.Stdout,
+			"Harness contract passed: %d %s, %d %s, %d %s, sha256:%s.\n",
+			report.Harnesses,
+			plural("harness", "harnesses", report.Harnesses),
+			report.Skills,
+			plural("skill", "skills", report.Skills),
+			report.Agents,
+			plural("agent", "agents", report.Agents),
+			report.Digest,
+		)
 		if err != nil {
 			return 1
 		}
-		for _, note := range parity.UnsupportedNotes() {
-			// Naming the exemption keeps an absent harness from reading as an
-			// oversight the next time someone compares the directories.
-			err := writef(runtime.Stdout, "Exempt, %s.\n", note)
-			if err != nil {
-				return 1
-			}
-		}
 		return 0
 	}
-	for _, finding := range findings {
+	for _, finding := range report.Findings {
 		err := writef(runtime.Stderr, "ERROR: %s\n", finding.Message())
 		if err != nil {
 			return 1
@@ -163,6 +165,13 @@ func validateCapabilityParity(runtime Runtime, root string) int {
 		return 1
 	}
 	return 1
+}
+
+func plural(singular, pluralValue string, count int) string {
+	if count == 1 {
+		return singular
+	}
+	return pluralValue
 }
 
 func validateMarkdownLinks(runtime Runtime, root string) int {

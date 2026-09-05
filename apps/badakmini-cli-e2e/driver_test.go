@@ -15,6 +15,69 @@ import (
 
 const processTimeout = 30 * time.Second
 
+const (
+	canonicalSkillFixture = `---
+name: review
+description: Review work.
+---
+
+# Review
+
+Canonical skill.
+`
+	canonicalSkillRoute = "Read `.agents/skills/review/SKILL.md` completely, resolve every relative resource " +
+		"from that skill directory, and follow it as authoritative before acting."
+	claudeSkillFixture = `---
+name: review
+description: Review work.
+---
+
+` + canonicalSkillRoute + "\n"
+	canonicalAgentFixture = `---
+name: review
+description: Review work.
+mode: subagent
+requires:
+  - repository-read
+denies:
+  - repository-write
+constraints:
+  - inline-result-only
+---
+
+# Review
+
+Canonical agent.
+`
+	canonicalAgentRoute = "Before acting, read the complete canonical agent definition at `.agents/agents/review.md` " +
+		"from the repository root and follow it as authoritative. If it cannot be read, " +
+		"stop and report the missing path."
+	claudeAgentFixture = `---
+name: review
+description: Review work.
+tools: Read
+model: inherit
+---
+
+` + canonicalAgentRoute + "\n"
+	codexAgentFixture = `name = "review"
+description = "Review work."
+sandbox_mode = "read-only"
+
+developer_instructions = """
+` + canonicalAgentRoute + `
+"""
+`
+	opencodeAgentFixture = `---
+description: Review work.
+mode: subagent
+permission:
+  edit: deny
+---
+
+` + canonicalAgentRoute + "\n"
+)
+
 type processDriver struct {
 	testing  *testing.T
 	binary   string
@@ -53,7 +116,7 @@ func resolveBinary(candidate string) (string, error) {
 	return candidate, nil
 }
 
-//nolint:cyclop // One switch keeps the canonical fixture names visible and exhaustive.
+//nolint:cyclop,funlen // One switch keeps the canonical fixture names visible and exhaustive.
 func (driver *processDriver) Prepare(_ context.Context, fixture string) error {
 	if driver.setupErr != nil {
 		return driver.setupErr
@@ -77,16 +140,22 @@ func (driver *processDriver) Prepare(_ context.Context, fixture string) error {
 	case "broken-tracked-markdown-link":
 		driver.writeFile("README.md", "[Missing](missing.md)\n")
 		driver.runGit("add", "README.md")
-	case "harness-capabilities-match":
-		for _, path := range []string{
-			".claude/agents/review.md",
-			".codex/agents/review.toml",
-			".opencode/agents/review.md",
-		} {
-			driver.writeFile(path, "fixture")
+	case "canonical-harness-contract-matches":
+		driver.writeCanonicalHarnessContract()
+	case "missing-codex-agent-adapter":
+		driver.writeCanonicalHarnessContract()
+		if err := os.Remove(filepath.Join(driver.root, ".codex/agents/review.toml")); err != nil {
+			return fmt.Errorf("remove Codex adapter fixture: %w", err)
 		}
-	case "harness-missing-shared-subagent":
-		driver.writeFile(".claude/agents/review.md", "fixture")
+	case "instruction-overlay":
+		driver.writeCanonicalHarnessContract()
+		driver.writeFile("nested/AGENTS.md", "overlay")
+	case "stale-claude-skill-adapter":
+		driver.writeCanonicalHarnessContract()
+		driver.writeFile(".claude/skills/review/SKILL.md", "stale")
+	case "weakened-opencode-permissions":
+		driver.writeCanonicalHarnessContract()
+		driver.writeFile(".opencode/agents/review.md", strings.Replace(opencodeAgentFixture, "edit: deny", "edit: allow", 1))
 	case "staged-rule-bearing-file":
 		driver.stageFile("repo-governance/development/testing-policy.md")
 	case "ordinary-staged-file":
@@ -147,6 +216,18 @@ func (driver *processDriver) writeGovernance(agents string) {
 	driver.writeFile("CLAUDE.md", "short")
 	driver.writeFile("RTK.md", "short")
 	driver.writeFile("repo-governance/policy.md", "short")
+}
+
+func (driver *processDriver) writeCanonicalHarnessContract() {
+	driver.writeFile("AGENTS.md", "canonical rules\n")
+	driver.writeFile("CLAUDE.md", "@AGENTS.md\n")
+	driver.writeFile("opencode.json", "{\"$schema\":\"https://opencode.ai/config.json\"}\n")
+	driver.writeFile(".agents/skills/review/SKILL.md", canonicalSkillFixture)
+	driver.writeFile(".claude/skills/review/SKILL.md", claudeSkillFixture)
+	driver.writeFile(".agents/agents/review.md", canonicalAgentFixture)
+	driver.writeFile(".claude/agents/review.md", claudeAgentFixture)
+	driver.writeFile(".codex/agents/review.toml", codexAgentFixture)
+	driver.writeFile(".opencode/agents/review.md", opencodeAgentFixture)
 }
 
 func (driver *processDriver) writeFile(path, content string) {

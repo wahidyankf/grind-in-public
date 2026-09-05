@@ -16,12 +16,12 @@ foundational principles without replacing focused development policies or repeat
 - [Agent Harness Support Policy](agent-harness-support.md) — which harnesses are supported and where each reads its
   instructions and config. Use it when adding or configuring a harness; its per-harness tables live in
   [`agent-harness-support/`](agent-harness-support/README.md).
-- [Harness Capability Parity Policy](harness-capability-parity-policy.md) — the subagents, skills, and commands every
-  harness must expose alike, and where each lives. Use it when adding, renaming, or removing one.
+- [Harness Capability Parity Policy](harness-capability-parity-policy.md) — canonical skill and agent bundles, thin
+  adapters, semantic permission parity, and deterministic proof.
 - [Agent Vocabulary](agent-vocabulary.md) — what harness, agent, instruction file, and subagent mean here. Use it when
   writing or reviewing any text about agents.
-- [Agent Instruction Alignment Policy](agent-instruction-alignment-policy.md) — how assistant-specific instruction files
-  defer to `AGENTS.md`. Use it when creating, editing, or reviewing `CLAUDE.md` or a similar file.
+- [Agent Instruction Alignment Policy](agent-instruction-alignment-policy.md) — `AGENTS.md` as the sole rule body and
+  the exact Claude import that exposes it.
 - [Markdown Style Policy](markdown-style-policy.md) — source formatting for every repository Markdown file. Use it when
   creating, editing, reviewing, or formatting Markdown.
 - [Document Naming Policy](document-naming-policy.md) — how Markdown documents and their child directories are named.

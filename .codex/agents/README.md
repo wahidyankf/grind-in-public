@@ -11,6 +11,6 @@ Codex discovers these agents automatically from this directory. It reads only `*
   governance rules live. Use it to locate things or check which rule applies before making a change; it never edits
   anything.
 
-Each role is mirrored in [`.claude/agents/`](../../.claude/agents/README.md) and
-[`.opencode/agents/`](../../.opencode/agents/README.md) and must stay at parity; see the
+Each file is a native adapter to the canonical role in [`.agents/agents/`](../../.agents/agents/README.md). Claude and
+opencode provide their own adapters; see the
 [harness capability parity policy](../../repo-governance/conventions/harness-capability-parity-policy.md).

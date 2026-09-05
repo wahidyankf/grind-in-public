@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+	"testing/fstest"
 
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/cli"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/governance"
@@ -15,18 +16,19 @@ import (
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/tests/bdd"
 )
 
-// driver executes command orchestration with injected collaborators only. The
-// canonical scenarios added in Phase 2 will teach Prepare which deterministic
-// fixture each Given step requests.
+// driver executes command orchestration with injected collaborators. Harness
+// parity scenarios use an in-memory filesystem so they exercise the production
+// validator without crossing the unit boundary.
 type driver struct {
-	runtime cli.Runtime
-	stdout  bytes.Buffer
-	stderr  bytes.Buffer
-	result  bdd.Result
+	runtime    cli.Runtime
+	fileSystem fstest.MapFS
+	stdout     bytes.Buffer
+	stderr     bytes.Buffer
+	result     bdd.Result
 }
 
 func newDriver() *driver {
-	driver := &driver{}
+	driver := &driver{fileSystem: unitCanonicalHarnessContract()}
 	driver.runtime = cli.Runtime{
 		Stdin:  bytes.NewReader(nil),
 		Stdout: &driver.stdout,
@@ -37,17 +39,21 @@ func newDriver() *driver {
 		CheckGovernance:    func(string) ([]governance.Finding, error) { return nil, nil },
 		CheckMarkdownLinks: func(string) ([]markdownlinks.Finding, error) { return nil, nil },
 		ListStagedPaths:    func(string) ([]string, error) { return nil, nil },
-		CheckParity:        func(string) ([]parity.Finding, error) { return nil, nil },
+		CheckParity: func(string) (parity.Report, error) {
+			return parity.CheckFS(driver.fileSystem)
+		},
 	}
 	return driver
 }
 
+//nolint:cyclop,funlen // One switch keeps canonical fixture selection visible and exhaustive.
 func (driver *driver) Prepare(_ context.Context, fixture string) error {
 	driver.stdout.Reset()
 	driver.stderr.Reset()
 	driver.result = bdd.Result{}
+	driver.fileSystem = unitCanonicalHarnessContract()
 	switch fixture {
-	case "foundation", "governance-documents-fit", "tracked-markdown-links-resolve", "harness-capabilities-match":
+	case "foundation", "governance-documents-fit", "tracked-markdown-links-resolve", "canonical-harness-contract-matches":
 		return nil
 	case "repository-discovery-fails":
 		driver.runtime.FindRepositoryRoot = func() (string, error) {
@@ -69,14 +75,18 @@ func (driver *driver) Prepare(_ context.Context, fixture string) error {
 			}}, nil
 		}
 		return nil
-	case "harness-missing-shared-subagent":
-		driver.runtime.CheckParity = func(string) ([]parity.Finding, error) {
-			return []parity.Finding{{
-				Capability: "subagent",
-				Harness:    "Codex",
-				Missing:    []string{"review"},
-			}}, nil
-		}
+	case "missing-codex-agent-adapter":
+		delete(driver.fileSystem, ".codex/agents/review.toml")
+		return nil
+	case "instruction-overlay":
+		driver.fileSystem["nested/AGENTS.md"] = unitMapFile("overlay")
+		return nil
+	case "stale-claude-skill-adapter":
+		driver.fileSystem[".claude/skills/review/SKILL.md"] = unitMapFile("stale")
+		return nil
+	case "weakened-opencode-permissions":
+		weakened := strings.Replace(unitOpenCodeAgent(), "edit: deny", "edit: allow", 1)
+		driver.fileSystem[".opencode/agents/review.md"] = unitMapFile(weakened)
 		return nil
 	case "staged-rule-bearing-file":
 		driver.runtime.ListStagedPaths = func(string) ([]string, error) {
@@ -94,6 +104,60 @@ func (driver *driver) Prepare(_ context.Context, fixture string) error {
 	default:
 		return fmt.Errorf("unsupported unit fixture %q", fixture)
 	}
+}
+
+func unitCanonicalHarnessContract() fstest.MapFS {
+	return fstest.MapFS{
+		"AGENTS.md":                      unitMapFile("canonical rules\n"),
+		"CLAUDE.md":                      unitMapFile("@AGENTS.md\n"),
+		"opencode.json":                  unitMapFile(`{"$schema":"https://opencode.ai/config.json"}`),
+		".agents/skills/review/SKILL.md": unitMapFile(unitSkill()),
+		".claude/skills/review/SKILL.md": unitMapFile(unitClaudeSkill()),
+		".agents/agents/review.md":       unitMapFile(unitAgent()),
+		".claude/agents/review.md":       unitMapFile(unitClaudeAgent()),
+		".codex/agents/review.toml":      unitMapFile(unitCodexAgent()),
+		".opencode/agents/review.md":     unitMapFile(unitOpenCodeAgent()),
+	}
+}
+
+func unitSkill() string {
+	return "---\nname: review\ndescription: Review work.\n---\n\n# Review\n"
+}
+
+func unitClaudeSkill() string {
+	return "---\nname: review\ndescription: Review work.\n---\n\n" +
+		"Read `.agents/skills/review/SKILL.md` completely, resolve every relative resource " +
+		"from that skill directory, and follow it as authoritative before acting.\n"
+}
+
+func unitAgent() string {
+	return "---\nname: review\ndescription: Review work.\nmode: subagent\nrequires:\n" +
+		"  - repository-read\ndenies:\n  - repository-write\nconstraints:\n  - inline-result-only\n---\n\n# Review\n"
+}
+
+func unitAgentRoute() string {
+	return "Before acting, read the complete canonical agent definition at `.agents/agents/review.md` " +
+		"from the repository root and follow it as authoritative. If it cannot be read, " +
+		"stop and report the missing path."
+}
+
+func unitClaudeAgent() string {
+	return "---\nname: review\ndescription: Review work.\ntools: Read\nmodel: inherit\n---\n\n" +
+		unitAgentRoute() + "\n"
+}
+
+func unitCodexAgent() string {
+	return "name = \"review\"\ndescription = \"Review work.\"\nsandbox_mode = \"read-only\"\n\n" +
+		"developer_instructions = \"\"\"\n" + unitAgentRoute() + "\n\"\"\"\n"
+}
+
+func unitOpenCodeAgent() string {
+	return "---\ndescription: Review work.\nmode: subagent\npermission:\n  edit: deny\n---\n\n" +
+		unitAgentRoute() + "\n"
+}
+
+func unitMapFile(contents string) *fstest.MapFile {
+	return &fstest.MapFile{Data: []byte(contents)}
 }
 
 func (driver *driver) Invoke(ctx context.Context, args []string) error {

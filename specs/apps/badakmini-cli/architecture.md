@@ -63,8 +63,8 @@ local boundary; there is no network service, database, or application-owned pers
                  |                                   |                                   |
                  v                                   v                                   v
     +------------------------+       +------------------------+       +------------------------+
-    | Governance validators  |       | Markdown-link validator |       | Parity and rule-change |
-    | instruction size       |       | tracked local links     |       | harness rule surfaces  |
+    | Governance validators  |       | Markdown-link validator |       | Harness contracts      |
+    | instruction size       |       | tracked local links     |       | parity and rule change |
     +------------------------+       +------------------------+       +------------------------+
                  \                                   |                                   /
                   \                                  |                                  /
@@ -79,7 +79,9 @@ local boundary; there is no network service, database, or application-owned pers
 
 `cmd/badak-mini` owns production filesystem, Git-process, and stream adapters. `internal/cli` owns Cobra command
 parsing, dispatch, output, and exit codes; its injected runtime lets unit tests replace the host boundary. The
-validation packages own their focused inspections.
+validation packages own their focused inspections. `internal/parity` reads canonical instructions, complete skill
+bundles, canonical agent prompts, and native adapters; it emits stable findings and a SHA-256 contract digest without
+executing harnesses or following links.
 
 ## Architectural Constraints
 

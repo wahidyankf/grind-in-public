@@ -1,25 +1,27 @@
 ---
 tldr:
-  "Compares the shared subagents, skills, and commands, then each project config and directory index, and states what
-  parity does not prove."
-when_to_use: "Use after classifying derivative text, to check capability parity, harness configs, and READMEs."
+  "Compares canonical capabilities with native adapters, then checks project configs and indexes and states what the
+  deterministic contract cannot prove."
+when_to_use: "Use after checking instruction routing, to verify capability adapters, harness configs, and READMEs."
 ---
 
 # Capability and Config Parity
 
 ## Shared Capabilities
 
-Compare the shared subagents, skills, and commands as the
-[harness capability parity policy](../../conventions/harness-capability-parity-policy.md) requires. Each description
-must take the two-part form the [agent harness support policy](../../conventions/agent-harness-support.md) requires.
+Edit the canonical skill bundle or custom-agent definition first, then reconcile every native adapter as the
+[harness capability parity policy](../../conventions/harness-capability-parity-policy.md) requires. Confirm exact
+descriptions and routes, complete supporting resources, one adapter per required harness, and the documented native
+permission mapping. Remove stale copies rather than carrying two prompt bodies.
 
 ## Configs and Indexes
 
 Confirm each project config holds only documented settings, and that each directory is indexed as the
 [documentation index policy](../../documentation-index-policy.md) requires, exemptions included.
 
-## What Parity Does Not Prove
+## Verification Boundary
 
-That proof is narrower than it looks. The parity check shows that the three harnesses expose equal shared capabilities,
-but never that their instructions match canonical policy. The read-only [rules quality gate](../rules-quality-gate.md)
-therefore still inspects affected entry points semantically.
+The deterministic check proves canonical content and configured adapter semantics. It cannot prove that a vendor model
+obeys a prompt, a user-global plugin preserves it, or an unavailable native restriction exists. Record those runtime
+limits without weakening the repository contract. The read-only [rules quality gate](../rules-quality-gate.md) remains
+owner-gated and is not part of routine alignment.

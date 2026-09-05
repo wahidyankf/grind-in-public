@@ -1,55 +1,45 @@
 ---
-tldr: "Requires every harness to expose the same subagents, skills, and commands, and records where each one lives."
-when_to_use: "Use when adding, renaming, or removing a subagent, skill, or command for any harness."
+tldr: "Requires canonical skills and agents with thin, semantically equivalent harness adapters."
+when_to_use: "Use when adding, changing, renaming, or removing a shared skill, agent, adapter, or harness capability."
 ---
 
 # Harness Capability Parity Policy
 
-## Scope
+Codex, Claude Code, and opencode receive the same repository-owned skill workflows, custom-agent intent, safety
+constraints, and supported capabilities. Matching names or counts is insufficient: every harness must reach the same
+canonical content, and native adapters must preserve it without adding prompt instructions or weakening restrictions.
 
-This policy covers the capabilities a harness loads from repository files: subagents, skills, and commands. The
-instruction files themselves belong to the [agent instruction alignment policy](agent-instruction-alignment-policy.md),
-and which harness reads which file belongs to the [agent harness support policy](agent-harness-support.md).
+## Canonical Sources
 
-## Rule
+- `.agents/skills/<name>/SKILL.md` and every regular supporting file below its directory form one canonical skill
+  bundle. Its directory and frontmatter name match.
+- `.agents/agents/<name>.md` is the canonical prompt and semantic capability contract for one custom agent. Its
+  frontmatter records `name`, `description`, `mode`, `requires`, `denies`, and `constraints`.
+- Root `AGENTS.md` and its exact Claude import remain governed by the
+  [instruction alignment policy](agent-instruction-alignment-policy.md).
 
-A capability is defined once for the repository, not for one tool. Every harness that supports it must expose the same
-entries: the same count and the same names. The same role must keep the same purpose and the same permission posture;
-wording may be reworded to fit each format, capability must not diverge.
+Claude receives one thin skill adapter under `.claude/skills/<name>/SKILL.md`. It repeats only the exact canonical name
+and description, then directs the harness to read the complete canonical bundle. Codex and opencode discover
+`.agents/skills/` directly; no opencode copy is allowed.
 
-Add a capability to every supporting harness in the change that introduces it. Never delete an entry from the other
-harnesses to make the counts match, and never leave one harness ahead; both hide the gap the parity rule exists to
-surface.
+Every canonical custom agent has exactly one native adapter under `.claude/agents/`, `.codex/agents/`, and
+`.opencode/agents/`. An adapter contains only native identity, mode, tools or permission metadata, and the fixed route
+to its canonical definition. It must preserve the canonical description and strongest native representation of every
+required capability, denial, and constraint. When a harness cannot express one natively, the canonical prompt retains
+the restriction and the supported-harness policy records the limitation; never silently omit it.
 
-## Capability Directories
+Commands remain harness-native and are outside the canonical skill and agent contract. No repository capability is
+required merely because a harness supports it; add one only after a separate rule establishes recurring need.
 
-Verified against each tool's documentation in August 2026. Test discovery yourself before relying on it, because these
-paths change between releases:
+## Deterministic Verification
 
-| Capability | Claude Code                      | Codex                            | opencode                                                              |
-| ---------- | -------------------------------- | -------------------------------- | --------------------------------------------------------------------- |
-| Subagents  | `.claude/agents/*.md`            | `.codex/agents/*.toml`           | `.opencode/agents/*.md`                                               |
-| Skills     | `.claude/skills/<name>/SKILL.md` | `.agents/skills/<name>/SKILL.md` | `.opencode/skills/`, and also `.claude/skills/` and `.agents/skills/` |
-| Commands   | `.claude/commands/*.md`          | Unsupported for a project        | `.opencode/commands/*.md`                                             |
+`npm run check:harness-parity` validates exact instruction routing, canonical manifests, complete skill bundles, agent
+adapter coverage, descriptions, routes, and the repository's known native permission mappings. It rejects missing,
+extra, stale, malformed, prompt-extending, or permission-weakening adapters and competing instruction sources.
 
-A shared skill therefore needs one copy under `.claude/skills/` and one under `.agents/skills/`; opencode reads either,
-so it needs no third copy.
+The success result reports dynamic harness, skill, and agent counts plus a SHA-256 digest over normalized canonical
+instruction, skill, and agent content in ordinal path order. Findings are stable and path-specific. The validator is
+read-only, network-free, process-free, and excludes links, generated trees, user-global state, and local overrides.
 
-## Unsupported Capabilities
-
-Where a harness cannot load a capability, record it in the table above rather than in a comment or in memory, and say so
-in the affected `README.md`. An unsupported harness is exempt from the count for that capability only. Claude Code has
-merged commands into skills, so a `.claude/skills/` entry also answers as `/name`.
-
-## Verification
-
-```sh
-npm run check:harness-parity
-```
-
-Badak Mini compares the entries per capability, ignores each directory's `README.md` index, and skips a capability that
-no harness uses yet. It runs during a push that changes a harness directory, and the
-[Harness Alignment](../workflows/harness-alignment.md) workflow runs it too.
-
-The command proves the counts and names match. It cannot read intent, so still confirm by hand that a mirrored entry
-keeps the same purpose and permission posture.
+Follow [Harness Alignment](../workflows/harness-alignment.md) for the canonical edit, adapter reconciliation,
+verification, and recovery sequence.

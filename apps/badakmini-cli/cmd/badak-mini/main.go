@@ -86,10 +86,10 @@ func listStagedPaths(root string) ([]string, error) {
 	return rulechange.ParseStagedPaths(output), nil
 }
 
-func checkParity(root string) ([]parity.Finding, error) {
-	findings, err := parity.CheckFS(os.DirFS(root))
+func checkParity(root string) (parity.Report, error) {
+	report, err := parity.CheckFS(os.DirFS(root))
 	if err != nil {
-		return nil, fmt.Errorf("check harness parity: %w", err)
+		return parity.Report{}, fmt.Errorf("check harness parity: %w", err)
 	}
-	return findings, nil
+	return report, nil
 }

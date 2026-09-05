@@ -1,17 +1,16 @@
 ---
-tldr: "Classifies every rule, command, path, and link in a derivative, then checks its commands, paths, and authority."
-when_to_use: "Use when comparing an instruction file, harness config, or subagent against AGENTS.md."
+tldr: "Checks that every harness reaches AGENTS.md directly or through the one permitted exact import."
+when_to_use: "Use when checking instruction routing, harness config, or authority against AGENTS.md."
 ---
 
-# Derivative Comparison
+# Instruction Routing
 
-## Classification
+## Sole Rule Body
 
-Read `AGENTS.md` first, then each derivative. Classify every rule, command, path, and link in a derivative as equal,
-contradiction, duplication, orphan, or gap under the [rules quality gate](../rules-quality-gate.md). Leave what is
-equal; replace duplication with a link; correct or delete an orphan; add a gap only to the harness that needs it.
-Resolve a contradiction at the canonical source with the [Rules Propagation](../rules/rules-propagation.md) workflow,
-then correct the derivative.
+Read `AGENTS.md` first. Confirm root `CLAUDE.md` contains only the exact import the
+[instruction alignment policy](../../conventions/agent-instruction-alignment-policy.md) permits, and that no competing
+instruction source exists. Resolve a contradiction at the canonical source through
+[Rules Propagation](../rules/rules-propagation.md); never add a harness-specific rule body.
 
 ## Commands and Paths
 
@@ -20,4 +19,4 @@ referenced path exists.
 
 ## Authority
 
-Confirm each derivative names `AGENTS.md` as authoritative and links to it.
+Confirm every harness reaches `AGENTS.md` directly or through the exact import, with no overlay.

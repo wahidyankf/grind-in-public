@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -46,11 +47,11 @@ func (driver *behaviourDriver) resetRuntime() {
 			return markdownlinks.Check(root, realMarkdownRuntime())
 		},
 		ListStagedPaths: realStagedPaths,
-		CheckParity:     func(root string) ([]parity.Finding, error) { return parity.CheckFS(os.DirFS(root)) },
+		CheckParity:     func(root string) (parity.Report, error) { return parity.CheckFS(os.DirFS(root)) },
 	}
 }
 
-//nolint:cyclop // One switch keeps canonical fixture selection visible and exhaustive.
+//nolint:cyclop,funlen // One switch keeps canonical fixture selection visible and exhaustive.
 func (driver *behaviourDriver) Prepare(_ context.Context, fixture string) error {
 	driver.resetRuntime()
 	switch fixture {
@@ -71,10 +72,23 @@ func (driver *behaviourDriver) Prepare(_ context.Context, fixture string) error 
 		runMarkdownGit(driver.testing, driver.root, "init", "--quiet")
 		writeMarkdownFile(driver.testing, driver.root, "README.md", "[Missing](missing.md)\n")
 		runMarkdownGit(driver.testing, driver.root, "add", "README.md")
-	case "harness-capabilities-match":
-		driver.writeMatchingHarnesses()
-	case "harness-missing-shared-subagent":
-		writeParityFile(driver.testing, driver.root, ".claude/agents/review.md", "fixture")
+	case "canonical-harness-contract-matches":
+		driver.writeCanonicalHarnessContract()
+	case "missing-codex-agent-adapter":
+		driver.writeCanonicalHarnessContract()
+		if err := os.Remove(driver.root + "/.codex/agents/review.toml"); err != nil {
+			return fmt.Errorf("remove Codex adapter fixture: %w", err)
+		}
+	case "instruction-overlay":
+		driver.writeCanonicalHarnessContract()
+		writeParityFile(driver.testing, driver.root, "nested/AGENTS.md", "overlay")
+	case "stale-claude-skill-adapter":
+		driver.writeCanonicalHarnessContract()
+		writeParityFile(driver.testing, driver.root, ".claude/skills/review/SKILL.md", "stale")
+	case "weakened-opencode-permissions":
+		driver.writeCanonicalHarnessContract()
+		weakened := strings.Replace(opencodeAgentFixture, "edit: deny", "edit: allow", 1)
+		writeParityFile(driver.testing, driver.root, ".opencode/agents/review.md", weakened)
 	case "staged-rule-bearing-file":
 		driver.stageFile("repo-governance/development/testing-policy.md")
 	case "ordinary-staged-file":
@@ -105,14 +119,8 @@ func (driver *behaviourDriver) writeGovernance(agents string) {
 	writeGovernanceFile(driver.testing, driver.root, "repo-governance/policy.md", "short")
 }
 
-func (driver *behaviourDriver) writeMatchingHarnesses() {
-	for _, path := range []string{
-		".claude/agents/review.md",
-		".codex/agents/review.toml",
-		".opencode/agents/review.md",
-	} {
-		writeParityFile(driver.testing, driver.root, path, "fixture")
-	}
+func (driver *behaviourDriver) writeCanonicalHarnessContract() {
+	writeCanonicalHarnessFixture(driver.testing, driver.root)
 }
 
 func (driver *behaviourDriver) stageFile(path string) {

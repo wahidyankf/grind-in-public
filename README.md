@@ -11,8 +11,8 @@ This README and [`docs/`](docs/README.md) are for people. AI agents use [`AGENTS
 files; shared repository governance in [`repo-governance/`](repo-governance/README.md) applies to both.
 
 Three agent harnesses are supported: Claude Code, Codex, and opencode. Codex and opencode read `AGENTS.md` directly,
-Claude Code reads [`CLAUDE.md`](CLAUDE.md), and each tool keeps its configuration and the shared subagents under
-`.claude/`, `.codex/`, and `.opencode/`, with skills the tools share in `.agents/`. See the
+while [`CLAUDE.md`](CLAUDE.md) imports it exactly. Canonical skills and custom-agent prompts live in `.agents/`; each
+harness keeps only its configuration and required native adapters. See the
 [agent harness support policy](repo-governance/conventions/agent-harness-support.md).
 
 ## Hands-On by Design

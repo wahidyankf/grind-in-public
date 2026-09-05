@@ -70,7 +70,8 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 
 - `npm run check:governance` enforces the [document word limit policy](../conventions/document-word-limit-policy.md),
   which sets the limit and names every document it governs.
-- `npm run check:harness-parity` compares the subagents, skills, and commands each harness exposes.
+- `npm run check:harness-parity` validates canonical instructions, complete skill bundles, custom-agent adapters,
+  permission mappings, and the stable content digest.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
 - `npm run check:project-contract` validates the deterministic four-project owner/E2E descriptor contract.

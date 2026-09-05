@@ -34,8 +34,8 @@ list runs out of room.
 
 ## Adding a Harness
 
-Record the new harness's tool in the [question tools](grilling-harness-binding/question-tools.md) table. Check which
-shared skill directories it reads before copying a `SKILL.md` into it; the
-[harness capability parity policy](harness-capability-parity-policy.md) owns how many copies a shared skill needs. State
-plainly whether the binding is verified or only documented; an unverified binding is useful, and a binding claimed as
-working when nobody ran it is not.
+Record the new harness's tool in the [question tools](grilling-harness-binding/question-tools.md) table. Check whether
+it reads the canonical skill directory or needs a thin native adapter; the
+[harness capability parity policy](harness-capability-parity-policy.md) owns that route. State plainly whether the
+binding is verified or only documented; an unverified binding is useful, and a binding claimed as working when nobody
+ran it is not.

@@ -1,16 +1,14 @@
 # opencode Skills
 
-This directory is intentionally empty of shared skills. opencode loads `skills/*/SKILL.md` from `.opencode/`,
-`.claude/`, and `.agents/`, so a skill kept in the two canonical copies already reaches it; see the
-[harness capability parity policy](../../repo-governance/conventions/harness-capability-parity-policy.md). A third copy
-here would be a third file to keep identical, and the parity check unions the three sources, so it could not prove they
-were.
+This directory is intentionally empty of shared skills. opencode loads the canonical `skills/*/SKILL.md` bundles from
+`.agents/`; see the
+[harness capability parity policy](../../repo-governance/conventions/harness-capability-parity-policy.md). A native copy
+here would create a second prompt body and is therefore prohibited.
 
 ## Available Skills
 
-None. The shared skills live in [`.claude/skills/`](../../.claude/skills/README.md) and
-[`.agents/skills/`](../../.agents/skills/README.md).
+None. The canonical shared skills live in [`.agents/skills/`](../../.agents/skills/README.md).
 
-Do not add a skill only here. Claude Code and Codex both load skills, so the parity policy requires all three harnesses
-to expose the same entries, and `npm run check:harness-parity` fails on a skill the others lack. Every skill goes in the
-two canonical directories.
+Do not add a skill here. The parity policy requires all three harnesses to expose each canonical bundle, and
+`npm run check:harness-parity` rejects native copies and missing adapters. Every skill starts in `.agents/skills/`;
+Claude's required thin adapter lives separately under `.claude/skills/`.

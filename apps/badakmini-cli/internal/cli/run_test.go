@@ -148,7 +148,7 @@ func assertDispatchedCommand(t *testing.T, command string) {
 	case ruleChangeHookCommand:
 		runtime.Stdin = strings.NewReader(`{"tool_input":{"file_path":"AGENTS.md"}}`)
 	case capabilityParityCommand:
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { called = true; return nil, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { called = true; return parity.Report{}, nil }
 	}
 
 	exitCode := Run(context.Background(), runtime, strings.Fields(command))
@@ -290,11 +290,10 @@ func TestValidateInstructionSizeCoversFindingsAndStreamFailures(t *testing.T) {
 	})
 }
 
-//nolint:funlen // One table-shaped test proves every parity result and output branch.
 func TestValidateCapabilityParityCoversFindingsAndStreamFailures(t *testing.T) {
 	t.Run("check failure", func(t *testing.T) {
 		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return nil, errors.New("check failed") }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{}, errors.New("check failed") }
 		exitCode := validateCapabilityParity(runtime, "repository")
 		if exitCode != 1 || !strings.Contains(stderr.String(), "check failed") {
 			t.Fatalf("expected check failure, got exit %d and stderr %q", exitCode, stderr.String())
@@ -304,7 +303,7 @@ func TestValidateCapabilityParityCoversFindingsAndStreamFailures(t *testing.T) {
 	t.Run("check diagnostic failure", func(t *testing.T) {
 		runtime, _, _ := runtimeDouble(t)
 		runtime.Stderr = writeFailure{}
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return nil, errors.New("check failed") }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{}, errors.New("check failed") }
 		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
 			t.Fatalf("expected diagnostic failure exit, got %d", exitCode)
 		}
@@ -318,18 +317,10 @@ func TestValidateCapabilityParityCoversFindingsAndStreamFailures(t *testing.T) {
 		}
 	})
 
-	t.Run("exemption output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stdout = &failAfterWriter{succeed: 1}
-		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected exemption output failure, got %d", exitCode)
-		}
-	})
-
 	findings := []parity.Finding{{Capability: "skill", Harness: "Codex", Missing: []string{"review"}}}
 	t.Run("all findings", func(t *testing.T) {
 		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return findings, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
 		exitCode := validateCapabilityParity(runtime, "repository")
 		if exitCode != 1 || !strings.Contains(stderr.String(), "harness-capability-parity-policy") {
 			t.Fatalf("expected complete findings, got exit %d and stderr %q", exitCode, stderr.String())
@@ -339,7 +330,7 @@ func TestValidateCapabilityParityCoversFindingsAndStreamFailures(t *testing.T) {
 	t.Run("finding output failure", func(t *testing.T) {
 		runtime, _, _ := runtimeDouble(t)
 		runtime.Stderr = writeFailure{}
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return findings, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
 		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
 			t.Fatalf("expected finding output failure, got %d", exitCode)
 		}
@@ -348,7 +339,7 @@ func TestValidateCapabilityParityCoversFindingsAndStreamFailures(t *testing.T) {
 	t.Run("policy output failure", func(t *testing.T) {
 		runtime, _, _ := runtimeDouble(t)
 		runtime.Stderr = &failAfterWriter{succeed: len(findings)}
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return findings, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
 		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
 			t.Fatalf("expected policy output failure, got %d", exitCode)
 		}
@@ -448,7 +439,7 @@ func runtimeDouble(t *testing.T) (Runtime, *bytes.Buffer, *bytes.Buffer) {
 		CheckGovernance:    func(string) ([]governance.Finding, error) { return nil, nil },
 		CheckMarkdownLinks: func(string) ([]markdownlinks.Finding, error) { return nil, nil },
 		ListStagedPaths:    func(string) ([]string, error) { return nil, nil },
-		CheckParity:        func(string) ([]parity.Finding, error) { return nil, nil },
+		CheckParity:        func(string) (parity.Report, error) { return parity.Report{}, nil },
 	}
 	return runtime, &stdout, &stderr
 }

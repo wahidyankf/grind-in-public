@@ -125,13 +125,13 @@ func testMarkdownLinkFailures(t *testing.T) {
 func testCapabilityParityFailures(t *testing.T) {
 	args := []string{"harness", "capability-parity", "validate"}
 	if exitCode := runRuntime(t, args, func(runtime *cli.Runtime) {
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return nil, errors.New("check failed") }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{}, errors.New("check failed") }
 	}); exitCode != 1 {
 		t.Fatalf("expected parity error, got %d", exitCode)
 	}
 	if exitCode := runRuntime(t, args, func(runtime *cli.Runtime) {
 		runtime.Stderr = integrationWriteFailure{}
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return nil, errors.New("check failed") }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{}, errors.New("check failed") }
 	}); exitCode != 1 {
 		t.Fatalf("expected parity diagnostic failure, got %d", exitCode)
 	}
@@ -142,26 +142,21 @@ func testCapabilityParityFailures(t *testing.T) {
 	}
 	findings := []parity.Finding{{Capability: "skill", Harness: "Codex", Missing: []string{"review"}}}
 	if exitCode := runRuntime(t, args, func(runtime *cli.Runtime) {
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return findings, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
 	}); exitCode != 1 {
 		t.Fatalf("expected parity findings, got %d", exitCode)
 	}
 	if exitCode := runRuntime(t, args, func(runtime *cli.Runtime) {
 		runtime.Stderr = &integrationFailAfterWriter{succeed: len(findings)}
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return findings, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
 	}); exitCode != 1 {
 		t.Fatalf("expected parity policy write failure, got %d", exitCode)
 	}
 	if exitCode := runRuntime(t, args, func(runtime *cli.Runtime) {
 		runtime.Stderr = integrationWriteFailure{}
-		runtime.CheckParity = func(string) ([]parity.Finding, error) { return findings, nil }
+		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
 	}); exitCode != 1 {
 		t.Fatalf("expected parity finding write failure, got %d", exitCode)
-	}
-	if exitCode := runRuntime(t, args, func(runtime *cli.Runtime) {
-		runtime.Stdout = &integrationFailAfterWriter{succeed: 1}
-	}); exitCode != 1 {
-		t.Fatalf("expected parity exemption write failure, got %d", exitCode)
 	}
 }
 
@@ -217,7 +212,7 @@ func runRuntime(t *testing.T, args []string, adjust func(*cli.Runtime)) int {
 		CheckGovernance:    func(string) ([]governance.Finding, error) { return nil, nil },
 		CheckMarkdownLinks: func(string) ([]markdownlinks.Finding, error) { return nil, nil },
 		ListStagedPaths:    func(string) ([]string, error) { return nil, nil },
-		CheckParity:        func(string) ([]parity.Finding, error) { return nil, nil },
+		CheckParity:        func(string) (parity.Report, error) { return parity.Report{}, nil },
 	}
 	adjust(&runtime)
 	return cli.Run(context.Background(), runtime, args)

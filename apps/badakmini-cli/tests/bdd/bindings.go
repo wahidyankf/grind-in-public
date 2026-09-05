@@ -56,24 +56,48 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 		expectResult(1, "", "targets a file that does not exist"),
 	)
 	sc.Given(
-		`^a repository whose harness capabilities match$`,
-		prepareFixture("harness-capabilities-match"),
+		`^a repository whose canonical harness contract matches$`,
+		prepareFixture("canonical-harness-contract-matches"),
 	)
 	sc.When(
 		`^Badak Mini runs capability-parity validation$`,
 		invokeCommand("harness", "capability-parity", "validate"),
 	)
 	sc.Then(
-		`^the command succeeds with the parity confirmation$`,
-		expectResult(0, "Every harness exposes the same", ""),
+		`^the command succeeds with canonical counts and a digest$`,
+		expectStdoutContains("3 harnesses", "1 skill", "1 agent", "sha256:"),
 	)
 	sc.Given(
-		`^a repository with a harness missing a shared subagent$`,
-		prepareFixture("harness-missing-shared-subagent"),
+		`^a canonical harness contract with a missing Codex agent adapter$`,
+		prepareFixture("missing-codex-agent-adapter"),
 	)
 	sc.Then(
-		`^the command fails with the parity diagnostic$`,
-		expectResult(1, "", "subagent parity"),
+		`^the command fails with a missing-agent-adapter diagnostic$`,
+		expectResult(1, "", "missing-agent-adapter"),
+	)
+	sc.Given(
+		`^a canonical harness contract with an instruction overlay$`,
+		prepareFixture("instruction-overlay"),
+	)
+	sc.Then(
+		`^the command fails with an unexpected-instruction-source diagnostic$`,
+		expectResult(1, "", "unexpected-instruction-source"),
+	)
+	sc.Given(
+		`^a canonical harness contract with a stale Claude skill adapter$`,
+		prepareFixture("stale-claude-skill-adapter"),
+	)
+	sc.Then(
+		`^the command fails with a skill-content-divergence diagnostic$`,
+		expectResult(1, "", "skill-content-divergence"),
+	)
+	sc.Given(
+		`^a canonical harness contract with weakened opencode permissions$`,
+		prepareFixture("weakened-opencode-permissions"),
+	)
+	sc.Then(
+		`^the command fails with an agent-semantic-divergence diagnostic$`,
+		expectResult(1, "", "agent-semantic-divergence"),
 	)
 	sc.Given(
 		`^a repository with a staged rule-bearing file$`,
