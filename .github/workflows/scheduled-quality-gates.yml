@@ -14,24 +14,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  hippo-consumer:
-    name: HIPPO consumer (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-24.04, macos-15]
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-      - name: Verify pinned bootstrap behaviour
-        run: ./.github/scripts/test-hippo-bootstrap.sh
-      - name: Install and identify pinned release
-        run: ./hippo version --json
-      - name: Inspect runner capacity
-        run: ./hippo status --json --disk-path .
-
   badakmini:
     name: Badak Mini test symphony
     runs-on: ubuntu-latest

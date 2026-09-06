@@ -1,0 +1,46 @@
+name: HIPPO Consumer Smoke
+
+on:
+  # A Linux-only retention defect once reached main because this suite ran on no
+  # per-push surface at all, only a twice-daily schedule that had not fired since
+  # the consumer was migrated. This repository delivers straight to main, so a
+  # push trigger is the earliest Linux signal available to it: the commit still
+  # lands, but Linux reports within minutes instead of up to twelve hours.
+  push:
+    branches: [main]
+    paths:
+      - hippo
+      - hippo.lock
+      - hippo.local.json.example
+      - .github/scripts/test-hippo-bootstrap.sh
+      - .github/workflows/hippo-consumer-smoke.yml
+  schedule:
+    - cron: "0 6,18 * * *"
+      timezone: "Asia/Jakarta"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hippo-consumer-smoke-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  hippo-consumer:
+    name: HIPPO consumer (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Verify pinned bootstrap behaviour
+        run: ./.github/scripts/test-hippo-bootstrap.sh
+      - name: Install and identify pinned release
+        run: ./hippo version --json
+      - name: Inspect runner capacity
+        run: ./hippo status --json --disk-path .
