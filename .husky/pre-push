@@ -53,4 +53,4 @@ fi
 # Link targets elsewhere can break when any file is moved or deleted, so this
 # whole-repository check deliberately runs for every push.
 NX_NO_CLOUD=true ./hippo run --class ephemeral --disk-path . -- \
-	npm exec -- nx run -p badakmini-cli -t markdown-links
+	./rhino md internal-link validate

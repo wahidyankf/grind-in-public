@@ -1,0 +1,193 @@
+# schema: rhino/repo-config/v1
+#
+# What this repository enforces about its own documentation, declared rather
+# than compiled in. Every value is transcribed from the badak-mini validator
+# this file retires -- its internal/governance, internal/markdownlinks, and
+# internal/parity packages -- so the new gate checks what the old one checked,
+# for the same reasons. Its `harness rule-change` check is not here and does
+# not move: it is this repository's own rule, not general repository hygiene.
+
+governance-word-budget:
+  # internal/governance/check.go counts with strings.Fields, which is
+  # whitespace-separated. BeaverNest counts differently; the two repositories
+  # genuinely disagree, and each declares its own definition rather than
+  # inheriting one.
+  count: whitespace-separated
+  surfaces:
+    # MaxWords = 750, applied to the three root instruction files, every
+    # Markdown document under repo-governance recursively, and the README of
+    # each harness directory -- indexes share the concise-guidance limit while
+    # the prompts beside them stay unmeasured.
+    - { glob: "AGENTS.md", fail: 750 }
+    - { glob: "CLAUDE.md", fail: 750 }
+    - { glob: "RTK.md", fail: 750 }
+    - { glob: "repo-governance/**/*.md", fail: 750 }
+    - { glob: ".agents/README.md", fail: 750 }
+    - { glob: ".claude/README.md", fail: 750 }
+    - { glob: ".codex/README.md", fail: 750 }
+    - { glob: ".opencode/README.md", fail: 750 }
+
+governance-directory-map:
+  # Empty on purpose. badak-mini has no directory-map check, so this repository
+  # has never enforced one; several of its trees keep maps by convention. This
+  # cutover moves the three hygiene checks it had and adds none, because a
+  # retirement that quietly grew a fourth rule would fail for a reason nobody
+  # asked for. Declaring a tree here later is one line.
+  trees: []
+
+md-internal-link:
+  # internal/markdownlinks checks every Git-tracked Markdown file and excludes
+  # no source. External URLs are ignored, which RHINO also does.
+  exclude-sources: []
+
+md-mermaid:
+  # This repository documents with ASCII art and holds no Mermaid diagram, so
+  # every value here is vacuous today. They are stated rather than omitted
+  # because the schema requires a palette to be declared before it can exist:
+  # the first classDef anyone adds fails until this repository decides its own
+  # colours. badak-mini had no diagram check at all, so nothing is lost.
+  node-label-graphemes: 32
+  edge-label-graphemes: 24
+  fill-colors: []
+  edge-colors: []
+  text-colors: []
+
+harness-parity:
+  canonical:
+    instruction: AGENTS.md
+    instruction-adapter: CLAUDE.md
+    skills-root: .agents/skills
+    skill-route:
+      "Read `{path}` completely, resolve every relative resource from that skill
+      directory, and follow it as authoritative before acting."
+    agents-root: .agents/agents
+    agent-route:
+      "Before acting, read the complete canonical agent definition at `{path}`
+      from the repository root and follow it as authoritative. If it cannot be
+      read, stop and report the missing path."
+    # internal/parity requires name, description, mode, requires, denies, and
+    # constraints on every canonical agent, with mode fixed to subagent.
+    declaration:
+      grants: requires
+      denials: denies
+      limits: constraints
+      fixed: { mode: subagent }
+  harnesses:
+    - name: codex
+      agent-adapter:
+        path: ".codex/agents/{name}.toml"
+        format: toml
+        route-field: developer_instructions
+        identity: { name: name, description: description }
+        fixed: { sandbox_mode: read-only }
+        absent: [model]
+    - name: claude
+      agent-adapter:
+        path: ".claude/agents/{name}.md"
+        format: front-matter
+        route-field: body
+        identity: { name: name, description: description }
+        fixed: { model: inherit }
+        translations:
+          - { when: always, field: tools, members: [Read] }
+          - {
+              when: requires,
+              capability: repository-read,
+              field: tools,
+              members: [Glob, Grep],
+            }
+          - {
+              when: requires,
+              capability: approval-or-read-only-shell,
+              field: tools,
+              members: [Bash],
+            }
+          - {
+              when: denies,
+              capability: repository-write,
+              field: tools,
+              absent-members: [Write, Edit],
+            }
+          - {
+              when: denies,
+              capability: shell,
+              field: tools,
+              absent-members: [Bash, PowerShell],
+            }
+          - {
+              when: denies,
+              capability: nested-agent,
+              field: tools,
+              absent-members: [Agent, Task],
+            }
+      skill-adapter:
+        path: ".claude/skills/{name}/SKILL.md"
+        format: front-matter
+        route-field: body
+        identity: { name: name, description: description }
+    - name: opencode
+      agent-adapter:
+        path: ".opencode/agents/{name}.md"
+        format: front-matter
+        route-field: body
+        identity: { description: description }
+        fixed: { mode: subagent }
+        translations:
+          - {
+              when: requires,
+              capability: approval-or-read-only-shell,
+              field: permission,
+              entries: { bash: ask },
+            }
+          - {
+              when: denies,
+              capability: repository-write,
+              field: permission,
+              entries: { edit: deny },
+            }
+          - {
+              when: denies,
+              capability: shell,
+              field: permission,
+              entries: { bash: deny },
+            }
+          - {
+              when: denies,
+              capability: nested-agent,
+              field: permission,
+              entries: { task: deny },
+            }
+  # internal/parity treats these three names, plus anything under
+  # .claude/rules/, as competing always-on instruction sources.
+  prohibited-instruction-sources:
+    - "**/AGENTS.md"
+    - "**/AGENTS.override.md"
+    - "**/CLAUDE.md"
+    - ".claude/rules/**/*.md"
+  # opencode reads always-on instructions out of a key in its own settings, so
+  # a path glob cannot see it. Same rule as "no second CLAUDE.md", written in
+  # that vendor's syntax -- which is why the file itself is not prohibited.
+  prohibited-instruction-fields:
+    - file: opencode.json
+      format: json
+      field: instructions
+  capabilities:
+    - repository-read
+    - repository-write
+    - approval-or-read-only-shell
+    - shell
+    - nested-agent
+    - solution-output
+  constraints:
+    - inline-result-only
+    - owner-solved-first
+
+scan:
+  # internal/parity's skippedTrees, plus the Go build output.
+  exclude-directories:
+    - .git
+    - .nx
+    - node_modules
+    - local-tmp
+    - generated-reports
+    - dist

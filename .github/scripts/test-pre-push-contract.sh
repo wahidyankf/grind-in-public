@@ -71,7 +71,7 @@ EOF
 grep -Fqx "cloud=true run --class ephemeral --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$new_sha" "$invocations"
 grep -Fqx "cloud=true run --class ephemeral --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$existing_sha" "$invocations"
 [ "$(grep -Fxc 'cloud=true run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo' "$invocations")" -eq 1 ]
-[ "$(grep -Fxc 'cloud=true run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t markdown-links' "$invocations")" -eq 1 ]
+[ "$(grep -Fxc 'cloud=true run --class ephemeral --disk-path . -- ./rhino md internal-link validate' "$invocations")" -eq 1 ]
 if grep -Fq -- '--parallel=1' "$invocations" || grep -Fq -- '--parallel=1' "$repository_root/.husky/pre-push"; then
 	printf '%s\n' 'pre-push must leave Nx project parallelism allocation-driven' >&2
 	exit 1
@@ -88,7 +88,7 @@ set +e
 (
 	cd "$fixture_root"
 	PATH="$fake_bin:$PATH" PREPUSH_INVOCATIONS="$invocations" PREPUSH_GIT_CALLS="$git_calls" \
-		PREPUSH_FAIL_MATCH=markdown-links sh ./pre-push <<EOF
+		PREPUSH_FAIL_MATCH=internal-link sh ./pre-push <<EOF
 refs/heads/existing $existing_sha refs/heads/existing $remote_sha
 EOF
 )
