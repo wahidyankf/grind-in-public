@@ -4,15 +4,10 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
-	"os"
 	"strings"
 	"testing"
 
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/cli"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/governance"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/markdownlinks"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/parity"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/tests/bdd"
 )
 
@@ -42,16 +37,10 @@ func (driver *behaviourDriver) resetRuntime() {
 		Stdout:             &driver.stdout,
 		Stderr:             &driver.stderr,
 		FindRepositoryRoot: func() (string, error) { return driver.root, nil },
-		CheckGovernance:    func(root string) ([]governance.Finding, error) { return governance.CheckFS(os.DirFS(root)) },
-		CheckMarkdownLinks: func(root string) ([]markdownlinks.Finding, error) {
-			return markdownlinks.Check(root, realMarkdownRuntime())
-		},
-		ListStagedPaths: realStagedPaths,
-		CheckParity:     func(root string) (parity.Report, error) { return parity.CheckFS(os.DirFS(root)) },
+		ListStagedPaths:    realStagedPaths,
 	}
 }
 
-//nolint:cyclop,funlen // One switch keeps canonical fixture selection visible and exhaustive.
 func (driver *behaviourDriver) Prepare(_ context.Context, fixture string) error {
 	driver.resetRuntime()
 	switch fixture {
@@ -59,36 +48,6 @@ func (driver *behaviourDriver) Prepare(_ context.Context, fixture string) error 
 		driver.runtime.FindRepositoryRoot = func() (string, error) {
 			return "", errors.New("repository discovery failed")
 		}
-	case "governance-documents-fit":
-		driver.writeGovernance("short")
-	case "oversized-agent-instruction":
-		driver.writeGovernance(strings.Repeat("word ", governance.MaxWords+1))
-	case "tracked-markdown-links-resolve":
-		runMarkdownGit(driver.testing, driver.root, "init", "--quiet")
-		writeMarkdownFile(driver.testing, driver.root, "README.md", "[Guide](docs/guide.md)\n")
-		writeMarkdownFile(driver.testing, driver.root, "docs/guide.md", "# Guide\n")
-		runMarkdownGit(driver.testing, driver.root, "add", "README.md", "docs/guide.md")
-	case "broken-tracked-markdown-link":
-		runMarkdownGit(driver.testing, driver.root, "init", "--quiet")
-		writeMarkdownFile(driver.testing, driver.root, "README.md", "[Missing](missing.md)\n")
-		runMarkdownGit(driver.testing, driver.root, "add", "README.md")
-	case "canonical-harness-contract-matches":
-		driver.writeCanonicalHarnessContract()
-	case "missing-codex-agent-adapter":
-		driver.writeCanonicalHarnessContract()
-		if err := os.Remove(driver.root + "/.codex/agents/review.toml"); err != nil {
-			return fmt.Errorf("remove Codex adapter fixture: %w", err)
-		}
-	case "instruction-overlay":
-		driver.writeCanonicalHarnessContract()
-		writeParityFile(driver.testing, driver.root, "nested/AGENTS.md", "overlay")
-	case "stale-claude-skill-adapter":
-		driver.writeCanonicalHarnessContract()
-		writeParityFile(driver.testing, driver.root, ".claude/skills/review/SKILL.md", "stale")
-	case "weakened-opencode-permissions":
-		driver.writeCanonicalHarnessContract()
-		weakened := strings.Replace(opencodeAgentFixture, "edit: deny", "edit: allow", 1)
-		writeParityFile(driver.testing, driver.root, ".opencode/agents/review.md", weakened)
 	case "staged-rule-bearing-file":
 		driver.stageFile("repo-governance/development/testing-policy.md")
 	case "ordinary-staged-file":
@@ -110,17 +69,6 @@ func (driver *behaviourDriver) Invoke(ctx context.Context, arguments []string) e
 
 func (driver *behaviourDriver) Result() bdd.Result {
 	return driver.result
-}
-
-func (driver *behaviourDriver) writeGovernance(agents string) {
-	writeGovernanceFile(driver.testing, driver.root, "AGENTS.md", agents)
-	writeGovernanceFile(driver.testing, driver.root, "CLAUDE.md", "short")
-	writeGovernanceFile(driver.testing, driver.root, "RTK.md", "short")
-	writeGovernanceFile(driver.testing, driver.root, "repo-governance/policy.md", "short")
-}
-
-func (driver *behaviourDriver) writeCanonicalHarnessContract() {
-	writeCanonicalHarnessFixture(driver.testing, driver.root)
 }
 
 func (driver *behaviourDriver) stageFile(path string) {

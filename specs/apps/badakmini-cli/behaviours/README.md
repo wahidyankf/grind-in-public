@@ -12,7 +12,4 @@ traceability table against the C4 model lives in [architecture.md](../architectu
 ## Directory Map
 
 - [cli-contract.feature](cli-contract.feature) — help output without repository discovery.
-- [instruction-size.feature](instruction-size.feature) — valid and oversized governance documents.
-- [markdown-links.feature](markdown-links.feature) — valid and broken tracked local links.
-- [capability-parity.feature](capability-parity.feature) — canonical harness content and native adapter divergence.
 - [rule-change.feature](rule-change.feature) — staged notices and pre-edit hook notices.

@@ -9,6 +9,12 @@ import (
 	"github.com/cucumber/godog"
 )
 
+// invalidInvocation is the exit code the CLI contract reserves for a name or
+// argument shape this CLI does not have. The adapters assert the public
+// contract, so the number is stated here rather than read from the
+// implementation it is meant to hold to account.
+const invalidInvocation = 2
+
 type scenarioStateKey struct{}
 
 type scenarioState struct {
@@ -17,95 +23,12 @@ type scenarioState struct {
 
 // InitializeScenario registers the process E2E step definitions directly with Godog.
 //
-//nolint:funlen,varnamelen // The explicit catalog exposes drift; sc consistently means scenario context.
+//nolint:varnamelen // sc consistently means scenario context.
 func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Given(`^repository discovery would fail$`, prepareFixture("repository-discovery-fails"))
 	sc.When(`^Badak Mini runs with "([^"]+)"$`, invokeCommandLine)
 	sc.Then(`^the command succeeds and prints usage$`, expectResult(0, "Usage:", ""))
-	sc.Given(
-		`^a repository whose governance documents fit the word limit$`,
-		prepareFixture("governance-documents-fit"),
-	)
-	sc.When(
-		`^Badak Mini runs instruction-size validation$`,
-		invokeCommand("harness", "instruction-size", "validate"),
-	)
-	sc.Then(
-		`^the command succeeds with the word-limit confirmation$`,
-		expectResult(0, "Governance word counts are within", ""),
-	)
-	sc.Given(
-		`^a repository with an oversized agent instruction file$`,
-		prepareFixture("oversized-agent-instruction"),
-	)
-	sc.Then(
-		`^the command fails with the oversized document diagnostic$`,
-		expectResult(1, "", "AGENTS.md contains 751 words"),
-	)
-	sc.Given(
-		`^a repository whose tracked Markdown links resolve$`,
-		prepareFixture("tracked-markdown-links-resolve"),
-	)
-	sc.When(
-		`^Badak Mini runs Markdown-link validation$`,
-		invokeCommand("harness", "markdown-links", "validate"),
-	)
-	sc.Then(
-		`^the command succeeds with the link confirmation$`,
-		expectResult(0, "Repository-local Markdown links are valid", ""),
-	)
-	sc.Given(
-		`^a repository with a broken tracked Markdown link$`,
-		prepareFixture("broken-tracked-markdown-link"),
-	)
-	sc.Then(
-		`^the command fails with the missing-target diagnostic$`,
-		expectResult(1, "", "targets a file that does not exist"),
-	)
-	sc.Given(
-		`^a repository whose canonical harness contract matches$`,
-		prepareFixture("canonical-harness-contract-matches"),
-	)
-	sc.When(
-		`^Badak Mini runs capability-parity validation$`,
-		invokeCommand("harness", "capability-parity", "validate"),
-	)
-	sc.Then(
-		`^the command succeeds with canonical counts and a digest$`,
-		expectStdoutContains("3 harnesses", "1 skill", "1 agent", "sha256:"),
-	)
-	sc.Given(
-		`^a canonical harness contract with a missing Codex agent adapter$`,
-		prepareFixture("missing-codex-agent-adapter"),
-	)
-	sc.Then(
-		`^the command fails with a missing-agent-adapter diagnostic$`,
-		expectResult(1, "", "missing-agent-adapter"),
-	)
-	sc.Given(
-		`^a canonical harness contract with an instruction overlay$`,
-		prepareFixture("instruction-overlay"),
-	)
-	sc.Then(
-		`^the command fails with an unexpected-instruction-source diagnostic$`,
-		expectResult(1, "", "unexpected-instruction-source"),
-	)
-	sc.Given(
-		`^a canonical harness contract with a stale Claude skill adapter$`,
-		prepareFixture("stale-claude-skill-adapter"),
-	)
-	sc.Then(
-		`^the command fails with a skill-content-divergence diagnostic$`,
-		expectResult(1, "", "skill-content-divergence"),
-	)
-	sc.Given(
-		`^a canonical harness contract with weakened opencode permissions$`,
-		prepareFixture("weakened-opencode-permissions"),
-	)
-	sc.Then(
-		`^the command fails with an agent-semantic-divergence diagnostic$`,
-		expectResult(1, "", "agent-semantic-divergence"),
-	)
+	sc.Then(`^the command reports an invalid invocation$`, expectResult(invalidInvocation, "", "Usage:"))
 	sc.Given(
 		`^a repository with a staged rule-bearing file$`,
 		prepareFixture("staged-rule-bearing-file"),

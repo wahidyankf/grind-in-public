@@ -7,26 +7,16 @@ import (
 	"io"
 	"strings"
 	"testing"
-
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/governance"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/markdownlinks"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/parity"
 )
 
 const (
-	instructionSizeCommand    = "harness instruction-size validate"
-	markdownLinksCommand      = "harness markdown-links validate"
 	ruleChangeValidateCommand = "harness rule-change validate"
 	ruleChangeHookCommand     = "harness rule-change hook"
-	capabilityParityCommand   = "harness capability-parity validate"
 )
 
 var supportedCommands = []string{
-	instructionSizeCommand,
-	markdownLinksCommand,
 	ruleChangeValidateCommand,
 	ruleChangeHookCommand,
-	capabilityParityCommand,
 }
 
 func TestRunPrintsHelpWithoutRepositoryDiscovery(t *testing.T) {
@@ -56,7 +46,13 @@ func TestRunRejectsUnsupportedCommandsBeforeRepositoryDiscovery(t *testing.T) {
 		{name: "unknown flag", args: []string{"--unknown"}},
 		{
 			name: "excess leaf argument",
-			args: []string{"harness", "markdown-links", "validate", "unexpected"},
+			args: []string{"harness", "rule-change", "validate", "unexpected"},
+		},
+		{
+			// A name RHINO now owns. A stale hook still calling it must fail
+			// rather than report a clean run of a check that no longer exists.
+			name: "retired check name",
+			args: []string{"harness", "instruction-size", "validate"},
 		},
 	}
 
@@ -73,6 +69,35 @@ func TestRunRejectsUnsupportedCommandsBeforeRepositoryDiscovery(t *testing.T) {
 				t.Fatalf("expected usage failure, got exit %d and stderr %q", exitCode, stderr.String())
 			}
 		})
+	}
+}
+
+func TestRunPrintsGroupHelpWhenNoLeafIsNamed(t *testing.T) {
+	runtime, stdout, stderr := runtimeDouble(t)
+	runtime.FindRepositoryRoot = func() (string, error) {
+		t.Fatal("group help must not discover the repository")
+		return "", nil
+	}
+
+	exitCode := Run(context.Background(), runtime, []string{"harness"})
+	if exitCode != 0 || stderr.Len() != 0 {
+		t.Fatalf("expected successful group help, got exit %d and stderr %q", exitCode, stderr.String())
+	}
+	if !strings.Contains(stdout.String(), "rule-change") {
+		t.Fatalf("expected the group's leaves in usage, got %q", stdout.String())
+	}
+}
+
+func TestRunReturnsTheExitCodeAnActionReports(t *testing.T) {
+	runtime, stdout, stderr := runtimeDouble(t)
+	runtime.ListStagedPaths = func(string) ([]string, error) { return nil, errors.New("Git failed") }
+
+	exitCode := Run(context.Background(), runtime, strings.Fields(ruleChangeValidateCommand))
+	if exitCode != 1 {
+		t.Fatalf("expected the action's failing exit code, got %d", exitCode)
+	}
+	if stdout.Len() != 0 || !strings.Contains(stderr.String(), "Git failed") {
+		t.Fatalf("expected the diagnostic on stderr alone, got %q and %q", stdout.String(), stderr.String())
 	}
 }
 
@@ -110,7 +135,7 @@ func TestRunReportsRepositoryDiscoveryFailure(t *testing.T) {
 		return "", errors.New("not a repository")
 	}
 
-	exitCode := Run(context.Background(), runtime, strings.Fields(markdownLinksCommand))
+	exitCode := Run(context.Background(), runtime, strings.Fields(ruleChangeValidateCommand))
 	if exitCode != 1 || !strings.Contains(stderr.String(), "could not find") {
 		t.Fatalf("expected repository discovery failure, got exit %d and stderr %q", exitCode, stderr.String())
 	}
@@ -123,7 +148,7 @@ func TestRunReturnsFailureWhenDiscoveryDiagnosticCannotBeWritten(t *testing.T) {
 		return "", errors.New("not a repository")
 	}
 
-	if exitCode := Run(context.Background(), runtime, strings.Fields(markdownLinksCommand)); exitCode != 1 {
+	if exitCode := Run(context.Background(), runtime, strings.Fields(ruleChangeValidateCommand)); exitCode != 1 {
 		t.Fatalf("expected failure exit, got %d", exitCode)
 	}
 }
@@ -139,16 +164,10 @@ func assertDispatchedCommand(t *testing.T, command string) {
 	runtime, stdout, stderr := runtimeDouble(t)
 	called := false
 	switch command {
-	case instructionSizeCommand:
-		runtime.CheckGovernance = func(string) ([]governance.Finding, error) { called = true; return nil, nil }
-	case markdownLinksCommand:
-		runtime.CheckMarkdownLinks = func(string) ([]markdownlinks.Finding, error) { called = true; return nil, nil }
 	case ruleChangeValidateCommand:
 		runtime.ListStagedPaths = func(string) ([]string, error) { called = true; return nil, nil }
 	case ruleChangeHookCommand:
 		runtime.Stdin = strings.NewReader(`{"tool_input":{"file_path":"AGENTS.md"}}`)
-	case capabilityParityCommand:
-		runtime.CheckParity = func(string) (parity.Report, error) { called = true; return parity.Report{}, nil }
 	}
 
 	exitCode := Run(context.Background(), runtime, strings.Fields(command))
@@ -234,165 +253,6 @@ func TestAnnounceStagedRuleChangeCoversResultsAndStreamFailures(t *testing.T) {
 	})
 }
 
-func TestValidateInstructionSizeCoversFindingsAndStreamFailures(t *testing.T) {
-	t.Run("check failure", func(t *testing.T) {
-		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckGovernance = func(string) ([]governance.Finding, error) { return nil, errors.New("check failed") }
-		exitCode := validateInstructionSize(runtime, "repository")
-		if exitCode != 1 || !strings.Contains(stderr.String(), "check failed") {
-			t.Fatalf("expected check failure, got exit %d and stderr %q", exitCode, stderr.String())
-		}
-	})
-
-	t.Run("check diagnostic failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = writeFailure{}
-		runtime.CheckGovernance = func(string) ([]governance.Finding, error) { return nil, errors.New("check failed") }
-		if exitCode := validateInstructionSize(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected diagnostic failure exit, got %d", exitCode)
-		}
-	})
-
-	t.Run("success output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stdout = writeFailure{}
-		if exitCode := validateInstructionSize(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected success output failure, got %d", exitCode)
-		}
-	})
-
-	findings := []governance.Finding{{Path: "AGENTS.md", WordCount: 501}, {Path: "CLAUDE.md", WordCount: 502}}
-	t.Run("all findings", func(t *testing.T) {
-		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckGovernance = func(string) ([]governance.Finding, error) { return findings, nil }
-		exitCode := validateInstructionSize(runtime, "repository")
-		if exitCode != 1 || !strings.Contains(stderr.String(), "progressive disclosure") {
-			t.Fatalf("expected complete findings, got exit %d and stderr %q", exitCode, stderr.String())
-		}
-	})
-
-	t.Run("finding output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = writeFailure{}
-		runtime.CheckGovernance = func(string) ([]governance.Finding, error) { return findings, nil }
-		if exitCode := validateInstructionSize(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected finding output failure, got %d", exitCode)
-		}
-	})
-
-	t.Run("guidance output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = &failAfterWriter{succeed: len(findings)}
-		runtime.CheckGovernance = func(string) ([]governance.Finding, error) { return findings, nil }
-		if exitCode := validateInstructionSize(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected guidance output failure, got %d", exitCode)
-		}
-	})
-}
-
-func TestValidateCapabilityParityCoversFindingsAndStreamFailures(t *testing.T) {
-	t.Run("check failure", func(t *testing.T) {
-		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{}, errors.New("check failed") }
-		exitCode := validateCapabilityParity(runtime, "repository")
-		if exitCode != 1 || !strings.Contains(stderr.String(), "check failed") {
-			t.Fatalf("expected check failure, got exit %d and stderr %q", exitCode, stderr.String())
-		}
-	})
-
-	t.Run("check diagnostic failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = writeFailure{}
-		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{}, errors.New("check failed") }
-		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected diagnostic failure exit, got %d", exitCode)
-		}
-	})
-
-	t.Run("success output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stdout = writeFailure{}
-		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected success output failure, got %d", exitCode)
-		}
-	})
-
-	findings := []parity.Finding{{Capability: "skill", Harness: "Codex", Missing: []string{"review"}}}
-	t.Run("all findings", func(t *testing.T) {
-		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
-		exitCode := validateCapabilityParity(runtime, "repository")
-		if exitCode != 1 || !strings.Contains(stderr.String(), "harness-capability-parity-policy") {
-			t.Fatalf("expected complete findings, got exit %d and stderr %q", exitCode, stderr.String())
-		}
-	})
-
-	t.Run("finding output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = writeFailure{}
-		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
-		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected finding output failure, got %d", exitCode)
-		}
-	})
-
-	t.Run("policy output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = &failAfterWriter{succeed: len(findings)}
-		runtime.CheckParity = func(string) (parity.Report, error) { return parity.Report{Findings: findings}, nil }
-		if exitCode := validateCapabilityParity(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected policy output failure, got %d", exitCode)
-		}
-	})
-}
-
-func TestValidateMarkdownLinksCoversFindingsAndStreamFailures(t *testing.T) {
-	t.Run("check failure", func(t *testing.T) {
-		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckMarkdownLinks = func(string) ([]markdownlinks.Finding, error) { return nil, errors.New("check failed") }
-		exitCode := validateMarkdownLinks(runtime, "repository")
-		if exitCode != 1 || !strings.Contains(stderr.String(), "check failed") {
-			t.Fatalf("expected check failure, got exit %d and stderr %q", exitCode, stderr.String())
-		}
-	})
-
-	t.Run("check diagnostic failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = writeFailure{}
-		runtime.CheckMarkdownLinks = func(string) ([]markdownlinks.Finding, error) { return nil, errors.New("check failed") }
-		if exitCode := validateMarkdownLinks(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected diagnostic failure exit, got %d", exitCode)
-		}
-	})
-
-	t.Run("success output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stdout = writeFailure{}
-		if exitCode := validateMarkdownLinks(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected success output failure, got %d", exitCode)
-		}
-	})
-
-	findings := []markdownlinks.Finding{{Path: "README.md", Line: 2, Destination: "missing.md", Problem: "does not exist"}}
-	t.Run("all findings", func(t *testing.T) {
-		runtime, _, stderr := runtimeDouble(t)
-		runtime.CheckMarkdownLinks = func(string) ([]markdownlinks.Finding, error) { return findings, nil }
-		exitCode := validateMarkdownLinks(runtime, "repository")
-		if exitCode != 1 || !strings.Contains(stderr.String(), "missing.md") {
-			t.Fatalf("expected complete findings, got exit %d and stderr %q", exitCode, stderr.String())
-		}
-	})
-
-	t.Run("finding output failure", func(t *testing.T) {
-		runtime, _, _ := runtimeDouble(t)
-		runtime.Stderr = writeFailure{}
-		runtime.CheckMarkdownLinks = func(string) ([]markdownlinks.Finding, error) { return findings, nil }
-		if exitCode := validateMarkdownLinks(runtime, "repository"); exitCode != 1 {
-			t.Fatalf("expected finding output failure, got %d", exitCode)
-		}
-	})
-}
-
 func TestWritefWrapsWriterFailure(t *testing.T) {
 	err := writef(writeFailure{}, "message %d", 1)
 	if err == nil || !strings.Contains(err.Error(), "write formatted output") {
@@ -412,19 +272,6 @@ func (readFailure) Read([]byte) (int, error) {
 	return 0, errors.New("read failed")
 }
 
-type failAfterWriter struct {
-	succeed int
-	writes  int
-}
-
-func (writer *failAfterWriter) Write(message []byte) (int, error) {
-	if writer.writes >= writer.succeed {
-		return 0, errors.New("write failed")
-	}
-	writer.writes++
-	return len(message), nil
-}
-
 func runtimeDouble(t *testing.T) (Runtime, *bytes.Buffer, *bytes.Buffer) {
 	t.Helper()
 	var stdout bytes.Buffer
@@ -436,10 +283,7 @@ func runtimeDouble(t *testing.T) (Runtime, *bytes.Buffer, *bytes.Buffer) {
 		FindRepositoryRoot: func() (string, error) {
 			return "repository", nil
 		},
-		CheckGovernance:    func(string) ([]governance.Finding, error) { return nil, nil },
-		CheckMarkdownLinks: func(string) ([]markdownlinks.Finding, error) { return nil, nil },
-		ListStagedPaths:    func(string) ([]string, error) { return nil, nil },
-		CheckParity:        func(string) (parity.Report, error) { return parity.Report{}, nil },
+		ListStagedPaths: func(string) ([]string, error) { return nil, nil },
 	}
 	return runtime, &stdout, &stderr
 }

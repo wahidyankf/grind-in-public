@@ -30,11 +30,8 @@ var allowedUnitImportsByFile = map[string][]string{
 }
 
 var integrationOwners = map[string]string{
-	"cli_test.go":           "TestIntegrationCLI",
-	"governance_test.go":    "TestIntegrationGovernance",
-	"markdownlinks_test.go": "TestIntegrationMarkdownLinks",
-	"parity_test.go":        "TestIntegrationParity",
-	"rulechange_test.go":    "TestIntegrationRuleChange",
+	"cli_test.go":        "TestIntegrationCLI",
+	"rulechange_test.go": "TestIntegrationRuleChange",
 }
 
 var forbiddenIntegrationImports = []string{

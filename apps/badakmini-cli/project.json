@@ -118,21 +118,6 @@
         "{workspaceRoot}/apps/badakmini-cli-e2e/**/*"
       ]
     },
-    "governance": {
-      "command": "go run ./cmd/badak-mini harness instruction-size validate",
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false
-    },
-    "markdown-links": {
-      "command": "go run ./cmd/badak-mini harness markdown-links validate",
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false
-    },
-    "capability-parity": {
-      "command": "go run ./cmd/badak-mini harness capability-parity validate",
-      "options": { "cwd": "{projectRoot}" },
-      "cache": false
-    },
     "rule-change": {
       "command": "go run ./cmd/badak-mini harness rule-change validate",
       "options": { "cwd": "{projectRoot}" },
@@ -143,9 +128,7 @@
       "dependsOn": ["build"],
       "options": {
         "commands": [
-          "npm exec nx -- run badakmini-cli:governance",
-          "npm exec nx -- run badakmini-cli:markdown-links",
-          "npm exec nx -- run badakmini-cli:capability-parity",
+          "cd ../.. && ./rhino --bootstrap-exec scripts/rhino-gate.sh",
           "node ../../scripts/project-contract.test.mjs",
           "node ../../scripts/check-project-contract.mjs",
           "node ../../scripts/governance-structure.test.mjs",

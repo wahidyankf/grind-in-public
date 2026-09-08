@@ -4,15 +4,11 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"os"
 	"os/exec"
 	"strings"
 	"testing"
 
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/cli"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/governance"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/markdownlinks"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/parity"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/rulechange"
 )
 
@@ -37,32 +33,6 @@ type cliAdapterCase struct {
 func cliAdapterCases() []cliAdapterCase {
 	return []cliAdapterCase{
 		{
-			name: "instruction size",
-			args: []string{"harness", "instruction-size", "validate"},
-			prepare: func(t *testing.T) string {
-				t.Helper()
-				root := t.TempDir()
-				writeGovernanceFile(t, root, "AGENTS.md", "short")
-				writeGovernanceFile(t, root, "CLAUDE.md", "short")
-				writeGovernanceFile(t, root, "RTK.md", "short")
-				writeGovernanceFile(t, root, "repo-governance/policy.md", "short")
-				return root
-			},
-			expectText: "Governance word counts",
-		},
-		{
-			name: "Markdown links",
-			args: []string{"harness", "markdown-links", "validate"},
-			prepare: func(t *testing.T) string {
-				t.Helper()
-				root := newMarkdownRepository(t)
-				writeMarkdownFile(t, root, "README.md", "# Repository\n")
-				runMarkdownGit(t, root, "add", "README.md")
-				return root
-			},
-			expectText: "Markdown links are valid",
-		},
-		{
 			name: "staged rule change",
 			args: []string{"harness", "rule-change", "validate"},
 			prepare: func(t *testing.T) string {
@@ -75,30 +45,6 @@ func cliAdapterCases() []cliAdapterCase {
 			},
 			expectText: "Rules Propagation automatically triggered",
 		},
-		{
-			name: "capability parity",
-			args: []string{"harness", "capability-parity", "validate"},
-			prepare: func(t *testing.T) string {
-				t.Helper()
-				root := t.TempDir()
-				writeCanonicalHarnessFixture(t, root)
-				return root
-			},
-			expectText: "Harness contract passed",
-		},
-	}
-}
-
-func TestIntegrationCLIReportsRealValidationFinding(t *testing.T) {
-	root := t.TempDir()
-	writeGovernanceFile(t, root, "AGENTS.md", strings.Repeat("word ", governance.MaxWords+1))
-	writeGovernanceFile(t, root, "CLAUDE.md", "short")
-	writeGovernanceFile(t, root, "RTK.md", "short")
-	writeGovernanceFile(t, root, "repo-governance/policy.md", "short")
-
-	exitCode, _, stderr := runCLIAtRoot([]string{"harness", "instruction-size", "validate"}, root)
-	if exitCode != 1 || !strings.Contains(stderr, fmt.Sprintf("contains %d words", governance.MaxWords+1)) {
-		t.Fatalf("expected validation diagnostic, got exit %d and stderr %q", exitCode, stderr)
 	}
 }
 
@@ -117,12 +63,7 @@ func runCLIAtRoot(args []string, root string) (int, string, string) {
 		Stdout:             &stdout,
 		Stderr:             &stderr,
 		FindRepositoryRoot: func() (string, error) { return root, nil },
-		CheckGovernance:    func(root string) ([]governance.Finding, error) { return governance.CheckFS(os.DirFS(root)) },
-		CheckMarkdownLinks: func(root string) ([]markdownlinks.Finding, error) {
-			return markdownlinks.Check(root, realMarkdownRuntime())
-		},
-		ListStagedPaths: realStagedPaths,
-		CheckParity:     func(root string) (parity.Report, error) { return parity.CheckFS(os.DirFS(root)) },
+		ListStagedPaths:    realStagedPaths,
 	}
 	exitCode := cli.Run(context.Background(), runtime, args)
 	return exitCode, stdout.String(), stderr.String()

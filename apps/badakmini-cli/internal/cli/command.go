@@ -48,15 +48,12 @@ func Run(ctx context.Context, runtime Runtime, args []string) int {
 func newRootCommand(runtime Runtime) *cobra.Command {
 	root := &cobra.Command{
 		Use:   "badak-mini",
-		Short: "Validate repository-local governance",
-		Long: "Validate governance Markdown word limits, repository-local Markdown links, " +
-			"harness capability parity, and rule-change workflow notices.",
+		Short: "Announce workflows required by rule changes",
+		Long: "Announce the workflows a staged or pending rule change requires. " +
+			"Documentation hygiene is checked by RHINO, from repo-config.yml.",
 		Example: strings.Join([]string{
-			"  badak-mini harness instruction-size validate",
-			"  badak-mini harness markdown-links validate",
 			"  badak-mini harness rule-change validate",
 			"  badak-mini harness rule-change hook",
-			"  badak-mini harness capability-parity validate",
 		}, "\n"),
 		SilenceErrors: true,
 		SilenceUsage:  true,
@@ -65,27 +62,7 @@ func newRootCommand(runtime Runtime) *cobra.Command {
 	root.DisableSuggestions = true
 
 	harness := commandGroup("harness", "Validate agent harness governance")
-	harness.AddCommand(
-		validationGroup(
-			"instruction-size",
-			"Check agent instruction word limits",
-			runtime,
-			validateInstructionSize,
-		),
-		validationGroup(
-			"markdown-links",
-			"Check repository-local Markdown links",
-			runtime,
-			validateMarkdownLinks,
-		),
-		validationGroup(
-			"capability-parity",
-			"Check capabilities exposed by every harness",
-			runtime,
-			validateCapabilityParity,
-		),
-		ruleChangeCommand(runtime),
-	)
+	harness.AddCommand(ruleChangeCommand(runtime))
 	root.AddCommand(harness)
 
 	return root
@@ -95,17 +72,14 @@ func commandGroup(use, summary string) *cobra.Command {
 	return &cobra.Command{
 		Use:   use,
 		Short: summary,
+		// Cobra reaches a group's argument rule only once the group is
+		// runnable; a group that merely holds subcommands answers any word
+		// with its own help and exit 0. A name this CLI does not have -- a
+		// retired check still wired into a stale hook -- has to be an invalid
+		// invocation rather than a green run that checked nothing.
+		Args: cobra.NoArgs,
+		RunE: func(cmd *cobra.Command, _ []string) error { return cmd.Help() },
 	}
-}
-
-func validationGroup(
-	use, summary string,
-	runtime Runtime,
-	action repositoryAction,
-) *cobra.Command {
-	group := commandGroup(use, summary)
-	group.AddCommand(repositoryCommand("validate", summary, runtime, action))
-	return group
 }
 
 func ruleChangeCommand(runtime Runtime) *cobra.Command {
@@ -136,14 +110,13 @@ func repositoryCommand(
 		RunE: func(_ *cobra.Command, _ []string) error {
 			root, err := runtime.FindRepositoryRoot()
 			if err != nil {
-				writeErr := writef(
+				// The diagnostic is best effort: a caller that cannot receive it
+				// still gets the failing exit code, which is the same answer.
+				_ = writef(
 					runtime.Stderr,
 					"ERROR: could not find the Git repository root: %v\n",
 					err,
 				)
-				if writeErr != nil {
-					return commandExitError{error: errCommandFailed, code: 1}
-				}
 				return commandExitError{error: errCommandFailed, code: 1}
 			}
 

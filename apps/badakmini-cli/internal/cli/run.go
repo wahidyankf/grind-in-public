@@ -6,9 +6,6 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/governance"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/markdownlinks"
-	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/parity"
 	"github.com/wahidyankf/grind-in-public/apps/badakmini-cli/internal/rulechange"
 )
 
@@ -18,10 +15,7 @@ type Runtime struct {
 	Stdout             io.Writer
 	Stderr             io.Writer
 	FindRepositoryRoot func() (string, error)
-	CheckGovernance    func(string) ([]governance.Finding, error)
-	CheckMarkdownLinks func(string) ([]markdownlinks.Finding, error)
 	ListStagedPaths    func(string) ([]string, error)
-	CheckParity        func(string) (parity.Report, error)
 }
 
 // announceStagedRuleChange reports a staged rule change to a contributor. It
@@ -68,11 +62,10 @@ func announceHookRuleChange(root string, stdin io.Reader, stdout io.Writer) int 
 	response.HookSpecificOutput.AdditionalContext = rulechange.Notice(paths)
 	response.SystemMessage = rulechange.Notice(paths)
 
+	// Neither failure may block the edit, and a response of plain strings
+	// always marshals -- so the two are one path rather than two.
 	encoded, err := json.Marshal(response)
-	if err != nil {
-		return 0
-	}
-	if err := writef(stdout, "%s\n", encoded); err != nil {
+	if err != nil || writef(stdout, "%s\n", encoded) != nil {
 		return 0
 	}
 	return 0
@@ -86,126 +79,6 @@ type hookResponse struct {
 		AdditionalContext string `json:"additionalContext"`
 	} `json:"hookSpecificOutput"`
 	SystemMessage string `json:"systemMessage"`
-}
-
-func validateInstructionSize(runtime Runtime, root string) int {
-	findings, err := runtime.CheckGovernance(root)
-	if err != nil {
-		writeErr := writef(runtime.Stderr, "ERROR: %v\n", err)
-		if writeErr != nil {
-			return 1
-		}
-		return 1
-	}
-	if len(findings) == 0 {
-		err := writef(runtime.Stdout, "Governance word counts are within the %d-word limit.\n", governance.MaxWords)
-		if err != nil {
-			return 1
-		}
-		return 0
-	}
-	for _, finding := range findings {
-		// Report every over-limit document in one run so a contributor can repair
-		// the complete guidance set before retrying the hook.
-		err := writef(
-			runtime.Stderr,
-			"ERROR: %s contains %d words; the limit is %d.\n",
-			finding.Path,
-			finding.WordCount,
-			governance.MaxWords,
-		)
-		if err != nil {
-			return 1
-		}
-	}
-	guidance := "Use progressive disclosure: split detailed guidance into focused files.\n"
-	if err := writef(runtime.Stderr, "%s", guidance); err != nil {
-		return 1
-	}
-	return 1
-}
-
-// validateCapabilityParity fails when one harness exposes a capability another
-// supporting harness lacks, because an agent that exists for one tool and not
-// the next makes the repository behave differently depending on who runs it.
-func validateCapabilityParity(runtime Runtime, root string) int {
-	report, err := runtime.CheckParity(root)
-	if err != nil {
-		writeErr := writef(runtime.Stderr, "ERROR: %v\n", err)
-		if writeErr != nil {
-			return 1
-		}
-		return 1
-	}
-	if len(report.Findings) == 0 {
-		err := writef(
-			runtime.Stdout,
-			"Harness contract passed: %d %s, %d %s, %d %s, sha256:%s.\n",
-			report.Harnesses,
-			plural("harness", "harnesses", report.Harnesses),
-			report.Skills,
-			plural("skill", "skills", report.Skills),
-			report.Agents,
-			plural("agent", "agents", report.Agents),
-			report.Digest,
-		)
-		if err != nil {
-			return 1
-		}
-		return 0
-	}
-	for _, finding := range report.Findings {
-		err := writef(runtime.Stderr, "ERROR: %s\n", finding.Message())
-		if err != nil {
-			return 1
-		}
-	}
-	policy := "See repo-governance/conventions/harness-capability-parity-policy.md.\n"
-	if err := writef(runtime.Stderr, "%s", policy); err != nil {
-		return 1
-	}
-	return 1
-}
-
-func plural(singular, pluralValue string, count int) string {
-	if count == 1 {
-		return singular
-	}
-	return pluralValue
-}
-
-func validateMarkdownLinks(runtime Runtime, root string) int {
-	findings, err := runtime.CheckMarkdownLinks(root)
-	if err != nil {
-		writeErr := writef(runtime.Stderr, "ERROR: %v\n", err)
-		if writeErr != nil {
-			return 1
-		}
-		return 1
-	}
-	if len(findings) == 0 {
-		err := writef(runtime.Stdout, "Repository-local Markdown links are valid.\n")
-		if err != nil {
-			return 1
-		}
-		return 0
-	}
-	for _, finding := range findings {
-		// Source path and one-based line number make a hook failure actionable in
-		// a terminal or CI log without requiring a separate report file.
-		err := writef(
-			runtime.Stderr,
-			"ERROR: %s:%d: %q %s.\n",
-			finding.Path,
-			finding.Line,
-			finding.Destination,
-			finding.Problem,
-		)
-		if err != nil {
-			return 1
-		}
-	}
-	return 1
 }
 
 // writef propagates output failures so commands do not report success when a

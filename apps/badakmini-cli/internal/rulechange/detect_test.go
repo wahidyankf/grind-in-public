@@ -80,6 +80,22 @@ func TestHookPathsReadsEditPayload(t *testing.T) {
 	}
 }
 
+func TestHookPathsKeepsAPathItCannotMakeRelative(t *testing.T) {
+	// A harness reports an absolute path while repository discovery returned a
+	// relative root. The two cannot be related, so the path is kept as written
+	// -- where it matches no rule rather than matching the wrong one.
+	payload := []byte(`{"tool_name":"Edit","tool_input":{"file_path":"/elsewhere/AGENTS.md"}}`)
+
+	paths := HookPaths(payload, "repository")
+
+	if len(paths) != 1 || paths[0] != "/elsewhere/AGENTS.md" {
+		t.Fatalf("expected the path unchanged, got %v", paths)
+	}
+	if rules := RulePaths(paths); len(rules) != 0 {
+		t.Fatalf("expected no rule outside the repository, got %v", rules)
+	}
+}
+
 func TestHookPathsReadsAnApplyPatchPayload(t *testing.T) {
 	// Codex reports the patch itself instead of a file path, so the paths have
 	// to be read from the patch headers to detect the same change.

@@ -38,10 +38,7 @@ func TestProductionRuntimeBindsAllAdapters(t *testing.T) {
 		expected any
 	}{
 		{name: "repository discovery", actual: runtime.FindRepositoryRoot, expected: findRepositoryRoot},
-		{name: "governance", actual: runtime.CheckGovernance, expected: checkGovernance},
-		{name: "Markdown links", actual: runtime.CheckMarkdownLinks, expected: checkMarkdownLinks},
 		{name: "staged paths", actual: runtime.ListStagedPaths, expected: listStagedPaths},
-		{name: "parity", actual: runtime.CheckParity, expected: checkParity},
 	}
 	for _, binding := range bindings {
 		if reflect.ValueOf(binding.actual).Pointer() != reflect.ValueOf(binding.expected).Pointer() {
