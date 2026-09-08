@@ -21,7 +21,7 @@ For the structure, the Gherkin cardinality rule, and when specs are required, re
 ## Current Specifications
 
 Two subjects carry specifications. [Badak Mini](apps/badakmini-cli/README.md) has a canonical
-[C4 model](apps/badakmini-cli/architecture.md) and an executable five-feature corpus, consumed by unit, local
+[C4 model](apps/badakmini-cli/architecture.md) and an executable two-feature corpus, consumed by unit, local
 integration, and public-process E2E adapters. [wahidyankf-www](apps/wahidyankf-www/README.md) has its own
 [C4 model](apps/wahidyankf-www/architecture.md) and a twelve-feature corpus, consumed by Unit, local Integration, and
 browser E2E adapters. Both applications keep their public-boundary E2E harness in a dedicated project. Every adapter

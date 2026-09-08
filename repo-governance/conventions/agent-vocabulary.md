@@ -44,5 +44,5 @@ says which is meant, so a rule about deciding must say grilling-with-options and
 Keep code identifiers on the same vocabulary as the prose that documents them.
 
 Badak Mini's `harness` command group is the exception, and it stays. It names the family of harness-related checks, such
-as `harness instruction-size validate`, not the files each check reads. Renaming it would break the npm scripts and the
+as `harness rule-change validate`, not the files each check reads. Renaming it would break the npm scripts and the
 shared command grammar for no gain in clarity.

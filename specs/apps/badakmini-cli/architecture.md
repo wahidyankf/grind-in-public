@@ -51,37 +51,34 @@ local boundary; there is no network service, database, or application-owned pers
 | Caller             | -----------------> | Process entry            |
 | contributor / hook |                    | cmd/badak-mini           |
 +--------------------+                    +------------+------------+
-                                                     |
-                                                     | host adapters
-                                                     v
-                                        +-------------------------+
-                                        | Command orchestration   |
-                                        | internal/cli, Cobra     |
-                                        +------------+------------+
-                                                     |
-                 +-----------------------------------+-----------------------------------+
-                 |                                   |                                   |
-                 v                                   v                                   v
-    +------------------------+       +------------------------+       +------------------------+
-    | Governance validators  |       | Markdown-link validator |       | Harness contracts      |
-    | instruction size       |       | tracked local links     |       | parity and rule change |
-    +------------------------+       +------------------------+       +------------------------+
-                 \                                   |                                   /
-                  \                                  |                                  /
-                   +--------------------------------+---------------------------------+
-                                                    |
-                                                    | injected filesystem, Git, and stream boundary
-                                                    v
-                                       +-------------------------+
-                                       | Repository tree and Git |
-                                       +-------------------------+
+                                                       |
+                                                       | host adapters
+                                                       v
+                                          +-------------------------+
+                                          | Command orchestration   |
+                                          | internal/cli, Cobra     |
+                                          +------------+------------+
+                                                       |
+                                                       | staged paths or hook payload
+                                                       v
+                                          +-------------------------+
+                                          | Rule-change detection   |
+                                          | internal/rulechange     |
+                                          +------------+------------+
+                                                       |
+                                                       | injected filesystem, Git, and stream boundary
+                                                       v
+                                          +-------------------------+
+                                          | Repository tree and Git |
+                                          +-------------------------+
 ```
 
 `cmd/badak-mini` owns production filesystem, Git-process, and stream adapters. `internal/cli` owns Cobra command
-parsing, dispatch, output, and exit codes; its injected runtime lets unit tests replace the host boundary. The
-validation packages own their focused inspections. `internal/parity` reads canonical instructions, complete skill
-bundles, canonical agent prompts, and native adapters; it emits stable findings and a SHA-256 contract digest without
-executing harnesses or following links.
+parsing, dispatch, output, and exit codes; its injected runtime lets unit tests replace the host boundary.
+`internal/rulechange` is the only inspection package: it decides whether a staged path or a harness pre-edit payload
+names a rule, and returns the notice naming the workflows that change requires. Documentation hygiene is deliberately
+absent from this model — RHINO owns it, declared in `repo-config.yml` and listed under
+[repository checks](../../../repo-governance/development/workspace-commands.md#repository-checks).
 
 ## Architectural Constraints
 
@@ -90,8 +87,8 @@ executing harnesses or following links.
   fixtures; process E2E tests observe only the built command's public contract.
 - Text output is the human interface. Exit code `0` means success, `1` means a validation or operational failure, and
   `2` means invalid invocation.
-- Governance documents remain authoritative. Badak Mini reports structural problems and announces required workflows,
-  but it does not decide whether a workflow has been followed.
+- Governance documents remain authoritative. Badak Mini announces the workflows a rule change requires, but it does not
+  decide whether a workflow has been followed, and it never blocks the edit or commit that triggered it.
 
 ## Behaviour Traceability
 

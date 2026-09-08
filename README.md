@@ -60,8 +60,10 @@ See [the Nx workspace guide](docs/how-to/run-nx-workspace.md) for the full workf
 technology-specific Nx plugins; the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md) states
 which kinds are excluded and the one exception.
 
-[Badak Mini](apps/badakmini-cli/README.md) is a small Go CLI behind the repository checks: governance-document word
-limits, repository-local Markdown links, rule-change announcements, and harness capability parity.
+Documentation hygiene — governance-document word limits, directory maps, repository-local Markdown links, Mermaid
+diagrams, and harness capability parity — is checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI
+consumed the same checksum-pinned way as HIPPO and configured entirely by `repo-config.yml`.
+[Badak Mini](apps/badakmini-cli/README.md) is a small Go CLI that announces the workflows a rule change requires.
 [Workspace commands](repo-governance/development/workspace-commands.md) lists the `npm run check:` command for each one.
 
 Two applications live here. [Badak Mini](apps/badakmini-cli/README.md) is the Go CLI above.

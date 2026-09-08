@@ -35,11 +35,14 @@ required merely because a harness supports it; add one only after a separate rul
 
 `npm run check:harness-parity` validates exact instruction routing, canonical manifests, complete skill bundles, agent
 adapter coverage, descriptions, routes, and the repository's known native permission mappings. It rejects missing,
-extra, stale, malformed, prompt-extending, or permission-weakening adapters and competing instruction sources.
+extra, stale, malformed, prompt-extending, or permission-weakening adapters and competing instruction sources --
+including a harness settings field that carries instructions of its own.
 
-The success result reports dynamic harness, skill, and agent counts plus a SHA-256 digest over normalized canonical
-instruction, skill, and agent content in ordinal path order. Findings are stable and path-specific. The validator is
-read-only, network-free, process-free, and excludes links, generated trees, user-global state, and local overrides.
+The roster, the routes, the declaration field names, and the prohibited sources are all declared in `repo-config.yml`
+rather than compiled in, so adding a fourth harness is a configuration entry. The success result reports dynamic
+harness, skill, and agent counts plus a SHA-256 digest over normalized canonical content. Findings are stable and
+path-specific. The validator is read-only, network-free, process-free, and excludes generated trees, user-global state,
+and local overrides.
 
 Follow [Harness Alignment](../workflows/harness-alignment.md) for the canonical edit, adapter reconciliation,
 verification, and recovery sequence.

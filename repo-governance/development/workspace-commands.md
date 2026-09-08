@@ -33,7 +33,7 @@ Narrower runs — prefix each with `rtk ./hippo run --class ephemeral --disk-pat
 `# transactional`, which take `--class transactional`:
 
 ```sh
-go -C apps/badakmini-cli test ./internal/governance -run TestName
+go -C apps/badakmini-cli test ./internal/rulechange -run TestName
 npm exec -- nx run badakmini-cli:test:unit
 npm exec -- nx run badakmini-cli:test:integration
 npm exec -- nx run badakmini-cli:test:coverage:unit
@@ -76,6 +76,7 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
   permission mappings, and the stable content digest.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
+- `npm run check:hygiene` runs all six hygiene validators in one pass.
 - `npm run check:project-contract` validates the deterministic four-project owner/E2E descriptor contract.
 - `npm run check:workflow-contract` validates stable authorization, terminal-result, convergence, and TDD-evidence
   tokens without attempting semantic review.
@@ -89,8 +90,10 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm audit --audit-level=low` checks the locked dependency tree, and `npm run check:go-vulnerabilities` scans the Go
   module dependencies.
 
-[Badak Mini](../../apps/badakmini-cli/README.md) implements the repository `check:` commands. When a check fails, read
-the [Badak Mini policy](badakmini-cli-policy.md) before changing it; the usual fix is the document, not the checker.
+[RHINO](https://github.com/wahidyankf/rhino) implements the hygiene checks from `repo-config.yml`, through the `./rhino`
+consumer pinned in `rhino.lock`; [Badak Mini](../../apps/badakmini-cli/README.md) implements `check:rule-change`. When a
+check fails the usual fix is the document, not the checker; read the [Badak Mini policy](badakmini-cli-policy.md) before
+changing that CLI.
 
 ## Hooks
 

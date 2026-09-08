@@ -1,5 +1,5 @@
 ---
-tldr: "Defines Badak Mini's role as the repository-local validation CLI."
+tldr: "Defines Badak Mini's role as the repository-local validation CLI, and what it deliberately does not own."
 when_to_use: "Use when adding or changing recurring repository validation checks."
 ---
 
@@ -8,9 +8,12 @@ when_to_use: "Use when adding or changing recurring repository validation checks
 ## Scope
 
 Badak Mini is this repository's small Go CLI for repository-local validation. Cobra owns its command tree, while its
-production validators use only the standard library. Its production code owns recurring checks that protect repository
-health, such as instruction-size and Markdown-link validation; pinned Go `tool` dependencies support development
-validation only.
+production validators use only the standard library; pinned Go `tool` dependencies support development validation only.
+
+It owns rule-change announcement and nothing else. Documentation hygiene -- word budgets, directory maps, internal
+links, Mermaid, and harness parity -- belongs to [RHINO](https://github.com/wahidyankf/rhino), declared in
+`repo-config.yml`. A check that reads documents is a RHINO configuration entry, not a new Badak Mini command; the rules
+below apply to what remains.
 
 ## Rules
 
