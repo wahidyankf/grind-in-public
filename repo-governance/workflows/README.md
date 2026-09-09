@@ -38,6 +38,8 @@ link to related governance guidance instead of duplicating it.
 - [Red-Green-Refactor](red-green-refactor.md) defines the evidenced TDD cycle for application and library behaviour.
 - [Plan Execution](plan-execution.md) executes a plan phase by phase, delivering to `main` at each gate, then archives
   it.
+- [Dev Artifact Clean-Up](dev-artifact-clean-up.md) removes exactly the development artifacts one piece of work created
+  — its regenerable build output — and leaves local `main` level with `origin/main`.
 
 Plan Planning and Plan Execution keep detail in [`plan-planning/`](plan-planning/README.md) and
 [`plan-execution/`](plan-execution/README.md).
