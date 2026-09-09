@@ -33,6 +33,11 @@ the sequence. Do not number children that are consulted individually, such as th
 asserts a sequence that does not exist, and it forces a renumber every time a rule is added. The directory's README
 carries whatever order helps a reader.
 
+**Number in three digits.** A `NN-` prefix is written zero-padded to three digits: `001-inventory.md`, never `01-` or
+`1-`. The sibling repositories number the ordered companions of a split document at the same width, so one
+workspace-wide width means a reader never has to remember which repository they are in. The width is not permission to
+number: a child that is consulted individually still takes a plain name.
+
 **Match the directory to the document it splits.** A child directory takes its parent document's name without the
 extension, so `plans-organization-policy.md` splits into `plans-organization-policy/`. A reader who sees one can predict
 the other.

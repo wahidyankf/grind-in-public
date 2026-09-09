@@ -10,7 +10,7 @@ Detail behind the [harness-alignment](../harness-alignment.md) workflow. Filenam
 
 ## Contents
 
-- [Inventory](01-inventory.md) — the commands that enumerate the instruction files, configs, subagents, and skills.
-- [Instruction Routing](02-derivative-comparison.md) — the exact-import, command, path, and authority checks.
-- [Capability and Config Parity](03-capability-and-config-parity.md) — the canonical agent, skill-adapter, config, and
+- [Inventory](001-inventory.md) — the commands that enumerate the instruction files, configs, subagents, and skills.
+- [Instruction Routing](002-derivative-comparison.md) — the exact-import, command, path, and authority checks.
+- [Capability and Config Parity](003-capability-and-config-parity.md) — the canonical agent, skill-adapter, config, and
   index comparisons.

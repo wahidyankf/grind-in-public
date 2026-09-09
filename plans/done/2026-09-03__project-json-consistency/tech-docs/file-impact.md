@@ -139,7 +139,7 @@ causes are Phase 3 consequences the plan did not foresee at the path level, and 
 
 These two are the execution record rather than the work, and they carry a label here because Phase 4 reconciles every
 labelled path against the delivery diff and would otherwise read them as paths the plan touched without saying so.
-[The execution workflow](../../../../repo-governance/workflows/plan-execution/03-gates-and-pushes.md) stages a phase's
+[The execution workflow](../../../../repo-governance/workflows/plan-execution/003-gates-and-pushes.md) stages a phase's
 ticked checkboxes and any `learnings.md` entries with that phase's work, so both appear inside the Phase 0 to Phase 3
 range that Phase 4 reconciles. The Phase 4 folder move below carries both to the archive, and that move is labelled
 once, on the directory.

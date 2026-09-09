@@ -28,7 +28,7 @@ Before writing anything, be able to state:
 
 ## Name the Unknowns
 
-List every question the repository could not answer. These become the grilling agenda in [02 Grilling](02-grilling.md).
+List every question the repository could not answer. These become the grilling agenda in [02 Grilling](002-grilling.md).
 Distinguish two kinds: a fact that more reading would settle, which is still exploration, and a decision only the owner
 can make, which is a question.
 

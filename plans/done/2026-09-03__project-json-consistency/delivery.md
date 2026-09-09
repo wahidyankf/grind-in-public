@@ -955,18 +955,18 @@ discarded with a reason.
       commit in this repository's history, so a `--grep` anchor is ambiguous — acceptance: every path the document
       labels under Phase 1, Phase 2, or Phase 3 appears in the diff with the labelled operation, and every path in the
       diff appears in the document. This plan's own documents appear in the diff too, and that is expected rather than a
-      failure: [the execution workflow](../../../repo-governance/workflows/plan-execution/03-gates-and-pushes.md) stages
-      each phase's ticked checkboxes and any `learnings.md` entries with that phase's work, so `delivery.md` appears in
-      every commit in the range and `learnings.md` in each phase whose items wrote an entry. Both are labelled in the
-      document's own Plan Documents section, which states that expectation. The document's Phase 4 rows sit outside the
-      range by design: `plans/done/README.md` and the folder move land in the archival commit at the end of this phase,
-      and `plans/in-progress/README.md` is edited at the Phase 0 end — or was already committed before execution began,
-      as Phase 0's first commit item allows — and again in that archival commit. Its Not Touched entries, `nx.json` and
-      the gitignored `local-tmp/` evidence among them, must appear in neither. - Reconciled over `d57fc82..0dc890c`,
-      both SHAs read from the Execution Record. Three paths appeared in the diff unlabelled and are now labelled with
-      the reason each arose; every Not Touched path is absent. Two labels cannot be read back out of an end-to-end range
-      — the Phase 1 edit to the deleted `wahidyankf-www-e2e/project.json`, and the `[M]` plus `[E]` on
-      `playwright.config.ts` that Git reports as one `R087` — and `file-impact.md` now says so.
+      failure: [the execution workflow](../../../repo-governance/workflows/plan-execution/003-gates-and-pushes.md)
+      stages each phase's ticked checkboxes and any `learnings.md` entries with that phase's work, so `delivery.md`
+      appears in every commit in the range and `learnings.md` in each phase whose items wrote an entry. Both are
+      labelled in the document's own Plan Documents section, which states that expectation. The document's Phase 4 rows
+      sit outside the range by design: `plans/done/README.md` and the folder move land in the archival commit at the end
+      of this phase, and `plans/in-progress/README.md` is edited at the Phase 0 end — or was already committed before
+      execution began, as Phase 0's first commit item allows — and again in that archival commit. Its Not Touched
+      entries, `nx.json` and the gitignored `local-tmp/` evidence among them, must appear in neither. - Reconciled over
+      `d57fc82..0dc890c`, both SHAs read from the Execution Record. Three paths appeared in the diff unlabelled and are
+      now labelled with the reason each arose; every Not Touched path is absent. Two labels cannot be read back out of
+      an end-to-end range — the Phase 1 edit to the deleted `wahidyankf-www-e2e/project.json`, and the `[M]` plus `[E]`
+      on `playwright.config.ts` that Git reports as one `R087` — and `file-impact.md` now says so.
 - [x] [AI] Give a dated, evidence-backed disposition to the first of this plan's two conditional items: the Phase 1
       checklist item that restores the `tests/e2e` input if the cache probe over
       `apps/badakmini-cli/tests/e2e/README.md` hits the cache instead of missing it — acceptance: it records either the

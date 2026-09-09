@@ -13,7 +13,7 @@ archived in `plans/done/`.
 ## When to Use
 
 Use it when a plan is ready to run. Resuming an interrupted plan uses this workflow too, starting from
-[resuming](plan-execution/04-finalization.md#resuming).
+[resuming](plan-execution/004-finalization.md#resuming).
 
 ## Prerequisites
 
@@ -25,14 +25,14 @@ authorized before running any checklist item, per the
 
 ## Steps
 
-1. [Materialize the checklist into the harness task list](plan-execution/01-task-list-sync.md), one task per checkbox.
+1. [Materialize the checklist into the harness task list](plan-execution/001-task-list-sync.md), one task per checkbox.
 2. Run Phase 0 and record the baseline: dependencies installed, gates green before anything changes.
-3. [Work the current phase](plan-execution/02-phase-loop.md) item by item, in checklist order, ticking each only after
+3. [Work the current phase](plan-execution/002-phase-loop.md) item by item, in checklist order, ticking each only after
    its change exists.
-4. [Pass the phase gate, then deliver](plan-execution/03-gates-and-pushes.md) to `main` only when commit and push are
+4. [Pass the phase gate, then deliver](plan-execution/003-gates-and-pushes.md) to `main` only when commit and push are
    separately authorized. Do not begin the next phase while a gate or required delivery item fails.
 5. Repeat until the last delivery phase is complete.
-6. [Run Knowledge Capture and archive](plan-execution/04-finalization.md) the plan to `plans/done/`.
+6. [Run Knowledge Capture and archive](plan-execution/004-finalization.md) the plan to `plans/done/`.
 
 ## Verification
 
