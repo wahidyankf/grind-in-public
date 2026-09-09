@@ -26,6 +26,8 @@ link to related governance guidance instead of duplicating it.
   thematic commit.
 - [Rules Quality Gate](rules-quality-gate.md) runs only on explicit owner direction and cannot end blocked; every
   non-pass hands its ledger to Rules Propagation.
+- [Rules Grooming](rules-grooming.md) runs only on explicit owner direction, never writes, and hands each approved
+  reduction to Rules Propagation.
 - [Plan Planning](plan-planning.md) turns a described change into a validated five-core-document plan under `plans/`.
 - [Plan Quality Gate](plan-quality-gate.md) runs only on explicit owner direction and uses a frozen snapshot and finite
   ledger to return one bounded semantic verdict after at most two cycles.
