@@ -50,22 +50,26 @@ The list must describe the present, not a plan written once and abandoned:
 - Update the list as each item resolves. Marking several items complete in one batch at the end reports a state that was
   never observed.
 
+## New Direction Mid-Task
+
+New, follow-on, or changed direction reaches the list before it reaches the work. Read it against every open item first:
+some are now wrong, some are superseded, some are unaffected, and the direction usually implies more than one new item.
+Record that reconciliation, then continue.
+
+This is not the discovered-work rule above. Discovery is found by the actor and only ever adds to the list; direction is
+given to it and can invalidate items already on it. Only the second can make an open item wrong, so appending the new
+work without re-reading the old is insufficient.
+
+Acting first and updating afterwards produces a list describing the task as it was requested rather than as it is being
+performed, which is the state the list exists to prevent. The reconciliation is also where a contradiction between old
+and new direction becomes visible; carrying both silently resolves it by accident, and the resolution is never recorded
+as the decision it was.
+
 ## Concurrent Ownership
 
-More than one task can be working this repository at once — a second harness, a second session, or the owner editing by
-hand — and `plans/`, `repo-governance/`, and the harness directories are where they collide, because those are the files
-every task reaches for.
-
-Refresh the state of those areas before relying on or editing them. Re-read the document rather than trusting what the
-task list says about it, since a list records what was intended and the file records what is there.
-
-Treat a change you do not recognize as another task's work, not as an error. Preserve it and reconcile around it: do not
-revert it, do not overwrite it, and do not fold it into your own commit. When it genuinely conflicts with what you were
-asked to do, that is a decision rather than a merge, and it goes to the owner under the
-[grilling-with-options policy](grilling-with-options-policy.md).
-
-A task list grants no authority over any of this. It records intended work; committing and pushing it remain governed by
-the [commit hook policy](../development/commit-hook-policy.md).
+More than one task can be working this repository at once, and `plans/`, `repo-governance/`, and the harness directories
+are where they collide. Refresh those areas before relying on or editing them, and reconcile around another task's edits
+rather than reverting them. See [concurrent ownership](task-tracking-policy/concurrent-ownership.md).
 
 ## Why
 
