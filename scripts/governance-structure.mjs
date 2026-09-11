@@ -3,6 +3,26 @@ import path from "node:path";
 
 const governedTrees = ["docs", "repo-governance", "scripts", "plans", "specs"];
 
+// Trees whose contents this repository consumes rather than authors. The
+// publication screen under scripts/public-safety is one shared layer, kept
+// byte-identical across every repository that publishes so that a finding in
+// one means the same thing in all of them. Holding it to this repository's
+// index rule would mean editing files whose whole value is that they are not
+// edited here. A missing README costs less than a forked safety gate.
+//
+// Prefixes, matched on path segments: a directory is vendored when it is one
+// of these or lives beneath one. Matching on name alone would silently exempt
+// any future directory that happened to be called the same thing.
+const vendoredTrees = ["scripts/public-safety"];
+
+/** True when the directory is consumed from elsewhere rather than authored here. */
+export function isVendoredDirectory(relativeDirectory) {
+  const normalized = normalizedLinkTarget(relativeDirectory);
+  return vendoredTrees.some(
+    (tree) => normalized === tree || normalized.startsWith(`${tree}/`),
+  );
+}
+
 function normalizedLinkTarget(target) {
   return target.replaceAll("\\", "/").replace(/\/$/u, "");
 }
@@ -44,6 +64,7 @@ export function validateGovernanceFrontmatter(resourceName, source) {
 }
 
 async function inspectTree(workspaceRoot, relativeDirectory, findings) {
+  if (isVendoredDirectory(relativeDirectory)) return;
   const absoluteDirectory = path.join(workspaceRoot, relativeDirectory);
   const entries = await readdir(absoluteDirectory, { withFileTypes: true });
   const readmePath = path.join(absoluteDirectory, "README.md");

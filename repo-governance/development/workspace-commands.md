@@ -70,13 +70,11 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 
 ## Repository Checks
 
-- `npm run check:governance` enforces the [document word limit policy](../conventions/document-word-limit-policy.md),
-  which sets the limit and names every document it governs.
-- `npm run check:harness-parity` validates canonical instructions, complete skill bundles, custom-agent adapters,
-  permission mappings, and the stable content digest.
+- `npm run check:hygiene` is `./rhino gate run --surface ci`, which runs every gate that surface declares.
+- `npm run check:governance` enforces the [document word limit policy](../conventions/document-word-limit-policy.md).
+- `npm run check:harness-parity` validates instructions, skills, agent adapters, and the digest.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
-- `npm run check:hygiene` runs all six hygiene validators in one pass.
 - `npm run check:project-contract` validates the deterministic four-project owner/E2E descriptor contract.
 - `npm run check:workflow-contract` validates stable authorization, terminal-result, convergence, and TDD-evidence
   tokens without attempting semantic review.
@@ -90,14 +88,17 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm audit --audit-level=low` checks the locked dependency tree, and `npm run check:go-vulnerabilities` scans the Go
   module dependencies.
 
-[RHINO](https://github.com/wahidyankf/rhino) implements the hygiene checks from `repo-config.yml`, through the `./rhino`
-consumer pinned in `rhino.lock`; [Badak Mini](../../apps/badakmini-cli/README.md) implements `check:rule-change`. When a
-check fails the usual fix is the document, not the checker; read the [Badak Mini policy](badakmini-cli-policy.md) before
-changing that CLI.
+[RHINO](https://github.com/wahidyankf/rhino) implements the checks and the gate dispatch from `repo-config.yml`, through
+the `./rhino` consumer pinned in `rhino.lock`; [Badak Mini](../../apps/badakmini-cli/README.md) implements
+`check:rule-change`. When a check fails the usual fix is the document, not the checker; read the
+[Badak Mini policy](badakmini-cli-policy.md) before changing that CLI.
 
 ## Hooks
 
-Pre-commit formats staged files and automatically triggers applicable rule workflows. Pre-push requires `origin/main`,
-runs affected `test:quick` targets within HIPPO's fixed allocation with Nx Cloud disabled, conditionally runs guarded
-`test:repo` for repository-mechanism changes, and always validates Markdown links through the guard. See the
+Each hook dispatches a declared surface rather than listing checks, so what runs is read from `repo-config.yml`.
+`public-safety` is first on every surface, because this repository publishes.
+
+Commit-msg screens and lints the message. Pre-commit screens and formats the staged tree, then triggers applicable rule
+workflows. Pre-push additionally requires `origin/main`, runs affected `test:quick` targets within HIPPO's fixed
+allocation with Nx Cloud disabled, and conditionally runs guarded `test:repo`. See the
 [commit hook policy](commit-hook-policy.md).

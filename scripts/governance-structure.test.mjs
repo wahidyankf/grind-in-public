@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  isVendoredDirectory,
   validateDirectoryIndex,
   validateGovernanceFrontmatter,
 } from "./governance-structure.mjs";
@@ -41,4 +42,21 @@ test("governance document requires routing frontmatter", () => {
       "# Rule\n",
     )[0]?.includes("missing"),
   );
+});
+
+test("a vendored directory is not held to this repository's index rule", () => {
+  // The publication screen under scripts/public-safety is not written here. It
+  // is one shared layer, kept byte-identical across every repository that
+  // publishes, so a finding in one of them means the same thing in all of them.
+  // Adding indexes this repository happens to want would fork that copy, and a
+  // forked safety layer is worth less than a missing README.
+  assert.equal(isVendoredDirectory("scripts/public-safety"), true);
+  assert.equal(isVendoredDirectory("scripts/public-safety/tests"), true);
+  assert.equal(isVendoredDirectory("scripts/public-safety/tests/cases"), true);
+
+  // The exclusion is a named path, not a name anywhere. A directory that merely
+  // ends with the same word is this repository's own and stays governed.
+  assert.equal(isVendoredDirectory("scripts"), false);
+  assert.equal(isVendoredDirectory("docs/public-safety"), false);
+  assert.equal(isVendoredDirectory("scripts/public-safety-notes"), false);
 });

@@ -1,7 +1,17 @@
 set -e
 
-# Run cached quick quality gates for every project affected since origin/main.
-# Repository-mechanism changes additionally run the complete deterministic repository gate.
+# The last local moment before anything reaches the remote, which for a public
+# repository is the moment publication begins.
+#
+# Git supplies the ref updates on stdin, and two consumers want them: the
+# declared `pre-push` surface, whose safety gate screens the refs and the
+# commit messages about to be published, and the loop below, which decides
+# which projects are affected. A pipe can only be drained once, so it is read
+# once into a variable and each consumer is fed from that. Whichever ran first
+# would otherwise leave the second reading an empty stream and reporting a
+# clean pass over nothing.
+ref_updates=$(cat)
+
 ZERO_SHA="0000000000000000000000000000000000000000"
 # Git represents a newly created remote ref with the all-zero object ID. Its
 # empty tree lets git diff evaluate the first push using normal range logic.
@@ -16,10 +26,24 @@ if ! git rev-parse --verify --quiet origin/main >/dev/null; then
 	exit 1
 fi
 
+# Screen first. Git's own arguments are deliberately not forwarded: arguments
+# after `--` reach every gate on the surface, and nothing here takes a remote
+# name or a URL. What the safety gate reads is the ref-update lines, which
+# arrive on stdin either way -- and the guard passes stdin through, so the
+# admission boundary that repository checks run behind costs nothing here.
+printf '%s\n' "$ref_updates" | ./hippo run --class ephemeral --disk-path . -- \
+	./rhino gate run --surface pre-push
+
 # Git provides: local ref, local SHA, remote ref, and remote SHA for each ref
 # update. Each non-deletion is checked against the mainline baseline, while the
-# governance check remains scoped to its own pushed range.
+# governance check remains scoped to its own pushed range. The heredoc keeps
+# the loop in this shell, so SHOULD_CHECK_REPO survives it.
 while read -r local_ref local_sha remote_ref remote_sha; do
+	if [ -z "$local_ref" ]; then
+		# The capture ends in a newline, so the last read yields a blank line.
+		continue
+	fi
+
 	if [ "$local_sha" = "$ZERO_SHA" ]; then
 		# A deletion has no local commit to inspect or validate.
 		continue
@@ -39,18 +63,15 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 	if ! git diff --quiet "$base_sha" "$local_sha" -- \
 		AGENTS.md CLAUDE.md RTK.md repo-governance specs scripts .github .husky \
 		.claude .codex .opencode .agents package.json nx.json 'apps/*/project.json' \
+		repo-config.yml rhino rhino.lock \
 		hippo hippo.lock hippo.local.json.example; then
 		SHOULD_CHECK_REPO=1
 	fi
-
-done
+done <<REFS
+$ref_updates
+REFS
 
 if [ "$SHOULD_CHECK_REPO" -eq 1 ]; then
 	NX_NO_CLOUD=true ./hippo run --class ephemeral --disk-path . -- \
 		npm exec -- nx run -p badakmini-cli -t test:repo
 fi
-
-# Link targets elsewhere can break when any file is moved or deleted, so this
-# whole-repository check deliberately runs for every push.
-NX_NO_CLOUD=true ./hippo run --class ephemeral --disk-path . -- \
-	./rhino md internal-link validate

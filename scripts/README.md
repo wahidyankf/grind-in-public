@@ -25,3 +25,6 @@ repository validation.
   authorization, convergence, and TDD-evidence tokens without judging semantic quality.
 - [check-workflow-contract.mjs](check-workflow-contract.mjs) loads the canonical workflow documents and reports sorted
   contract findings.
+- [public-safety/](public-safety/README.md) is the publication screen this repository runs first on every gate surface.
+  It is not repository-local automation like the rest of this directory: the same layer, byte for byte, runs in the
+  other repositories that publish, so a finding here means the same thing it means there.

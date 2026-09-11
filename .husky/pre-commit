@@ -1,6 +1,7 @@
-# Format only staged supported files so a commit cannot accidentally include
-# unrelated working-tree formatting changes.
-npx lint-staged
+# Format staged files and screen them before anything is recorded. The surface
+# declares the order: the safety gate runs before the formatter, so a staged
+# leak is refused rather than tidied.
+./rhino gate run --surface pre-commit
 
 # Automatically trigger Rules Propagation whenever the staged change touches a
 # rule. This runs for every editor and agent, so the workflow does not depend on

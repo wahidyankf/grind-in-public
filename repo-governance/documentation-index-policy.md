@@ -17,11 +17,17 @@ A harness directory holds tool configuration rather than prose, so its README in
 what each entry does. The `tldr` and `when_to_use` requirement below does not apply there, because those files carry the
 frontmatter their tool defines.
 
-Two exemptions apply. A skill directory needs none: its `SKILL.md` names the skill and when to use it, and
+Three exemptions apply. A skill directory needs none: its `SKILL.md` names the skill and when to use it, and
 `skills/README.md` registers it. Second, a harness registers some directories by filename, so an index placed there
 becomes a command or an agent; add the README only where the tool ignores it or offers a flag that keeps it inert, and
 otherwise index that directory from its parent. The [agent harness support policy](conventions/agent-harness-support.md)
 records the verified behaviour per directory; check it, and test the tool, first.
+
+Third, a vendored tree is indexed from its parent and not within. `scripts/public-safety/` is one shared publication
+screen, kept byte-identical across every repository that publishes so a finding in one means the same thing in all of
+them; adding indexes here would fork that copy for the sake of a README. `scripts/README.md` registers the directory and
+says where it comes from. `scripts/governance-structure.mjs` names the exempt prefixes, so adding another is a
+deliberate edit with a test beside it rather than a silent gap.
 
 ## Required Indexing
 

@@ -1,3 +1,7 @@
-# Delegate the staged message file to Commitlint so the hook validates exactly
-# what Git will commit, including messages created by non-interactive commands.
-npx --no -- commitlint --edit "$1"
+# The message being written is the first thing that can leave this repository,
+# because it is published with the commit that carries it.
+#
+# Arguments after `--` reach every gate on the surface, which is correct here
+# and only here: both gates on `commit-msg` want the same message file. The
+# safety screen reads it as outbound text and Commitlint reads it as a message.
+exec ./rhino gate run --surface commit-msg -- "$1"
