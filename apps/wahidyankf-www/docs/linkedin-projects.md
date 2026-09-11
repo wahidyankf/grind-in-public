@@ -48,6 +48,7 @@ I am building BeaverNest, an early-stage, self-owned personal operating layer fo
 ## Publishing Notes
 
 - Use the project URL field for the public repository; do not put multiple raw URLs in the description.
-- Do not mention or link `ose-private` in LinkedIn. It is not a public project.
+- Link only repositories that are already public. A private repository is not named, linked, or described in a
+  LinkedIn entry, and it is not named here either — a note saying "do not publish X" publishes X.
 - Replace the current outdated OSE link in `cv-linkedin.md` (`open-sharia-enterprise`) with `ose-public` when these entries are ready to publish.
 - Confirm BeaverNest's project start date before creating its LinkedIn entry.

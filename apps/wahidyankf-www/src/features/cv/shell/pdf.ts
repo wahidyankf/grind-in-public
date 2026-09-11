@@ -1,8 +1,10 @@
 import PDFDocument from "pdfkit";
 import type { CvPdfDocumentModel, CvPdfSection } from "../core/pdf";
 
-// Matches the color palette used by the reference ATS resume in
-// wkf-knowledge/career-materials/generate-cv-ats-pdf.py.
+// The ATS resume palette, and the whole of it: navy for section headings,
+// gray for secondary lines, black for body text. These values are held here
+// rather than imported, so changing one is a deliberate divergence from the
+// printed resume rather than a sync with it.
 const COLORS = {
   navy: "#1F4E79",
   gray: "#6B7280",
