@@ -27,7 +27,9 @@ run() {
 run ./rhino gate run --surface ci
 
 # The repository's own mechanisms: each validator paired with the unit tests
-# that prove the validator itself still discriminates.
+# that prove the validator itself still discriminates. The rule-change notice
+# is the exception: it is a reporting check, so running it here would announce
+# this run's own staged tree. Its entrypoint is driven by a test instead.
 run node --test scripts/project-contract.test.mjs
 run node scripts/check-project-contract.mjs
 run node --test scripts/governance-structure.test.mjs
@@ -35,6 +37,7 @@ run node scripts/check-governance-structure.mjs
 run node --test scripts/workflow-contract.test.mjs
 run node scripts/check-workflow-contract.mjs
 run node --test scripts/rule-change.test.mjs
+run node --test scripts/check-rule-change.test.mjs
 
 # The two contracts that can only be checked by running the real thing.
 run ./.github/scripts/test-hippo-bootstrap.sh

@@ -65,7 +65,7 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm run check:harness-parity` validates instructions, skills, agent adapters, and the digest.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
-- `npm run check:project-contract` validates the deterministic four-project owner/E2E descriptor contract.
+- `npm run check:project-contract` validates the deterministic owner/E2E descriptor contract for every declared pair.
 - `npm run check:workflow-contract` validates stable authorization, terminal-result, convergence, and TDD-evidence
   tokens without attempting semantic review.
 - `npm run test:repo` runs every deterministic repository mechanism, including directory maps and frontmatter.

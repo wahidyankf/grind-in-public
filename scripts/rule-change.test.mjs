@@ -19,6 +19,10 @@ import test from "node:test";
 // which would collapse every behaviour below into one failure and prove only
 // that a file is missing. Loading per case keeps each behaviour answerable on
 // its own, before the successor exists and after.
+//
+// Each scenario also says the *command* succeeds. That half is a property of
+// the entrypoint rather than of anything here, and it is proven beside it in
+// `check-rule-change.test.mjs`.
 async function load() {
   return import("./rule-change.mjs");
 }
