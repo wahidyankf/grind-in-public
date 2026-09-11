@@ -28,7 +28,11 @@ link to related governance guidance instead of duplicating it.
   non-pass hands its ledger to Rules Propagation.
 - [Rules Grooming](rules-grooming.md) runs only on explicit owner direction, never writes, and hands each approved
   reduction to Rules Propagation.
-- [Plan Planning](plan-planning.md) turns a described change into a validated five-core-document plan under `plans/`.
+- [Plan Ideas Grooming](plan-ideas-grooming.md) gives every brief in `plans/ideas/` one disposition, with a reason for
+  every keep and retire.
+- [Plan Backlog Grooming](plan-backlog-grooming.md) re-judges every backlog plan against the current repository and
+  orders the survivors.
+- [Plan Planning](plan-planning.md) turns a described change into a validated six-document plan under `plans/`.
 - [Plan Quality Gate](plan-quality-gate.md) runs only on explicit owner direction and uses a frozen snapshot and finite
   ledger to return one bounded semantic verdict after at most two cycles.
 - [Gherkin Implementation Review](gherkin-implementation-review.md) inspects each expanded scenario and applicable
@@ -38,11 +42,18 @@ link to related governance guidance instead of duplicating it.
 - [Red-Green-Refactor](red-green-refactor.md) defines the evidenced TDD cycle for application and library behaviour.
 - [Plan Execution](plan-execution.md) executes a plan phase by phase, delivering to `main` at each gate, then archives
   it.
+- [Plan Execution Check](plan-execution-check.md) judges finished execution in a fixed order and returns one terminal
+  verdict that archival depends on.
 - [Dev Artifact Clean-Up](dev-artifact-clean-up.md) removes exactly the development artifacts one piece of work created
   — its regenerable build output — and leaves local `main` level with `origin/main`.
 
 Plan Planning and Plan Execution keep detail in [`plan-planning/`](plan-planning/README.md) and
 [`plan-execution/`](plan-execution/README.md).
+
+These seven — ideas grooming, backlog grooming, planning, execution, the quality gate, the execution check, and artifact
+clean-up — are the complete lifecycle roster named in
+[Workflows and Skills](../conventions/plans-organization-policy/006-workflows-and-skills.md). A missing one is a gap in
+the lifecycle, not a preference.
 
 ## Workflow Template
 

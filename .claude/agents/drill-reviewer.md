@@ -3,7 +3,7 @@ name: drill-reviewer
 description:
   Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality. Use it after
   solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution.
-tools: Read, Grep, Glob, Bash
+tools: Read, Glob, Grep, Bash
 model: inherit
 ---
 

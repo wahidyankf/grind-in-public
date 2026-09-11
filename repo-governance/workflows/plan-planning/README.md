@@ -12,5 +12,5 @@ Detail behind the [plan-planning](../plan-planning.md) workflow. Filenames are n
 
 - [01 Exploration](001-exploration.md) — what to read before asking the owner anything.
 - [02 Grilling](002-grilling.md) — resolving open decisions with structured options.
-- [03 Plan Authoring](003-plan-authoring.md) — writing the five core documents.
+- [03 Plan Authoring](003-plan-authoring.md) — writing the six documents.
 - [04 Structural Review](004-structural-review.md) — the checks that run before the quality gate.

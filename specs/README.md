@@ -17,6 +17,7 @@ For the structure, the Gherkin cardinality rule, and when specs are required, re
 ## Directory Map
 
 - [Applications](apps/README.md) — the per-application C4 models and behaviour corpora.
+- [Fixtures](fixtures/README.md) — synthetic validator corpora, including the shared plan-structure corpus.
 
 ## Current Specifications
 

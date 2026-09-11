@@ -10,8 +10,8 @@ gate focused on judgment rather than on missing headings.
 
 ## Checks
 
-1. **Five core documents exist** — `README.md`, `brd.md`, `prd.md`, `tech-docs/README.md`, and `delivery.md`, in one
-   folder named per the [plan naming rules](../../conventions/plans-organization-policy/plan-naming.md).
+1. **Six documents exist** — `README.md`, `brd.md`, `prd.md`, the technical shape, `delivery.md`, and `learnings.md`, in
+   one folder named per the [slug rules](../../conventions/plans-organization-policy/001-lifecycle-and-folders.md).
 2. **Scope names projects by path** — `README.md` states which projects the plan touches, not a vague area.
 3. **Every checkbox is one action** — no checkbox hides two verbs.
 4. **Every checkbox names a path, a command, and an acceptance criterion**, or explains why one does not apply.

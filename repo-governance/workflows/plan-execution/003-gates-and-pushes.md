@@ -15,7 +15,7 @@ that was run earlier in the phase: the gate exists to prove the phase's combined
 If a gate item fails, fix it inside this phase. Do not start the next phase, and do not mark the gate passed with an
 exception noted. Add a dated Execution Record line for the pass or the failure either way, since a gate that failed and
 was fixed is exactly the history the record exists to keep. The
-[phase and gate rules](../../conventions/plans-organization-policy/phases-and-gates.md) hold the shape.
+[phase and gate rules](../../conventions/plans-organization-policy/011-phases-and-gates.md) hold the shape.
 
 ## Delivering to Main
 

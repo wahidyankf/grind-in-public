@@ -1,3 +1,8 @@
 # Machine-local working area, gitignored and never reviewed. Formatting it
 # churns gate logs and recovery scratch files for no reader.
 local-tmp/
+
+# The shared plan-structure fixture corpus. Other repositories verify these
+# exact bytes by digest, so a reformat here is not cosmetic -- its first
+# visible effect is two validators disagreeing for a reason unrelated to either.
+specs/fixtures/plan-structure/

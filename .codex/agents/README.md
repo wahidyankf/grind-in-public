@@ -10,6 +10,12 @@ Codex discovers these agents automatically from this directory. It reads only `*
 - [`repo-explorer.toml`](repo-explorer.toml) — read-only explorer that reports where code, tests, documentation, and
   governance rules live. Use it to locate things or check which rule applies before making a change; it never edits
   anything.
+- [`plan-maker.toml`](plan-maker.toml) — authors a formal plan end to end, runs both decision gates, and repairs its own
+  draft within the declared budget. Use it when a plan is requested and no draft exists.
+- [`plan-checker.toml`](plan-checker.toml) — audits a complete draft against the plan specification and returns findings
+  with a terminal verdict. It modifies nothing.
+- [`plan-execution-checker.toml`](plan-execution-checker.toml) — audits finished execution in fixed order and returns
+  the verdict that permits or blocks archival.
 
 Each file is a native adapter to the canonical role in [`.agents/agents/`](../../.agents/agents/README.md). Claude and
 opencode provide their own adapters; see the

@@ -1,17 +1,17 @@
 # Evidence
 
 Command output and measurements this plan's `delivery.md` items produce and later items read back. The
-[five-document structure](../../../../repo-governance/conventions/plans-organization-policy/five-document-structure.md)
+[five-document structure](../../../../repo-governance/conventions/plans-organization-policy/003-required-documents.md)
 names this directory for exactly that, which keeps [`learnings.md`](../learnings.md) to what
-[knowledge capture](../../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) defines it
-as: one short paragraph per surprise, wrong assumption, or rule that failed to prevent what it targets.
+[knowledge capture](../../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md)
+defines it as: one short paragraph per surprise, wrong assumption, or rule that failed to prevent what it targets.
 
 The split is not bookkeeping. Phase 7 triages every `learnings.md` entry to exactly one durable home, and a pasted `rg`
 result has no durable home to reach. Raw output belongs here, where a later phase can read it; the lesson drawn from it,
 if any, belongs in `learnings.md`.
 
 Two rules bind every file here, both from
-[plan document safety](../../../../repo-governance/conventions/plans-organization-policy/plan-document-safety.md),
+[plan document safety](../../../../repo-governance/conventions/plans-organization-policy/017-plan-document-safety.md),
 because this directory is committed and public. Name a secret's variable and location, never its value. And rewrite an
 absolute machine path as `$SRC` or a repository-relative path before pasting output that contains one; `delivery.md`
 keeps `$SRC` out of its own prose for the same reason.

@@ -11,7 +11,7 @@ when_to_use:
 This policy governs the filenames of Markdown documents in `docs/`, `repo-governance/`, `plans/`, and `specs/`, and the
 names of the child directories a split document creates. Code identifiers are a separate concern and belong to the
 [code style policy](../development/code-style-policy.md). Plan folder names are stage-dependent and belong to the
-[plans organization policy](plans-organization-policy/plan-naming.md).
+[plans organization policy](plans-organization-policy/001-lifecycle-and-folders.md).
 
 ## Rules
 
@@ -19,24 +19,25 @@ names of the child directories a split document creates. Code identifiers are a 
 is a path a link has to reproduce exactly, so a name that needs escaping or shifting is a name that gets mistyped.
 
 **Name the subject, not the action.** A document is named for what it covers: `markdown-style-policy.md`,
-`commit-hook-policy.md`, `folder-structure.md`. A workflow is named the same way, as a domain-prefixed noun phrase —
-`rules-propagation.md`, `harness-alignment.md`, `plan-quality-gate.md` — not as an imperative such as
+`commit-hook-policy.md`, `001-lifecycle-and-folders.md`. A workflow is named the same way, as a domain-prefixed noun
+phrase — `rules-propagation.md`, `harness-alignment.md`, `plan-quality-gate.md` — not as an imperative such as
 `propagate-rules.md`. The noun form sorts into families as a directory grows, and the family prefix is what makes six
 workflows readable at a glance.
 
-**Number children only when they are steps.** A document split into a directory of children names each child for what it
-covers. Add a `NN-` prefix when the children are performed in order; there the number is part of the rule and skipping
-ahead is an error. Every child directory under `repo-governance/workflows/` is numbered, without exception: a workflow
-is a procedure, so its children are its steps, and the number states where each one falls. A child that reads like
-reference material is still consulted at a point in the run, so it takes the number of that point rather than escaping
-the sequence. Do not number children that are consulted individually, such as the rules behind a convention: a number
-asserts a sequence that does not exist, and it forces a renumber every time a rule is added. The directory's README
-carries whatever order helps a reader.
+**Number children when the entrypoint declares a reading order.** A document split into a directory of children names
+each child for what it covers, and carries a `NNN-` prefix when, and only when, its entrypoint declares the order they
+are read in. The prefix is a claim: these documents are meant to be read in this sequence, and the third assumes the
+first. Every child directory under `repo-governance/workflows/` is numbered, without exception — a workflow is a
+procedure, its children are its steps, and a child that reads like reference material is still consulted at a point in
+the run, so it takes the number of that point rather than escaping the sequence. A convention whose modules build on
+each other declares its order and is numbered on the same grounds. Leave a directory of genuinely independent topics
+unnumbered: there the prefix asserts a dependency that does not exist. Inserting a module renumbers what follows;
+`002a-` encodes the edit history into the reading order, and the reading order is the only thing these names are for.
 
-**Number in three digits.** A `NN-` prefix is written zero-padded to three digits: `001-inventory.md`, never `01-` or
-`1-`. The sibling repositories number the ordered companions of a split document at the same width, so one
-workspace-wide width means a reader never has to remember which repository they are in. The width is not permission to
-number: a child that is consulted individually still takes a plain name.
+**Number in three digits.** An ordinal prefix is written zero-padded to three digits: `001-inventory.md`, never `01-` or
+`1-`. Ordinals are contiguous and start at `001`. The sibling repositories number the ordered companions of a split
+document at the same width, so one workspace-wide width means a reader never has to remember which repository they are
+in. The width is not permission to number: a directory with no declared reading order still takes plain names.
 
 **Match the directory to the document it splits.** A child directory takes its parent document's name without the
 extension, so `plans-organization-policy.md` splits into `plans-organization-policy/`. A reader who sees one can predict

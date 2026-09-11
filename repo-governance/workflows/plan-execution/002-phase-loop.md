@@ -14,9 +14,9 @@ Read the whole checkbox before acting. It names the path, the command, and the a
 no interpretation. If it does need interpretation, that is a plan defect: fix the plan, note it in `learnings.md`, and
 continue.
 
-Respect the executor tag. An `[AI]` item is performed directly. A `[HUMAN]` item stops execution and hands off to the
-owner with a statement of what remains; it is never performed on their behalf, and never ticked as though it were. An
-`[AI+HUMAN]` item is prepared fully, then handed over for the final action.
+Respect the executor tag. An `[AI]` item is performed directly. A `[HUMAN]` item is prepared as far as an agent can take
+it, then stops execution and hands off to the owner with a statement of what remains; the owner's part is never
+performed on their behalf, and never ticked as though it were.
 
 ## Behaviour Cycles
 
@@ -38,7 +38,7 @@ under the checkbox in one line. The archived plan is then a record of what happe
 
 Phase-level events go to the dated Execution Record at the top of `delivery.md` instead: a phase completing, a gate
 result, a failure and what its retry proved.
-[Execution record](../../conventions/plans-organization-policy/execution-record.md) owns its shape. An inline note
+[Execution record](../../conventions/plans-organization-policy/012-execution-record.md) owns its shape. An inline note
 qualifies the checkbox above it; the record is what keeps the sequence readable once the plan is archived.
 
 ## Learnings

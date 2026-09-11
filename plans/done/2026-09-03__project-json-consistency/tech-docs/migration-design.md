@@ -1,8 +1,8 @@
 # Migration Design
 
 This plan retires a configuration representation: the Nx project `wahidyankf-www-e2e`. The
-[plan migrations rule](../../../../repo-governance/conventions/plans-organization-policy/plan-migrations.md) governs it,
-and this document holds the inventory, the transition, and the reason the contraction step carries a zero-length
+[plan migrations rule](../../../../repo-governance/conventions/plans-organization-policy/015-plan-migrations.md) governs
+it, and this document holds the inventory, the transition, and the reason the contraction step carries a zero-length
 compatibility window.
 
 No secret, credential, or private value appears in the inventory below; the only environment variables named are
@@ -106,9 +106,9 @@ than claimed away. The owner of every row is the repository owner.
 
 Readers under `plans/` are excluded from the inventory and from the completeness grep in Phase 2's gate. The archived
 migration plan under `plans/done/` names the project as history and is deliberately not edited, as the
-[lifecycle moves rule](../../../../repo-governance/conventions/plans-organization-policy/lifecycle-moves.md) requires of
-a done plan; this plan's own documents name it because they describe the change that retires it. Neither depends on the
-name resolving to a project, so neither is a reader a stale name could break.
+[lifecycle moves rule](../../../../repo-governance/conventions/plans-organization-policy/002-lifecycle-moves.md)
+requires of a done plan; this plan's own documents name it because they describe the change that retires it. Neither
+depends on the name resolving to a project, so neither is a reader a stale name could break.
 
 ## Accepted Shape and Ownership
 

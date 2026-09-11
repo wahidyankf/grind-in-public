@@ -176,7 +176,7 @@
   by nothing automated, so it was wired into `test:scheduled` ahead of the suite and `workspace-commands.md` records the
   order. The triage's own additions had pushed `delivery-checklists.md` into the word limit policy's headroom band,
   which only relocation closes, so its Execution Record section moved to a new sibling,
-  `repo-governance/conventions/plans-organization-policy/execution-record.md`, indexed in the parent policy and the
+  `repo-governance/conventions/plans-organization-policy/012-execution-record.md`, indexed in the parent policy and the
   child README with the one inbound anchor repointed. The last two were plan drift: a misattributed caret-range pin in
   `tech-docs/README.md` and a `## Quality Gate` section still carrying the per-cycle table that
   [plan quality gate](../../../repo-governance/workflows/plan-quality-gate.md) forbids. All five were resolved, and
@@ -268,7 +268,7 @@ during execution, the Phase 1 four at the fourth archival gate cycle and the oth
 original form tested the wrong thing: this harness rewrites shell commands through a proxy, and it turns
 `npx tsc --version` into a summary of a compile that never ran and never prints a version at all. The acceptance is
 about the pinned version, not about which shell wrapper reported it. Phase 7's learnings triage carried the general rule
-into [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md).
+into [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/005-delivery-contract.md).
 
 ## Phase 0: Baseline
 
@@ -296,11 +296,11 @@ into [delivery checklists](../../../repo-governance/conventions/plans-organizati
       here, so the map never holds an unlinked entry for a file that already exists beside it. No separate command
       applies, because this action records evidence from the preceding shell output. It goes to `evidence/` rather than
       `learnings.md`: the
-      [five-document structure](../../../repo-governance/conventions/plans-organization-policy/five-document-structure.md)
+      [five-document structure](../../../repo-governance/conventions/plans-organization-policy/003-required-documents.md)
       names `evidence/` for command output, and
-      [knowledge capture](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) defines a
-      `learnings.md` entry as one paragraph of lesson, which Phase 7 must then route to a durable home. Six exit
-      statuses have no durable home to reach.
+      [knowledge capture](../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md)
+      defines a `learnings.md` entry as one paragraph of lesson, which Phase 7 must then route to a durable home. Six
+      exit statuses have no durable home to reach.
 
 ### Phase 0 Gate
 
@@ -610,7 +610,7 @@ Phase 3, and those do run full RED, GREEN, and REFACTOR cycles.
     [evidence](evidence/phase-2-background-coverage.md) records. The source corpus already agrees with this repository's
     cardinality rule, so no scenario was split and `learnings.md` names none. The box is deliberately left unticked: a
     tick would claim work that did not happen, and a dated disposition is what the
-    [delivery checklist rules](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md)
+    [delivery checklist rules](../../../repo-governance/conventions/plans-organization-policy/005-delivery-contract.md)
     require of a dormant item instead.
 - [x] [AI] Create `specs/apps/wahidyankf-www/behaviours/README.md` with a `## Directory Map` linking all eleven feature
       files, then run `git add -N specs/apps/wahidyankf-www/behaviours/README.md` before checking it — acceptance:
@@ -701,7 +701,7 @@ the next begins.
       `node -p "require('typescript/package.json').version"` run from inside `apps/wahidyankf-www` prints the root pin.
       The criterion first read `npx tsc --version`, the form the four Phase 1 version items were amended away from and
       the form
-      [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md) now
+      [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/005-delivery-contract.md) now
       forbids: this harness answers it with a compile summary carrying no version at all. Absence of a nested directory
       and the version Node actually resolves are the two facts the item is about, so the criterion names both. Under npm
       workspaces a nested pin resolves ahead of the root one, so leaving it would let `[AC-9]` pass while the
@@ -1023,7 +1023,7 @@ the next begins.
       entry in the `## Directory Map` of `evidence/README.md` is converted to a relative link in this same item. The
       `sed` filter is not cosmetic: `rg` prefixes each match with the search root it was given, and `"$SRC/..."` expands
       to the executor's own absolute machine path. `evidence/README.md` and
-      [plan document safety](../../../repo-governance/conventions/plans-organization-policy/plan-document-safety.md)
+      [plan document safety](../../../repo-governance/conventions/plans-organization-policy/017-plan-document-safety.md)
       both require that path rewritten before the output is committed, and this file is committed. Inside double quotes
       `\$SRC` is the literal four characters, so the substitution replaces the expanded path with the placeholder this
       checklist uses everywhere else — the same rewrite the Phase 0 evidence item states in prose.
@@ -1851,10 +1851,11 @@ item below is complete when its own files exist and the whole unit suite is stil
       correct and stay: `apps/badakmini-cli/README.md` names `rhino-cli` in the provenance sentence explaining where
       Badak Mini's command grammar comes from, and `plans/done/2026-08-23__badakmini-layered-bdd/brd.md` names F# in a
       non-goal of an archived plan, which
-      [folder structure](../../../repo-governance/conventions/plans-organization-policy/folder-structure.md) keeps as an
-      accurate historical record rather than something a later plan rewrites. Neither is a toolchain reference, and
-      deleting either to make a repository-wide sweep pass would destroy a true record. `F#` is in the pattern because
-      the ported wrapper contract test names it in a test title, which the other three tokens do not match. [AC-7]
+      [folder structure](../../../repo-governance/conventions/plans-organization-policy/001-lifecycle-and-folders.md)
+      keeps as an accurate historical record rather than something a later plan rewrites. Neither is a toolchain
+      reference, and deleting either to make a repository-wide sweep pass would destroy a true record. `F#` is in the
+      pattern because the ported wrapper contract test names it in a test title, which the other three tokens do not
+      match. [AC-7]
   - Note, 2026-09-01: the pattern as written finds **two matches**, and both are owner CV data rather than toolchain
     references: `apps/wahidyankf-www/src/features/personal-projects/core/projects.ts` lists `"F#"` in the
     `programmingLanguages` of the OSE and OrganicLever entries, which is a true statement about what those projects are
@@ -2743,7 +2744,7 @@ is proven in the same phase.
       authored in Phase 2 as an as-built description of a system that Phases 3, 4, and 5 are what actually build. The
       [architecture specification policy](../../../repo-governance/development/architecture-specifications.md) says the
       model "describes only the current, as-built system", and
-      [specification changes](../../../repo-governance/conventions/plans-organization-policy/specification-changes.md)
+      [specification changes](../../../repo-governance/conventions/plans-organization-policy/014-specification-changes.md)
       says to update the C4 model "only with the final implemented boundary" — neither is satisfied by authoring alone,
       and the Phase 7 reconciliation covers `[AC-1]` through `[AC-10]`, which never name the model. Phase 2 keeps the
       authoring, because the corpus and the model belong together for a reader; this is the check that makes the Phase 2
@@ -3158,13 +3159,13 @@ Configuration lands dormant. No branch is created and no deploy is triggered.
   - Note, 2026-09-01: all three print `2` and the two added sentences are byte-identical across the harnesses. Found by
     the third archival gate cycle, by diffing the policy against the prompts rather than by any check.
 - [x] [AI] Relocate the `## Execution Record` section out of
-      `repo-governance/conventions/plans-organization-policy/delivery-checklists.md` into a new sibling,
-      `repo-governance/conventions/plans-organization-policy/execution-record.md`, leaving a one-line pointer behind,
-      indexing the new document in `repo-governance/conventions/plans-organization-policy.md` and
+      `repo-governance/conventions/plans-organization-policy/005-delivery-contract.md` into a new sibling,
+      `repo-governance/conventions/plans-organization-policy/012-execution-record.md`, leaving a one-line pointer
+      behind, indexing the new document in `repo-governance/conventions/plans-organization-policy.md` and
       `repo-governance/conventions/plans-organization-policy/README.md`, and repointing the one inbound anchor in
       `repo-governance/workflows/plan-execution/02-phase-loop.md` — acceptance:
-      `rg -n 'execution record' repo-governance/conventions/plans-organization-policy/delivery-checklists.md` finds the
-      pointer line and no `## Execution Record` heading remains in that file,
+      `rg -n 'execution record' repo-governance/conventions/plans-organization-policy/005-delivery-contract.md` finds
+      the pointer line and no `## Execution Record` heading remains in that file,
       `rg -n 'execution-record.md' repo-governance/conventions/plans-organization-policy.md repo-governance/conventions/plans-organization-policy/README.md repo-governance/workflows/plan-execution/02-phase-loop.md`
       returns three lines, and `npm run check:governance` and `npm run check:markdown-links` both exit 0. **This item
       was added during execution.** The triage's own additions pushed `delivery-checklists.md` to 737 words, inside the
@@ -3193,7 +3194,7 @@ Configuration lands dormant. No branch is created and no deploy is triggered.
       `test ! -e plans/in-progress/wahidyankf-www-migration` succeeds,
       `ls -d plans/done/*wahidyankf-www-migration | wc -l` prints `1`, and `ls plans/done` shows the folder named with
       the date and no invented suffix.
-      [Lifecycle moves](../../../repo-governance/conventions/plans-organization-policy/lifecycle-moves.md) requires
+      [Lifecycle moves](../../../repo-governance/conventions/plans-organization-policy/002-lifecycle-moves.md) requires
       refusing an already-existing destination and never merging, overwriting, or inventing a suffix; the item as first
       written stated all three as outcomes with no mechanism behind any of them, which left the plan's last irreversible
       step to be improvised. `git mv` rather than `mv` keeps the rename tracked as one, so the archived history stays

@@ -454,5 +454,5 @@ revert point that restores `cv/` intact.
 - [Migration Design](migration-design.md)
 
 No `ui-design.md` is created: the user interface is ported without material change, so the
-[plan UI design rule](../../../../repo-governance/conventions/plans-organization-policy/plan-ui-design.md) does not
+[plan UI design rule](../../../../repo-governance/conventions/plans-organization-policy/016-plan-ui-design.md) does not
 apply. No `data-contracts.md` is created: the `CVEntry` shape crosses the move unchanged.

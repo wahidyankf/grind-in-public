@@ -1,12 +1,12 @@
 ---
-tldr: "Describes how to write the five plan documents in order."
+tldr: "Describes how to write the six plan documents in order."
 when_to_use: "Use when writing a plan's README, brd, prd, tech-docs, and delivery files."
 ---
 
 # Plan Authoring
 
-Write the five core documents in dependency order, because each one constrains the next. The
-[five-document structure](../../conventions/plans-organization-policy/five-document-structure.md) defines what each file
+Write the six documents in dependency order, because each one constrains the next. The
+[required documents](../../conventions/plans-organization-policy/003-required-documents.md) rule defines what each file
 owns.
 
 ## Order
@@ -21,16 +21,18 @@ owns.
    technical reading order. Write `file-impact.md` with every exact path and `[E]`, `[N]`, `[M]`, or `[D]` label; add
    the applicable specification-change, migration, and UI-design companions before authoring delivery.
 4. **`delivery.md`** — the phased checklist, written last because it derives from the three documents above. Follow the
-   [delivery checklist rules](../../conventions/plans-organization-policy/delivery-checklists.md) and the
-   [phase and gate rules](../../conventions/plans-organization-policy/phases-and-gates.md).
+   [delivery checklist rules](../../conventions/plans-organization-policy/005-delivery-contract.md) and the
+   [phase and gate rules](../../conventions/plans-organization-policy/011-phases-and-gates.md).
 5. **`README.md`** — written last despite being read first: context, scope with projects named, the approach in a
    paragraph, and a map linking every plan artifact.
+6. **`learnings.md`** — created empty, with its heading and nothing under it. It is filled during execution and drained
+   before archival; creating it here is what gives the first discovery somewhere to go.
 
 ## Delivery Checklist Shape
 
 Phase 0 records the clean baseline. Each later phase ends at a gate and a Pause Safety note, and delivers to `main` once
 that gate passes. The final phase before archival is Knowledge Capture; see the
-[knowledge capture rules](../../conventions/plans-organization-policy/knowledge-capture.md).
+[knowledge capture rules](../../conventions/plans-organization-policy/009-knowledge-capture-and-archival.md).
 
 Every behaviour change is a RED → GREEN → REFACTOR cycle bound to exactly one Gherkin scenario, per the
 [TDD policy](../../development/tdd-policy.md).

@@ -10,10 +10,19 @@ const governedTrees = ["docs", "repo-governance", "scripts", "plans", "specs"];
 // index rule would mean editing files whose whole value is that they are not
 // edited here. A missing README costs less than a forked safety gate.
 //
+// The plan-structure fixture corpus is the second. Every implementation of the
+// plan validator runs against those exact bytes and verifies them by digest, so
+// adding a README to one of its case directories would change what other
+// repositories measure -- and the first visible effect would be two validators
+// disagreeing for a reason unrelated to either.
+//
 // Prefixes, matched on path segments: a directory is vendored when it is one
 // of these or lives beneath one. Matching on name alone would silently exempt
 // any future directory that happened to be called the same thing.
-const vendoredTrees = ["scripts/public-safety"];
+const vendoredTrees = [
+  "scripts/public-safety",
+  "specs/fixtures/plan-structure",
+];
 
 /** True when the directory is consumed from elsewhere rather than authored here. */
 export function isVendoredDirectory(relativeDirectory) {

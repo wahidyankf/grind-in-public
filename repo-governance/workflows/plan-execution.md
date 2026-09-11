@@ -21,7 +21,7 @@ Require a current `PASS` from an explicitly owner-directed [plan-quality-gate](p
 authority does not authorize that gate. If the result is absent or blocked, stop without starting or rerunning it. The
 plan sits in `plans/in-progress/`: move it out of `backlog/`, update both indexes, and push that move only when
 authorized before running any checklist item, per the
-[lifecycle rules](../conventions/plans-organization-policy/lifecycle-moves.md).
+[lifecycle rules](../conventions/plans-organization-policy/002-lifecycle-moves.md).
 
 ## Steps
 

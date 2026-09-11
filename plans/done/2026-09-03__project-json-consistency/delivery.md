@@ -922,10 +922,10 @@ discarded with a reason.
 
 - [x] [AI] Read every entry in `plans/in-progress/project-json-consistency/learnings.md` and route each to exactly one
       durable home per the
-      [knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md) —
-      acceptance: each entry carries a one-line disposition naming its destination, or a one-line reason for discarding
-      it. If the file holds no entry, record the explicit escape `No generalizable learnings — <reason>` instead of
-      leaving it blank. - Five entries, each with a one-line disposition under `## Phase 4 Dispositions` in
+      [knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md)
+      — acceptance: each entry carries a one-line disposition naming its destination, or a one-line reason for
+      discarding it. If the file holds no entry, record the explicit escape `No generalizable learnings — <reason>`
+      instead of leaving it blank. - Five entries, each with a one-line disposition under `## Phase 4 Dispositions` in
       [learnings.md](learnings.md): two routed to `testing-policy/target-shape.md`, one to `testing-policy/tooling.md`,
       one to code already corrected in Phase 2, and one discarded because the rule that caught it already stands.
 - [x] [AI] Check every entry for secrets and for repository relevance before routing — acceptance: no entry names a

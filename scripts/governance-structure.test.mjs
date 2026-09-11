@@ -54,9 +54,28 @@ test("a vendored directory is not held to this repository's index rule", () => {
   assert.equal(isVendoredDirectory("scripts/public-safety/tests"), true);
   assert.equal(isVendoredDirectory("scripts/public-safety/tests/cases"), true);
 
+  // The plan-structure fixture corpus is the second vendored tree. Every
+  // implementation of the plan validator verifies those exact bytes by digest,
+  // so a README added to one of its case directories changes what other
+  // repositories measure.
+  assert.equal(isVendoredDirectory("specs/fixtures/plan-structure"), true);
+  assert.equal(
+    isVendoredDirectory("specs/fixtures/plan-structure/accepted"),
+    true,
+  );
+  assert.equal(
+    isVendoredDirectory("specs/fixtures/plan-structure/rejected/001-example"),
+    true,
+  );
+
   // The exclusion is a named path, not a name anywhere. A directory that merely
   // ends with the same word is this repository's own and stays governed.
   assert.equal(isVendoredDirectory("scripts"), false);
   assert.equal(isVendoredDirectory("docs/public-safety"), false);
   assert.equal(isVendoredDirectory("scripts/public-safety-notes"), false);
+  assert.equal(isVendoredDirectory("specs/fixtures"), false);
+  assert.equal(
+    isVendoredDirectory("specs/fixtures/plan-structure-notes"),
+    false,
+  );
 });

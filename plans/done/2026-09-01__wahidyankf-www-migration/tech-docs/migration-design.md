@@ -3,7 +3,7 @@
 Eight transitions run inside this plan: a CV record consolidation, three dependency replacements, a linter replacement,
 a configuration relocation, and two specification-corpus copies. None of them involves a credential or a private value,
 so no value appears below — only names and locations, per
-[plan document safety](../../../../repo-governance/conventions/plans-organization-policy/plan-document-safety.md).
+[plan document safety](../../../../repo-governance/conventions/plans-organization-policy/017-plan-document-safety.md).
 
 ## Inventory
 
@@ -76,9 +76,10 @@ survives the phase regardless. The three files with no copy anywhere — `cv-ats
 ### 4. Contract
 
 **This step deviates from the
-[plan migrations](../../../../repo-governance/conventions/plans-organization-policy/plan-migrations.md) rule, and the
-deviation is named here rather than left to be noticed.** That rule says to retain compatibility for a stated window and
-schedule destructive deletion in a separately authorized later plan. Deleting `cv/` inside this plan does not do that.
+[plan migrations](../../../../repo-governance/conventions/plans-organization-policy/015-plan-migrations.md) rule, and
+the deviation is named here rather than left to be noticed.** That rule says to retain compatibility for a stated window
+and schedule destructive deletion in a separately authorized later plan. Deleting `cv/` inside this plan does not do
+that.
 
 The deviation is deliberate and its scope is exactly one directory. Consolidating the CV is the reason this plan exists;
 a compatibility window here is a window in which two hand-maintained CVs coexist and the owner can publish the stale

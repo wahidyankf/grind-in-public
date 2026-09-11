@@ -45,7 +45,7 @@ commands, indexes, and `AGENTS.md`.
 - Phase 0 baseline: safe, local; terminal destination is this plan record because its command versions and results are
   dated evidence rather than a repository rule.
 - Phase 1 boundary-policy ordering: safe, generalizable; terminal destination is
-  [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/delivery-checklists.md), which
+  [delivery checklists](../../../repo-governance/conventions/plans-organization-policy/005-delivery-contract.md), which
   owns dependency-aware task ordering.
 - Phase 1 coverage-denominator ordering: safe, generalizable; terminal destination is
   [Testing](../../../repo-governance/development/testing-policy.md), whose explicit target roles prevent a quick gate

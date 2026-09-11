@@ -9,9 +9,8 @@ when_to_use: "Use when creating, executing, reviewing, or archiving a plan under
 
 This policy governs `plans/`, the repository's working record of change. A plan explains why work exists, what it
 depends on, and what evidence proves it finished. Plans are temporary and belong to delivery; `docs/` serves readers and
-`repo-governance/` holds rules, so neither is a home for a plan. The three plan workflows —
-[plan-planning](../workflows/plan-planning.md), [plan-quality-gate](../workflows/plan-quality-gate.md), and
-[plan-execution](../workflows/plan-execution.md) — carry out what this policy defines.
+`repo-governance/` holds rules, so neither is a home for a plan. The seven plan workflows named in
+[Workflows and Skills](plans-organization-policy/006-workflows-and-skills.md) carry out what this policy defines.
 
 ## When a Plan Is Allowed
 
@@ -23,25 +22,30 @@ governance surfaces without a delivery plan because its bounded transaction reco
 
 ## Rules
 
-Read the rule you need rather than the whole set:
+Read the rule you need rather than the whole set. The modules are numbered in reading order and
+[their index](plans-organization-policy/README.md) carries the full list; these are the entry points.
 
-- [Folder Structure](plans-organization-policy/folder-structure.md) — the four lifecycle stages.
-- [Plan Naming](plans-organization-policy/plan-naming.md) — stage-aware folder names.
-- [Two-Pager Template](plans-organization-policy/two-pager-template.md) — what an idea contains.
-- [Five-Document Structure](plans-organization-policy/five-document-structure.md) — the plan files.
-- [Specification Changes](plans-organization-policy/specification-changes.md) — planned C4, Gherkin, binding, and File
-  Impact deltas.
-- [Plan Migrations](plans-organization-policy/plan-migrations.md) — safe data, configuration, and dependency
+- [Lifecycle and Folders](plans-organization-policy/001-lifecycle-and-folders.md) — the four stages and their slugs.
+- [Lifecycle Moves](plans-organization-policy/002-lifecycle-moves.md) — starting, completing, reopening.
+- [Required Documents](plans-organization-policy/003-required-documents.md) — the six plan documents.
+- [Technical Shape](plans-organization-policy/004-technical-shape-and-companions.md) — `tech-docs`, one shape only.
+- [Delivery Contract](plans-organization-policy/005-delivery-contract.md) — granularity, clarity, executor tags.
+- [Workflows and Skills](plans-organization-policy/006-workflows-and-skills.md) — the seven lifecycle capabilities.
+- [Structural Validation](plans-organization-policy/007-structural-validation.md) — what is checked mechanically.
+- [Evidence and Quality](plans-organization-policy/008-evidence-and-quality.md) — verdicts and bounded repair.
+- [Knowledge Capture](plans-organization-policy/009-knowledge-capture-and-archival.md) — draining `learnings.md`.
+- [Portability](plans-organization-policy/010-portability.md) — self-containment and recorded deviations.
+- [Phases and Gates](plans-organization-policy/011-phases-and-gates.md) — natural pauses.
+- [Execution Record](plans-organization-policy/012-execution-record.md) — the dated log of phases, gates, and retries.
+- [Two-Pager Template](plans-organization-policy/013-two-pager-template.md) — what an idea contains.
+- [Specification Changes](plans-organization-policy/014-specification-changes.md) — planned C4, Gherkin, binding, and
+  File Impact deltas.
+- [Plan Migrations](plans-organization-policy/015-plan-migrations.md) — safe data, configuration, and dependency
   transitions.
-- [Plan UI Design](plans-organization-policy/plan-ui-design.md) — selected UI direction, accessible assets, and device
-  proof.
-- [Plan Document Safety](plans-organization-policy/plan-document-safety.md) — ASCII diagrams and secret-free plan
+- [Plan UI Design](plans-organization-policy/016-plan-ui-design.md) — selected UI direction, accessible assets, and
+  device proof.
+- [Plan Document Safety](plans-organization-policy/017-plan-document-safety.md) — ASCII diagrams and secret-free plan
   records.
-- [Delivery Checklists](plans-organization-policy/delivery-checklists.md) — granularity, clarity, executor tags.
-- [Execution Record](plans-organization-policy/execution-record.md) — the dated log of phases, gates, and retries.
-- [Phases and Gates](plans-organization-policy/phases-and-gates.md) — natural pauses.
-- [Knowledge Capture](plans-organization-policy/knowledge-capture.md) — draining `learnings.md`.
-- [Lifecycle Moves](plans-organization-policy/lifecycle-moves.md) — starting, completing, reopening.
 
 ## Delivery
 

@@ -6,8 +6,8 @@ believed rather than what happened.
 
 Each entry is one short paragraph: what happened, and what a future reader should do differently. Phase 4 triages every
 entry to exactly one durable home per the
-[knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md), and
-archival is blocked until each has reached a terminal state.
+[knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md),
+and archival is blocked until each has reached a terminal state.
 
 ## Entries
 
@@ -101,8 +101,8 @@ sits where the criterion says to look for it.
 ## Phase 4 Dispositions
 
 Every entry above reaches exactly one terminal state, per the
-[knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/knowledge-capture.md). No entry
-names a credential, a private identifier, or a runtime payload; each was re-read for that before routing.
+[knowledge capture rules](../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md).
+No entry names a credential, a private identifier, or a runtime payload; each was re-read for that before routing.
 
 - **Module-system delta** → routed to `repo-governance/development/testing-policy/tooling.md`, Recorded Deviations,
   beside the `wahidyankf-www` compiler-settings deviation it continues. That section already exists to hold "this is the

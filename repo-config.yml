@@ -79,6 +79,18 @@ harness-parity:
             capability: approval-or-read-only-shell
             field: tools
             members: [Bash]
+          # An agent that authors plans needs to write them, and one that runs a
+          # gate needs a shell. Neither capability had a claude translation
+          # before, because no agent here declared them; an agent that did would
+          # have been generated without the tools its own definition grants.
+          - when: requires
+            capability: repository-write
+            field: tools
+            members: [Write, Edit]
+          - when: requires
+            capability: shell
+            field: tools
+            members: [Bash]
           - when: denies
             capability: repository-write
             field: tools
@@ -108,6 +120,15 @@ harness-parity:
             capability: approval-or-read-only-shell
             field: permission
             entries: { bash: ask }
+          # Same gap as the claude adapter had, in this vendor's syntax.
+          - when: requires
+            capability: repository-write
+            field: permission
+            entries: { edit: allow }
+          - when: requires
+            capability: shell
+            field: permission
+            entries: { bash: allow }
           - when: denies
             capability: repository-write
             field: permission
@@ -174,9 +195,18 @@ governance-directory-map:
   trees: []
 
 md-internal-link:
-  # internal/markdownlinks checks every Git-tracked Markdown file and excludes
+  # internal/markdownlinks checked every Git-tracked Markdown file and excluded
   # no source. External URLs are ignored, which RHINO also does.
-  exclude-sources: []
+  #
+  # One exclusion now exists. Several rejected cases in the shared
+  # plan-structure corpus are documents carrying a deliberately broken link --
+  # that is the defect the case exists to make a validator report -- and the
+  # tree is verified against a digest rather than edited. A link repaired here
+  # to satisfy this rule would break the comparison the corpus is for. Every
+  # repository that carries the corpus excludes the same path for the same
+  # reason.
+  exclude-sources:
+    - "specs/fixtures/**"
 
 md-mermaid:
   # This repository documents with ASCII art and holds no Mermaid diagram, so

@@ -59,5 +59,5 @@ the expected state for a project mid-migration, and the absence of the branch is
 ## Secrets
 
 Deploy configuration names a secret's variable and where it is set. It never carries the value, and neither does any
-tracked file; the [plan document safety](../conventions/plans-organization-policy/plan-document-safety.md) rules apply
-to every path in this repository, not only to plan documents.
+tracked file; the [plan document safety](../conventions/plans-organization-policy/017-plan-document-safety.md) rules
+apply to every path in this repository, not only to plan documents.

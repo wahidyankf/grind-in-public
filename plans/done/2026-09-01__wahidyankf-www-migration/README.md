@@ -33,16 +33,17 @@ to mean.
   this bullet anticipated**, because Phase 7's learnings triage routes each lesson to a durable home and which homes
   those are cannot be known before the lessons exist: it also edited `development/code-style-policy.md`,
   `development/dependency-selection-policy.md`, `development/behaviour-driven-development-policy.md`,
-  `conventions/plans-organization-policy/delivery-checklists.md`, and all three `plan-checker` prompts under `.claude/`,
-  `.codex/`, and `.opencode/`. The archival quality gate then reached four more, for a reason of its own: closing the
-  word limit policy's headroom band on `conventions/plans-organization-policy/delivery-checklists.md` required
-  relocating a section, so this plan also authors `conventions/plans-organization-policy/execution-record.md` and edits
-  `conventions/plans-organization-policy.md`, `conventions/plans-organization-policy/README.md`, and
-  `workflows/plan-execution/02-phase-loop.md`. [File impact](tech-docs/file-impact.md) maps all eleven. Two amendments
-  are certain, not one, and both are known before execution starts: the language-target deviation both new projects
-  carry on `module`, `moduleResolution`, and `target`, because Next 16 leaves no alternative, and Biome running as a
-  linter only, because Prettier stays the formatting source of truth. `tooling.md`'s `## Recorded Deviations` is the
-  register. A conditional one is added for each toolchain component that turns out not to conform, if any does.
+  `conventions/plans-organization-policy/005-delivery-contract.md`, and all three `plan-checker` prompts under
+  `.claude/`, `.codex/`, and `.opencode/`. The archival quality gate then reached four more, for a reason of its own:
+  closing the word limit policy's headroom band on `conventions/plans-organization-policy/005-delivery-contract.md`
+  required relocating a section, so this plan also authors
+  `conventions/plans-organization-policy/012-execution-record.md` and edits `conventions/plans-organization-policy.md`,
+  `conventions/plans-organization-policy/README.md`, and `workflows/plan-execution/02-phase-loop.md`.
+  [File impact](tech-docs/file-impact.md) maps all eleven. Two amendments are certain, not one, and both are known
+  before execution starts: the language-target deviation both new projects carry on `module`, `moduleResolution`, and
+  `target`, because Next 16 leaves no alternative, and Biome running as a linter only, because Prettier stays the
+  formatting source of truth. `tooling.md`'s `## Recorded Deviations` is the register. A conditional one is added for
+  each toolchain component that turns out not to conform, if any does.
 - `.github/workflows/full-bdd.yml` and root `package.json` — extended to cover the new project.
 
 ## Source Provenance

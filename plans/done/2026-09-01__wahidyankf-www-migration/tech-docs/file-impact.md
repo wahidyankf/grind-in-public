@@ -40,7 +40,7 @@ pick up, so each is named rather than left to be noticed as an omission:
   search does find an importer, the file is ported, renamed, and given a unit test, and this list is amended.
 - `apps/wahidyankf-www/.env.local`, because it is a real tier env file holding real values. It is untracked and matched
   by `apps/wahidyankf-www/.gitignore`'s `.env*.local` rule in the source repository, and
-  [plan document safety](../../../../repo-governance/conventions/plans-organization-policy/plan-document-safety.md)
+  [plan document safety](../../../../repo-governance/conventions/plans-organization-policy/017-plan-document-safety.md)
   forbids a credential or a runtime value reaching a committed plan or the tree it describes. Every copy list in
   `delivery.md` names its files individually rather than globbing the directory, which is what keeps this file out;
   `.env.example` is the one that comes.
@@ -270,8 +270,8 @@ bound from `tests/integration/` rather than `tests/bdd/`.
 +-- repo-governance/development/code-style-policy.md         [E]
 +-- repo-governance/development/dependency-selection-policy.md  [E]
 +-- repo-governance/development/behaviour-driven-development-policy.md  [E]
-+-- repo-governance/conventions/plans-organization-policy/delivery-checklists.md  [E]
-+-- repo-governance/conventions/plans-organization-policy/execution-record.md  [N]
++-- repo-governance/conventions/plans-organization-policy/005-delivery-contract.md  [E]
++-- repo-governance/conventions/plans-organization-policy/012-execution-record.md  [N]
 +-- repo-governance/conventions/plans-organization-policy/README.md  [E]
 +-- repo-governance/conventions/plans-organization-policy.md  [E]
 +-- repo-governance/workflows/plan-execution/02-phase-loop.md   [E]
@@ -385,5 +385,5 @@ plans/
 
 The archival move itself carries no mapped path, because the destination name embeds the completion date and cannot be
 known before Phase 7 runs. It is `plans/done/<completion-date>__wahidyankf-www-migration/`, formed by the rule in
-[lifecycle moves](../../../../repo-governance/conventions/plans-organization-policy/lifecycle-moves.md), and the whole
-plan folder above moves into it unchanged.
+[lifecycle moves](../../../../repo-governance/conventions/plans-organization-policy/002-lifecycle-moves.md), and the
+whole plan folder above moves into it unchanged.

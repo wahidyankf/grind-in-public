@@ -2,7 +2,7 @@
 
 Run 2026-09-01, before anything was copied. `$SRC` is the executor's `ose-public` working copy; its absolute path is
 deliberately not written here, per
-[plan document safety](../../../../repo-governance/conventions/plans-organization-policy/plan-document-safety.md).
+[plan document safety](../../../../repo-governance/conventions/plans-organization-policy/017-plan-document-safety.md).
 
 ## Repository Gates
 
