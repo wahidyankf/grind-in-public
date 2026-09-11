@@ -59,6 +59,16 @@ remote_sha=3333333333333333333333333333333333333333
 
 (
 	cd "$fixture_root"
+	# The guard stub records whether the Nx cloud opt-out was set on each
+	# invocation, and the assertions below distinguish the lines the hook opts
+	# out on from the one it does not. That distinction only exists if the
+	# variable is absent to begin with. This file is also run by `test:repo`,
+	# which the hook itself invokes as `NX_NO_CLOUD=true ... npm run test:repo`
+	# -- so when the push runs, the variable is already exported into
+	# everything below, every recorded line reads `cloud=true`, and the
+	# assertion becomes a statement about the ambient environment rather than
+	# about the hook. Clear it here so the stub observes only what the hook set.
+	unset NX_NO_CLOUD
 	PATH="$fake_bin:$PATH" PREPUSH_INVOCATIONS="$invocations" PREPUSH_GIT_CALLS="$git_calls" \
 		sh ./pre-push <<EOF
 refs/heads/new $new_sha refs/heads/new $zero_sha
