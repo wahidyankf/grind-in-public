@@ -4,7 +4,7 @@
 # before a change lands, declared rather than compiled in.
 #
 # Every value below is unchanged. The v1 file already carried them, each one
-# transcribed from the badak-mini validator it retired, and none of those
+# transcribed from the local validator it retired, and none of those
 # reasons stopped being true because the schema did. What v2 adds is the two
 # things v1 could only imply: who may read this repository, and which checks
 # run at which moment. Both were previously spread across a shell script, a
@@ -187,7 +187,7 @@ governance-word-budget:
     - { glob: ".opencode/README.md", fail: 750 }
 
 governance-directory-map:
-  # Empty on purpose. badak-mini has no directory-map check, so this repository
+  # Empty on purpose. The validator this replaced had no directory-map check, so this repository
   # has never enforced one; several of its trees keep maps by convention. This
   # cutover moves the three hygiene checks it had and adds none, because a
   # retirement that quietly grew a fourth rule would fail for a reason nobody
@@ -213,7 +213,7 @@ md-mermaid:
   # every value here is vacuous today. They are stated rather than omitted
   # because the schema requires a palette to be declared before it can exist:
   # the first classDef anyone adds fails until this repository decides its own
-  # colours. badak-mini had no diagram check at all, so nothing is lost.
+  # colours. The validator this replaced had no diagram check at all, so nothing is lost.
   node-label-graphemes: 32
   edge-label-graphemes: 24
   fill-colors: []

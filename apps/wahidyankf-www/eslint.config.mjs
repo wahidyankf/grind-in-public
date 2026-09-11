@@ -5,7 +5,7 @@ import jsdoc from "eslint-plugin-jsdoc";
 // correctness for this project, so a rule that both could report is a finding
 // delivered twice and is deliberately absent here. That split is what the code
 // commentary policy asks for, and it is the TypeScript counterpart of what
-// Revive does for badakmini-cli under golangci-lint.
+// Revive does for Go under golangci-lint.
 export default [
   {
     files: ["src/**/*.ts", "src/**/*.tsx"],

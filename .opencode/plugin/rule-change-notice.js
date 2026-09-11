@@ -5,9 +5,9 @@
  * moves the same notice earlier in an opencode session, so the workflow is read
  * while the change is still being written rather than once it is staged.
  *
- * The notice comes from Badak Mini rather than from a copy of the rule paths
- * kept here, because a second list would drift from the one the other harnesses
- * and the pre-commit hook use.
+ * The notice comes from the repository's own rule-change script rather than
+ * from a copy of the rule paths kept here, because a second list would drift
+ * from the one the other harnesses and the pre-commit hook use.
  *
  * It only reports. Blocking an edit here would put a rule in a config file,
  * which the agent harness support policy forbids.
@@ -18,20 +18,12 @@ import { execFile } from "node:child_process";
 const EDIT_TOOLS = new Set(["edit", "write", "patch", "multiedit"]);
 const NOTICE_TIMEOUT_MS = 20000;
 
-/** Asks Badak Mini whether a path carries rules, and for the notice to show. */
+/** Asks the rule-change script whether a path carries rules, and for its notice. */
 function requestNotice(directory, filePath) {
   return new Promise((resolve) => {
     const child = execFile(
-      "go",
-      [
-        "-C",
-        `${directory}/apps/badakmini-cli`,
-        "run",
-        "./cmd/badak-mini",
-        "harness",
-        "rule-change",
-        "hook",
-      ],
+      "node",
+      [`${directory}/scripts/check-rule-change.mjs`, "hook"],
       { cwd: directory, timeout: NOTICE_TIMEOUT_MS },
       (error, stdout) => {
         // A notice that cannot be produced must not break the session, so every

@@ -7,7 +7,5 @@ required.
 
 ## Directory Map
 
-- [Badak Mini](badakmini-cli/README.md) — the rule-change announcement CLI: its C4 model and its two-feature behaviour
-  corpus.
 - [wahidyankf-www](wahidyankf-www/README.md) — the personal portfolio and CV site: its C4 model and twelve-feature
   behaviour corpus, bound by owner Unit/Integration adapters and a dedicated browser E2E project.

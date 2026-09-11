@@ -102,20 +102,18 @@ function e2e(name, ownerName) {
 
 function validWorkspace() {
   return [
-    owner("badakmini-cli", "badakmini-cli-e2e"),
-    e2e("badakmini-cli-e2e", "badakmini-cli"),
     owner("wahidyankf-www", "wahidyankf-www-e2e"),
     e2e("wahidyankf-www-e2e", "wahidyankf-www"),
   ];
 }
 
-test("accepts the four-project owner and E2E contract", () => {
+test("accepts the owner and E2E project contract", () => {
   assert.deepEqual(validateProjectContract(validWorkspace()), []);
 });
 
 test("rejects reverse ownership and E2E layer placeholders", () => {
   const projects = validWorkspace();
-  projects[0].implicitDependencies = ["badakmini-cli-e2e"];
+  projects[0].implicitDependencies = ["wahidyankf-www-e2e"];
   projects[1].targets["test:unit"] = target();
   const findings = validateProjectContract(projects);
   assert.ok(
@@ -142,5 +140,6 @@ test("rejects cache, corpus input, and quick-order drift", () => {
 test("returns findings in deterministic order", () => {
   const findings = validateProjectContract([]);
   assert.deepEqual(findings, [...findings].toSorted());
-  assert.equal(findings.length, 4);
+  // One missing-project finding per half of each declared pair.
+  assert.equal(findings.length, 2);
 });

@@ -3,8 +3,6 @@ import { readFile } from "node:fs/promises";
 import { validateProjectContract } from "./project-contract.mjs";
 
 const projectPaths = [
-  "apps/badakmini-cli/project.json",
-  "apps/badakmini-cli-e2e/project.json",
   "apps/wahidyankf-www/project.json",
   "apps/wahidyankf-www-e2e/project.json",
 ];

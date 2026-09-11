@@ -21,9 +21,11 @@ For the structure, the Gherkin cardinality rule, and when specs are required, re
 
 ## Current Specifications
 
-Two subjects carry specifications. [Badak Mini](apps/badakmini-cli/README.md) has a canonical
-[C4 model](apps/badakmini-cli/architecture.md) and an executable two-feature corpus, consumed by unit, local
-integration, and public-process E2E adapters. [wahidyankf-www](apps/wahidyankf-www/README.md) has its own
+One subject carries specifications. [wahidyankf-www](apps/wahidyankf-www/README.md) has a canonical
 [C4 model](apps/wahidyankf-www/architecture.md) and a twelve-feature corpus, consumed by Unit, local Integration, and
-browser E2E adapters. Both applications keep their public-boundary E2E harness in a dedicated project. Every adapter
-fails when a feature, step, binding, exemption, or adapter drifts.
+browser E2E adapters, with its public-boundary harness in a dedicated project. Every adapter fails when a feature, step,
+binding, exemption, or adapter drifts.
+
+Repository tooling under `scripts/` carries no Gherkin corpus. The corpus rule binds applications and libraries, and a
+feature file no adapter consumes would claim coverage it does not have; those scripts are proved by the test file beside
+each of them.

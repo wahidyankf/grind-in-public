@@ -33,17 +33,7 @@ Narrower runs — prefix each with `rtk ./hippo run --class ephemeral --disk-pat
 `# transactional`, which take `--class transactional`:
 
 ```sh
-go -C apps/badakmini-cli test ./internal/rulechange -run TestName
-npm exec -- nx run badakmini-cli:test:unit
-npm exec -- nx run badakmini-cli:test:integration
-npm exec -- nx run badakmini-cli:test:coverage:unit
-npm exec -- nx run badakmini-cli:test:coverage:integration
-npm exec -- nx run badakmini-cli:test:coverage:behaviour
-npm exec -- nx run badakmini-cli:test:coverage
-npm exec -- nx run badakmini-cli:test:quick
-npm exec -- nx run badakmini-cli-e2e:test:coverage:behaviour:e2e
-npm exec -- nx run badakmini-cli-e2e:test:quick
-npm exec -- nx run badakmini-cli-e2e:test:e2e
+node --test scripts/rule-change.test.mjs
 npm exec -- nx run wahidyankf-www:test:unit
 npm exec -- nx run wahidyankf-www:test:integration
 npm exec -- nx run wahidyankf-www:test:coverage:unit
@@ -89,9 +79,9 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
   module dependencies.
 
 [RHINO](https://github.com/wahidyankf/rhino) implements the checks and the gate dispatch from `repo-config.yml`, through
-the `./rhino` consumer pinned in `rhino.lock`; [Badak Mini](../../apps/badakmini-cli/README.md) implements
-`check:rule-change`. When a check fails the usual fix is the document, not the checker; read the
-[Badak Mini policy](badakmini-cli-policy.md) before changing that CLI.
+the `./rhino` consumer pinned in `rhino.lock`; the scripts under `scripts/` implement the rest. When a check fails the
+usual fix is the document, not the checker; read the [repository check policy](repository-check-policy.md) before
+changing one.
 
 ## Hooks
 

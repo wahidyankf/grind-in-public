@@ -44,7 +44,7 @@ A material external-input change returns `BLOCKED_INPUT_CHANGED` and never resta
 4. Run:
 
    ```sh
-   rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo
+   rtk ./hippo run --class ephemeral --disk-path . -- npm run test:repo
    ```
 
 5. On success, return `PASS_NO_CHANGE` when no edit was necessary or `PASS_CHANGED` otherwise. For transaction-caused

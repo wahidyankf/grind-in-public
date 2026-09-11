@@ -62,14 +62,15 @@ which kinds are excluded and the one exception.
 
 Documentation hygiene — governance-document word limits, directory maps, repository-local Markdown links, Mermaid
 diagrams, and harness capability parity — is checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI
-consumed the same checksum-pinned way as HIPPO and configured entirely by `repo-config.yml`.
-[Badak Mini](apps/badakmini-cli/README.md) is a small Go CLI that announces the workflows a rule change requires.
-[Workspace commands](repo-governance/development/workspace-commands.md) lists the `npm run check:` command for each one.
+consumed the same checksum-pinned way as HIPPO and configured entirely by `repo-config.yml`. Announcing the workflows a
+rule change requires is a repository script, `scripts/check-rule-change.mjs`, wired into pre-commit and into every
+harness's pre-edit hook. [Workspace commands](repo-governance/development/workspace-commands.md) lists the
+`npm run check:` command for each check.
 
-Two applications live here. [Badak Mini](apps/badakmini-cli/README.md) is the Go CLI above.
-[wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds the repository's single
-authoritative CV record — the practice workspace and its public face maintained under one set of rules. Both are held to
-the same gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99% line-coverage floor.
+One application lives here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
+the repository's single authoritative CV record — the practice workspace and its public face maintained under one set of
+rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99% line-coverage
+floor.
 
 ## Plans and Specs
 

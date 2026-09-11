@@ -11,7 +11,6 @@ only the policy that matches the work at hand:
 - [Architecture Specifications](architecture-specifications.md) for each application's canonical as-built C4 model and
   its maintenance.
 - [API Testing](api-testing.md) for automated contracts and manual public-boundary proof when an API changes.
-- [Badak Mini](badakmini-cli-policy.md) for repository-local validation checks.
 - [Behaviour-Driven Development](behaviour-driven-development-policy.md) for mandatory canonical corpus and adapter
   roles.
 - [Code Commentary](code-commentary-policy.md) for learning-oriented comments.

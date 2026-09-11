@@ -57,7 +57,7 @@ snapshot, cycle, ledger, pending verification, and authorization under
 4. Verify semantically in read-only mode, reviewing only repaired meaning and cross-document effects. Then run:
 
    ```sh
-   rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p badakmini-cli -t test:repo
+   rtk ./hippo run --class ephemeral --disk-path . -- npm run test:repo
    ```
 
 5. Return `PASS` when no row is `OPEN` or `BLOCKED`, tooling passes, no new material semantic gap appears, and the

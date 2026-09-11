@@ -12,7 +12,7 @@ This policy covers the automation that triggers [Rules Propagation](../workflows
 
 ## Rule Paths
 
-`badak-mini harness rule-change` is the single definition of a rule path: `AGENTS.md`, `CLAUDE.md`, `opencode.json`, and
+`scripts/rule-change.mjs` is the single definition of a rule path: `AGENTS.md`, `CLAUDE.md`, `opencode.json`, and
 anything under `repo-governance/`, `.claude/`, `.codex/`, `.opencode/`, `.agents/`, or `.husky/`. Change that list in
 one place, and add a test with it.
 
@@ -44,7 +44,7 @@ switched off outside this repository.
 rtk ./hippo run --class ephemeral --disk-path . -- npm run check:rule-change
 echo '{"tool_input":{"file_path":"AGENTS.md"}}' |
   rtk ./hippo run --class ephemeral --disk-path . -- \
-    go -C apps/badakmini-cli run ./cmd/badak-mini harness rule-change hook
+    node scripts/check-rule-change.mjs hook
 ```
 
 The first prints nothing unless a staged path carries rules. The second prints the hook response for a rule path, and

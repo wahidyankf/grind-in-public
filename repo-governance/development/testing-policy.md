@@ -57,4 +57,4 @@ tooling first; dependency additions remain governed by the
 ## Verification
 
 Run the applicable commands from [workspace commands](workspace-commands.md), including owner quick, integration
-coverage, E2E quick, E2E runtime, and `badakmini-cli:test:repo` for repository-mechanism changes.
+coverage, E2E quick, E2E runtime, and `npm run test:repo` for repository-mechanism changes.

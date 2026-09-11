@@ -171,14 +171,11 @@ function checkE2E(project, ownerName, findings) {
   );
 }
 
-/** Validates the fixed four-project quality contract without I/O or subprocesses. */
+/** Validates the fixed owner/E2E project contract without I/O or subprocesses. */
 export function validateProjectContract(projects) {
   const findings = [];
   const byName = new Map(projects.map((project) => [project.name, project]));
-  const pairs = [
-    ["badakmini-cli", "badakmini-cli-e2e"],
-    ["wahidyankf-www", "wahidyankf-www-e2e"],
-  ];
+  const pairs = [["wahidyankf-www", "wahidyankf-www-e2e"]];
   for (const [ownerName, e2eName] of pairs) {
     const owner = byName.get(ownerName);
     const e2e = byName.get(e2eName);

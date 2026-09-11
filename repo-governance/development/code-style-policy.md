@@ -16,8 +16,8 @@ the [code commentary policy](code-commentary-policy.md).
 
 Use strict TypeScript with CommonJS-compatible Node output. A project that cannot reach that target records the
 deviation and its reason under [testing tooling](testing-policy/tooling.md), which is the one register for them; a
-deviation that is not recorded there is a defect rather than an exception. Badak Mini is the Go CLI for repository-local
-validation; follow the [Badak Mini policy](badakmini-cli-policy.md) before extending it.
+deviation that is not recorded there is a defect rather than an exception. Repository-local validation is TypeScript and
+shell under `scripts/`; follow the [repository check policy](repository-check-policy.md) before adding to it.
 
 ## Naming and Layout
 
@@ -37,8 +37,8 @@ Import internal TypeScript libraries by package name, not by relative cross-proj
 project boundary compiles, so nothing stops it, and it hides the dependency from Nx — which then cannot tell that the
 importing project is affected when the imported one changes.
 
-Let `goimports` group and order Go imports. The [Badak Mini policy](badakmini-cli-policy.md) owns its production
-dependency boundary; tool dependencies in its Go module do not authorize runtime imports.
+The only Go left is `tools/`, which holds no first-party source and exists to pin two executables. A `tool` directive
+there is not a licence to add runtime Go; see the [repository check policy](repository-check-policy.md).
 
 ## Verification
 

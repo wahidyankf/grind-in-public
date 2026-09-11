@@ -32,6 +32,5 @@ language can still follow what the passage is for.
 
 ## Verification
 
-Language meaning is verified in review. `badakmini-cli:test:repo` additionally rejects the American variant in
-maintained surfaces. The failure it prevents is a mixed corpus that cannot be searched, compared, or propagated
-reliably.
+Language meaning is verified in review. `npm run test:repo` additionally rejects the American variant in maintained
+surfaces. The failure it prevents is a mixed corpus that cannot be searched, compared, or propagated reliably.

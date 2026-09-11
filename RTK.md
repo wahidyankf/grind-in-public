@@ -11,7 +11,7 @@ Prefix shell commands with `rtk` while preserving repository-mandated command fo
 
 ```sh
 rtk git status
-rtk npm exec -- nx run badakmini-cli:test:repo
+rtk npm run test:repo
 rtk go test ./...
 ```
 

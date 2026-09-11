@@ -1,6 +1,19 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+// These cases inherit three scenarios from a Gherkin corpus that no longer
+// exists. `specs/apps/badakmini-cli/behaviours/rule-change.feature` described
+// the behaviour of an application that has been retired; the corpus rule binds
+// applications and libraries, and this is neither. The scenarios survive here
+// rather than as an orphan feature file no adapter consumes:
+//
+//   A staged rule path automatically triggers the workflow
+//     -> selects a staged governance path as a rule change
+//   An ordinary staged path stays silent
+//     -> stays silent on an ordinary staged path
+//   A harness edit automatically triggers both workflows
+//     -> names both workflows when a harness surface changed
+//
 // Each case loads the module itself rather than importing it at the top. A
 // top-level import that cannot resolve kills the whole file on the first line,
 // which would collapse every behaviour below into one failure and prove only

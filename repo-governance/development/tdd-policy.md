@@ -6,8 +6,8 @@ when_to_use: "Use when writing a delivery checklist or implementing any behaviou
 # TDD Policy
 
 Develop every new or changed application and library behaviour with TDD, using the
-[red-green-refactor workflow](../workflows/red-green-refactor.md). This includes Badak Mini, whose defects can silently
-disable repository gates.
+[red-green-refactor workflow](../workflows/red-green-refactor.md). This includes the validation scripts under
+`scripts/`, whose defects can silently disable repository gates.
 
 Treat test declarations and implementations as living documentation. Before interpreting or changing production code,
 read the relevant tests to establish intended behaviour, constraints, and boundaries. For projects governed by
