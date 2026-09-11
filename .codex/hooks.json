@@ -7,7 +7,7 @@
           {
             "type": "command",
             "statusMessage": "Checking for a rule change",
-            "command": "sh -c 'cd \"$(git rev-parse --show-toplevel)\" && go -C apps/badakmini-cli run ./cmd/badak-mini harness rule-change hook'"
+            "command": "sh -c 'cd \"$(git rev-parse --show-toplevel)\" && node scripts/check-rule-change.mjs hook'"
           }
         ]
       }

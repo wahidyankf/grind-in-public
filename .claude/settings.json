@@ -13,7 +13,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "go -C \"${CLAUDE_PROJECT_DIR}/apps/badakmini-cli\" run ./cmd/badak-mini harness rule-change hook"
+            "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/check-rule-change.mjs\" hook"
           }
         ]
       }

@@ -7,4 +7,4 @@
 # rule. This runs for every editor and agent, so the workflow does not depend on
 # anyone remembering it. It reports and never blocks: a hook cannot judge
 # semantic decisions, only that the procedure applies.
-npm exec nx -- run badakmini-cli:rule-change
+node scripts/check-rule-change.mjs

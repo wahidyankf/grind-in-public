@@ -73,5 +73,5 @@ REFS
 
 if [ "$SHOULD_CHECK_REPO" -eq 1 ]; then
 	NX_NO_CLOUD=true ./hippo run --class ephemeral --disk-path . -- \
-		npm exec -- nx run -p badakmini-cli -t test:repo
+		npm run test:repo
 fi

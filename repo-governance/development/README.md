@@ -30,6 +30,7 @@ only the policy that matches the work at hand:
 - [Planning Capabilities](planning-capabilities.md) for what this repository must be able to do with a plan and in what
   form those abilities are published; its modules live in [`planning-capabilities/`](planning-capabilities/README.md).
 - [Quality Gates](quality-gates.md) for test boundaries and owner/E2E target contracts.
+- [Repository Check](repository-check-policy.md) for the bar a new repository-wide check must clear and where it runs.
 - [Rule Change Triggers](rule-change-trigger-policy.md) for how a rule change announces the workflows that must follow
   it.
 - [Resource-Aware Development](resource-aware-development.md) for checksum-pinned admission and recovery of
