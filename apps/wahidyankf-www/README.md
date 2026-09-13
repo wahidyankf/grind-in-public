@@ -70,9 +70,16 @@ Playwright skips, direct journey specs, undefined bindings, and unused steps.
 
 ## Coverage
 
-`test:coverage:unit` and `test:coverage:integration` each enforce a 99% line floor. Both count `src/**` as the
-denominator, set explicitly in `vitest.config.ts`: without it only files some test imports would appear at all, and an
-untested module would vanish from the measurement rather than count against it.
+`test:coverage:unit` and `test:coverage:integration` each enforce a 99% line floor. `test:coverage:unit` counts `src/**`
+as the denominator, set explicitly in `vitest.config.ts`: without it only files some test imports would appear at all,
+and an untested module would vanish from the measurement rather than count against it. That include still leaves out
+`src/app/fonts/**`, `src/app/**/*.css`, and `src/test/**`, which are assets and test setup rather than code under test,
+along with configuration files and build output.
+
+`test:coverage:integration` replaces that include with `--coverage.include='src/features/cv/**/pdf.ts'`, so it counts
+only `src/features/cv/core/pdf.ts` and `src/features/cv/shell/pdf.ts`, the modules that touch the filesystem. Every
+other `src/**` module is left out of that run: no integration test reaches it, and the unit run measures it against its
+own floor. The flag rides on the target because Vitest 4 lets no project config set `coverage`.
 
 `test:coverage:unit` runs the `behaviour-unit` project alongside `unit`, because `src/features/env/core/tier-env.ts` and
 `port-resolver.ts` are exercised only through their Gherkin bindings and would otherwise report zero against a
