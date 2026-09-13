@@ -6,7 +6,7 @@ when_to_use:
 
 # Specification Changes
 
-`tech-docs/specification-changes.md` owns planned specification work and is linked from `tech-docs/README.md`. It
+`tech-docs/NNN-specification-changes.md` owns planned specification work and is linked from `tech-docs/README.md`. It
 records a proposal; `specs/` remains the canonical as-built truth until implementation and verification finish.
 
 Before its file list, separate durable contracts from plan-only acceptance outcomes. A plan-only outcome states why it
@@ -21,6 +21,6 @@ journey that proves the result.
 For C4, name the exact view, node, relationship, data store, or constraint that changes and why. A planned diagram stays
 terminal-first ASCII. Update the C4 model only with the final implemented boundary, never with a speculative design.
 
-`tech-docs/file-impact.md` lists every expected code, test, specification, documentation, configuration, and runtime
+`tech-docs/NNN-file-impact.md` lists every expected code, test, specification, documentation, configuration, and runtime
 path exactly with `[E]`, `[N]`, `[M]`, or `[D]`. Do not substitute a directory, glob, ellipsis, or generic area. An
 unknown necessary filename is a discovery prerequisite that blocks execution, not a blank to hide in the tree.

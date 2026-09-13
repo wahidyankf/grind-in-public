@@ -6,7 +6,7 @@ when_to_use: "Use when a formal plan creates or materially changes user interfac
 
 # Plan UI Design
 
-A material UI plan creates `tech-docs/ui-design.md` and `tech-docs/assets/README.md`, both mapped from
+A material UI plan creates `tech-docs/NNN-ui-design.md` and `tech-docs/assets/README.md`, both mapped from
 `tech-docs/README.md`. The design document states the user's job, real product copy, states, three alternatives,
 selected direction, rationale, trade-offs, reusable components, and keyboard, focus, error, empty, loading,
 reduced-motion, responsive, and accessibility behaviour.
@@ -22,5 +22,5 @@ Markdown embed has useful alt text. Use raster only when bitmap fidelity is mate
 real accounts or private data, or use Mermaid; architectural diagrams remain ASCII.
 
 `delivery.md` traces exploration, selection, implementation, accessibility checks, and affected-device manual proof to
-the relevant `[AC-…]` labels. `tech-docs/file-impact.md` names every implementation, test, specification, and asset
+the relevant `[AC-…]` labels. `tech-docs/NNN-file-impact.md` names every implementation, test, specification, and asset
 path.

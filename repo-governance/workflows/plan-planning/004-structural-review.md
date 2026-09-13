@@ -20,7 +20,7 @@ gate focused on judgment rather than on missing headings.
 7. **Phase 0 records a baseline** and changes nothing else.
 8. **Every behaviour cycle binds one Gherkin scenario**, inlined verbatim.
 9. **The final phase is Knowledge Capture**, and `learnings.md` exists or is created by it.
-10. **`tech-docs/file-impact.md` covers every checklist path** with an `[E]`, `[N]`, `[M]`, or `[D]` label, and the
+10. **`tech-docs/NNN-file-impact.md` covers every checklist path** with an `[E]`, `[N]`, `[M]`, or `[D]` label, and the
     technical map explains every companion's reader job.
 11. **Required conditional companions exist** — specification changes for C4, Gherkin, or interface work; migration
     design for representation transitions; UI design and twelve assets for material UI work.

@@ -24,8 +24,8 @@ Context, architecture, selected decisions, dependencies, risks, and — in the d
 to each companion. It owns no checklist; that is `delivery.md`.
 
 Every non-archived plan states its file impact: every expected path marked exactly `[E]` edit, `[N]` new, `[M]` moved,
-or `[D]` deleted. In the directory shape that is `tech-docs/file-impact.md`; in the single-file shape it is a section of
-`tech-docs.md`. Add the companions named by the [specification-change](014-specification-changes.md),
+or `[D]` deleted. In the directory shape that is `tech-docs/NNN-file-impact.md`; in the single-file shape it is a
+section of `tech-docs.md`. Add the companions named by the [specification-change](014-specification-changes.md),
 [migration](015-plan-migrations.md), and [UI-design](016-plan-ui-design.md) rules when they apply; never create an empty
 companion to satisfy a heading.
 

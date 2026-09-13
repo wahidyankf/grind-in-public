@@ -7,9 +7,9 @@ when_to_use:
 
 # Plan Migrations
 
-Use `tech-docs/migration-design.md` whenever a formal plan changes a stored, runtime, browser, schema, API, protocol,
-configuration, or dependency representation. Add `tech-docs/data-contracts.md` when exact shapes change. Both documents
-are mapped from `tech-docs/README.md`; do not create either for work that has no transition.
+Use `tech-docs/NNN-migration-design.md` whenever a formal plan changes a stored, runtime, browser, schema, API,
+protocol, configuration, or dependency representation. Add `tech-docs/NNN-data-contracts.md` when exact shapes change.
+Both documents are mapped from `tech-docs/README.md`; do not create either for work that has no transition.
 
 Inventory every affected source with its safe location or key, readers, writers, accepted shape or version, owner,
 destination, compatibility behaviour, and disposition proof. Never place private values, credentials, or user data in
