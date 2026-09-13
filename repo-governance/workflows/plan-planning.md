@@ -1,5 +1,5 @@
 ---
-tldr: "Turns a described change into a five-core-document plan ready for an explicitly requested quality gate."
+tldr: "Turns a described change into a six-document plan ready for an explicitly requested quality gate."
 when_to_use: "Use only after the owner explicitly requests a plan."
 ---
 
@@ -7,8 +7,8 @@ when_to_use: "Use only after the owner explicitly requests a plan."
 
 ## Purpose
 
-Turn a described change into a five-core-document plan that another session could execute without inventing a decision.
-The plan lands in `plans/backlog/` or `plans/in-progress/` ready for a separately authorized
+Turn a described change into a six-document plan that another session could execute without inventing a decision. The
+plan lands in `plans/backlog/` or `plans/in-progress/` ready for a separately authorized
 [plan-quality-gate](plan-quality-gate.md) run.
 
 ## When to Use
