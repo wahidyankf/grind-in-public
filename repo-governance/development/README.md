@@ -25,6 +25,8 @@ only the policy that matches the work at hand:
   is verified.
 - [GitHub Actions Storage](github-actions-storage.md) for artifact retention, Packages lifecycle, cache limits, and the
   external paid-usage stop.
+- [No Destructive Git Operations](no-destructive-git-operations.md) for per-instance approval of any Git command that
+  destroys work or history.
 - [Nx Workspace](nx-workspace-policy.md) for raw-Nx boundaries and verification.
 - [Planning Capabilities](planning-capabilities.md) for what this repository must be able to do with a plan and in what
   form those abilities are published; its modules live in [`planning-capabilities/`](planning-capabilities/README.md).
