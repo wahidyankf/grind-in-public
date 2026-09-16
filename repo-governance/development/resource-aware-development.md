@@ -44,6 +44,20 @@ never sheds a transaction. Only the owning guard signals and reaps its child gro
 
 Never bypass HIPPO, weaken a gate, delete possibly live state, or raise mapped concurrency.
 
+## Enforcement
+
+The contract above was prose only, and prose did not hold: an unguarded Nx fan-out in a sibling repository exhausted
+host memory and forced a restart. HIPPO cannot shed work it was never told about, so pressure went critical while the
+scheduler still reported `normal`.
+
+[`.claude/hooks/require-hippo-boundary.sh`](../../.claude/hooks/require-hippo-boundary.sh) refuses a compute-bearing
+command carrying no outer guard, before the process spawns. All three harnesses bind it, byte-identical to every other
+consuming repository's copy so a hardening fix cannot land in one and quietly miss the rest.
+
+It decides only whether a guard is present, never which class is right; class choice needs intent and stays a judgment.
+Verbs match only in command position, so searching for a verb string is not refused — a guard that blocks ordinary
+searching is one that gets switched off.
+
 ## Consumer Integrity and Evidence
 
 `hippo.lock` pins the public release version, source commit, and SHA-256 for each supported macOS/Linux and amd64/arm64
