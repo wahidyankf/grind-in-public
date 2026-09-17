@@ -39,8 +39,8 @@ evidence each step read.
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- ./rhino plan validate
-rtk ./hippo run --class ephemeral --disk-path . -- npm run test:scheduled
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- ./rhino plan validate
+rtk npm run test:scheduled
 ```
 
 The check is complete when all six steps have been evaluated and exactly one terminal verdict is recorded.

@@ -43,8 +43,8 @@ there is not a licence to add runtime Go; see the [repository check policy](repo
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm run lint
-rtk ./hippo run --class ephemeral --disk-path . -- npm run typecheck
+rtk npm run lint
+rtk npm run typecheck
 ```
 
 Linting and type checking catch the mechanical part. Naming is reviewed by a person, because a name is only wrong

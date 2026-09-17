@@ -4,12 +4,12 @@
 
 Grind in Public is a personal lifelong-learning workspace for software engineering. Follow the
 [drill practice](repo-governance/conventions/drill-practice-policy.md) and
-[task tracking](repo-governance/conventions/task-tracking-policy.md) policies; the second also states how to treat
-another task's concurrent edits. Write everything that lands in a file in English; see the
-[language policy](repo-governance/conventions/language-policy.md). Use the smallest responsible task change; maintained
-surfaces must prove net recurring value. See [minimum sufficiency](repo-governance/principles/minimum-sufficiency.md)
-and [maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with
-options, not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
+[task tracking](repo-governance/conventions/task-tracking-policy.md), which also governs concurrent edits. Write files
+in English; see the [language policy](repo-governance/conventions/language-policy.md). Use the smallest responsible
+change; maintained surfaces prove recurring value. See
+[minimum sufficiency](repo-governance/principles/minimum-sufficiency.md) and
+[maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with options,
+not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
 
 ## Reference Repositories
 
@@ -48,11 +48,13 @@ project needing them.
 
 ## Commands
 
-[Workspace commands](repo-governance/development/workspace-commands.md) is canonical for every command, check, and hook:
-the common loop, the narrower runs, and what each Git hook does. Guard compute-bearing Nx work through the
-checksum-pinned `./hippo` consumer under the
+[Workspace commands](repo-governance/development/workspace-commands.md) defines commands, checks, and hooks. Guard
+compute-bearing Nx work through checksum-pinned `./hippo` under the
 [resource-aware development policy](repo-governance/development/resource-aware-development.md); never bypass or
 parallel-retry an admission deferral.
+
+Authorized temporary worktrees live only at `{repository location}/worktrees/<task>` and use their local `./hippo`;
+sibling layouts are forbidden.
 
 ## Planning
 

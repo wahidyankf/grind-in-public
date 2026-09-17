@@ -45,7 +45,7 @@ and writes dispositions, and it consults no build.
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
+rtk npm run check:markdown-links
 ```
 
 Grooming is complete when every brief on the frozen list carries a disposition, every `keep` and `retire` carries a

@@ -10,13 +10,14 @@ list cannot drift between them.
 
 ## Setup
 
-- `rtk ./hippo run --class transactional --disk-path . -- npm install` installs pinned dependencies and enables Husky
-  hooks.
+- `rtk ./hippo run --class transactional --resource-tier standard --disk-path . -- npm install` installs pinned
+  dependencies and enables Husky hooks.
 
 ## Build and Test
 
-Guard compute-bearing commands shown below with `rtk ./hippo run --class ephemeral --disk-path . -- <command>`.
-Aggregate targets remain unguarded internally so one outer admission owns the whole run.
+Guard compute-bearing commands shown below with
+`rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- <command>`. Aggregate targets remain
+unguarded internally so one outer admission owns the whole run.
 
 - `npm run build`, `npm run typecheck`, and `npm run lint` run the matching Nx targets.
 - `npm run test:unit` runs deterministic unit suites.
@@ -29,8 +30,8 @@ Aggregate targets remain unguarded internally so one outer admission owns the wh
 - `npm run test:scheduled` runs all four project quick gates, both owner integration-coverage gates, then both dedicated
   E2E suites in that operational order.
 
-Narrower runs — prefix each with `rtk ./hippo run --class ephemeral --disk-path . --`, except the two marked
-`# transactional`, which take `--class transactional`:
+Narrower runs — prefix each with `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . --`, except
+the two marked `# transactional`, which take `--class transactional`:
 
 ```sh
 node --test scripts/rule-change.test.mjs

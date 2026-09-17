@@ -1,4 +1,5 @@
 node_modules/
+/worktrees/
 .nx/
 apps/*/dist/
 libs/*/dist/

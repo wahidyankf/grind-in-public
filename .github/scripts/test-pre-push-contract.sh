@@ -11,6 +11,10 @@ invocations="$temporary_root/hippo-invocations"
 git_calls="$temporary_root/git-calls"
 mkdir -p "$fixture_root" "$fake_bin"
 cp "$repository_root/.husky/pre-push" "$fixture_root/pre-push"
+# The hook deliberately delegates the repository aggregate to the package
+# script so that its self-guard is the only admission boundary. Keep the real
+# declaration in the fixture; the fake Hippo below intercepts its payload.
+cp "$repository_root/package.json" "$fixture_root/package.json"
 
 cat >"$fake_bin/git" <<'EOF'
 #!/bin/sh
@@ -93,14 +97,14 @@ fail() {
 # The screen runs through the declared surface rather than as a list of
 # commands here, so what it enforces is read from repo-config.yml. It is also
 # the only one that keeps Nx cloud unset, because no Nx target runs behind it.
-grep -Fqx 'cloud=unset run --class ephemeral --disk-path . -- ./rhino gate run --surface pre-push' "$invocations" ||
+grep -Fqx 'cloud=unset run --class ephemeral --resource-tier standard --disk-path . -- ./rhino gate run --surface pre-push' "$invocations" ||
 	fail 'pre-push must screen the refs through the declared pre-push gate surface before anything else'
 
-grep -Fqx "cloud=true run --class ephemeral --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$new_sha" "$invocations" ||
+grep -Fqx "cloud=true run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$new_sha" "$invocations" ||
 	fail 'a newly created ref must be checked against origin/main'
-grep -Fqx "cloud=true run --class ephemeral --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$existing_sha" "$invocations" ||
+grep -Fqx "cloud=true run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$existing_sha" "$invocations" ||
 	fail 'an existing ref must be checked against origin/main rather than against its own remote tip'
-[ "$(grep -Fxc 'cloud=true run --class ephemeral --disk-path . -- npm run test:repo' "$invocations")" -eq 1 ] ||
+[ "$(grep -Fxc 'cloud=true run --class ephemeral --resource-tier heavy --disk-path . -- ./scripts/check-repo.sh' "$invocations")" -eq 1 ] ||
 	fail 'a governance change anywhere in the pushed range must run the repository aggregate exactly once'
 
 # Link validation is what this hook adds over the repository gate: a rename

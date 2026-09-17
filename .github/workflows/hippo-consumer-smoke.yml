@@ -11,6 +11,7 @@ on:
     paths:
       - hippo
       - hippo.lock
+      - hippo.identity.json
       - hippo.local.json.example
       - .github/scripts/test-hippo-bootstrap.sh
       - .github/workflows/hippo-consumer-smoke.yml

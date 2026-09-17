@@ -41,9 +41,9 @@ switched off outside this repository.
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm run check:rule-change
+rtk npm run check:rule-change
 echo '{"tool_input":{"file_path":"AGENTS.md"}}' |
-  rtk ./hippo run --class ephemeral --disk-path . -- \
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
     node scripts/check-rule-change.mjs hook
 ```
 

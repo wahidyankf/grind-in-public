@@ -35,6 +35,7 @@ locked dependency audit afterward.
 
 ## Verification
 
-Run `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx show projects` to confirm project discovery, then
-run the affected Nx targets and `rtk ./hippo run --class ephemeral --disk-path . -- npm audit --audit-level=low`.
-Preserve `.nx/` and generated project build directories in `.gitignore`.
+Run `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx show projects` to
+confirm project discovery, then run the affected Nx targets and
+`rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm audit --audit-level=low`. Preserve
+`.nx/` and generated project build directories in `.gitignore`.

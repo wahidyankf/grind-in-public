@@ -16,7 +16,7 @@ valid-looking exemption from naming a target that does not actually execute its 
 Run from the repository root:
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:quick
-rtk ./hippo run --class transactional --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t install
-rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:quick
+rtk ./hippo run --class transactional --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t install
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e
 ```

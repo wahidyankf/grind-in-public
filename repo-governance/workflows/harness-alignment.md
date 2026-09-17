@@ -32,7 +32,8 @@ than invoking or restating this procedure.
 
 ## Prerequisites
 
-Run `rtk ./hippo run --class transactional --disk-path . -- npm install` so the validation commands work.
+Run `rtk ./hippo run --class transactional --resource-tier standard --disk-path . -- npm install` so the validation
+commands work.
 
 ## Steps
 
@@ -55,10 +56,10 @@ Run `rtk ./hippo run --class transactional --disk-path . -- npm install` so the 
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm run format:check
-rtk ./hippo run --class ephemeral --disk-path . -- npm run check:governance
-rtk ./hippo run --class ephemeral --disk-path . -- npm run check:harness-parity
-rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
+rtk npm run format:check
+rtk npm run check:governance
+rtk npm run check:harness-parity
+rtk npm run check:markdown-links
 ```
 
 The [document word limit policy](../conventions/document-word-limit-policy.md) governs the limit every governed document

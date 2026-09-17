@@ -37,9 +37,9 @@ authorized before running any checklist item, per the
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm test
-rtk ./hippo run --class ephemeral --disk-path . -- npm run format:check
-rtk ./hippo run --class ephemeral --disk-path . -- npm run check:markdown-links
+rtk npm test
+rtk npm run format:check
+rtk npm run check:markdown-links
 ```
 
 Execution is complete when every checkbox is ticked, every gate passed, every `learnings.md` entry reached a terminal

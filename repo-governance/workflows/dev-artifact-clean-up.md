@@ -55,7 +55,7 @@ evidence a diagnosis needs.
    the tool knows what it owns:
 
    ```sh
-   rtk ./hippo run --class ephemeral --disk-path . -- npx nx reset
+   rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npx nx reset
    ```
 
    Delete a specific directory only when it is named in the scope above and this work is what produced it.

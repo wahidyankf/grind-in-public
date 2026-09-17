@@ -5,8 +5,7 @@ when_to_use: "Use when writing or reviewing any checkbox in a plan's delivery.md
 
 # Delivery Contract
 
-`delivery.md` is the executable part of a plan. Everything else describes intent; this is the part someone works
-through, read literally by an agent that cannot reconstruct what a checkbox left out.
+`delivery.md` is the executable part of a plan, read literally by an agent that cannot reconstruct omitted details.
 
 The dated log it opens with is a separate artifact; the [execution record](012-execution-record.md) owns it.
 
@@ -34,8 +33,8 @@ hides several, and the first failure inside it has no checkbox to fail against.
 
 ```markdown
 - [ ] [AI] Edit `apps/example/internal/detect.go`: preserve one rule-change path after normalization. Verify with
-      `rtk ./hippo run --class ephemeral --disk-path . -- npm exec -- nx run -p example -t test:quick` — the suite
-      exits 0.
+      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p example -t test:quick`
+      — the suite exits 0.
 ```
 
 ## Executor Labels and AI-First Ownership

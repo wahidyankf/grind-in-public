@@ -31,7 +31,7 @@ fi
 # name or a URL. What the safety gate reads is the ref-update lines, which
 # arrive on stdin either way -- and the guard passes stdin through, so the
 # admission boundary that repository checks run behind costs nothing here.
-printf '%s\n' "$ref_updates" | ./hippo run --class ephemeral --disk-path . -- \
+printf '%s\n' "$ref_updates" | ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
 	./rhino gate run --surface pre-push
 
 # Git provides: local ref, local SHA, remote ref, and remote SHA for each ref
@@ -51,7 +51,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 
 	# Always compare with main, rather than the remote ref, so Nx selects every
 	# project affected by the branch's accumulated change set.
-	NX_NO_CLOUD=true ./hippo run --class ephemeral --disk-path . -- \
+	NX_NO_CLOUD=true ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
 		npm exec -- nx affected -t test:quick --base=origin/main --head="$local_sha"
 
 	base_sha="$remote_sha"
@@ -64,7 +64,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 		AGENTS.md CLAUDE.md RTK.md repo-governance specs scripts .github .husky \
 		.claude .codex .opencode .agents package.json nx.json 'apps/*/project.json' \
 		repo-config.yml rhino rhino.lock \
-		hippo hippo.lock hippo.local.json.example; then
+		hippo hippo.lock hippo.identity.json hippo.local.json.example; then
 		SHOULD_CHECK_REPO=1
 	fi
 done <<REFS
@@ -72,6 +72,5 @@ $ref_updates
 REFS
 
 if [ "$SHOULD_CHECK_REPO" -eq 1 ]; then
-	NX_NO_CLOUD=true ./hippo run --class ephemeral --disk-path . -- \
-		npm run test:repo
+	NX_NO_CLOUD=true npm run test:repo
 fi

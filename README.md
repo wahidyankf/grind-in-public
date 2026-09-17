@@ -53,12 +53,12 @@ The repository uses Nx as a raw task runner for its npm workspaces:
 - `apps/` holds runnable applications.
 - `libs/` holds reusable packages consumed by applications.
 
-Build all projects with `rtk ./hippo run --class ephemeral --disk-path . -- npm run build` and run quick checks with
-`rtk ./hippo run --class ephemeral --disk-path . -- npm test`. The root wrapper consumes a checksum-pinned external
-[HIPPO](https://github.com/wahidyankf/hippo) release and maps its fixed allocation only to Nx and Go worker controls.
-See [the Nx workspace guide](docs/how-to/run-nx-workspace.md) for the full workflow. This workspace deliberately avoids
-technology-specific Nx plugins; the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md) states
-which kinds are excluded and the one exception.
+Build all projects with `rtk npm run build` and run quick checks with `rtk npm test`. The root wrapper consumes a
+checksum-pinned external [HIPPO](https://github.com/wahidyankf/hippo) release and maps its fixed allocation only to Nx
+and Go worker controls. See [the Nx workspace guide](docs/how-to/run-nx-workspace.md) for the full workflow. This
+workspace deliberately avoids technology-specific Nx plugins; the
+[Nx workspace policy](repo-governance/development/nx-workspace-policy.md) states which kinds are excluded and the one
+exception.
 
 Documentation hygiene — governance-document word limits, directory maps, repository-local Markdown links, Mermaid
 diagrams, and harness capability parity — is checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI

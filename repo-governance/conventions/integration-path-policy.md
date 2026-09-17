@@ -13,9 +13,10 @@ push remain separate owner-authorized actions under the [commit hook policy](../
 policy chooses the route and grants neither permission.
 
 `main` is the only persistent development branch. If an external tool creates a temporary branch or worktree for a
-non-integration purpose, give it one explicit purpose and remove it immediately after that purpose completes or is
-abandoned, following [dev artifact clean-up](../workflows/dev-artifact-clean-up.md). Never retain it as undeclared
-backlog or use it to bypass the direct-main route.
+non-integration purpose, place it only at `{repository location}/worktrees/<task>`, give it one explicit purpose, and
+remove it immediately after that purpose completes or is abandoned, following
+[dev artifact clean-up](../workflows/dev-artifact-clean-up.md). A sibling `*-worktrees/` path is forbidden. Never retain
+the worktree as undeclared backlog or use it to bypass the direct-main route.
 
 ## Promotion Exception
 

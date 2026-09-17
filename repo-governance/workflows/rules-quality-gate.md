@@ -69,7 +69,7 @@ In `PROPOSAL` mode:
 In `EFFECTIVE` mode, run:
 
 ```sh
-rtk ./hippo run --class ephemeral --disk-path . -- npm run test:repo
+rtk npm run test:repo
 ```
 
 Return `PASS_EFFECTIVE` only when the semantic ledger is clear and tooling passes. Otherwise emit `NEEDS_PROPAGATION`
