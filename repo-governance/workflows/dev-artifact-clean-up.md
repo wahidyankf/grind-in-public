@@ -20,6 +20,9 @@ Build output means the compiled and cached output a documented command rebuilds 
 never means a `.env*` file, `hippo.local.json`, `.claude/settings.local.json`, or any other local secret or machine
 configuration: those are not build output, exist nowhere else, and are out of scope in every location.
 
+An exact ignored, nonshared cache such as `.fvm-cache` may be scratch even when another task created it, but only after
+recorded regeneration, non-use, and secret-free evidence. This never makes a shared cache removable.
+
 The worktree and branch halves of this workflow do not apply. The
 [integration path policy](../conventions/integration-path-policy.md) makes local `main` the sole integration path, so no
 task branch or worktree exists to remove. Where an external tool created a temporary one for a non-integration purpose,
@@ -75,8 +78,9 @@ say so rather than reconstructing it silently. If `git merge --ff-only` refuses,
 
 ## Never
 
-Never delete a `.env*` file or any other local secret. They are gitignored and unregenerable — nothing in the repository
-reconstructs one — so deleting one is permanent loss of the owner's own configuration, not a reclaimed artifact.
+Never delete a `.env*` file or any other local secret-bearing file or directory. They are gitignored and unregenerable —
+nothing in the repository reconstructs one — so deleting one is permanent loss of the owner's own configuration, not a
+reclaimed artifact.
 
 Never delete an artifact another actor created. Never stash to clear the tree before purging; the stash stack is shared,
 and a pop elsewhere takes an entry it did not create.
