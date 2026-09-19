@@ -1,6 +1,6 @@
 ---
 name: plan-writing-gherkin-criteria
-description:
+description: >-
   Guides writing Given/When/Then acceptance scenarios that describe observable behaviour and can actually fail. Use when
   authoring or reviewing the acceptance criteria in a plan's prd.md.
 ---

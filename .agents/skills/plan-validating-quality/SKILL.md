@@ -1,6 +1,6 @@
 ---
 name: plan-validating-quality
-description:
+description: >-
   Guides judging whether a plan draft is complete, clear, and executable, beyond what structural validation can
   mechanically check. Use when auditing a plan draft before execution.
 ---

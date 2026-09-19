@@ -11,7 +11,7 @@ This directory holds the project-scoped Codex configuration for Grind in Public.
 - `hooks.json` — the `PreToolUse` hook that announces the rule-change workflows before an `apply_patch`, `Edit`, or
   `Write` edit. Codex runs a project hook only after the owner trusts the project and approves the hook with `/hooks`;
   see [harness pre-edit triggers](../repo-governance/development/harness-pre-edit-triggers.md).
-- [`agents/`](agents/README.md) — the shared subagents available in this repository.
+- [Canonical agents](../.agents/agents/README.md) — the shared subagents available in this repository.
 
 Codex discovers agents from `agents/*.toml` without registration, and ignores other file types there.
 

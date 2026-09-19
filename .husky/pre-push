@@ -32,7 +32,7 @@ fi
 # arrive on stdin either way -- and the guard passes stdin through, so the
 # admission boundary that repository checks run behind costs nothing here.
 printf '%s\n' "$ref_updates" | ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
-	./rhino gate run --surface pre-push
+	./rhino gate run --surface pre-push --push-updates-stdin
 
 # Git provides: local ref, local SHA, remote ref, and remote SHA for each ref
 # update. Each non-deletion is checked against the mainline baseline, while the

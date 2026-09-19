@@ -1,6 +1,6 @@
 ---
 name: plan-grooming-idea-briefs
-description:
+description: >-
   Judges whether an idea brief is worth promoting to a formal plan, keeping with a stated trigger, or retiring outright.
   Use when reviewing plans/ideas/, or when deciding whether a request should become a formal plan.
 ---

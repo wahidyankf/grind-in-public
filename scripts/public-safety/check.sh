@@ -35,7 +35,10 @@ leaf="$here/outbound-preflight.sh"
 	exit 2
 }
 
-surface="${OSE_GATE_SURFACE:-}"
+surface="${OSE_GATE_SURFACE:-${RHINO_GATE_SURFACE:-}}"
+case "$surface" in
+main | scheduled | manual | pull-request) surface=ci ;;
+esac
 case "$surface" in
 commit-msg | pre-commit | pre-push | ci) ;;
 "")

@@ -22,6 +22,5 @@ Codex and opencode both discover these skills automatically from this directory;
 The five `plan-` skills carry the reusable judgement behind the planning lifecycle; the workflows that sequence them are
 indexed in [`repo-governance/workflows/`](../../repo-governance/workflows/README.md).
 
-Claude receives a thin adapter in [`.claude/skills/`](../../.claude/skills/README.md); the complete bundle here remains
-canonical. See the
+Claude receives a thin adapter in `.claude/skills/`; the complete bundle here remains canonical. See the
 [harness capability parity policy](../../repo-governance/conventions/harness-capability-parity-policy.md).

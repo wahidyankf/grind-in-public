@@ -61,9 +61,9 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 
 ## Repository Checks
 
-- `npm run check:hygiene` is `./rhino gate run --surface ci`, which runs every gate that surface declares.
+- `npm run check:hygiene` is `./rhino gate run --surface main`, which runs every gate that surface declares.
 - `npm run check:governance` enforces the [document word limit policy](../conventions/document-word-limit-policy.md).
-- `npm run check:harness-parity` validates instructions, skills, agent adapters, and the digest.
+- `npm run check:harness-parity` validates instructions, skills, and agent adapters.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
 - `npm run check:project-contract` validates the deterministic owner/E2E descriptor contract for every declared pair.

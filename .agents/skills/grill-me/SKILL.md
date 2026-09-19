@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description:
+description: >-
   Resolve open design decisions by interrogating the owner with structured multiple-choice questions, one decision at a
   time, until nothing is left ambiguous. Use when the owner says "grill me", asks to stress-test a plan or design, or
   when a task cannot proceed without a decision only the owner can make.

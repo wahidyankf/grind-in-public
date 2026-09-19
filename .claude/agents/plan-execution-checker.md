@@ -1,11 +1,8 @@
 ---
-name: plan-execution-checker
-description:
-  Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival. Use
-  once every substantive delivery item is terminal and archival is the next step.
-tools: Read, Glob, Grep, Bash
+description: Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival. Use once every substantive delivery item is terminal and archival is the next step.
 model: inherit
+name: plan-execution-checker
+tools: "Read, Glob, Grep, Bash"
 ---
 
-Before acting, read the complete canonical agent definition at `.agents/agents/plan-execution-checker.md` from the
-repository root and follow it as authoritative. If it cannot be read, stop and report the missing path.
+Before acting, read the complete canonical agent definition at the repository-root path .agents/agents/plan-execution-checker.md and follow it as authoritative. If it cannot be read, stop and report the missing path.

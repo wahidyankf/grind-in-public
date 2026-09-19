@@ -7,7 +7,7 @@ an additional repository contract route; see the
 
 ## Contents
 
-- [`agents/`](agents/README.md) — the shared subagents available in this repository.
+- [Canonical agents](../.agents/agents/README.md) — the shared subagents available in this repository.
 - [`plugin/`](plugin/README.md) — session plugins, currently the rule-change notice.
 - [`skills/`](skills/README.md) — opencode's skill directory. It holds none: opencode reads the canonical bundles from
   `.agents/skills/`.

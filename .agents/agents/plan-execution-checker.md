@@ -1,6 +1,6 @@
 ---
 name: plan-execution-checker
-description:
+description: >-
   Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival. Use
   once every substantive delivery item is terminal and archival is the next step.
 mode: subagent

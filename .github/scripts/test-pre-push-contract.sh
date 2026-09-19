@@ -97,7 +97,7 @@ fail() {
 # The screen runs through the declared surface rather than as a list of
 # commands here, so what it enforces is read from repo-config.yml. It is also
 # the only one that keeps Nx cloud unset, because no Nx target runs behind it.
-grep -Fqx 'cloud=unset run --class ephemeral --resource-tier standard --disk-path . -- ./rhino gate run --surface pre-push' "$invocations" ||
+grep -Fqx 'cloud=unset run --class ephemeral --resource-tier standard --disk-path . -- ./rhino gate run --surface pre-push --push-updates-stdin' "$invocations" ||
 	fail 'pre-push must screen the refs through the declared pre-push gate surface before anything else'
 
 grep -Fqx "cloud=true run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx affected -t test:quick --base=origin/main --head=$new_sha" "$invocations" ||
@@ -111,9 +111,9 @@ grep -Fqx "cloud=true run --class ephemeral --resource-tier standard --disk-path
 # breaks links in files the change never touched. It moved onto the declared
 # surface, so the assertion moved with it -- the behaviour is still bound, at
 # the site that now owns it.
-grep -q '^  - id: internal-link$' "$repository_root/repo-config.yml" ||
+grep -q '^    - id: internal-link$' "$repository_root/repo-config.yml" ||
 	fail 'repo-config.yml must still declare an internal-link gate'
-awk '/^  - id: internal-link$/ { found = 1 } found && /^ *- pre-push$/ { print; exit }' \
+awk '/^    - id: internal-link$/ { found = 1 } found && /pre-push: \{\}/ { print; exit }' \
 	"$repository_root/repo-config.yml" | grep -q 'pre-push' ||
 	fail 'the internal-link gate must stay on the pre-push surface, or a rename can be pushed with broken links'
 

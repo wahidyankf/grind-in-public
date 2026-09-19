@@ -1,7 +1,4 @@
-# The message being written is the first thing that can leave this repository,
-# because it is published with the commit that carries it.
-#
-# Arguments after `--` reach every gate on the surface, which is correct here
-# and only here: both gates on `commit-msg` want the same message file. The
-# safety screen reads it as outbound text and Commitlint reads it as a message.
-exec ./rhino gate run --surface commit-msg -- "$1"
+# The message is sealed as typed input before the public-safety and Conventional
+# Commit gates run. No forwarded hook arguments reach child commands.
+exec ./hippo run --class ephemeral --resource-tier light --disk-path . -- \
+  ./rhino gate run --surface commit-msg --message-file "$1"

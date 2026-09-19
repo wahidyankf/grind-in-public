@@ -21,9 +21,10 @@ runs `git`.
 OSE_GATE_SURFACE=<commit-msg|pre-commit|pre-push|ci> scripts/public-safety/check.sh [hook arguments]
 ```
 
-The surface arrives in the environment and nowhere else. A missing or unknown value is a protocol failure, not a
-default. A gate that infers its own surface will eventually infer a weaker one, and that is exactly the case where
-inferring is expensive.
+The surface arrives in the environment and nowhere else. Rhino supplies `RHINO_GATE_SURFACE`; its `main`, `scheduled`,
+and `manual` full-tree surfaces map to this scanner's `ci` collection mode. A missing or unknown value is a protocol
+failure, not a default. A gate that infers its own surface will eventually infer a weaker one, and that is exactly the
+case where inferring is expensive.
 
 | Surface      | Outbound at that moment                                           |
 | ------------ | ----------------------------------------------------------------- |

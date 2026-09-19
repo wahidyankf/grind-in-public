@@ -21,6 +21,11 @@ while IFS= read -r variable; do
 	unset "$variable"
 done < <(git rev-parse --local-env-vars 2>/dev/null)
 
+# A Rhino lifecycle gate marks its current surface in the environment. The
+# fixture suite exercises each surface explicitly, including the absence of a
+# surface, so it must not inherit that ambient invocation detail.
+unset OSE_GATE_SURFACE RHINO_GATE_SURFACE
+
 here=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 root=$(CDPATH='' cd -- "$here/../../.." && pwd)
 export PUBLIC_SAFETY_ROOT="$root"

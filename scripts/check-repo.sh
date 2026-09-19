@@ -24,7 +24,7 @@ run() {
 
 # The declared gates, dispatched by surface so what runs is read from
 # repo-config.yml rather than listed twice.
-run ./rhino gate run --surface ci
+run ./rhino gate run --surface main
 
 # The repository's own mechanisms: each validator paired with the unit tests
 # that prove the validator itself still discriminates. The rule-change notice
