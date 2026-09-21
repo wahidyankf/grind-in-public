@@ -12,7 +12,7 @@ when_to_use:
 Every non-drill application corpus under `specs/apps/<name>/` contains a canonical root `architecture.md` C4 model. The
 model describes only the current, as-built system; proposed or unimplemented designs belong in a plan or other
 explicitly prospective document. Implementation and dedicated E2E projects that share one corpus share its architecture
-model.
+model. The recorded [pilot](testing-policy/tooling.md#recorded-deviations) has no corpus and no model.
 
 ## Required Coverage
 

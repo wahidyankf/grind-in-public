@@ -6,10 +6,10 @@ when_to_use:
 
 # Behaviour-Driven Development Policy
 
-Every application and library owns one recursive canonical Gherkin corpus under its mirrored `specs/` path. Unit,
-applicable local integration, and dedicated application E2E adapters consume that corpus; an E2E project owns no
-separate features. A feature, scenario, step, binding, config, or adapter change must invalidate and rerun applicable
-static compliance.
+Every application and library, except the recorded [pilot](testing-policy/tooling.md#recorded-deviations), owns one
+recursive canonical Gherkin corpus under its mirrored `specs/` path. Unit, applicable local integration, and dedicated
+application E2E adapters consume that corpus; an E2E project owns no separate features. A feature, scenario, step,
+binding, config, or adapter change must invalidate and rerun applicable static compliance.
 
 ## Iron Rule
 

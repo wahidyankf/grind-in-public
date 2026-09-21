@@ -50,7 +50,7 @@ of delivery. A plan may retain rollout or operational acceptance outcomes only w
 gives a reason, and names the delivery proof. Architectural changes similarly name the affected C4 view and update
 `specs/` only to the final as-built state. Every existing app and library has executable Gherkin under its mirrored
 `behaviours/` directory; a missing corpus is a policy failure, not deferred retrofit work. Drills are exempt: a drill is
-practice, not repository behaviour.
+practice, not repository behaviour. So is the recorded [pilot](testing-policy/tooling.md#recorded-deviations).
 
 ## Verification
 

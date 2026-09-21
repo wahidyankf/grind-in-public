@@ -6,7 +6,9 @@ when_to_use: "Use when adding, changing, or running project test and quality tar
 # Testing Policy
 
 The [quality-gates standard](quality-gates.md) owns test boundaries and the target contract. This policy owns how those
-targets operate in this Nx workspace; [target shape](testing-policy/target-shape.md) owns their declarations.
+targets operate in this Nx workspace; [target shape](testing-policy/target-shape.md) owns their declarations. The
+recorded [pilot](testing-policy/tooling.md#recorded-deviations) is exempt from the owner and dedicated E2E contracts
+below.
 
 ## Owner Applications
 

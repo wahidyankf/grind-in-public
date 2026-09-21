@@ -25,9 +25,9 @@ tests separate. Every application with a public browser or process boundary owns
 
 ## Gate Contracts
 
-Owner applications expose `build`, `typecheck`, `lint`, `test:unit`, `test:integration`, `test:coverage:unit`,
-`test:coverage:integration`, `test:coverage:behaviour:<owner>`, `test:coverage:behaviour`, `test:coverage`, and
-`test:quick`.
+The recorded [pilot](testing-policy/tooling.md#recorded-deviations) is exempt from these contracts. Owner applications
+expose `build`, `typecheck`, `lint`, `test:unit`, `test:integration`, `test:coverage:unit`, `test:coverage:integration`,
+`test:coverage:behaviour:<owner>`, `test:coverage:behaviour`, `test:coverage`, and `test:quick`.
 
 Dedicated E2E projects expose only `typecheck`, `lint`, `test:coverage:behaviour:e2e`, `test:coverage:behaviour`,
 `test:e2e`, and `test:quick`, plus justified operational targets such as browser installation. They have no unit,

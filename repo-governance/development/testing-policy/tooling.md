@@ -1,5 +1,5 @@
 ---
-tldr: "Sets TypeScript and Go quality tooling and dependency requirements."
+tldr: "Sets TypeScript and Go quality tooling, the recorded Python pilot, and dependency requirements."
 when_to_use: "Use when configuring project tooling, linters, or dependency versions."
 ---
 
@@ -50,3 +50,11 @@ running.
 Biome is therefore this repository's CSS at-rule check. A generic CSS language server run by an editor reads none of
 this configuration and reports the same directives as unknown; that is an editor setting, not a repository defect, and
 nothing here is weakened to quiet it.
+
+`apps/forum-be-python` is the recorded pilot of a Python backend, one folder the owner scoped without behaviour-driven
+development. For it alone, Python 3.13 under uv, pyright in strict mode, and pytest replace the TypeScript target. It
+has no Gherkin corpus, `specs/` C4 model, dedicated E2E project, owner target contract, or 99% coverage floor; TDD,
+test-data isolation, API-testing proof, dependency selection, and commit rules still apply. Its targets are `typecheck`,
+`test:unit`, `test:e2e`, `test:quick` (`typecheck`, then `test:unit`), and the operational `dev`, `db:up`, and
+`db:down`. `test:e2e` is uncached and needs Docker PostgreSQL; it counts as E2E, not integration, because its tests
+reach a database over loopback. Another application needs its own recorded owner decision.
