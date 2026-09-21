@@ -8,6 +8,10 @@ when_to_use: "Use when starting execution or resuming it after an interruption."
 `delivery.md` is the durable record; the harness task list is what the owner watches while the work runs. They must
 agree, because two disagreeing records mean neither can be trusted.
 
+Nothing else writes progress down. `local-tmp/` carries what an execution needs and then discards — scripts, assets,
+logs, the touched-file ledger — never a copy of the checklist, its ticks, or its status. Away from a plan there is no
+`delivery.md`, and a scratch file may hold working notes that have to survive a context boundary.
+
 ## One Task per Checkbox
 
 Materialize the current phase's checkboxes as tasks, one to one, in checklist order. Do not batch several checkboxes
