@@ -67,10 +67,11 @@ rule change requires is a repository script, `scripts/check-rule-change.mjs`, wi
 harness's pre-edit hook. [Workspace commands](repo-governance/development/workspace-commands.md) lists the
 `npm run check:` command for each check.
 
-One application lives here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
+Two applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
 the repository's single authoritative CV record — the practice workspace and its public face maintained under one set of
 rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99% line-coverage
-floor.
+floor. [forum-be-python](apps/forum-be-python/README.md) is a small FastAPI and PostgreSQL pilot held to a lighter,
+recorded contract.
 
 ## Plans and Specs
 

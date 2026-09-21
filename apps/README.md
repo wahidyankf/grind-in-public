@@ -9,3 +9,5 @@ and application-specific documentation; shared packages belong in [`libs/`](../l
   authoritative CV record.
 - [`wahidyankf-www-e2e`](wahidyankf-www-e2e/README.md) — the dedicated Playwright harness for the website's canonical
   behaviour corpus.
+- [`forum-be-python`](forum-be-python/README.md) — a mini forum REST API on FastAPI and PostgreSQL, kept as a small
+  Python backend pilot.

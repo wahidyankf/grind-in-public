@@ -1,0 +1,47 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "forum-be-python",
+  "projectType": "application",
+  "root": "apps/forum-be-python",
+  "targets": {
+    "dev": {
+      "command": "uv run uvicorn forum_be_python.main:app --app-dir src --reload --host 127.0.0.1 --port 3202",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "db:up": {
+      "command": "docker compose up --detach --wait",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "db:down": {
+      "command": "docker compose down",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "typecheck": {
+      "command": "uv run pyright",
+      "options": { "cwd": "{projectRoot}" }
+    },
+    "test:unit": {
+      "command": "uv run pytest src/tests/unit",
+      "options": { "cwd": "{projectRoot}" }
+    },
+    "test:e2e": {
+      "command": "uv run pytest src/tests/e2e",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false,
+      "dependsOn": ["db:up"]
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm exec nx -- run forum-be-python:typecheck",
+          "npm exec nx -- run forum-be-python:test:unit"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}

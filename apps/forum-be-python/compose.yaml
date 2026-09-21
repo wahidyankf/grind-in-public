@@ -1,0 +1,17 @@
+# Development and test database only. It trusts every connection, so the port stays bound to loopback,
+# and the data lives in tmpfs so stopping the container leaves no state behind.
+services:
+  postgres:
+    image: postgres:18.6-alpine
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: forum
+    ports:
+      - "127.0.0.1:54329:5432"
+    tmpfs:
+      - /var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --username postgres --dbname forum"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
