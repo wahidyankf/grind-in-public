@@ -64,6 +64,26 @@ Interactive documentation is served at `/docs` while `dev` runs. Reading is publ
 | POST               | `/threads/{id}/posts`  | Reply to the thread or, with `parent_id`, to another post    |
 | GET, PATCH, DELETE | `/posts/{id}`          | Read a post with its subtree; edit; delete with its replies  |
 
+## Trying the API by hand
+
+[`http/forum.http`](http/forum.http) is a collection for a person to sanity-check the API and poke at it, written in the
+[Kulala](https://github.com/mistweaverco/kulala.nvim) `.http` format for Neovim. It is a manual aid, not a test: nothing
+runs it automatically, and the pytest suites stay the automated proof. It follows the
+[request collection standard](../../repo-governance/development/api-testing.md#request-collections), so an API change
+updates the affected requests in the same change.
+
+1. Start the database and the API with the `db:up` and `dev` targets.
+2. Open `http/forum.http` in Neovim with Kulala. `http/http-client.env.json` supplies `baseUrl` to every environment, so
+   none needs selecting. A `http/http-client.private.env.json`, which Git ignores, can override it for a different port
+   or hold a secret: it mirrors the tracked file's structure, and its values win.
+3. Run one request, or the whole file with `require("kulala").run_all()`. Run them in order: the login, create, and
+   `get_thread` requests save a token or an id with a small `client.global.set` script, and later requests read it back
+   as `{{NAME}}`. After `db:down`, start from the top again, because the old tokens die with the database.
+
+Each request notes the status it should return, including the `401`, `403`, `404`, and `422` cases. The collection uses
+only synthetic `test-user-*` accounts on the local throwaway database, so registering twice answers `409` and the users
+stay until `db:down`.
+
 ## Design notes
 
 - Passwords are hashed with the standard library's scrypt. A token is random and opaque, and only its SHA-256 is stored,
@@ -84,4 +104,5 @@ test-first, and the manual `curl` proof for the public API still applies to ever
 
 - `src/forum_be_python/` holds the application; `main.py` builds the app and each `routes_*.py` owns one resource.
 - `src/tests/unit/` and `src/tests/e2e/` hold the two suites; `src/tests/e2e/conftest.py` owns the per-run database.
+- `http/` holds the Kulala collection and its shared environment file for trying the API by hand.
 - `pyproject.toml` and `uv.lock` pin the toolchain; `compose.yaml` runs PostgreSQL.

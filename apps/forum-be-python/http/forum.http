@@ -1,0 +1,262 @@
+# Forum API by hand: a sanity-check collection for Kulala (https://github.com/mistweaverco/kulala.nvim).
+#
+# Start the API first (see the project README), then run one request or the whole file from the top.
+# Some responses save a token or an id with a small script, and later requests read it back as
+# {{NAME}}, so run the requests in order. Everything is synthetic. Registering twice answers 409,
+# which is expected, and the users stay until `db:down` wipes the database.
+
+@alice = test-user-alice
+@bob = test-user-bob
+@password = synthetic-pass-1
+
+### health
+# Expect 200 with {"status": "ok"}.
+GET {{baseUrl}}/health
+
+# --- auth ---------------------------------------------------------------------------------------
+
+### register_alice
+# Expect 201, or 409 when the user already exists.
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "{{alice}}",
+  "password": "{{password}}"
+}
+
+### register_bob
+# Expect 201, or 409 when the user already exists.
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "{{bob}}",
+  "password": "{{password}}"
+}
+
+### login_alice
+# Expect 200. The token is saved as ALICE_TOKEN for the requests below.
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{alice}}",
+  "password": "{{password}}"
+}
+
+> {%
+  client.global.set("ALICE_TOKEN", response.body.access_token);
+%}
+
+### login_bob
+# Expect 200. The token is saved as BOB_TOKEN for the requests below.
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{bob}}",
+  "password": "{{password}}"
+}
+
+> {%
+  client.global.set("BOB_TOKEN", response.body.access_token);
+%}
+
+### me
+# Expect 200 with alice's id and username.
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{ALICE_TOKEN}}
+
+### me_without_token
+# Expect 401.
+GET {{baseUrl}}/auth/me
+
+# --- topics -------------------------------------------------------------------------------------
+
+### create_topic
+# Expect 201. Alice owns this topic, and its id is saved as TOPIC_ID.
+POST {{baseUrl}}/topics
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "title": "Databases",
+  "description": "Indexes, transactions, and schema design"
+}
+
+> {%
+  client.global.set("TOPIC_ID", response.body.id);
+%}
+
+### list_topics
+# Expect 200 with every topic.
+GET {{baseUrl}}/topics
+
+### get_topic
+# Expect 200.
+GET {{baseUrl}}/topics/{{TOPIC_ID}}
+
+### get_missing_topic
+# Expect 404.
+GET {{baseUrl}}/topics/999999
+
+### update_topic
+# Expect 200. Only the fields you send change.
+PATCH {{baseUrl}}/topics/{{TOPIC_ID}}
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "description": "Indexes, transactions, schema design, and query plans"
+}
+
+### update_topic_as_bob
+# Expect 403. Only the author can change a topic.
+PATCH {{baseUrl}}/topics/{{TOPIC_ID}}
+Authorization: Bearer {{BOB_TOKEN}}
+Content-Type: application/json
+
+{
+  "description": "Hijacked"
+}
+
+# --- threads ------------------------------------------------------------------------------------
+
+### create_thread
+# Expect 201. The body becomes the thread's opening post, and the thread id is saved as THREAD_ID.
+POST {{baseUrl}}/topics/{{TOPIC_ID}}/threads
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "title": "Indexes",
+  "body": "When should I add an index?"
+}
+
+> {%
+  client.global.set("THREAD_ID", response.body.id);
+%}
+
+### list_threads
+# Expect 200 with the topic's threads.
+GET {{baseUrl}}/topics/{{TOPIC_ID}}/threads
+
+### get_thread
+# Expect 200 with the opening post as the only top-level post, whose id is saved as OPENING_POST_ID.
+GET {{baseUrl}}/threads/{{THREAD_ID}}
+
+> {%
+  client.global.set("OPENING_POST_ID", response.body.posts[0].id);
+%}
+
+### update_thread
+# Expect 200 with the new title.
+PATCH {{baseUrl}}/threads/{{THREAD_ID}}
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "title": "Indexes, revisited"
+}
+
+# --- posts --------------------------------------------------------------------------------------
+
+### reply_to_opening
+# Expect 201. Bob answers the opening post, so this reply nests under it. Its id is saved as REPLY_ID.
+POST {{baseUrl}}/threads/{{THREAD_ID}}/posts
+Authorization: Bearer {{BOB_TOKEN}}
+Content-Type: application/json
+
+{
+  "body": "Add one on the column you filter by.",
+  "parent_id": {{OPENING_POST_ID}}
+}
+
+> {%
+  client.global.set("REPLY_ID", response.body.id);
+%}
+
+### reply_to_reply
+# Expect 201. Replies nest to any depth. Its id is saved as NESTED_REPLY_ID.
+POST {{baseUrl}}/threads/{{THREAD_ID}}/posts
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "body": "Thanks, I will measure first.",
+  "parent_id": {{REPLY_ID}}
+}
+
+> {%
+  client.global.set("NESTED_REPLY_ID", response.body.id);
+%}
+
+### reply_with_missing_parent
+# Expect 422. A parent must exist in the same thread.
+POST {{baseUrl}}/threads/{{THREAD_ID}}/posts
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "body": "Orphan",
+  "parent_id": 999999
+}
+
+### get_thread_tree
+# Expect 200 with the two replies nested under the opening post.
+GET {{baseUrl}}/threads/{{THREAD_ID}}
+
+### get_post
+# Expect 200 with bob's reply and the reply beneath it.
+GET {{baseUrl}}/posts/{{REPLY_ID}}
+
+### update_post
+# Expect 200 with the edited body and a later updated_at.
+PATCH {{baseUrl}}/posts/{{REPLY_ID}}
+Authorization: Bearer {{BOB_TOKEN}}
+Content-Type: application/json
+
+{
+  "body": "Add one on the column you filter by, then check the plan."
+}
+
+### update_post_as_alice
+# Expect 403. Only the author can change a post.
+PATCH {{baseUrl}}/posts/{{REPLY_ID}}
+Authorization: Bearer {{ALICE_TOKEN}}
+Content-Type: application/json
+
+{
+  "body": "Hijacked"
+}
+
+### delete_post
+# Expect 204. Deleting a post takes its replies with it.
+DELETE {{baseUrl}}/posts/{{REPLY_ID}}
+Authorization: Bearer {{BOB_TOKEN}}
+
+### get_reply_after_delete
+# Expect 404, because alice's reply went with bob's post.
+GET {{baseUrl}}/posts/{{NESTED_REPLY_ID}}
+
+# --- cleanup ------------------------------------------------------------------------------------
+
+### delete_thread_as_bob
+# Expect 403.
+DELETE {{baseUrl}}/threads/{{THREAD_ID}}
+Authorization: Bearer {{BOB_TOKEN}}
+
+### delete_thread
+# Expect 204.
+DELETE {{baseUrl}}/threads/{{THREAD_ID}}
+Authorization: Bearer {{ALICE_TOKEN}}
+
+### delete_topic
+# Expect 204. The topic goes with any threads still in it.
+DELETE {{baseUrl}}/topics/{{TOPIC_ID}}
+Authorization: Bearer {{ALICE_TOKEN}}
+
+### get_topic_after_delete
+# Expect 404.
+GET {{baseUrl}}/topics/{{TOPIC_ID}}
