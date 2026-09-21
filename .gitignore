@@ -45,3 +45,6 @@ playwright-report/
 .venv/
 __pycache__/
 .pytest_cache/
+# Kulala's personal environment overrides: a secret, a local port, and the auth tokens Kulala fetches
+# and saves there. The shared http-client.env.json next to a collection stays tracked.
+http-client.private.env.json

@@ -10,7 +10,8 @@ only the policy that matches the work at hand:
 
 - [Architecture Specifications](architecture-specifications.md) for each application's canonical as-built C4 model and
   its maintenance.
-- [API Testing](api-testing.md) for automated contracts and manual public-boundary proof when an API changes.
+- [API Testing](api-testing.md) for automated contracts, manual public-boundary proof, and hand-run request collections
+  when an API changes.
 - [Behaviour-Driven Development](behaviour-driven-development-policy.md) for mandatory canonical corpus and adapter
   roles.
 - [Code Commentary](code-commentary-policy.md) for learning-oriented comments.

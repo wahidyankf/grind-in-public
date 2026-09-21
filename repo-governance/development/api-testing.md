@@ -1,6 +1,7 @@
 ---
-tldr: "Defines automated and manual proof required when a change affects a public API."
-when_to_use: "Use for REST, GraphQL, webhook, RPC, streaming, subscription, or other public API changes."
+tldr: "Defines automated and manual proof required when a change affects a public API, and its hand-run collections."
+when_to_use:
+  "Use for REST, GraphQL, webhook, RPC, streaming, subscription, or other public API changes, or a request collection."
 ---
 
 # API Testing
@@ -29,3 +30,15 @@ Record the redacted command shape, exact non-sensitive origin, operation, observ
 effect, and pass/fail. Never record secrets or private payloads. Use a protocol-capable client after `curl` for a
 subscription, WebSocket, or stream whose lifecycle cannot be proved by its handshake. When no API is affected, record
 `API impact: none` rather than running an unrelated probe.
+
+## Request Collections
+
+A project with a public API may keep a collection that people run by hand to sanity-check the API and explore it. Write
+it in the [Kulala](https://github.com/mistweaverco/kulala.nvim) `.http` format under the project's `http/` directory,
+beside a tracked `http-client.env.json` that holds only shareable values. Keep a secret or a personal override only in
+`http-client.private.env.json`, which Git ignores at any depth. It mirrors the tracked file's structure, its values win,
+and Kulala saves fetched auth tokens in it, so never commit it.
+
+A collection is a manual aid, not automated proof, and it never replaces the `curl` proof above. It targets a local
+isolated origin with synthetic state under [test data isolation](test-data-isolation.md). An API change should update
+the affected requests in the same change.
