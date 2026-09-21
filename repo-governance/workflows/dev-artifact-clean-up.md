@@ -12,8 +12,11 @@ Every rule this applies is stated elsewhere; this is the order, and the checks t
 
 ## Scope
 
-Two things here, and nothing else: the regenerable build output this work produced, and local `main`'s position against
-`origin/main`.
+Three things here, and nothing else: the regenerable build output this work produced, the `local-tmp/` scratch it wrote,
+and local `main`'s position against `origin/main`.
+
+Scratch means what this work itself wrote under `local-tmp/` — notes, logs, one-off scripts, intermediate data — never a
+plan's declared evidence and never another actor's files.
 
 Build output means the compiled and cached output a documented command rebuilds — `node_modules/`, `.nx/`,
 `apps/*/dist/`, `.next/`, `coverage/`, `test-results/`, `playwright-report/`, `.features-gen/`, `*.tsbuildinfo`. It
@@ -63,12 +66,14 @@ evidence a diagnosis needs.
 
    Delete a specific directory only when it is named in the scope above and this work is what produced it.
 
-3. Retain logs, traces, `generated-reports/` content, and any other non-regenerable evidence a failure would need.
+3. Remove this work's own scratch under `local-tmp/`. Anything unrecognized stays: scratch is uncommitted, so deleting
+   it is permanent.
+4. Retain logs, traces, `generated-reports/` content, and any other non-regenerable evidence a failure would need.
 
 ## Verification
 
-The divergence count reads `0 0`, the purged output is gone, and `git status --porcelain` shows no tracked file removed.
-A rebuild from the documented command restores everything that was deleted.
+The divergence count reads `0 0`, the purged output and this work's scratch are gone, and `git status --porcelain` shows
+no tracked file removed. A rebuild from the documented command restores everything that was deleted.
 
 ## Recovery
 
