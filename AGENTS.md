@@ -89,7 +89,9 @@ maintains its as-built C4 model in `specs/`; see the
 [architecture specification policy](repo-governance/development/architecture-specifications.md). Behaviour is specified
 as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the
 [specs policy](repo-governance/development/specs-policy.md) and the
-[TDD policy](repo-governance/development/tdd-policy.md).
+[TDD policy](repo-governance/development/tdd-policy.md). The
+[recorded pilot](repo-governance/development/testing-policy/tooling.md#recorded-deviations) is exempt from BDD, specs,
+and C4.
 
 Represent every behaviour increment and bug fix as separate evidenced RED, GREEN, and REFACTOR task items. Use synthetic
 isolated test data, keep integration network-free and E2E outside quick hooks, and run the one-by-one Gherkin
