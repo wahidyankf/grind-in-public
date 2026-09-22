@@ -1,1 +1,66 @@
-{"schemaVersion":1,"profile":"codex","sources":[{"id":"agent/drill-reviewer","path":".agents/agents/drill-reviewer.md","digest":"b54c367dbcfb75b7dc615d699439877e3cbe76fc02b0ae064e5281da990f8a14"},{"id":"agent/plan-checker","path":".agents/agents/plan-checker.md","digest":"671de00f6a2e5594d9464f117811531f9fd20700bc66ffd1914159be469fdf2d"},{"id":"agent/plan-execution-checker","path":".agents/agents/plan-execution-checker.md","digest":"3ff877390627f6ea81e7d189501fbb4133c55a1ca182bb5edc749e639d0150ca"},{"id":"agent/plan-maker","path":".agents/agents/plan-maker.md","digest":"cf73ad5b5cbca895ffd2d08e70d90a5d2421d3d01f19e9535d440ae4ac26d78d"},{"id":"agent/repo-explorer","path":".agents/agents/repo-explorer.md","digest":"b434511c7d4b2a8c4fcff61ff25b3cc061a2496b6acc0b91c296f1952a6a1cd5"},{"id":"skill/grill-me","path":".agents/skills/grill-me/SKILL.md","digest":"2a1b6449c5240238c77731dc5cc3d2ba9afc20f144c24ebc4202771cf088fd91"},{"id":"skill/plan-creating-project-plans","path":".agents/skills/plan-creating-project-plans/SKILL.md","digest":"b7fc07a89b51d010004c780e41b3daf1db1530ecbbdfbe577377ae3b575e0cea"},{"id":"skill/plan-grooming-idea-briefs","path":".agents/skills/plan-grooming-idea-briefs/SKILL.md","digest":"29be2c4d2329fd68e2501be8a478ef1079f77be652fbfc279ea6f39c93ce28aa"},{"id":"skill/plan-validating-quality","path":".agents/skills/plan-validating-quality/SKILL.md","digest":"dde071e37c4eeb85d55dcbd0bd4b4f810a8b8878210bd052597016500860c949"},{"id":"skill/plan-verifying-execution","path":".agents/skills/plan-verifying-execution/SKILL.md","digest":"1054114044438cec1cbdd70d4f6d722f29d04ef124cfee2671a440409614a433"},{"id":"skill/plan-writing-gherkin-criteria","path":".agents/skills/plan-writing-gherkin-criteria/SKILL.md","digest":"0f10d84f2fa483baf6608891c8ce66aa06d5f8d0a5f8a6c7ab6e97bddbbb9863"},{"id":"instruction","path":"AGENTS.md","digest":"6b261fda82797df0051298c1abb4b42bee61b9797238f44c308ce0f2eaf207f2"}]}
+{
+  "schemaVersion": 1,
+  "profile": "codex",
+  "sources": [
+    {
+      "id": "agent/drill-reviewer",
+      "path": ".agents/agents/drill-reviewer.md",
+      "digest": "b54c367dbcfb75b7dc615d699439877e3cbe76fc02b0ae064e5281da990f8a14"
+    },
+    {
+      "id": "agent/plan-checker",
+      "path": ".agents/agents/plan-checker.md",
+      "digest": "671de00f6a2e5594d9464f117811531f9fd20700bc66ffd1914159be469fdf2d"
+    },
+    {
+      "id": "agent/plan-execution-checker",
+      "path": ".agents/agents/plan-execution-checker.md",
+      "digest": "3ff877390627f6ea81e7d189501fbb4133c55a1ca182bb5edc749e639d0150ca"
+    },
+    {
+      "id": "agent/plan-maker",
+      "path": ".agents/agents/plan-maker.md",
+      "digest": "cf73ad5b5cbca895ffd2d08e70d90a5d2421d3d01f19e9535d440ae4ac26d78d"
+    },
+    {
+      "id": "agent/repo-explorer",
+      "path": ".agents/agents/repo-explorer.md",
+      "digest": "b434511c7d4b2a8c4fcff61ff25b3cc061a2496b6acc0b91c296f1952a6a1cd5"
+    },
+    {
+      "id": "skill/grill-me",
+      "path": ".agents/skills/grill-me/SKILL.md",
+      "digest": "2a1b6449c5240238c77731dc5cc3d2ba9afc20f144c24ebc4202771cf088fd91"
+    },
+    {
+      "id": "skill/plan-creating-project-plans",
+      "path": ".agents/skills/plan-creating-project-plans/SKILL.md",
+      "digest": "b7fc07a89b51d010004c780e41b3daf1db1530ecbbdfbe577377ae3b575e0cea"
+    },
+    {
+      "id": "skill/plan-grooming-idea-briefs",
+      "path": ".agents/skills/plan-grooming-idea-briefs/SKILL.md",
+      "digest": "29be2c4d2329fd68e2501be8a478ef1079f77be652fbfc279ea6f39c93ce28aa"
+    },
+    {
+      "id": "skill/plan-validating-quality",
+      "path": ".agents/skills/plan-validating-quality/SKILL.md",
+      "digest": "dde071e37c4eeb85d55dcbd0bd4b4f810a8b8878210bd052597016500860c949"
+    },
+    {
+      "id": "skill/plan-verifying-execution",
+      "path": ".agents/skills/plan-verifying-execution/SKILL.md",
+      "digest": "1054114044438cec1cbdd70d4f6d722f29d04ef124cfee2671a440409614a433"
+    },
+    {
+      "id": "skill/plan-writing-gherkin-criteria",
+      "path": ".agents/skills/plan-writing-gherkin-criteria/SKILL.md",
+      "digest": "0f10d84f2fa483baf6608891c8ce66aa06d5f8d0a5f8a6c7ab6e97bddbbb9863"
+    },
+    {
+      "id": "instruction",
+      "path": "AGENTS.md",
+      "digest": "6b261fda82797df0051298c1abb4b42bee61b9797238f44c308ce0f2eaf207f2"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 ---
-description: "Guides judging whether completed execution actually did what the plan said, by checking claims against the repository rather than against the checklist. Use when auditing finished plan execution before archival."
+description: |-
+  Guides judging whether completed execution actually did what the plan said, by checking claims against the repository rather than against the checklist. Use when auditing finished plan execution before archival.
 name: plan-verifying-execution
 ---
 

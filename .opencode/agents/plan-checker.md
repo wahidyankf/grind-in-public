@@ -1,5 +1,6 @@
 ---
-description: "Audits a complete plan draft against the plan specification and returns findings with a terminal verdict, without modifying anything. Use after a complete six-document draft, before execution begins."
+description: |-
+  Audits a complete plan draft against the plan specification and returns findings with a terminal verdict, without modifying anything. Use after a complete six-document draft, before execution begins.
 mode: subagent
 permission:
   bash: allow
