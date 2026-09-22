@@ -19,7 +19,12 @@ import { fileURLToPath } from "node:url";
 //
 // Every case builds its own repository under the system temporary directory and
 // removes it afterwards, so no case can read the staged state of the repository
-// it is running in.
+// it is running in. A temporary directory is not enough on its own: Git exports
+// `GIT_DIR` and its companions to every hook it runs, and a child that inherits
+// them ignores its own working directory and operates on the repository the hook
+// fired in. Under `pre-push` that made these cases stage fixtures into the real
+// index and then read them back. Each child therefore starts from an environment
+// with those variables removed.
 
 const ENTRYPOINT = fileURLToPath(
   new URL("./check-rule-change.mjs", import.meta.url),
@@ -27,10 +32,16 @@ const ENTRYPOINT = fileURLToPath(
 const PROPAGATION = "repo-governance/workflows/rules/rules-propagation.md";
 const HARNESS = "repo-governance/workflows/harness-alignment.md";
 
+// The variables Git exports to a hook. Removing them is what makes `cwd` the
+// only thing that decides which repository a child reads.
+const ISOLATED = Object.fromEntries(
+  Object.entries(process.env).filter(([name]) => !name.startsWith("GIT_")),
+);
+
 function withRepository(body) {
   const root = mkdtempSync(path.join(tmpdir(), "rule-change-"));
   try {
-    execFileSync("git", ["init", "-q"], { cwd: root });
+    execFileSync("git", ["init", "-q"], { cwd: root, env: ISOLATED });
     body(root);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -41,7 +52,7 @@ function stage(root, relative, contents) {
   const absolute = path.join(root, relative);
   mkdirSync(path.dirname(absolute), { recursive: true });
   writeFileSync(absolute, contents);
-  execFileSync("git", ["add", "--", relative], { cwd: root });
+  execFileSync("git", ["add", "--", relative], { cwd: root, env: ISOLATED });
 }
 
 function announce(root, argument, input) {
@@ -50,6 +61,7 @@ function announce(root, argument, input) {
     argument ? [ENTRYPOINT, argument] : [ENTRYPOINT],
     {
       cwd: root,
+      env: ISOLATED,
       input: input ?? "",
       encoding: "utf8",
     },
