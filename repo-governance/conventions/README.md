@@ -10,6 +10,9 @@ foundational principles without replacing focused development policies or repeat
 
 ## Available Conventions
 
+- [Command-Line Interface](command-line-interface.md) — the two-layer contract a command-line tool presents to its
+  callers: one closed exit vocabulary, and a body that says what happened. Use it when building, reviewing, or changing
+  any command-line entry point; its modules live in [`command-line-interface/`](command-line-interface/README.md).
 - [Rule Definition Policy](rule-definition-policy.md) — what counts as a rule here and how strongly each wording binds.
   Use it when writing a rule or judging an existing one's strength.
 - [Drill Practice Policy](drill-practice-policy.md) — owner-solved, single-skill drills and useful reasoning records.
