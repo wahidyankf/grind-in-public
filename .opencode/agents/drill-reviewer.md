@@ -1,5 +1,6 @@
 ---
-description: "Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality. Use it after solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution."
+description: |-
+  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality. Use it after solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution.
 mode: subagent
 permission:
   edit: deny

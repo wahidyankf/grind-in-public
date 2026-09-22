@@ -33,17 +33,21 @@ mutations or tracked-output writes. Never change class to gain entry. Use `light
 for ordinary work, and `heavy` for full builds, suites, and gates. Schema 3 is FIFO and at-most-once. Critical pressure
 sheds eligible ephemeral, then service, with transactions last at the emergency floor. Only the owner reaps its group.
 
-- Exit `73`: free storage safely, then retry.
-- Exit `75`: requeue only when a new schema-1 receipt proves `never-started`; pressure-shed, storage-shed,
-  `started-safety-stop`, and child-owned `75` require payload-specific recovery.
-- Exit `76`: never retry. Inspect `./hippo status`, drain or upgrade the incompatible peer, then retry the original
-  command. A legacy client without distinct exit `76` can still report the mismatch as `75`, but has no qualifying
-  receipt.
-- Exit `78`: correct configuration, reservation, mapping, or strict-profile planning before retrying.
-- Exit `1`: diagnose malformed shared state or Hippo-owned post-launch cleanup; never classify it as capacity.
+A status says what to do; the `hippo: [hippo.area.reason]` line on stderr says which case. Two reasons under one status
+can need opposite responses, so read both.
 
-Child codes pass through, including `75` and `76`; task-failed evidence without a new `never-started` receipt keeps them
-child-owned.
+- Exit `124`: a limit stopped the work. `hippo.limit.storage-blocked` means free storage safely, then retry, because
+  waiting frees no disk. `hippo.limit.capacity-deferred` requeues only when a new schema-1 receipt proves
+  `never-started`; a pressure shed or a `started-safety-stop` requires payload-specific recovery.
+- Exit `125`: HIPPO started nothing. `hippo.coordination.protocol-mismatch` is never retried: inspect `./hippo status`,
+  drain or upgrade the incompatible peer, then retry the original command. `hippo.policy.replan-required` and the
+  `hippo.config.*` reasons mean correcting configuration, reservation, mapping, or strict-profile planning first.
+- Exit `2`: the invocation itself is unusable. Read the diagnostic and fix the command.
+- Exit `126`, `127`: the guarded command cannot be executed, or is not there.
+- Exit `1`: the work ran and the answer is empty. This is a result, never a capacity signal.
+
+Child codes pass through, including ones colliding with a status HIPPO uses; only HIPPO's own failures write that
+`hippo:` line, and task-failed evidence without a new `never-started` receipt keeps a code child-owned.
 
 Never bypass HIPPO, weaken a gate, delete possibly live state, or raise mapped concurrency.
 
