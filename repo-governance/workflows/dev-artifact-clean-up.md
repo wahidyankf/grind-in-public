@@ -18,6 +18,9 @@ and local `main`'s position against `origin/main`.
 Scratch means what this work itself wrote under `local-tmp/` — notes, logs, one-off scripts, intermediate data — never a
 plan's declared evidence and never another actor's files.
 
+Scratch a crashed session left behind is reclaimed only deliberately, never by an ambient sweep: once unmodified for
+seven days, it moves to `local-tmp/.reclaim-quarantine-YYYY-MM-DD/`, and is deleted once nothing needs it.
+
 Build output means the compiled and cached output a documented command rebuilds — `node_modules/`, `.nx/`,
 `apps/*/dist/`, `.next/`, `coverage/`, `test-results/`, `playwright-report/`, `.features-gen/`, `*.tsbuildinfo`. It
 never means a `.env*` file, `hippo.local.json`, `.claude/settings.local.json`, or any other local secret or machine
