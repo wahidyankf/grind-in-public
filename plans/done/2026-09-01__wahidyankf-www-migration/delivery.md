@@ -2804,7 +2804,7 @@ is proven in the same phase.
 - [x] [AI] Edit the `## Current Applications` list in `apps/README.md` to index `wahidyankf-www-e2e` as the dedicated
       Playwright suite for `wahidyankf-www` — acceptance: `rg -n '\[`wahidyankf-www-e2e`\]' apps/README.md` finds the
       entry with a descriptive relative link to `wahidyankf-www-e2e/README.md`, and the list now holds three entries.
-      The [readme-refresh](../../../repo-governance/workflows/readme-refresh.md) workflow puts every README below
+      The [readme-refresh](../../../repo-governance/workflows/docs-propagation.md) workflow puts every README below
       `apps/` in scope and asks for the smallest affected set in the same commit, which makes this an explicit item
       rather than something the application's own indexing item covers. Nothing automated catches an omission here:
       `apps/` is outside the [documentation index policy](../../../repo-governance/documentation-index-policy.md)'s

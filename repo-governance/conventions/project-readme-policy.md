@@ -17,4 +17,4 @@ Every project change includes a README impact check. Update the README in the sa
 public interfaces, prerequisites, configuration, targets, structure, or operating procedure changes. Leave accurate
 content untouched when none of those facts changes.
 
-The [README refresh workflow](../workflows/readme-refresh.md) performs the review before a thematic commit.
+The [Docs Propagation workflow](../workflows/docs-propagation.md) performs the review before a thematic commit.

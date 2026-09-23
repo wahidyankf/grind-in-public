@@ -29,6 +29,10 @@ paragraph feels relevant. The check is to read each document alone and ask wheth
 It depends on everything else. Written first, it becomes a checklist for a plan that does not exist yet, and the rest of
 the plan is then reverse-engineered to justify it.
 
+A phase that changes what a README, documentation page, or specification describes also carries a
+[Docs Propagation](../../../repo-governance/workflows/docs-propagation.md) item, landing in the same commit as the
+change.
+
 ## Granularity Is the Hard Part
 
 An item should be small enough that failing it is informative. "Implement the validator" fails as a unit; the person

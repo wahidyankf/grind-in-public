@@ -22,8 +22,10 @@ link to related governance guidance instead of duplicating it.
 - [Rules Propagation](rules/rules-propagation.md) automatically starts for a rule-path change, remains the sole writer,
   and consumes `NEEDS_PROPAGATION` ledgers. Its detail lives in
   [`rules/rules-propagation/`](rules/rules-propagation/README.md).
-- [README Refresh](readme-refresh.md) keeps root, project, documentation, and governance READMEs accurate before a
-  thematic commit.
+- [Docs Propagation](docs-propagation.md) automatically carries each change into every human-facing document it affects,
+  removing obsolete ones, and consumes Docs Quality Gate ledgers.
+- [Docs Quality Gate](docs-quality-gate.md) runs only on explicit owner direction, never edits, and hands every finding
+  to Docs Propagation.
 - [Rules Quality Gate](rules-quality-gate.md) runs only on explicit owner direction and cannot end blocked; every
   non-pass hands its ledger to Rules Propagation.
 - [Rules Grooming](rules-grooming.md) runs only on explicit owner direction, never writes, and hands each approved

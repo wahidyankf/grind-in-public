@@ -25,6 +25,8 @@ Before writing anything, be able to state:
 - which commands verify each affected project, verbatim
 - what currently passes, so a later failure can be attributed to the work
 - what the change depends on that does not exist yet
+- whether the change alters what a human-facing document describes, which adds a
+  [Docs Propagation](../docs-propagation.md) item to the phase making that change
 
 ## Name the Unknowns
 
