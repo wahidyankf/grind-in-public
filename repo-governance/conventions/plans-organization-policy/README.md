@@ -19,7 +19,8 @@ numbers are the reading order, and later modules assume earlier ones — see the
 5. [Delivery Contract](005-delivery-contract.md) — one action per checkbox, execution-grade clarity, executor tags.
 6. [Workflows and Skills](006-workflows-and-skills.md) — the seven lifecycle capabilities and who owns each.
 7. [Structural Validation](007-structural-validation.md) — what a validator checks, and what it must not.
-8. [Evidence and Quality](008-evidence-and-quality.md) — terminal verdicts, bounded repair, sanitized evidence.
+8. [Evidence and Quality](008-evidence-and-quality.md) — terminal verdicts, bounded repair, sanitized evidence, what
+   resolves an item.
 9. [Knowledge Capture and Archival](009-knowledge-capture-and-archival.md) — draining `learnings.md`, then filing.
 10. [Portability](010-portability.md) — the self-containment rule and this repository's recorded deviations.
 11. [Phases and Gates](011-phases-and-gates.md) — phase gates and Pause Safety notes.

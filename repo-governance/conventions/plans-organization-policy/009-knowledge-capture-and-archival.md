@@ -49,7 +49,8 @@ same thing has no way to learn it was already considered.
 
 Before a plan is archived, its execution is reviewed against its substantive phases in a fixed order, and the review
 records a terminal verdict. Archival is not permitted while any acceptance criterion or delivery unit is unresolved: a
-filed plan reads as a finished one, and filing an unfinished plan destroys that signal.
+filed plan reads as a finished one, and filing an unfinished plan destroys that signal. _Resolved_ is defined in
+[evidence and quality](008-evidence-and-quality.md); a tick is only one of the three dispositions that reach it.
 
 Archival is also blocked until every `learnings.md` entry has reached a terminal state, or the plan records the explicit
 escape `No generalizable learnings — <reason>`.
