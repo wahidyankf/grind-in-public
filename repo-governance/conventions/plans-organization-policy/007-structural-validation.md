@@ -61,6 +61,11 @@ repository will believe whichever it happened to run.
 
 ## Who Runs It Here
 
-`./rhino plan validate` implements these checks, pinned through `rhino.lock` and dispatched by the surfaces declared in
-`repo-config.yml`. The [plan quality gate](../../workflows/plan-quality-gate.md) runs it before its semantic audit, so
-the audit never spends attention on a plan that is structurally broken.
+No pinned tool implements the table above here: the RHINO that `rhino.lock` pins has no plan command, and no repository
+script reads plan structure. Two parts run mechanically. `npm run check:markdown-links` resolves every plan link, and
+`npm run test:repo` requires every `plans/` directory README to index its direct siblings.
+
+Everything else in the table is checked by review against the six-document convention. The author applies the
+[structural review](../../workflows/plan-planning/004-structural-review.md) before hand-off, and the `plan-checker`
+agent re-checks it in the [plan quality gate](../../workflows/plan-quality-gate.md) audit. A validator added later must
+satisfy the [plan validator contract](../plan-validator-contract.md).

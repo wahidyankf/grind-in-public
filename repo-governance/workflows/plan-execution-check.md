@@ -39,7 +39,7 @@ evidence each step read.
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- ./rhino plan validate
+rtk npm run test:repo
 rtk npm run test:scheduled
 ```
 

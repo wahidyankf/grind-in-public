@@ -41,8 +41,7 @@ Local `main` is current, because the question this workflow asks is about the re
 ## Verification
 
 ```sh
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- ./rhino plan validate
-rtk npm run check:markdown-links
+rtk npm run test:repo
 ```
 
 Grooming is complete when every plan on the frozen list carries a disposition, every `revise` names what is stale, the
