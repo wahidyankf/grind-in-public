@@ -37,6 +37,7 @@ standard wins, and is recorded below as a deviation.
 | `javascript-standards.md`       | test runner         | built-in `node --test`       | no dependency     |
 | `python-standards.md`           | boundary validation | Pydantic through FastAPI     | already in use    |
 | `python-standards.md`           | expected failures   | exceptions                   | FastAPI maps them |
+| `python-standards.md`           | type checker        | Pyright in strict mode       | already in use    |
 | `golang-standards.md`           | both decisions      | not applicable               | no Go tests       |
 | `react-standards.md`            | store, query, forms | not applicable               | none in use       |
 | `nextjs-standards.md`           | version line        | Next.js 16                   | current major     |
@@ -45,6 +46,7 @@ standard wins, and is recorded below as a deviation.
 | `shell-standards.md`            | test tool           | Bash test scripts            | no dependency     |
 | `generating-validation-reports` | report location     | `generated-reports/`         | already ignored   |
 
+The Python pilot pins Pyright in `apps/forum-be-python/pyproject.toml` and sets strict mode in its `pyrightconfig.json`.
 Report timestamps carry an explicit offset. Promotion and hosting follow the
 [deployment policy](../../deployment-policy.md).
 
