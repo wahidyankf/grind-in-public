@@ -20,6 +20,14 @@ the adopted standard exists to catch and that nothing here catches today:
 - a project can import from any other, because no boundary can be declared without tags; and
 - the two CI test scripts run without `pipefail` in a dialect the shell standard does not declare here.
 
+Re-verifying those five found two more that the adapter does not record, so no reviewer is even told to look:
+
+- the TypeScript Standards require `noUncheckedIndexedAccess`, `noImplicitReturns`, `noFallthroughCasesInSwitch`,
+  `noUnusedLocals`, and `noUnusedParameters` in every project. `wahidyankf-www` turns three of them off and leaves two
+  unset, and `wahidyankf-www-e2e` leaves all five unset, so an unguarded indexed read or dead code type-checks; and
+- the Python Standards require Pyright's `reportUnnecessaryTypeIgnoreComment`, which strict mode leaves off, so a waiver
+  that no longer suppresses anything stays in the pilot silently.
+
 ## Who It Affects
 
 The owner, and every agent session that writes code under the adopted standards. The `swe-code-checker` agent reads the
@@ -29,9 +37,9 @@ recurring noise.
 ## What Success Means
 
 The adapter's "Known gaps" sentence is gone, its two `gap` rows under Adopter Decisions are replaced by recorded
-choices, and each gap has a named gate that fails on the defect it targets. Every gate green before the plan is green
-after it. This is a judgement call about maintenance value, not a measured cost: the gaps have caused no recorded
-incident.
+choices, and each of the seven gaps has a named gate that fails on the defect it targets. Every gate green before the
+plan is green after it. This is a judgement call about maintenance value, not a measured cost: the gaps have caused no
+recorded incident.
 
 ## Non-Goals
 
@@ -45,8 +53,8 @@ incident.
 
 ## Risks
 
-- **Finding backlog.** Enabling type-aware lint or `checkJs` may surface more findings than one phase can fix. Each such
-  phase carries a bounded checkpoint with a predeclared fallback rather than a waiver.
+- **Finding backlog.** Enabling type-aware lint, the strict compiler options, or `checkJs` may surface more findings
+  than one phase can fix. Each such phase carries a bounded checkpoint with a predeclared fallback rather than a waiver.
 - **New dependencies.** U3 adds Python development tools and U1 may add a lint package; each is justified under the
   [dependency selection policy](../../../repo-governance/development/dependency-selection-policy.md) in the commit that
   adds it, and the owner may reject it at the planning gate.

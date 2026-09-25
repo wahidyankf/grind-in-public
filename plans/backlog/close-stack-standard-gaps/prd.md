@@ -95,3 +95,34 @@ Scenario: The repository adapter lists no known gap
 
 Proof: `grep -nE 'Known gaps|\| gap ' repo-governance/development/quality/stacks/repository-adapter.md` prints nothing,
 paired with `grep -c '## Adopter Decisions' <same file>` printing `1` to prove the search read the real file.
+
+### [AC-7] Both TypeScript projects compile under the standard's strict options
+
+Delivered in U1, beside [AC-1].
+
+```gherkin
+Scenario: The resolved compiler options of both TypeScript projects meet the standard
+  Given apps/wahidyankf-www/tsconfig.json and apps/wahidyankf-www-e2e/tsconfig.json
+  When each project's resolved configuration is printed
+  Then strict, noUncheckedIndexedAccess, noImplicitReturns, noFallthroughCasesInSwitch, noUnusedLocals, and noUnusedParameters are all true
+  And each project's typecheck target exits 0
+  And a probe with an unused local makes the typecheck exit non-zero
+```
+
+Proof:
+`rtk ./hippo run --class ephemeral --resource-tier light --disk-path . -- npm exec -- tsc --showConfig -p <tsconfig>`
+for each project's `tsconfig.json`, its `typecheck` target, and a temporary, uncommitted probe.
+
+### [AC-8] Pyright reports a stale type-ignore waiver
+
+Delivered in U3, beside [AC-3].
+
+```gherkin
+Scenario: A waiver that suppresses nothing fails the pilot's type check
+  Given apps/forum-be-python/pyrightconfig.json enables reportUnnecessaryTypeIgnoreComment as an error
+  When a probe adds a type-ignore comment to a line with no type error
+  Then the pilot's typecheck target exits non-zero and names the unnecessary comment
+  And with the probe reverted, typecheck exits 0
+```
+
+Proof: the pilot's `typecheck` target, with and without a temporary, uncommitted probe.

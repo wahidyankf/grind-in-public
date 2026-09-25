@@ -5,7 +5,7 @@ for execution. The owner resolves the open decisions in [tech-docs.md](tech-docs
 before this plan moves to `in-progress/`.
 
 Close the five compliance gaps that adopting the software-development stack packs (commit `10a3859`) recorded but
-deliberately did not fix, so the
+deliberately did not fix, and two more that adoption did not record, so the
 [repository adapter](../../../repo-governance/development/quality/stacks/repository-adapter.md) can drop its "Known
 gaps" sentence and every adopted pack is enforced by a gate rather than by review alone.
 
@@ -13,22 +13,24 @@ gaps" sentence and every adopted pack is enforced by a gate rather than by revie
 
 The gaps were found during a cross-repository standards adoption. Adoption recorded them in the adapter's Deviations
 section as "left for a separate plan rather than fixed by adoption"; this is that plan. Each was re-verified on `main`
-at `82a5935` before filing — see [tech-docs.md](tech-docs.md#verified-state).
+at `82a5935` before filing — see [tech-docs.md](tech-docs.md#verified-state). That re-verification found two further
+gaps the adapter does not list — TypeScript strict compiler options the web projects disable or leave unset, and
+Pyright's stale-waiver report — and they are folded into the units whose standard owns them.
 
 ## Scope
 
-Five delivery units, one per gap:
+Five delivery units, one per stack gate area:
 
 | Unit | Gap                                                          | Projects touched                                                                          |
 | ---- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| U1   | TypeScript lint runs Biome without type-aware rules          | `wahidyankf-www`, `wahidyankf-www-e2e`                                                    |
+| U1   | TypeScript lint is not type-aware; strict options are off    | `wahidyankf-www`, `wahidyankf-www-e2e`                                                    |
 | U2   | no JavaScript file is type-checked through JSDoc (`checkJs`) | `repo-scripts`, `opencode-plugin`, `wahidyankf-www`, `wahidyankf-www-e2e`, root configs   |
-| U3   | the Python pilot has no formatter, linter, or coverage gate  | `forum-be-python`                                                                         |
+| U3   | the Python pilot lacks format, lint, coverage, stale waivers | `forum-be-python`                                                                         |
 | U4   | Nx project `tags` are empty, so no boundary can be enforced  | `wahidyankf-www`, `wahidyankf-www-e2e`, `forum-be-python`, `repo-scripts` (the validator) |
 | U5   | the two `.github/scripts/` tests run under `sh`, not Bash    | `ci-scripts`                                                                              |
 
-Each unit ends by editing the adapter to remove its gap. No application behaviour changes, and no Gherkin scenario
-changes.
+Each unit ends by editing the adapter to remove the gap it records; the two unrecorded gaps need no adapter edit. No
+application behaviour changes, and no Gherkin scenario changes.
 
 ## Approach
 
@@ -40,7 +42,7 @@ at its checkpoint and returns to the owner rather than waiving the finding.
 ## Documents
 
 - [brd.md](brd.md) — why the gaps are worth closing, non-goals, and risks.
-- [prd.md](prd.md) — user stories and acceptance criteria `[AC-1]` to `[AC-6]`.
+- [prd.md](prd.md) — user stories and acceptance criteria `[AC-1]` to `[AC-8]`.
 - [tech-docs.md](tech-docs.md) — verified state, design per unit, open decisions, and file impact.
 - [delivery.md](delivery.md) — the phased checklist.
 - [learnings.md](learnings.md) — the running log, drained in Phase 6.
