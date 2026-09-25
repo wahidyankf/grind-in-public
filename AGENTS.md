@@ -68,7 +68,7 @@ opens with a dated Execution Record, written as phases complete and gates pass o
 
 ## Nx and Coding Conventions
 
-Prefer the standard library and mechanisms this repository already owns; the
+Prefer the standard library and existing repository mechanisms; the
 [dependency selection policy](repo-governance/development/dependency-selection-policy.md) states when an external
 dependency may be added. Use Nx only as a raw task runner with `command` targets. Add no plugin, executor, or generator
 without explicit owner direction; see the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md).
@@ -76,7 +76,8 @@ without explicit owner direction; see the [Nx workspace policy](repo-governance/
 Prettier is the source of truth; this repository is read in a terminal, so Markdown wraps prose at 120 columns, keeps
 table cells short enough to align, and draws terminal-first ASCII diagrams—see the
 [Markdown style policy](repo-governance/conventions/markdown-style-policy.md). The language target, naming, indentation,
-and import style follow the [code style policy](repo-governance/development/code-style-policy.md).
+and import style follow the [code style policy](repo-governance/development/code-style-policy.md); project stack
+standards follow the [repository adapter](repo-governance/development/quality/stacks/repository-adapter.md).
 
 Comments must explain intent, flow, and non-obvious decisions without narrating syntax; see the
 [code commentary policy](repo-governance/development/code-commentary-policy.md).

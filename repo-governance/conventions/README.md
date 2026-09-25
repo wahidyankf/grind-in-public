@@ -49,6 +49,8 @@ foundational principles without replacing focused development policies or repeat
 - [Plans Organization Policy](plans-organization-policy.md) — how a plan is staged, named, structured, and archived
   under `plans/`. Use it when creating, executing, or archiving a plan; its detail lives in
   [`plans-organization-policy/`](plans-organization-policy/README.md).
+- [Structure Conventions](structure/README.md) — where stack packs, their repository adapter, and the
+  software-development inventory live. Use it when adopting, locating, or recording a stack pack.
 - [Plan Validator Contract](plan-validator-contract.md) — the frozen inputs, rule identifiers, messages, exit classes,
   and fixture corpus every plan-structure validator satisfies. Use it when implementing or comparing one; its modules
   live in [`plan-validator-contract/`](plan-validator-contract/README.md).

@@ -18,6 +18,21 @@ Codex and opencode both discover these skills automatically from this directory;
   reaches.
 - [`plan-verifying-execution/`](plan-verifying-execution/SKILL.md) — judges finished execution against the repository
   rather than against the checklist.
+- [`developing-applications/`](developing-applications/SKILL.md) — places code by what it decides or does, and handles
+  errors, input, and logging, for every project the code agents touch.
+- [`programming-typescript/`](programming-typescript/SKILL.md),
+  [`programming-javascript/`](programming-javascript/SKILL.md), [`programming-python/`](programming-python/SKILL.md),
+  [`programming-golang/`](programming-golang/SKILL.md), and [`programming-shell/`](programming-shell/SKILL.md) — apply
+  each language's stack standard while writing and testing code.
+- [`framework-react/`](framework-react/SKILL.md) and [`framework-nextjs/`](framework-nextjs/SKILL.md) — apply the React
+  and Next.js standards; [`tooling-nx/`](tooling-nx/SKILL.md) applies the Nx standard.
+- [`assessing-criticality-confidence/`](assessing-criticality-confidence/SKILL.md),
+  [`applying-maker-checker-fixer/`](applying-maker-checker-fixer/SKILL.md), and
+  [`generating-validation-reports/`](generating-validation-reports/SKILL.md) — rate findings, run a make, check, and fix
+  loop, and write its reports.
+
+The stack skills are chosen per project by the
+[repository adapter](../../repo-governance/development/quality/stacks/repository-adapter.md).
 
 The five `plan-` skills carry the reusable judgement behind the planning lifecycle; the workflows that sequence them are
 indexed in [`repo-governance/workflows/`](../../repo-governance/workflows/README.md).

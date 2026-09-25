@@ -186,6 +186,51 @@ policies:
     directory-map:
       trees: []
 
+extensions:
+  # Owner: repo-governance/development/quality/stacks/repository-adapter.md
+  software-development:
+    projects:
+      wahidyankf-www:
+        path: apps/wahidyankf-www
+        kind: app
+        stacks: [typescript, javascript, react, nextjs]
+      wahidyankf-www-e2e:
+        path: apps/wahidyankf-www-e2e
+        kind: app
+        stacks: [typescript, javascript]
+      forum-be-python:
+        path: apps/forum-be-python
+        kind: app
+        stacks: [python]
+      go-tools:
+        path: tools
+        kind: tooling
+        stacks: [golang]
+      repo-scripts:
+        path: scripts
+        kind: tooling
+        stacks: [javascript, shell]
+      public-safety:
+        path: scripts/public-safety
+        kind: tooling
+        stacks: [shell]
+      opencode-plugin:
+        path: .opencode/plugin
+        kind: tooling
+        stacks: [javascript]
+      claude-hooks:
+        path: .claude/hooks
+        kind: tooling
+        stacks: [shell]
+      ci-scripts:
+        path: .github/scripts
+        kind: tooling
+        stacks: [shell]
+      workspace:
+        path: .
+        kind: tooling
+        stacks: [nx]
+
 gates:
   composition:
     pull-request: { relation: exact }

@@ -30,5 +30,7 @@ question, and link them from this index as the collection grows.
 
 - [Run the Nx Workspace](how-to/run-nx-workspace.md) explains how to build, test, and run the workspace's TypeScript
   demonstration app.
+- [Software Development](reference/software-development.md) lists which stack packs each project follows and where their
+  standards, skills, and local decisions live.
 
 Learn more in the official [Diátaxis overview](https://diataxis.fr/) and its [four-part map](https://diataxis.fr/map/).
