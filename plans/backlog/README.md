@@ -9,8 +9,9 @@ move before touching anything else.
 
 ## Current Plans
 
-None yet.
+- [close-stack-standard-gaps](close-stack-standard-gaps/README.md) — close the five stack-standard gaps the repository
+  adapter records, one delivery unit per gap.
 
 ## Directory Map
 
-No plan folders yet.
+- [close-stack-standard-gaps/](close-stack-standard-gaps/README.md) — backlog plan.
