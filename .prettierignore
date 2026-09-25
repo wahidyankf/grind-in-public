@@ -6,3 +6,12 @@ local-tmp/
 # exact bytes by digest, so a reformat here is not cosmetic -- its first
 # visible effect is two validators disagreeing for a reason unrelated to either.
 specs/fixtures/plan-structure/
+
+# Harness adapters written by `./rhino harness adapters generate`. The
+# generator owns their bytes and `./rhino harness adapters validate` compares
+# them against a fresh render, so a Prettier rewrap here is drift, not style.
+# Change the canonical source under `.agents/` and regenerate instead.
+.claude/agents/
+.claude/skills/
+.codex/agents/
+.opencode/agents/
