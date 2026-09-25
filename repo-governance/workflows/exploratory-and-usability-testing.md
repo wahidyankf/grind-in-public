@@ -1,6 +1,6 @@
 ---
 tldr: "Runs separate spec-aware exploratory and spec-blind usability passes for UI-affecting plans."
-when_to_use: "Use after automation passes for every UI-affecting plan and before its completion checkpoint."
+when_to_use: "Use after automation passes for every UI-affecting plan and before its plan execution check."
 ---
 
 # Exploratory and Usability Testing

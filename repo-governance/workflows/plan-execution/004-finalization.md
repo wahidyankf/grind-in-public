@@ -20,9 +20,10 @@ Archival is blocked until every entry is terminal, or the plan records `No gener
 
 ## Archival
 
-1. Require explicit owner direction for a fresh completion plan-quality-gate run. Continue only on `PASS`; never start
-   that run from this workflow. Reconcile every acceptance criterion, specification, README, gate, learning, and
-   conditional task with the delivered system.
+1. Require explicit owner direction for a [plan-execution-check](../plan-execution-check.md) run. It alone closes the
+   plan; the plan-quality-gate judges plans, not delivered work, and is never re-run here. Continue only on a verdict
+   that permits archival; never start that run from this workflow. Reconcile every acceptance criterion, specification,
+   README, gate, learning, and conditional task with the delivered system.
 2. Record a dated, evidence-backed `Not triggered` disposition for every dormant recovery task.
 3. Refuse an existing `plans/done/YYYY-MM-DD__<identifier>/` destination; rename the folder with the completion date and
    move it there only once.
@@ -37,8 +38,6 @@ A plan resumed in a new session starts from the repository, not from memory:
 2. Check the Git log and the working tree against the ticked items above it. A ticked item whose change does not exist
    is unticked and re-run.
 3. Rebuild the harness task list for the current phase only.
-4. Require explicit owner direction for a fresh plan-quality-gate run before continuing, so execution resumes from a
-   state proven ready rather than assumed ready.
 
 ## Reopening
 

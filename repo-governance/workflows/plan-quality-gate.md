@@ -10,8 +10,7 @@ authorization from creating, editing, reviewing, or executing a plan, Plan mode,
 authorize multiple named checkpoints; otherwise it authorizes one run.
 
 Produce exactly one terminal result: `PASS` or one `BLOCKED_*` variant for one formal plan. When authorized, run at the
-directed pre-execution, post-material-change, or completion checkpoint. Never recurse or automatically start another
-run.
+directed pre-execution or post-material-change checkpoint. Never recurse or automatically start another run.
 
 ## Sufficiency and Ownership
 
@@ -23,7 +22,7 @@ This workflow evaluates meaning, consistency, safety, executability, and proof. 
 machine-decidable checks, including links, indexes, word budgets, formatting, harness parity, and automated contracts.
 Do not manually reproduce, sample, or second-guess those checks. Run canonical tooling only during verification and
 consume its findings. For a check delivered by the plan, verify before execution that `delivery.md` contains an
-executable implementation and proof task; at completion, require the target to exist and pass.
+executable implementation and proof task.
 
 ## Snapshot and Ledger
 

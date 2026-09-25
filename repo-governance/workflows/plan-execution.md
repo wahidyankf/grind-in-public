@@ -32,7 +32,8 @@ authorized before running any checklist item, per the
 4. [Pass the phase gate, then deliver](plan-execution/003-gates-and-pushes.md) to `main` only when commit and push are
    separately authorized. Do not begin the next phase while a gate or required delivery item fails.
 5. Repeat until the last delivery phase is complete.
-6. [Run Knowledge Capture and archive](plan-execution/004-finalization.md) the plan to `plans/done/`.
+6. [Run Knowledge Capture and the execution check, then archive](plan-execution/004-finalization.md) the plan to
+   `plans/done/`. The execution check alone closes the plan; the plan-quality-gate is not re-run at the end.
 
 ## Verification
 
