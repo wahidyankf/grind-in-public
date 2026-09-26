@@ -1,5 +1,7 @@
 ---
-tldr: "Audits human-facing documents on explicit request and hands every finding to Docs Propagation without editing."
+tldr:
+  "Audits human-facing documents on explicit request, hands every finding to Docs Propagation without editing, and
+  audits again until two consecutive audits are clean."
 when_to_use: "Use only when the owner explicitly requests a documentation audit of one change or the whole repository."
 ---
 
@@ -7,8 +9,9 @@ when_to_use: "Use only when the owner explicitly requests a documentation audit 
 
 ## Purpose
 
-Return one read-only verdict with a finite ledger of stale, obsolete, misplaced, and unreadable documents.
-[Docs Propagation](docs-propagation.md) is the sole writer and the mandatory continuation for every finding.
+Audit read-only for stale, obsolete, misplaced, and unreadable documents, and audit again after each repair until two
+consecutive audits are clean. [Docs Propagation](docs-propagation.md) is the sole writer and the mandatory continuation
+for every finding.
 
 ## When to Use
 
@@ -19,11 +22,12 @@ Inputs:
 
 - `scope`: `change`, the documents one change affects, or `all`, the whole document set Docs Propagation defines.
 - `change`: the revision range or working-tree change, required when `scope` is `change`.
+- `max-iterations`: the ceiling on audits; default `7`.
 
 ## Steps
 
-1. **Freeze the snapshot:** scope, revision, and uncommitted paths. A material change ends the run as `input-changed`,
-   never restarting it.
+1. **Freeze the snapshot:** scope, revision, and uncommitted paths. A material change other than propagation's repairs
+   ends the run as `input-changed`, never restarting it.
 2. **Bound the audit.** Under `change`, the documents the change touches and every document citing what it changed;
    under `all`, the whole document set.
 3. **Audit without editing.** Decide for each document whether:
@@ -43,15 +47,20 @@ Inputs:
    not a finding, per [minimum sufficiency](../principles/minimum-sufficiency.md).
 5. **Leave machine checks to their tools.** Formatting, links, indexes, frontmatter, and word limits belong to
    `rtk npm run format:check` and `rtk npm run test:repo`; consume their result instead of repeating them.
-6. **Return the verdict.** `pass` when the ledger is clear and those checks pass; otherwise `needs-propagation` with the
-   ledger. A finding only the owner can decide, such as a specification that disagrees with the implementation, is asked
-   under the [grilling-with-options policy](../conventions/grilling-with-options-policy.md).
+6. **Hand over or count a clean audit.** An audit is clean when the ledger is clear and those checks pass; otherwise the
+   ledger goes to Docs Propagation. A finding only the owner can decide, such as a specification that disagrees with the
+   implementation, is asked under the [grilling-with-options policy](../conventions/grilling-with-options-policy.md).
+7. **Audit again** from step 1 with the same scope and a fresh snapshot. Two consecutive clean audits end the run
+   `pass`. Continue only while open findings strictly decrease; when they stop, or after `max-iterations` audits, end
+   `partial`, giving each remaining finding a durable owner: fixed, filed as a plan idea or backlog item, or asked the
+   owner.
 
 ## Results and Handoff
 
-The verdict is `pass`, `needs-propagation`, or `input-changed`. `needs-propagation` is a handoff, not a blocked result:
-the caller runs Docs Propagation with the frozen ledger without another request. An input change ends the audit with its
-ledger kept. A verdict authorizes no commit or push, and the gate never edits a document.
+The result is `pass`, `partial`, `input-changed`, or `fail`, with the number of audits run. A handoff is not a blocked
+result: the caller runs Docs Propagation with the frozen ledger, then the next audit, without another request. An input
+change ends the run with its ledger kept; an audit or propagation that cannot run ends it `fail`. A result authorizes no
+commit or push, and the gate never edits a document.
 
 ## After a Finding
 
@@ -60,8 +69,9 @@ ledger kept. A verdict authorizes no commit or push, and the gate never edits a 
 | verdict only            | the caller reports propagation's result; the gate does not run again               |
 | repair to zero findings | the gate re-audits after propagation while open findings strictly decrease, capped |
 
-This repository uses **verdict only**, matching the [Rules Quality Gate](rules-quality-gate.md), which never reruns
-itself. A second audit needs a second request.
+This repository uses **repair to zero findings**, capped by `max-iterations`, which this gate declares because no shared
+iteration ceiling exists here. The [Rules Quality Gate](rules-quality-gate.md) keeps verdict only and never reruns
+itself.
 
 ## Why It Runs on Request
 

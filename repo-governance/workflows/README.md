@@ -24,8 +24,8 @@ link to related governance guidance instead of duplicating it.
   [`rules/rules-propagation/`](rules/rules-propagation/README.md).
 - [Docs Propagation](docs-propagation.md) automatically carries each change into every human-facing document it affects,
   removing obsolete ones, and consumes Docs Quality Gate ledgers.
-- [Docs Quality Gate](docs-quality-gate.md) runs only on explicit owner direction, never edits, and hands every finding
-  to Docs Propagation.
+- [Docs Quality Gate](docs-quality-gate.md) runs only on explicit owner direction, never edits, hands every finding to
+  Docs Propagation, and audits again until two consecutive audits are clean.
 - [Rules Quality Gate](rules-quality-gate.md) runs only on explicit owner direction and cannot end blocked; every
   non-pass hands its ledger to Rules Propagation.
 - [Rules Grooming](rules-grooming.md) runs only on explicit owner direction, never writes, and hands each approved
