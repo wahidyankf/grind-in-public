@@ -58,8 +58,8 @@ sibling layouts are forbidden.
 
 ## Planning
 
-Create plan documents only when the owner explicitly requests a plan. A requested plan has six documents, `tech-docs`
-among them, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the
+Create plan documents only on the owner's explicit request. Each plan has six documents, `tech-docs` among them, and no
+time estimates, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the
 [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with
 [plan-planning](repo-governance/workflows/plan-planning.md), validate with
 [plan-quality-gate](repo-governance/workflows/plan-quality-gate.md) only at an explicitly requested checkpoint, and run

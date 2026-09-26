@@ -71,3 +71,10 @@ An owner-requested plan uses all six documents. Do not delete or skip a requeste
 ask the owner whether to amend or cancel it instead.
 
 The plan quality gate requires all six documents and verifies their distinct reader jobs.
+
+## No Time Estimates
+
+An idea brief and every plan document except `learnings.md` state no time estimate, duration, or date as an effort
+commitment; an estimate there reads as a commitment nobody verifies, so order work by dependency and sequence.
+Conversation, execution status, evidence, and `learnings.md` may state a labelled estimate. The plan quality gate
+reviews this.
