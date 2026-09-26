@@ -33,8 +33,11 @@ balance-report/
 |   +-- reader.py
 |   `-- report.py
 +-- tests/
-|   +-- test_reader.py
-|   `-- test_report.py
+|   +-- integration/
+|   |   +-- test_cli.py
+|   |   `-- test_reader.py
+|   `-- unit/
+|       `-- test_report.py
 +-- pyproject.toml
 `-- transactions.csv
 ```
@@ -72,12 +75,32 @@ def test_read_transactions_rejects_a_bad_amount(tmp_path: Path) -> None:
     source = tmp_path / "transactions.csv"
     source.write_text("date,description,amount\n2026-09-01,Coffee,tea\n", encoding="utf-8")
 
-    with pytest.raises(InputError, match="amount is not decimal"):
+    with pytest.raises(InputError, match="line 2: amount is not decimal"):
         read_transactions(source)
 ```
 
-The first test is unit-level: it supplies values directly. The second touches a real temporary file, so it proves the
-file boundary. Run both with `uv run pytest`.
+The first test is unit-level: it supplies values directly. The second touches a real temporary file, so it belongs in
+the integration directory and proves the file boundary. Add a CLI integration test beside it:
+
+```python
+from pathlib import Path
+
+import pytest
+
+from balance_report.__main__ import main
+
+
+def test_main_prints_report_to_stdout(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    source = tmp_path / "transactions.csv"
+    source.write_text("date,description,amount\n2026-09-01,Salary,100.00\n", encoding="utf-8")
+
+    assert main([str(source)]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == "Transactions: 1\nBalance: 100.00\n"
+    assert captured.err == ""
+```
+
+Run all three tests with `uv run pytest`.
 
 ## Final checkpoint
 

@@ -49,11 +49,18 @@ if __name__ == "__main__":
     raise SystemExit(main())
 ```
 
+Point the generated command at that function in `pyproject.toml`:
+
+```toml
+[project.scripts]
+balance-report = "balance_report.__main__:main"
+```
+
 `argparse` owns a missing positional argument: it prints usage and returns status 2 before `main` can read a file. Your
 code owns failures after the argument has become a `Path`.
 
 ## Checkpoint
 
-Run `uv run python -m balance_report transactions.csv`. A valid file prints the report to stdout and exits zero. A
-missing file prints one `error:` line to stderr and exits status 2. Keep error text concise; command users need the
-cause and the file, not a traceback for expected input mistakes.
+Run both `uv run balance-report transactions.csv` and `uv run python -m balance_report transactions.csv`. Each valid
+invocation prints the same report to stdout and exits zero. A missing file prints one `error:` line to stderr and exits
+status 2. Keep error text concise; command users need the cause and file, not a traceback for expected input mistakes.

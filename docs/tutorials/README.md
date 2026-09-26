@@ -15,3 +15,9 @@ expected results, and a small achievable goal. Keep extended rationale in [`../e
 
 - [Python Production Foundations](python-production-foundations/README.md) — learn production-relevant Python syntax by
   building a small CSV balance-report CLI.
+- [Python Algorithms Interview](python-algorithms-interview/README.md) — implement core data structures and algorithms,
+  connect them to production systems, and practise with separate drills and solutions.
+- [System Design Interview](system-design-interview/README.md) — progress from requirements and distributed-systems
+  foundations to datastore choices, Kubernetes, migration patterns, and 24 worked cases.
+- [Engineering Manager Interview](engineering-manager-interview/README.md) — connect technical leadership, quality,
+  delivery, people development, incident leadership, and 12 scenario debriefs.

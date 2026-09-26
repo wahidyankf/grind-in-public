@@ -32,7 +32,12 @@ def parse_row(row: list[str], line_number: int) -> Transaction:
     if not cleaned_description:
         raise InputError(f"line {line_number}: description must not be blank")
 
-    return Transaction(booked_on, cleaned_description, parse_amount(amount_text))
+    try:
+        amount = parse_amount(amount_text)
+    except InputError as error:
+        raise InputError(f"line {line_number}: {error}") from error
+
+    return Transaction(booked_on, cleaned_description, amount)
 
 
 def read_transactions(path: Path) -> list[Transaction]:
@@ -59,4 +64,5 @@ transactions.csv --Path--> open UTF-8 file --csv.reader--> validate row --> Tran
 
 Create `transactions.csv` beside the scratch project's `pyproject.toml` with the required header and two valid rows. Run
 `read_transactions(Path("transactions.csv"))` in the REPL and check that it returns two `Transaction` values. Change one
-amount to `tea`; the read must raise `InputError` naming that row's bad amount.
+amount to `tea`; the read must raise `InputError` containing `line 2: amount is not decimal`, so the user can locate the
+bad external value without seeing a traceback.
