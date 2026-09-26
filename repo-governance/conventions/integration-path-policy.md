@@ -1,6 +1,7 @@
 ---
 tldr: "Uses local main as the sole integration path while preserving governed production promotion branches."
-when_to_use: "Use before creating a branch or worktree, integrating work, or deciding whether to open a pull request."
+when_to_use:
+  "Use before creating a branch or worktree, integrating or pushing work, or deciding whether to open a pull request."
 ---
 
 # Integration Path Policy
@@ -11,6 +12,14 @@ Integrate repository work only by committing on local `main` and pushing it dire
 pull request or create a task, feature, delivery, or integration branch or worktree as an alternate path. Commit and
 push remain separate owner-authorized actions under the [commit hook policy](../development/commit-hook-policy.md); this
 policy chooses the route and grants neither permission.
+
+Other tasks share the same local `main`, working tree, and index; stage, commit, and push only this task's work, as
+[concurrent ownership](task-tracking-policy/concurrent-ownership.md) requires.
+
+When a push is rejected because `origin/main` has moved, run `git fetch origin`, then `git merge --no-edit origin/main`,
+then push again so the hooks rerun. Merge rather than rebase: a rebase refuses a working tree holding another task's
+uncommitted edits, and its autostash would move them. If the merge refuses or conflicts outside this task's paths, run
+`git merge --abort` and ask the owner. Never force-push past it.
 
 `main` is the only persistent development branch. If an external tool creates a temporary branch or worktree for a
 non-integration purpose, place it only at `{repository location}/worktrees/<task>`, give it one explicit purpose, and

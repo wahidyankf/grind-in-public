@@ -9,14 +9,15 @@ when_to_use: "Use before planning, executing, or reviewing any task."
 
 This policy covers the task list kept while work is in progress: when one is required, how small its items must be, and
 when it must be updated. It applies to every supported harness; see the
-[agent harness support policy](agent-harness-support.md). Each harness names the feature differently, task list or todo
-list, and the requirement is the same for all of them.
+[agent harness support policy](agent-harness-support.md), whatever each calls the feature.
 
 ## When a List Is Required
 
 Before starting any task, create a task list, including work that has only one anticipated verifiable step. Mark its
 first item in progress before the task's first action. A task may begin with one item and gain more as work is
-discovered, but it must never begin without a current list.
+discovered, but it must never begin without a current list. Outside plan execution the list lives in a
+[progress ledger](task-tracking-policy/progress-ledger.md) under `local-tmp/`, where other tasks can read it; a plan's
+`delivery.md` is its own record.
 
 ## Granularity
 
@@ -67,9 +68,9 @@ as the decision it was.
 
 ## Concurrent Ownership
 
-More than one task can be working this repository at once, and `plans/`, `repo-governance/`, and the harness directories
-are where they collide. Refresh those areas before relying on or editing them, and reconcile around another task's edits
-rather than reverting them. See [concurrent ownership](task-tracking-policy/concurrent-ownership.md).
+More than one task can be working this repository at once, sharing one working tree, index, and local `main`. Read the
+active ledgers before starting, attribute any change you did not make to its owner instead of reverting it, and stage,
+commit, and push only your own work. See [concurrent ownership](task-tracking-policy/concurrent-ownership.md).
 
 ## Why
 
@@ -79,6 +80,6 @@ make an interrupted session resumable, because the first unfinished item states 
 
 ## Verification
 
-No automated gate can read a harness task list, since it is session state rather than repository content. This policy is
-verified in review: the list is compared against the change and the commands actually run. Announcements that a rule
-change occurred are separate; see the [rule change trigger policy](../development/rule-change-trigger-policy.md).
+No automated gate can read a harness task list or an ignored ledger, since both are local state. This policy is verified
+in review: the list is compared against the change and the commands actually run. Announcements that a rule change
+occurred are separate; see the [rule change trigger policy](../development/rule-change-trigger-policy.md).

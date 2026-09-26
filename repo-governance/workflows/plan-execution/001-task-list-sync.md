@@ -10,7 +10,8 @@ agree, because two disagreeing records mean neither can be trusted.
 
 Nothing else writes progress down. `local-tmp/` carries what an execution needs and then discards — scripts, assets,
 logs, the touched-file ledger — never a copy of the checklist, its ticks, or its status. Away from a plan there is no
-`delivery.md`, and a scratch file may hold working notes that have to survive a context boundary.
+`delivery.md`, and the task list lives in a [progress ledger](../../conventions/task-tracking-policy/progress-ledger.md)
+instead.
 
 ## One Task per Checkbox
 

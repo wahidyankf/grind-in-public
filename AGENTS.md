@@ -4,9 +4,9 @@
 
 Grind in Public is a personal lifelong-learning workspace for software engineering. Follow the
 [drill practice](repo-governance/conventions/drill-practice-policy.md) and
-[task tracking](repo-governance/conventions/task-tracking-policy.md), which also governs concurrent edits. Write files
-in English; see the [language policy](repo-governance/conventions/language-policy.md). Use the smallest responsible
-change; maintained surfaces prove recurring value. See
+[task tracking](repo-governance/conventions/task-tracking-policy.md), which governs `local-tmp/` progress ledgers and
+concurrent edits. Write files in English; see the [language policy](repo-governance/conventions/language-policy.md). Use
+the smallest responsible change; maintained surfaces prove recurring value. See
 [minimum sufficiency](repo-governance/principles/minimum-sufficiency.md) and
 [maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with options,
 not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
@@ -43,8 +43,8 @@ instruction files serve agents; `repo-governance/` serves both. `CLAUDE.md` must
   and Gherkin behaviour.
 - Root configs: `package.json`, `nx.json`, `tsconfig.base.json`.
 
-Keep implementation and tests under `src/`; use lowercase-hyphenated project directories. Add assets only within the
-project needing them.
+Keep implementation and tests under `src/`; use lowercase-hyphenated project directories. Keep assets in the project
+needing them.
 
 ## Commands
 
@@ -58,8 +58,8 @@ sibling layouts are forbidden.
 
 ## Planning
 
-Create plan documents only on the owner's explicit request. Each plan has six documents, `tech-docs` among them, and no
-time estimates, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the
+Create plans only on the owner's explicit request. Each plan has six documents, `tech-docs` among them, and no time
+estimates, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the
 [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with
 [plan-planning](repo-governance/workflows/plan-planning.md), validate with
 [plan-quality-gate](repo-governance/workflows/plan-quality-gate.md) only at an explicitly requested checkpoint, and run
@@ -85,8 +85,8 @@ Comments must explain intent, flow, and non-obvious decisions without narrating 
 ## Testing and Commits
 
 Each Nx project follows the [testing policy](repo-governance/development/testing-policy.md) and the compulsory
-[BDD policy](repo-governance/development/behaviour-driven-development-policy.md). Each non-drill application also
-maintains its as-built C4 model in `specs/`; see the
+[BDD policy](repo-governance/development/behaviour-driven-development-policy.md). Each non-drill application maintains
+its as-built C4 model in `specs/`; see the
 [architecture specification policy](repo-governance/development/architecture-specifications.md). Behaviour is specified
 as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the
 [specs policy](repo-governance/development/specs-policy.md) and the
