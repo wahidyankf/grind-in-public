@@ -55,3 +55,9 @@ strong: unsafe action was possible and silent -> guardrail + review + detection 
 Use error budgets and incident data to choose reliability work. Repeated SLO burn should change release or capacity
 policy. Rotate on-call fairly, provide training and shadow shifts, keep runbooks executable, and compensate according to
 the organization. Chronic paging is a system defect, not a rite of passage.
+
+## Related learning
+
+Practise the technical evidence path in the
+[query-regression case](../sql-postgresql-production/cases/001-query-plan-regression.md), then lead the full
+[slow-query incident capstone](../engineering-interview-program/capstones/003-slow-query-incident.md).

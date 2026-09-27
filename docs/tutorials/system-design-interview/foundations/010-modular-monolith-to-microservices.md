@@ -122,3 +122,9 @@ Proceed only when:
 
 An extraction is incomplete while old writes, tables, flags, queues, permissions, dashboards, and code remain active.
 Observe a safety window, archive required evidence, remove compatibility paths, and update the system-of-record map.
+
+## Related learning
+
+Use [production PostgreSQL migrations](../../sql-postgresql-production/030-migrations-security-and-backups.md) for
+expand-contract and backfill mechanics, then attempt the
+[database-ownership extraction capstone](../../engineering-interview-program/capstones/005-database-ownership-extraction.md).

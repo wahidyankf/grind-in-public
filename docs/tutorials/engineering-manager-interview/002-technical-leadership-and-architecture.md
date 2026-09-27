@@ -60,3 +60,9 @@ rollback, operational ownership, and decommissioning. Celebrate retired complexi
 
 Prepare one story where you rejected a fashionable architecture and one where new evidence changed your position. Both
 should show how the team learned rather than how you won an argument.
+
+## Related learning
+
+Apply this decision method to [PostgreSQL scaling](../sql-postgresql-production/031-scaling-postgresql.md) and the
+[database-ownership extraction capstone](../engineering-interview-program/capstones/005-database-ownership-extraction.md).
+Both require measurable triggers, a single data owner, staged rollback, and funded operational ownership.

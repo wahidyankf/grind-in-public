@@ -145,3 +145,9 @@ state-migration control.
 - [Pod lifecycle](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
 - [Pod disruptions](https://kubernetes.io/docs/concepts/workloads/pods/disruptions/)
 - [Topology spread constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/)
+
+## Related learning
+
+Study [Kubernetes connection storms](../../sql-postgresql-production/cases/006-kubernetes-connection-storm.md) for the
+database-capacity consequence of replica/process/pool multiplication, then integrate both layers in the
+[scale-and-recover capstone](../../engineering-interview-program/capstones/006-scale-and-recover.md).

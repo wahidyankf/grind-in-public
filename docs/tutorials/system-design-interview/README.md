@@ -52,3 +52,10 @@ For each technology or algorithm, ask four questions:
 
 The examples use Python when executable logic clarifies the boundary. They are teaching slices with complete imports,
 not a hidden application that must be run from this repository.
+
+## Where this course fits
+
+Prerequisites: [Python Algorithms Interview](../python-algorithms-interview/README.md) for local mechanisms and
+[SQL and PostgreSQL Production](../sql-postgresql-production/README.md) for relational depth. Continue to
+[Engineering Manager Interview](../engineering-manager-interview/README.md) to add organizational decisions, or use the
+[unified programme](../engineering-interview-program/README.md) and its cross-course capstones.

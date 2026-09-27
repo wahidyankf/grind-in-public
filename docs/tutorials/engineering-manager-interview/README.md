@@ -31,3 +31,11 @@ strategy -> team system -> technical system -> delivery -> operation -> learning
    ^                                                        |
    +-------------------------- evidence --------------------+
 ```
+
+## Where this course fits
+
+Technical prerequisites are [Python Algorithms Interview](../python-algorithms-interview/README.md),
+[SQL and PostgreSQL Production](../sql-postgresql-production/README.md), and
+[System Design Interview](../system-design-interview/README.md). This course adds decision rights, team capability,
+delivery, and incident leadership. Finish with the
+[unified programme capstones](../engineering-interview-program/README.md).

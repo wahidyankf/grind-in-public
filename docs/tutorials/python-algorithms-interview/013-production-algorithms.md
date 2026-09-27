@@ -53,3 +53,11 @@ For any production algorithm, state:
 
 Choose one row from the table and explain a situation where the mechanism's local benefit is outweighed by operational
 complexity.
+
+## Related learning
+
+Database execution makes these choices concrete: study
+[B-tree indexes](../sql-postgresql-production/019-btree-indexes.md),
+[join algorithms](../sql-postgresql-production/021-join-algorithms.md), and
+[sort/aggregation algorithms](../sql-postgresql-production/022-sort-and-aggregation-algorithms.md), then attempt the
+[Python join lab](../sql-postgresql-production/labs/003-join-algorithms.md).

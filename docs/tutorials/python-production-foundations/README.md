@@ -50,6 +50,13 @@ Each lesson has a checkpoint. Type the code yourself, run it, and compare its re
 moving on. The final program intentionally has one small responsibility; its structure prepares you for a richer ledger
 later without pretending that a crash course solves the ledger's domain rules.
 
+## Where this course fits
+
+This is the programme prerequisite. Continue to [Python Algorithms Interview](../python-algorithms-interview/README.md)
+for complexity and problem solving, then [SQL and PostgreSQL Production](../sql-postgresql-production/README.md) for
+typed database boundaries. The [unified programme](../engineering-interview-program/README.md) supplies the complete
+route through system design and Engineering Manager practice.
+
 ## References
 
 - [Python 3.14 documentation](https://docs.python.org/3.14/)

@@ -35,3 +35,11 @@ the solution for review.
 
 All code targets Python 3.14 and uses the standard library. Examples are deliberately small enough to read in NVIM, but
 they define every referenced name and state their expected output.
+
+## Where this course fits
+
+Prerequisite: [Python Production Foundations](../python-production-foundations/README.md). See the same structures
+inside [PostgreSQL execution](../sql-postgresql-production/README.md): hashing drives joins and aggregation, B-trees
+drive indexes, heaps drive top-N, external merge drives spills, and graph traversal drives recursive queries. Continue
+to [System Design Interview](../system-design-interview/README.md), or follow the
+[unified programme](../engineering-interview-program/README.md).

@@ -73,3 +73,9 @@ target a distinct failure that a cheaper layer cannot expose.
 
 All gates pass, both valid commands agree, invalid input produces no traceback, and the course's final tree matches the
 files on disk. You are ready to use the same Python contracts in the algorithms course.
+
+## Related learning
+
+Continue with [Python Algorithms Interview](../python-algorithms-interview/README.md), then apply the same typed
+boundary, testing, and error-handling habits to a complete
+[Psycopg transaction](../sql-postgresql-production/029-python-and-psycopg.md).

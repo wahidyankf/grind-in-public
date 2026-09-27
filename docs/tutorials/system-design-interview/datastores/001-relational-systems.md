@@ -56,3 +56,9 @@ payloads to a log or object store.
 ## References
 
 - [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## Related deep dive
+
+Use [SQL and PostgreSQL Production](../../sql-postgresql-production/README.md) for executable SQL, physical storage,
+planner and executor algorithms, MVCC/vacuum, WAL/replication, Psycopg, performance, migration, and scaling. This page
+remains the compact datastore-selection guide; the course owns implementation depth.
