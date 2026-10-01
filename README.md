@@ -60,12 +60,12 @@ workspace deliberately avoids technology-specific Nx plugins; the
 [Nx workspace policy](repo-governance/development/nx-workspace-policy.md) states which kinds are excluded and the one
 exception.
 
-Documentation hygiene — governance-document word limits, directory maps, repository-local Markdown links, Mermaid
-diagrams, and harness capability parity — is checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI
-consumed the same checksum-pinned way as HIPPO and configured entirely by `repo-config.yml`. Announcing the workflows a
-rule change requires is a repository script, `scripts/check-rule-change.mjs`, wired into pre-commit and into every
-harness's pre-edit hook. [Workspace commands](repo-governance/development/workspace-commands.md) lists the
-`npm run check:` command for each check.
+Documentation hygiene — governance-document word limits, directory maps, repository-local Markdown links, the Mermaid
+ban, and harness capability parity — is checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI consumed the
+same checksum-pinned way as HIPPO and configured entirely by `repo-config.yml`. Announcing the workflows a rule change
+requires is a repository script, `scripts/check-rule-change.mjs`, wired into pre-commit and into every harness's
+pre-edit hook. [Workspace commands](repo-governance/development/workspace-commands.md) lists the `npm run check:`
+command for each check.
 
 Two applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
 the repository's single authoritative CV record — the practice workspace and its public face maintained under one set of

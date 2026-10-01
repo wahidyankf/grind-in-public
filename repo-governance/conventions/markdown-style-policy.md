@@ -28,8 +28,21 @@ while an ignore also drops the file's tables, lists, and `format:check` coverage
 current examples, its CV and LinkedIn drafts; its own `README.md` is an index like any other and stays wrapped.
 
 Use structural Markdown — headings, lists, tables, blockquotes, and fenced code blocks — when content is structurally
-distinct, rather than splitting a paragraph for appearance. A line that exceeds 120 columns after formatting holds
-something Prettier cannot break, such as a long inline command or a URL, and is left alone rather than broken by hand.
+distinct, rather than splitting a paragraph for appearance.
+
+## Line Length
+
+No line exceeds 120 characters: prose, headings, list items, table rows, and fenced code all count, so a document reads
+in a terminal editor with neither a renderer nor horizontal scrolling. Prettier breaks prose; fix what it cannot break
+by hand:
+
+- shorten the cells of a table whose aligned width exceeds 120, split it into narrower tables, or turn it into a list;
+- move a long link target into a reference-style definition, which the limit exempts;
+- continue a long shell command on the next line with `\`, first moving it from inline code into a fenced block; and
+- wrap a long line of example output only after a sentence saying the real output is one line.
+
+Exempt are the copy-paste targets above, completed plans under `plans/done/`, fixture bytes under `specs/fixtures/`, and
+YAML front matter, whose values RHINO reads one per line.
 
 ## Diagrams and Schemas
 
@@ -38,8 +51,8 @@ ASCII characters such as `+`, `-`, `|`, and `>` with clear labels so the model r
 review, and a rendered Markdown view. Prefer a Markdown table when a tabular schema communicates the relationship more
 directly.
 
-Do not use Mermaid by default. Use it only when the task, user, or governing requirement explicitly calls for Mermaid;
-otherwise, choose terminal-readable ASCII art.
+Do not use Mermaid: it is unreadable without a renderer, and the `mermaid` gate declares the plain-text authoring rule,
+so it rejects any Mermaid block.
 
 ## Related
 
@@ -48,9 +61,10 @@ Filenames are governed separately by the [document naming policy](document-namin
 ## Enforcement
 
 Prettier owns this style. `.prettierrc.json` sets `proseWrap: "always"` with a `printWidth` of 120, and pins
-non-Markdown files back to 80 through an `overrides` entry so the code formatting width is unaffected. The same 120
-governs table padding, which is why a table whose cells stay short is padded into aligned columns and a wider one falls
-back to the unpadded form.
+non-Markdown files back to 80 through an `overrides` entry so the code formatting width is unaffected. Prettier pads
+every table into aligned columns, so a table fits only when its aligned width does. The `markdown-line-length` gate runs
+`markdownlint-cli2` with rule `MD013` alone, configured with its exemptions in `.markdownlint-cli2.jsonc`, on pre-push
+and in `npm run check:hygiene`.
 
 Run `rtk npm run format` after changing Markdown; use `rtk npm run format:check` to verify it before committing.
 Pre-commit formats staged files, so the wrap is applied whether or not it was run by hand.
