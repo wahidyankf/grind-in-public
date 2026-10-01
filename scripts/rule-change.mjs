@@ -20,7 +20,7 @@ export const HARNESS_WORKFLOW =
 // configuration, and the directories holding its subagents, skills, and
 // commands. Changing one of them can leave the harnesses unequal, which is
 // what the alignment workflow checks.
-const harnessFiles = ["AGENTS.md", "CLAUDE.md", "RTK.md", "opencode.json"];
+const harnessFiles = ["AGENTS.md", "CLAUDE.md", "opencode.json"];
 const harnessDirectories = [".claude", ".codex", ".opencode", ".agents"];
 
 // The paths that carry rules without being harness surfaces: the shared

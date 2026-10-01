@@ -61,7 +61,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 	fi
 
 	if ! git diff --quiet "$base_sha" "$local_sha" -- \
-		AGENTS.md CLAUDE.md RTK.md repo-governance specs scripts .github .husky \
+		AGENTS.md CLAUDE.md repo-governance specs scripts .github .husky \
 		.claude .codex .opencode .agents package.json nx.json 'apps/*/project.json' \
 		repo-config.yml rhino rhino.lock \
 		hippo hippo.lock hippo.identity.json hippo.local.json.example; then

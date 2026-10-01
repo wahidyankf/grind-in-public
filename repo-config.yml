@@ -177,7 +177,6 @@ policies:
       surfaces:
         - { glob: "AGENTS.md", fail: 750 }
         - { glob: "CLAUDE.md", fail: 750 }
-        - { glob: "RTK.md", fail: 750 }
         - { glob: "repo-governance/**/*.md", fail: 750 }
         - { glob: ".agents/README.md", fail: 750 }
         - { glob: ".claude/README.md", fail: 750 }

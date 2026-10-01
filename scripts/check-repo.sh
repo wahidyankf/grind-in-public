@@ -48,7 +48,7 @@ run ./.github/scripts/test-pre-push-contract.sh
 # name rather than this repository's own prose.
 printf '\n[repo] British spelling\n'
 if rg -n -i 'behavio[r]' \
-	AGENTS.md CLAUDE.md RTK.md \
+	AGENTS.md CLAUDE.md \
 	repo-governance apps specs scripts .github .husky .agents .claude .codex .opencode \
 	--glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.tsx' \
 	--glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.unit.test.tsx'; then

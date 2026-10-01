@@ -47,7 +47,6 @@ test("selects every rule-bearing file and directory, and nothing else", async ()
   const selected = rulePaths([
     "AGENTS.md",
     "CLAUDE.md",
-    "RTK.md",
     "opencode.json",
     "repo-governance/README.md",
     ".husky/pre-commit",
@@ -60,7 +59,7 @@ test("selects every rule-bearing file and directory, and nothing else", async ()
   ]);
   assert.ok(!selected.includes("package.json"));
   assert.ok(!selected.includes("README.md"));
-  assert.equal(selected.length, 10);
+  assert.equal(selected.length, 9);
 });
 
 test("normalises, de-duplicates, and sorts what it reports", async () => {
