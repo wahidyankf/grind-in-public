@@ -26,12 +26,20 @@ and `manual` full-tree surfaces map to this scanner's `ci` collection mode. A mi
 failure, not a default. A gate that infers its own surface will eventually infer a weaker one, and that is exactly the
 case where inferring is expensive.
 
-| Surface      | Outbound at that moment                                           |
-| ------------ | ----------------------------------------------------------------- |
-| `commit-msg` | the message being written, and the current ref name               |
-| `pre-commit` | the tracked tree and its names, then the staged additions         |
-| `pre-push`   | the refs being pushed, the outgoing commit messages, and the tree |
-| `ci`         | the ref, the head commit message, and the checked-out tree        |
+| Surface      | Outbound at that moment                                                                   |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| `commit-msg` | the message being written, and the current ref name                                       |
+| `pre-commit` | the tracked tree and its names, then the staged additions                                 |
+| `pre-push`   | the refs being pushed, the outgoing messages, names, each commit's additions, the tree    |
+| `ci`         | the ref, head message, and tree; or one declared range, screened as `pre-push` screens it |
+
+`ci` takes a range only when `PUBLIC_SAFETY_BASE` and `PUBLIC_SAFETY_HEAD` both hold commit IDs; the hosted leak screen
+uses it to replay each push to `main`.
+
+A range is screened commit by commit, never as its final files: a value one commit adds and the next deletes is still in
+every clone. Each commit contributes only the lines it added, at the line numbers they occupy, labelled
+`<commit>/<path>:<line>`; a merge contributes what it resolved beyond the automatic merge. Content the range did not add
+is not screened again.
 
 `pre-commit` screens the whole tracked tree, not only the change. A leak that is already committed does not become safe
 because this particular commit did not introduce it.
@@ -135,6 +143,7 @@ bash scripts/public-safety/tests/run.sh 080        # one case by name fragment
 - `130-hook-environment-isolation` — a suite started from a Git hook leaves the hook's own repository untouched
 - `140-cidr-network-prefix` — a CIDR network prefix passes; host forms in every private range still block
 - `150-hostname-trailing-underscore` — an underscore continues a hostname token; real hostnames still block
+- `160-range-history` — a pushed or replayed range is screened commit by commit; untouched content is not
 
 Every probe value is assembled at run time from fragments, so no string this repository's own gate would flag exists in
 any test file — a test that hardcoded one would block the commit that added it. `assert_absent` reports only a length on

@@ -64,6 +64,10 @@ replaces local proof. Preserve applicable routes and evidence through compaction
 - **Sufficient consistent rules**
   - Rule: [Rules gate](../workflows/rules-quality-gate.md)
   - Enforcement or evidence route: **Evidence:** automatic propagation; explicit audits hand off every non-pass.
+- **Leak-free outbound history**
+  - Rule: [Push leak review](../workflows/push-leak-review.md)
+  - Enforcement or evidence route: **Evidence:** review of each outgoing commit. **Push:** commit-by-commit screen.
+    **Detection:** hosted replay of each push to `main`.
 - **Necessary reproducibly locked dependencies**
   - Rule: [Dependency selection](dependency-selection-policy.md)
   - Enforcement or evidence route: **Evidence:** selection review and affected gates.

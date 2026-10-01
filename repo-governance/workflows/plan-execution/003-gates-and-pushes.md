@@ -27,8 +27,8 @@ and both actions are separately authorized:
 3. Commit with a Conventional Commits message naming what the phase did, per the
    [commit hook policy](../../development/commit-hook-policy.md). Split unrelated work under the
    [thematic commits policy](../../conventions/thematic-commits-policy.md).
-4. Push to `origin main`. The [workspace commands](../../development/workspace-commands.md#hooks) reference lists what
-   pre-push runs and when.
+4. Run the [push leak review](../push-leak-review.md) of each outgoing commit, then push to `origin main`. The
+   [workspace commands](../../development/workspace-commands.md#hooks) reference lists what pre-push runs and when.
 
 Without either permission, record the green gate and stop before the unauthorized Git action. Resume delivery only after
 the owner grants the missing permission.

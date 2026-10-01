@@ -44,6 +44,11 @@ Immediately before every commit, run `git diff --cached --check`, inspect `git d
 the staged additions for credential-shaped values and user-specific home paths. These checks supplement judgment; a
 clean pattern search never proves that arbitrary content is safe.
 
+Immediately before every push, run the [push leak review](../workflows/push-leak-review.md): read each outgoing commit's
+additions, file names, and message against its three leak classes, because a value one commit adds and a later commit
+deletes is still published. The staged-diff review above does not replace it. A finding blocks the push until the
+unpushed history no longer carries the value.
+
 If sensitive material enters Git history, do not repeat it in diagnostics, reports, issues, or replacement commits.
 Treat authentication material as compromised and revoke or rotate it through its owning system. Preserve only sanitized
 evidence, report the affected paths and revisions without the value, and obtain separate owner authorization before

@@ -4,8 +4,9 @@ set -e
 # repository is the moment publication begins.
 #
 # Git supplies the ref updates on stdin, and two consumers want them: the
-# declared `pre-push` surface, whose safety gate screens the refs and the
-# commit messages about to be published, and the loop below, which decides
+# declared `pre-push` surface, whose safety gate screens the refs, the commit
+# messages, and each commit's own additions about to be published -- the
+# mechanical half of the push leak review -- and the loop below, which decides
 # which projects are affected. A pipe can only be drained once, so it is read
 # once into a variable and each consumer is fed from that. Whichever ran first
 # would otherwise leave the second reading an empty stream and reporting a

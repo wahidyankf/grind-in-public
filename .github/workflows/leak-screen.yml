@@ -1,0 +1,52 @@
+name: Leak screen
+
+on:
+  # This repository pushes straight to main, so no pull request exists to gate.
+  # Replaying the pre-push screen over every pushed range after the fact is the
+  # hosted layer of the push leak review: detective rather than preventive, and
+  # it catches a push whose local hook was skipped.
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: leak-screen-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  range:
+    name: Leak screen (pushed range)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          # The range's previous tip must be present to list its commits.
+          fetch-depth: 0
+      - name: Screen the pushed range commit by commit
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          # A push that created main carries an all-zero previous tip, and a
+          # previous tip absent from the clone cannot anchor a range. Either
+          # way, fall back to the new tip's own commit against its first
+          # parent; a parentless root commit is its whole tree.
+          base=$BEFORE
+          if [[ "$base" =~ ^0+$ ]] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            if base=$(git rev-parse --quiet --verify "$AFTER^1"); then
+              echo "::warning::previous tip unavailable; screening the head commit only"
+            else
+              echo "::warning::root commit; screening the whole tree"
+              ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+                env OSE_GATE_SURFACE=ci bash scripts/public-safety/check.sh
+              exit 0
+            fi
+          fi
+          ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+            env OSE_GATE_SURFACE=ci PUBLIC_SAFETY_BASE="$base" PUBLIC_SAFETY_HEAD="$AFTER" \
+            bash scripts/public-safety/check.sh

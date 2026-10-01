@@ -102,7 +102,8 @@ implementation review after material corpus or adapter changes. Manually confirm
 Use the direct-main [integration path](repo-governance/conventions/integration-path-policy.md), Conventional Commits,
 and one purpose per commit under the [thematic commits policy](repo-governance/conventions/thematic-commits-policy.md).
 Landing on `main` is not deploying: promoting a commit and cutting a domain over are separate authorized acts under the
-[deployment policy](repo-governance/development/deployment-policy.md). Commit and push are separate permissions, and
-neither is implied by the work that produced the changes: the
+[deployment policy](repo-governance/development/deployment-policy.md). Commit and push are separate permissions: the
 [commit hook policy](repo-governance/development/commit-hook-policy.md) owns authorization, public-repository safety,
-attribution, and hook requirements. Do not commit `node_modules/` or unreviewed dependency updates.
+attribution, and hook requirements. Every push first passes the
+[push leak review](repo-governance/workflows/push-leak-review.md) of each outgoing commit. Do not commit `node_modules/`
+or unreviewed dependency updates.

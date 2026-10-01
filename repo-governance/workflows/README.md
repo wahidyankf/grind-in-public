@@ -22,6 +22,8 @@ link to related governance guidance instead of duplicating it.
 - [Rules Propagation](rules/rules-propagation.md) automatically starts for a rule-path change, remains the sole writer,
   and consumes `NEEDS_PROPAGATION` ledgers. Its detail lives in
   [`rules/rules-propagation/`](rules/rules-propagation/README.md).
+- [Push Leak Review](push-leak-review.md) reviews every outgoing commit for a leak, privately, before each push; its
+  classes, review, and enforcement live in [`push-leak-review/`](push-leak-review/README.md).
 - [Docs Propagation](docs-propagation.md) automatically carries each change into every human-facing document it affects,
   removing obsolete ones, and consumes Docs Quality Gate ledgers.
 - [Docs Quality Gate](docs-quality-gate.md) runs only on explicit owner direction, never edits, hands every finding to

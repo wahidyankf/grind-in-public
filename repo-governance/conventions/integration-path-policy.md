@@ -13,6 +13,11 @@ pull request or create a task, feature, delivery, or integration branch or workt
 push remain separate owner-authorized actions under the [commit hook policy](../development/commit-hook-policy.md); this
 policy chooses the route and grants neither permission.
 
+With no pull request to review before a commit reaches `origin/main`, the
+[push leak review](../workflows/push-leak-review.md) of each outgoing commit is required before every push, including a
+push retried after the merge below. The pre-push hook screens the pushed range commit by commit, and a hosted leak
+screen replays it on `main` afterwards; neither replaces the review.
+
 Other tasks share the same local `main`, working tree, and index; stage, commit, and push only this task's work, as
 [concurrent ownership](task-tracking-policy/concurrent-ownership.md) requires.
 
