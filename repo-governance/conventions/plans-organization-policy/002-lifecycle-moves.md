@@ -28,13 +28,15 @@ brief again.
 
 **Completing work.** Run the Knowledge Capture phase; see
 [Knowledge Capture and Archival](009-knowledge-capture-and-archival.md). Then require explicit owner direction for a
-[plan execution check](../../workflows/plan-execution-check.md) run and continue only on a verdict that permits
-archival, reconciling every acceptance criterion, specification, README, gate, learning, and conditional task with the
-delivered system. The execution check alone closes a plan; the quality gate judges plans, not delivered work, and is
-never re-run to close one. Record a dated, evidence-backed `Not triggered` disposition for every dormant recovery task.
-Refuse an already-existing `plans/done/YYYY-MM-DD__<slug>/` destination — never merge, overwrite, or invent a suffix.
-Rename with the completion date, move to `done/`, update maps, resolve archived internal links directly, confirm the
-source is absent and the destination occurs once, then commit the move with a message naming the plan.
+[plan execution check](../../workflows/plan-execution-check.md) run — for a bug-fix plan, the adopted
+[upstream tool defects](../../development/upstream-tool-defects.md) standard directs that run and the archival — and
+continue only on a verdict that permits archival, reconciling every acceptance criterion, specification, README, gate,
+learning, and conditional task with the delivered system. The execution check alone closes a plan; the quality gate
+judges plans, not delivered work, and is never re-run to close one. Record a dated, evidence-backed `Not triggered`
+disposition for every dormant recovery task. Refuse an already-existing `plans/done/YYYY-MM-DD__<slug>/` destination —
+never merge, overwrite, or invent a suffix. Rename with the completion date, move to `done/`, update maps, resolve
+archived internal links directly, confirm the source is absent and the destination occurs once, then commit the move
+with a message naming the plan.
 
 **Reopening.** If a defect surfaces after archival, move the folder back to `in-progress/`, strip the date prefix, and
 add a dated note in `README.md` stating what broke. A reopened plan is honest history; a quietly edited `done/` plan is

@@ -21,8 +21,8 @@ harness task list, as the [task tracking policy](task-tracking-policy.md) requir
 governance surfaces without a delivery plan because its bounded transaction records the authorized rule outcome.
 
 The one standing request is the adopted [upstream tool defects](../development/upstream-tool-defects.md) standard: it
-covers a blocking defect's [bug-fix plan](plans-organization-policy/018-bug-fix-plan.md), including its quality gate and
-execution, and any other defect's idea brief.
+covers a blocking defect's [bug-fix plan](plans-organization-policy/018-bug-fix-plan.md), including its quality gate,
+execution, release, execution check, and archival, and any other defect's idea brief.
 
 ## Rules
 

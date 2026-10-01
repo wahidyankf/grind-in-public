@@ -13,7 +13,8 @@ on.
 ## When to Use
 
 Use it when every substantive item in `delivery.md` is terminal and archival has not started. Run it on explicit owner
-direction. It is a review, not a repair pass.
+direction; for a bug-fix plan, the adopted [upstream tool defects](../development/upstream-tool-defects.md) standard is
+that direction. It is a review, not a repair pass.
 
 ## Prerequisites
 
