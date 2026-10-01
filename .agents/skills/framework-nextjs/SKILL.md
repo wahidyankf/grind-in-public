@@ -20,8 +20,7 @@ the standard decides.
 
 ## Start From What the Project Records
 
-Read the version line and hosting choice recorded under
-[Version, Hosting, and Examples](../../../repo-governance/development/quality/stacks/nextjs-standards/001-version-hosting-and-examples.md).
+Read the version line and hosting choice recorded under [Version, Hosting, and Examples][version-hosting-and-examples].
 Framework defaults differ between major lines, so check the recorded line's documentation, not memory, before relying on
 one.
 
@@ -71,3 +70,6 @@ Browser journeys follow Writing Browser End-to-End Tests. Layers follow
 - every new fetch declares its caching, and every mutation revalidates what it changed;
 - every new server action has its refusal tests; and
 - each recorded red failed on an assertion about the missing behaviour.
+
+[version-hosting-and-examples]:
+  ../../../repo-governance/development/quality/stacks/nextjs-standards/001-version-hosting-and-examples.md

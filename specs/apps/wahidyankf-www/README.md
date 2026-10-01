@@ -10,11 +10,15 @@ depends one-way on the owner; it owns no feature files.
 
 Three adapters run against this corpus, and they do not all reach the same scenarios.
 
-| Adapter           | Where                                                      | Reaches                                                                    |
-| ----------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------- |
-| Unit behaviour    | `apps/wahidyankf-www/tests/bdd/`                           | All 70 expanded scenarios, with injected seams for OS-facing dependencies. |
-| Local integration | `apps/wahidyankf-www/tests/integration/` + shared adapters | All 34 local-boundary scenarios against isolated real resources.           |
-| Browser E2E       | `apps/wahidyankf-www-e2e/tests/steps/`                     | All 36 browser-observable scenarios against a started production server.   |
+- **Unit behaviour**
+  - Where: `apps/wahidyankf-www/tests/bdd/`
+  - Reaches: All 70 expanded scenarios, with injected seams for OS-facing dependencies.
+- **Local integration**
+  - Where: `apps/wahidyankf-www/tests/integration/` + shared adapters
+  - Reaches: All 34 local-boundary scenarios against isolated real resources.
+- **Browser E2E**
+  - Where: `apps/wahidyankf-www-e2e/tests/steps/`
+  - Reaches: All 36 browser-observable scenarios against a started production server.
 
 Scenario-level `@integration-exempt` and `@e2e-exempt` tags document genuine boundary mismatches and name an alternative
 Nx target plus scenario. Either or both tags may annotate a scenario when each exemption is independently documented.
@@ -23,13 +27,29 @@ review verifies their substance and confirms Unit remains implemented.
 
 ## Targets
 
-| Target                                                                                                                                                | What it proves                                                      |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage:behaviour`         | Unit, Integration, E2E rows, exemptions, and bindings are complete. |
-| `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage:unit`              | Unit and behaviour together reach the 99% line floor.               |
-| `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage:integration`       | The integration adapter reaches the 99% line floor.                 |
-| `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e` | Browser corpus, exemptions, and bindings are complete.              |
-| `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e`                    | The browser suite passes against `next start`.                      |
+The comment above each command says what that target proves.
+
+```sh
+# Unit, Integration, E2E rows, exemptions, and bindings are complete.
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+  npm exec -- nx run -p wahidyankf-www -t test:coverage:behaviour
+
+# Unit and behaviour together reach the 99% line floor.
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+  npm exec -- nx run -p wahidyankf-www -t test:coverage:unit
+
+# The integration adapter reaches the 99% line floor.
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+  npm exec -- nx run -p wahidyankf-www -t test:coverage:integration
+
+# Browser corpus, exemptions, and bindings are complete.
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+  npm exec -- nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e
+
+# The browser suite passes against `next start`.
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+  npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e
+```
 
 ## Directory Map
 

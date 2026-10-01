@@ -11,12 +11,17 @@ when_to_use: >-
 
 ## Adopter Decisions
 
-| Decision     | Option                                     | Gains                                           | Costs                                                   |
-| ------------ | ------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------- |
-| version line | the current stable major                   | current features and the longest support window | a migration at each major, with defaults to re-review   |
-|              | a supported earlier major                  | fewer migrations                                | fixes arrive late, and the eventual upgrade grows       |
-| hosting      | a managed platform built for the framework | caching and image optimization run unoperated   | platform coupling, and a build that must stay in parity |
-|              | a self-hosted standalone server            | full control and portability                    | the adopter operates caching, images, and scaling       |
+Each decision's options, with gains and costs:
+
+- **version line**
+  - the current stable major. Gains: current features and the longest support window. Costs: a migration at each major,
+    with defaults to re-review.
+  - a supported earlier major. Gains: fewer migrations. Costs: fixes arrive late, and the eventual upgrade grows.
+- **hosting**
+  - a managed platform built for the framework. Gains: caching and image optimization run unoperated. Costs: platform
+    coupling, and a build that must stay in parity.
+  - a self-hosted standalone server. Gains: full control and portability. Costs: the adopter operates caching, images,
+    and scaling.
 
 Record each choice with the major line it names. The recorded line also fixes the React major for that application, in
 place of the version rule in [React Standards](../react-standards.md). A managed platform's build follows

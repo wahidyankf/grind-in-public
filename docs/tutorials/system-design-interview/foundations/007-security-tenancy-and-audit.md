@@ -24,11 +24,11 @@ minimal signed identity context. Services should not trust a client-supplied `te
 
 ## Authorization models
 
-| Model | Production fit                                      | Cost and rejection case                                   |
-| ----- | --------------------------------------------------- | --------------------------------------------------------- |
-| RBAC  | Stable job roles and broad permissions              | Role explosion; reject for many contextual conditions     |
-| ABAC  | Tenant, region, ownership, risk, and time policies  | Harder policy testing; reject if attributes are untrusted |
-| ReBAC | Resource-sharing graphs and delegated relationships | Traversal/cache cost; reject for simple static roles      |
+| Model | Production fit                                      | Cost and rejection case                               |
+| ----- | --------------------------------------------------- | ----------------------------------------------------- |
+| RBAC  | Stable job roles and broad permissions              | Role explosion; reject for many contextual conditions |
+| ABAC  | Tenant, region, ownership, risk, and time policies  | Harder policy testing; reject if attributes untrusted |
+| ReBAC | Resource-sharing graphs and delegated relationships | Traversal/cache cost; reject for simple static roles  |
 
 Many systems combine coarse RBAC with contextual ABAC. Centralize policy definition but enforce near each protected
 resource so an internal call cannot bypass authorization.

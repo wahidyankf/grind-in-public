@@ -10,9 +10,8 @@ compatibility: Requires read access to the content under review and to the repor
 # Applying Maker, Checker, and Fixer
 
 The check-fix workflows own the loop: Specs Quality Gate and its siblings say what runs, in what order, and when it
-stops.
-[Finding Criticality and Confidence](../../../repo-governance/development/quality/evidence/finding-criticality-and-confidence.md)
-owns the scales. This skill covers the judgement each role needs inside that loop.
+stops. [Finding Criticality and Confidence][finding-criticality-and-confidence] owns the scales. This skill covers the
+judgement each role needs inside that loop.
 
 ## Three Roles, Three Questions
 
@@ -76,3 +75,6 @@ can always reach one.
 
 Outside planning, a workflow may declare a dedicated fixer. In both arrangements, whoever applies findings uses the
 judgement above.
+
+[finding-criticality-and-confidence]:
+  ../../../repo-governance/development/quality/evidence/finding-criticality-and-confidence.md

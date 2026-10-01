@@ -10,13 +10,13 @@ must verify integrity and retrieve a tenant/time/resource trail.
 
 ### Functional requirements
 
-| ID   | Requirement                                                                                                      |
-| ---- | ---------------------------------------------------------------------------------------------------------------- |
-| FR-1 | Append a canonical event with actor, authority, tenant, resource, action, versions, outcome, and correlation id. |
-| FR-2 | Query by tenant and bounded time plus resource, actor, or action filters.                                        |
-| FR-3 | Export a signed manifest and records whose integrity can be verified offline.                                    |
-| FR-4 | Detect gaps, mutation, reordering within an integrity segment, and missing batch anchors.                        |
-| FR-5 | Enforce retention, legal holds, and approved deletion with its own evidence record.                              |
+| ID   | Requirement                                                                                                  |
+| ---- | ------------------------------------------------------------------------------------------------------------ |
+| FR-1 | Append a canonical event: actor, authority, tenant, resource, action, versions, outcome, and correlation id. |
+| FR-2 | Query by tenant and bounded time plus resource, actor, or action filters.                                    |
+| FR-3 | Export a signed manifest and records whose integrity can be verified offline.                                |
+| FR-4 | Detect gaps, mutation, reordering within an integrity segment, and missing batch anchors.                    |
+| FR-5 | Enforce retention, legal holds, and approved deletion with its own evidence record.                          |
 
 ### Non-functional requirements
 

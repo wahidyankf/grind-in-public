@@ -29,8 +29,8 @@ finding is `execution` work.
    explains.
 3. **Re-validate each finding.** Read the tests covering the code first, per
    [Cycle and Evidence](../../repo-governance/development/tdd-policy.md), then confirm the breach still exists at the
-   stated file and line under the stated standard. Rate confidence one finding at a time, per
-   [Confidence and Re-Validation](../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/002-confidence-and-revalidation.md).
+   stated file and line under the stated standard. Rate confidence one finding at a time, per [Confidence and
+   Re-Validation][confidence-and-re-validation].
 4. **Dispose of it.**
    - `HIGH`: apply the fix, changing only what the finding names.
    - `MEDIUM`: leave it for a person, with the evidence that left it open.
@@ -85,3 +85,6 @@ dismissed a second time.
 It does not audit beyond the findings, refactor past a finding, suppress or loosen a check, apply a `MEDIUM` finding,
 decide when the check-fix loop ends, or commit. A failing type check, lint run, or test suite belongs to Bugs Solver,
 new behaviour to [SWE Code Maker](swe-code-maker.md), and interface component findings to SWE UI Fixer.
+
+[confidence-and-re-validation]:
+  ../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/002-confidence-and-revalidation.md

@@ -21,13 +21,21 @@ Pyright's stale-waiver report — and they are folded into the units whose stand
 
 Five delivery units, one per stack gate area:
 
-| Unit | Gap                                                          | Projects touched                                                                          |
-| ---- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| U1   | TypeScript lint is not type-aware; strict options are off    | `wahidyankf-www`, `wahidyankf-www-e2e`                                                    |
-| U2   | no JavaScript file is type-checked through JSDoc (`checkJs`) | `repo-scripts`, `opencode-plugin`, `wahidyankf-www`, `wahidyankf-www-e2e`, root configs   |
-| U3   | the Python pilot lacks format, lint, coverage, stale waivers | `forum-be-python`                                                                         |
-| U4   | Nx project `tags` are empty, so no boundary can be enforced  | `wahidyankf-www`, `wahidyankf-www-e2e`, `forum-be-python`, `repo-scripts` (the validator) |
-| U5   | the two `.github/scripts/` tests run under `sh`, not Bash    | `ci-scripts`                                                                              |
+- **U1**
+  - Gap: TypeScript lint is not type-aware; strict options are off
+  - Projects touched: `wahidyankf-www`, `wahidyankf-www-e2e`
+- **U2**
+  - Gap: no JavaScript file is type-checked through JSDoc (`checkJs`)
+  - Projects touched: `repo-scripts`, `opencode-plugin`, `wahidyankf-www`, `wahidyankf-www-e2e`, root configs
+- **U3**
+  - Gap: the Python pilot lacks format, lint, coverage, stale waivers
+  - Projects touched: `forum-be-python`
+- **U4**
+  - Gap: Nx project `tags` are empty, so no boundary can be enforced
+  - Projects touched: `wahidyankf-www`, `wahidyankf-www-e2e`, `forum-be-python`, `repo-scripts` (the validator)
+- **U5**
+  - Gap: the two `.github/scripts/` tests run under `sh`, not Bash
+  - Projects touched: `ci-scripts`
 
 Each unit ends by editing the adapter to remove the gap it records; the two unrecorded gaps need no adapter edit. No
 application behaviour changes, and no Gherkin scenario changes.

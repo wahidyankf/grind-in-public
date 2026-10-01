@@ -23,17 +23,33 @@ the command destroys and who made it, not whether it appears below.
 
 ## Common Cases
 
-| Operation                                                             | Destroys                                        | Use instead                                                             |
-| --------------------------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------- |
-| `git push --force`, or `--force-with-lease` without an expected value | remote commits absent locally                   | `--force-with-lease=<ref>:<expected-sha> --force-if-includes`, approved |
-| rebasing or amending commits already pushed                           | history others built on                         | `git revert`                                                            |
-| `git reset --hard`, `git checkout -f`, `git switch --discard-changes` | uncommitted changes                             | commit first                                                            |
-| `git checkout -- <path>` or `git restore <path>` over edits           | the unstaged edits at those paths               | commit first                                                            |
-| `git clean -fd` or `git clean -fdx`                                   | untracked and ignored files                     | `git clean -n` to preview, then delete named paths                      |
-| `git stash drop`, `git stash clear`                                   | stash entries, which then become prunable       | leave the entries                                                       |
-| `git branch -D`, `git update-ref -d`                                  | a branch, skipping the merged check             | `git branch -d`                                                         |
-| expiring the reflog and pruning at once                               | the recovery path itself                        | let automatic maintenance run                                           |
-| `git worktree remove --force`, deleting a worktree folder             | a working tree and everything uncommitted in it | plain `git worktree remove`                                             |
+- `git push --force`, or `--force-with-lease` without an expected value
+  - Destroys: remote commits absent locally
+  - Use instead: `--force-with-lease=<ref>:<expected-sha> --force-if-includes`, approved
+- **rebasing or amending commits already pushed**
+  - Destroys: history others built on
+  - Use instead: `git revert`
+- `git reset --hard`, `git checkout -f`, `git switch --discard-changes`
+  - Destroys: uncommitted changes
+  - Use instead: commit first
+- `git checkout -- <path>` or `git restore <path>` over edits
+  - Destroys: the unstaged edits at those paths
+  - Use instead: commit first
+- `git clean -fd` or `git clean -fdx`
+  - Destroys: untracked and ignored files
+  - Use instead: `git clean -n` to preview, then delete named paths
+- `git stash drop`, `git stash clear`
+  - Destroys: stash entries, which then become prunable
+  - Use instead: leave the entries
+- `git branch -D`, `git update-ref -d`
+  - Destroys: a branch, skipping the merged check
+  - Use instead: `git branch -d`
+- **expiring the reflog and pruning at once**
+  - Destroys: the recovery path itself
+  - Use instead: let automatic maintenance run
+- `git worktree remove --force`, deleting a worktree folder
+  - Destroys: a working tree and everything uncommitted in it
+  - Use instead: plain `git worktree remove`
 
 The lease form is still a force push and still needs approval; it only refuses to overwrite commits nobody has seen.
 `git clean -fdx` also removes the ignored local secrets and machine files — `.env*` files, `hippo.local.json`,

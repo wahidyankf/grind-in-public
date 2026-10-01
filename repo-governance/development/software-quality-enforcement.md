@@ -24,21 +24,49 @@ replaces local proof. Preserve applicable routes and evidence through compaction
 
 ## Enforcement Map
 
-| Outcome                                    | Rule                                                   | Enforcement or evidence route                                                                         |
-| ------------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
-| Typed, lint-clean source                   | [Quality gates](quality-gates.md)                      | **Commit:** staged checks. **Required/push:** affected `test:quick`.                                  |
-| Test-first behaviour delivery              | [TDD](tdd-policy.md)                                   | **Evidence:** task records RED, GREEN, and REFACTOR-green; automation proves final state.             |
-| Unit behaviour and 99% coverage            | [Quality gates](quality-gates.md)                      | **Required/push:** unit and unit coverage through owner `test:quick`.                                 |
-| Local-boundary behaviour and 99% coverage  | [Quality gates](quality-gates.md)                      | **Required:** integration coverage. **Scheduled:** twice daily.                                       |
-| Public browser, process, and API journeys  | [E2E](end-to-end-testing.md)                           | **Required:** affected E2E. **Evidence:** affected APIs use `curl`. **Scheduled:** after integration. |
-| Exact corpus, adapters, and exemptions     | [BDD](behaviour-driven-development-policy.md)          | **Required/push:** static behaviour coverage through `test:quick`.                                    |
-| Substantive Gherkin implementation         | [BDD](behaviour-driven-development-policy.md)          | **Evidence:** [one-by-one review](../workflows/gherkin-implementation-review.md) and runtime gates.   |
-| Synthetic isolated test state              | [Test data](test-data-isolation.md)                    | **Runtime:** fail-closed boundaries. **Required:** policy tests and cleanup.                          |
-| Accessible and usable rendered UI          | [E2E](end-to-end-testing.md)                           | **Required:** affected E2E. **Evidence:** exact-origin and exploratory/usability review.              |
-| Synchronized specs and project docs        | [Specs](specs-policy.md)                               | **Evidence:** semantic reconciliation. **Required/conditional push:** `test:repo`.                    |
-| Executable formal plans                    | [Plan gate](../workflows/plan-quality-gate.md)         | **Evidence:** explicitly requested `PASS`. **Required:** repository checks.                           |
-| Sufficient consistent rules                | [Rules gate](../workflows/rules-quality-gate.md)       | **Evidence:** automatic propagation; explicit audits hand off every non-pass.                         |
-| Necessary reproducibly locked dependencies | [Dependency selection](dependency-selection-policy.md) | **Evidence:** selection review and affected gates.                                                    |
+- **Typed, lint-clean source**
+  - Rule: [Quality gates](quality-gates.md)
+  - Enforcement or evidence route: **Commit:** staged checks. **Required/push:** affected `test:quick`.
+- **Test-first behaviour delivery**
+  - Rule: [TDD](tdd-policy.md)
+  - Enforcement or evidence route: **Evidence:** task records RED, GREEN, and REFACTOR-green; automation proves final
+    state.
+- **Unit behaviour and 99% coverage**
+  - Rule: [Quality gates](quality-gates.md)
+  - Enforcement or evidence route: **Required/push:** unit and unit coverage through owner `test:quick`.
+- **Local-boundary behaviour and 99% coverage**
+  - Rule: [Quality gates](quality-gates.md)
+  - Enforcement or evidence route: **Required:** integration coverage. **Scheduled:** twice daily.
+- **Public browser, process, and API journeys**
+  - Rule: [E2E](end-to-end-testing.md)
+  - Enforcement or evidence route: **Required:** affected E2E. **Evidence:** affected APIs use `curl`. **Scheduled:**
+    after integration.
+- **Exact corpus, adapters, and exemptions**
+  - Rule: [BDD](behaviour-driven-development-policy.md)
+  - Enforcement or evidence route: **Required/push:** static behaviour coverage through `test:quick`.
+- **Substantive Gherkin implementation**
+  - Rule: [BDD](behaviour-driven-development-policy.md)
+  - Enforcement or evidence route: **Evidence:** [one-by-one review](../workflows/gherkin-implementation-review.md) and
+    runtime gates.
+- **Synthetic isolated test state**
+  - Rule: [Test data](test-data-isolation.md)
+  - Enforcement or evidence route: **Runtime:** fail-closed boundaries. **Required:** policy tests and cleanup.
+- **Accessible and usable rendered UI**
+  - Rule: [E2E](end-to-end-testing.md)
+  - Enforcement or evidence route: **Required:** affected E2E. **Evidence:** exact-origin and exploratory/usability
+    review.
+- **Synchronized specs and project docs**
+  - Rule: [Specs](specs-policy.md)
+  - Enforcement or evidence route: **Evidence:** semantic reconciliation. **Required/conditional push:** `test:repo`.
+- **Executable formal plans**
+  - Rule: [Plan gate](../workflows/plan-quality-gate.md)
+  - Enforcement or evidence route: **Evidence:** explicitly requested `PASS`. **Required:** repository checks.
+- **Sufficient consistent rules**
+  - Rule: [Rules gate](../workflows/rules-quality-gate.md)
+  - Enforcement or evidence route: **Evidence:** automatic propagation; explicit audits hand off every non-pass.
+- **Necessary reproducibly locked dependencies**
+  - Rule: [Dependency selection](dependency-selection-policy.md)
+  - Enforcement or evidence route: **Evidence:** selection review and affected gates.
 
 Nx projects, hooks, and CI implement this map but do not replace its rules. Project READMEs own resolved commands and
 legitimate omissions.

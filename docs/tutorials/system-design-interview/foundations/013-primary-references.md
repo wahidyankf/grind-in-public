@@ -13,15 +13,15 @@ then return with a one-paragraph summary of the guarantee, assumption, operating
 - [Site Reliability Engineering](https://sre.google/sre-book/table-of-contents/) covers SLOs, monitoring, automation,
   overload, change, and incident response.
 - [The Site Reliability Workbook](https://sre.google/workbook/table-of-contents/) turns those principles into practices.
-- [Timeouts, retries, and backoff with jitter](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/)
-  explains retry amplification and bounded client behaviour.
+- [Timeouts, retries, and backoff with jitter][timeouts-retries-and-backoff-with-jitter] explains retry amplification
+  and bounded client behaviour.
 - [Kubernetes concepts](https://kubernetes.io/docs/concepts/) defines workload, scheduling, configuration, security, and
   cluster primitives used in the deployment lessons.
 
 ## Distributed storage and consistency
 
-- [Dynamo: a highly available key-value store](https://www.amazon.science/publications/dynamo-amazons-highly-available-key-value-store)
-  motivates consistent hashing, object versions, quorums, and application conflict handling.
+- [Dynamo: a highly available key-value store][dynamo] motivates consistent hashing, object versions, quorums, and
+  application conflict handling.
 - [Bigtable](https://research.google/pubs/bigtable-a-distributed-storage-system-for-structured-data/) connects a sorted,
   distributed map to large structured workloads.
 - [Spanner](https://research.google/pubs/spanner-googles-globally-distributed-database-2/) explains synchronous
@@ -42,8 +42,8 @@ assumptions.
 
 ## Migration and evolution
 
-- [Transparent migration of Datastore to Firestore](https://research.google/pubs/transparent-migration-of-datastore-to-firestore/)
-  is a production account of a large, non-disruptive datastore migration.
+- [Transparent migration of Datastore to Firestore][datastore-to-firestore] is a production account of a large,
+  non-disruptive datastore migration.
 - [Expand and contract pattern](https://martinfowler.com/bliki/ParallelChange.html) explains compatible interface
   evolution through parallel change.
 
@@ -56,3 +56,8 @@ problem -> workload/failure assumptions -> mechanism -> guarantee -> cost -> whe
 ```
 
 That note is interview-ready because it connects the source to judgment rather than to a product name.
+
+[timeouts-retries-and-backoff-with-jitter]:
+  https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/
+[dynamo]: https://www.amazon.science/publications/dynamo-amazons-highly-available-key-value-store
+[datastore-to-firestore]: https://research.google/pubs/transparent-migration-of-datastore-to-firestore/

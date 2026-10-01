@@ -8,14 +8,14 @@ when_to_use: "Use after attempting Case 021 to compare runtime migration control
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                    |
-| ------------------ | -------------------------------------------------------------------------------------------------- |
-| FR-1               | One pinned multi-stage image; explicit API, worker, migration, and scheduled-job commands.         |
-| FR-2, NFR-1        | Semantic probes, SIGTERM draining, bounded job acknowledgement, and termination grace.             |
-| FR-3               | Release migration Job uses expand/contract schemas and a database advisory lease.                  |
-| FR-4, NFR-2, NFR-5 | Canary runtime traffic, SLO comparison, compatible schema, and reversible routing to old runtime.  |
-| FR-5, NFR-4        | Kubernetes CronJobs, external secrets, service accounts, immutable image digest, and audit parity. |
-| NFR-3              | Separate API/worker Deployments and autoscaling under a shared database connection budget.         |
+| Requirements       | Design response                                                                                |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| FR-1               | One pinned multi-stage image; explicit API, worker, migration, and scheduled-job commands.     |
+| FR-2, NFR-1        | Semantic probes, SIGTERM draining, bounded job acknowledgement, and termination grace.         |
+| FR-3               | Release migration Job uses expand/contract schemas and a database advisory lease.              |
+| FR-4, NFR-2, NFR-5 | Canary runtime traffic, SLO comparison, compatible schema, reversible routing to old runtime.  |
+| FR-5, NFR-4        | Kubernetes CronJobs, external secrets, service accounts, immutable image digest, audit parity. |
+| NFR-3              | Separate API/worker Deployments and autoscaling under a shared database connection budget.     |
 
 ## Target runtime
 

@@ -69,7 +69,10 @@ These source-tree READMEs explain implementation intent without requiring line-b
 - [Planner architecture](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/optimizer/README)
 - [Executor architecture](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/executor/README)
 - [Buffer manager](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/buffer/README)
-- [Transaction and WAL implementation](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/access/transam/README)
+- [Transaction and WAL implementation][transaction-and-wal-implementation]
 
 Treat source details as version-specific. Carry the invariant and trade-off into an interview; verify implementation
 details again before making an operational decision on another major version.
+
+[transaction-and-wal-implementation]:
+  https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/access/transam/README

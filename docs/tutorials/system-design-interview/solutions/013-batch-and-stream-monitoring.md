@@ -8,14 +8,14 @@ when_to_use: "Use after attempting Case 013 to compare convergence, replay, and 
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                       |
-| ------------------ | ----------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-1        | Partitioned stream evaluates compiled rules and incremental features within 30 seconds.               |
-| FR-2, NFR-2, NFR-3 | Batch engine evaluates finalized snapshots with identical versioned rule intermediate representation. |
-| FR-3               | Stable finding identity and upsert/supersession prevent duplicate cases.                              |
-| FR-4               | Findings record mode, run, source watermark, rule/data versions, and evidence.                        |
-| FR-5, NFR-5        | Scoped rerun writes a new run and reconciliation classifies missing/extra/different.                  |
-| NFR-4              | Separate queues, Kubernetes quotas/node pools, database pools, and admission priorities.              |
+| Requirements       | Design response                                                                                |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| FR-1, NFR-1        | Partitioned stream evaluates compiled rules and incremental features within 30 seconds.        |
+| FR-2, NFR-2, NFR-3 | Batch engine checks final snapshots with identical versioned rule intermediate representation. |
+| FR-3               | Stable finding identity and upsert/supersession prevent duplicate cases.                       |
+| FR-4               | Findings record mode, run, source watermark, rule/data versions, and evidence.                 |
+| FR-5, NFR-5        | Scoped rerun writes a new run and reconciliation classifies missing/extra/different.           |
+| NFR-4              | Separate queues, Kubernetes quotas/node pools, database pools, and admission priorities.       |
 
 ## Architecture
 

@@ -11,7 +11,8 @@ accessible Next.js application, and it holds the repository's single authoritati
 rtk ./hippo run --class service --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t dev
 
 # Create a production build
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t build
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t build
 
 # Serve a completed local build
 rtk ./hippo run --class service --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t start
@@ -24,9 +25,12 @@ compiled-in `3201`. A bare `PORT` never moves it. See `src/features/env/core/por
 ## Check your changes
 
 ```bash
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:quick
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:coverage
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t static-routes:validation
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t test:quick
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t test:coverage
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t static-routes:validation
 ```
 
 `test:quick` is the ordered gate: `typecheck`, `lint`, `test:unit`, `test:coverage:unit`, then
@@ -61,8 +65,10 @@ alternative proof. Browser-rendered scenarios use `@integration-exempt` for the 
 annotate one scenario when each omitted boundary is independently justified and Unit supplies substantive proof.
 
 ```bash
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www-e2e -t test:e2e
 ```
 
 No skip baseline exists. Static compliance rejects legacy layer tags, malformed or broad exemptions, unconditional

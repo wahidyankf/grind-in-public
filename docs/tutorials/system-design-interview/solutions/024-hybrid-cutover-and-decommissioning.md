@@ -9,14 +9,14 @@ when_to_use: "Use after attempting Case 024 as a capstone for architecture and e
 
 ## Requirement traceability
 
-| Requirements | Design response                                                                                                 |
-| ------------ | --------------------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-3  | Versioned authority map records capability/data/event owner, migration state, SLO, team, and exit gate.         |
-| FR-2, NFR-4  | Stable tenant cohorts, shadow/canary routing, outbox/inbox, reconciliation, and reversible pre-authority steps. |
-| FR-3, NFR-1  | Measured bottleneck plan, workload priority, cell scaling, load tests, and admission control.                   |
-| FR-4, NFR-2  | Tenant writer epochs, warm recovery, canonical replay, projection rebuild, and invariant checks.                |
-| FR-5, NFR-5  | Retirement checklist deletes obsolete runtime surfaces after evidence window.                                   |
-| FR-6         | Capabilities without scaling/ownership/security/release pressure remain modules in the monolith.                |
+| Requirements | Design response                                                                                     |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| FR-1, NFR-3  | Versioned authority map records capability/data/event owner, migration state, SLO, team, exit gate. |
+| FR-2, NFR-4  | Stable tenant cohorts, shadow/canary, outbox/inbox, reconciliation, reversible pre-authority steps. |
+| FR-3, NFR-1  | Measured bottleneck plan, workload priority, cell scaling, load tests, and admission control.       |
+| FR-4, NFR-2  | Tenant writer epochs, warm recovery, canonical replay, projection rebuild, and invariant checks.    |
+| FR-5, NFR-5  | Retirement checklist deletes obsolete runtime surfaces after evidence window.                       |
+| FR-6         | Capabilities without scaling/ownership/security/release pressure remain modules in the monolith.    |
 
 ## Authority map
 

@@ -7,13 +7,13 @@ when_to_use: "Use after attempting Case 003 to compare configuration publication
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                          |
-| ------------------ | -------------------------------------------------------------------------------------------------------- |
-| FR-1, FR-3         | Draft/review workflow publishes immutable artifact; active pointer can move to prior compatible version. |
-| FR-2, NFR-1, NFR-3 | Typed DSL compiles to bounded indexed decision plan; no user code executes.                              |
-| FR-4               | Simulation reads historical snapshots and writes a separate comparison dataset.                          |
-| FR-5, NFR-2        | Result records artifact/compiler/schema/reference versions; evaluator pins one snapshot per request.     |
-| NFR-4, NFR-5       | Signed last-known-good artifacts, tenant-scoped storage/cache, and role-separated authoring.             |
+| Requirements       | Design response                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| FR-1, FR-3         | Reviewed draft becomes immutable artifact; active pointer can move to prior compatible version. |
+| FR-2, NFR-1, NFR-3 | Typed DSL compiles to bounded indexed decision plan; no user code executes.                     |
+| FR-4               | Simulation reads historical snapshots and writes a separate comparison dataset.                 |
+| FR-5, NFR-2        | Result records artifact/compiler/schema/ref versions; evaluator pins one snapshot per request.  |
+| NFR-4, NFR-5       | Signed last-known-good artifacts, tenant-scoped storage/cache, and role-separated authoring.    |
 
 ## Control and data planes
 

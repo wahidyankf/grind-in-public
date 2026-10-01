@@ -10,19 +10,39 @@ when_to_use: "Use to connect algorithm exercises to production architecture and 
 The [Python algorithms course](../../python-algorithms-interview/README.md) teaches implementation. This lesson explains
 where the structures enter a distributed design.
 
-| Technique                  | Production use                             | Main cost / rejection case                                |
-| -------------------------- | ------------------------------------------ | --------------------------------------------------------- |
-| Hash map/set               | idempotency, joins, feature lookup         | memory; reject if exact set exceeds affordable RAM        |
-| Heap                       | top-k alerts, timers, merge sorted streams | `O(log k)` updates; reject for full global sort           |
-| Trie                       | prefix rules, route matching               | node overhead; reject for arbitrary substring             |
-| Bloom filter               | avoid expensive negative lookups           | false positives; reject if false negatives allowed? Never |
-| Count-Min Sketch           | approximate heavy hitters                  | overestimation; reject for exact billing                  |
-| HyperLogLog                | approximate distinct entities              | no membership; reject for exact small sets                |
-| Union-find                 | batch connected components                 | weak for deletions; reject for dynamic traversal          |
-| Dijkstra / A*              | weighted risk or routing paths             | graph size; reject negative weights for Dijkstra          |
-| Sliding window / deque     | velocity and rolling extrema               | per-key state; reject if coarse buckets suffice           |
-| Token bucket               | burst-tolerant rate limiting               | distributed atomicity; reject for exact windows           |
-| Consistent/rendezvous hash | stable placement across changing nodes     | skew/membership; reject if directory is required          |
+- **Hash map/set**
+  - Production use: idempotency, joins, feature lookup
+  - Main cost / rejection case: memory; reject if exact set exceeds affordable RAM
+- **Heap**
+  - Production use: top-k alerts, timers, merge sorted streams
+  - Main cost / rejection case: `O(log k)` updates; reject for full global sort
+- **Trie**
+  - Production use: prefix rules, route matching
+  - Main cost / rejection case: node overhead; reject for arbitrary substring
+- **Bloom filter**
+  - Production use: avoid expensive negative lookups
+  - Main cost / rejection case: false positives; reject if false negatives allowed? Never
+- **Count-Min Sketch**
+  - Production use: approximate heavy hitters
+  - Main cost / rejection case: overestimation; reject for exact billing
+- **HyperLogLog**
+  - Production use: approximate distinct entities
+  - Main cost / rejection case: no membership; reject for exact small sets
+- **Union-find**
+  - Production use: batch connected components
+  - Main cost / rejection case: weak for deletions; reject for dynamic traversal
+- **Dijkstra / A***
+  - Production use: weighted risk or routing paths
+  - Main cost / rejection case: graph size; reject negative weights for Dijkstra
+- **Sliding window / deque**
+  - Production use: velocity and rolling extrema
+  - Main cost / rejection case: per-key state; reject if coarse buckets suffice
+- **Token bucket**
+  - Production use: burst-tolerant rate limiting
+  - Main cost / rejection case: distributed atomicity; reject for exact windows
+- **Consistent/rendezvous hash**
+  - Production use: stable placement across changing nodes
+  - Main cost / rejection case: skew/membership; reject if directory is required
 
 ## Exact versus approximate
 

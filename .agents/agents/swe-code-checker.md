@@ -32,11 +32,15 @@ Language-neutral standards apply to every project. Stack rules come from the sta
 read from the repository's local copies, as [Stack Packs](../../repo-governance/conventions/structure/stack-packs.md)
 resolves them; see [Stack Standards](../../repo-governance/development/quality/stacks/README.md).
 
-| Recorded for a stack     | The checker also applies                      | Trade-off                                                          |
-| ------------------------ | --------------------------------------------- | ------------------------------------------------------------------ |
-| a catalog stack standard | that standard                                 | shared, reviewed choices; the adopter keeps pace with the standard |
-| a local standard         | the local standard                            | fits the repository's own choices; nobody outside reviews them     |
-| nothing recorded         | no stack rule, reporting the missing decision | no rule is invented; stack-specific defects go unreported          |
+- **a catalog stack standard**
+  - The checker also applies: that standard
+  - Trade-off: shared, reviewed choices; the adopter keeps pace with the standard
+- **a local standard**
+  - The checker also applies: the local standard
+  - Trade-off: fits the repository's own choices; nobody outside reviews them
+- **nothing recorded**
+  - The checker also applies: no stack rule, reporting the missing decision
+  - Trade-off: no rule is invented; stack-specific defects go unreported
 
 ## What It Checks
 
@@ -64,9 +68,8 @@ resolves them; see [Stack Standards](../../repo-governance/development/quality/s
 
 ## Rating
 
-Rate each finding by consequence, per
-[Criticality Levels](../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/001-criticality-levels.md),
-whose security adjustment covers a secret in source or a query built by joining input, with the judgement
+Rate each finding by consequence, per [Criticality Levels][criticality-levels], whose security adjustment covers a
+secret in source or a query built by joining input, with the judgement
 [Assessing Criticality and Confidence](../skills/assessing-criticality-confidence/SKILL.md) guides. A discarded error,
 an untested error path, a bug fix without its regression test, or a test that can reach a real repository or real data
 usually seriously lowers quality. A naming or comment lapse usually matters less.
@@ -93,3 +96,6 @@ It never edits code, chooses a stack standard, or researches the web. Targets, h
 Checker, what scenario bindings assert to
 [Gherkin Implementation Reviewer](../../repo-governance/workflows/gherkin-implementation-review.md), a pinned change
 under review to the review disciplines such as PR Review Integrity Checker, and documentation to Docs Checker.
+
+[criticality-levels]:
+  ../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/001-criticality-levels.md

@@ -7,14 +7,14 @@ when_to_use: "Use after attempting Case 011 to compare feature parity, model lif
 
 ## Requirement traceability
 
-| Requirements | Design response                                                                                          |
-| ------------ | -------------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-1  | Keyed stream processors update entity/cohort features; online store serves a point-in-time vector.       |
-| FR-2         | Model service returns score, artifact id, feature-set id, values/references, and explanation metadata.   |
-| FR-3, NFR-4  | Decision policy is separate and declares rule-only/no-model fallback.                                    |
-| FR-4, NFR-3  | Shadow router mirrors sampled features; monitoring compares latency, score, drift, and delayed outcomes. |
-| FR-5         | Historical snapshot and log replay write evaluation-only outputs under a run id.                         |
-| NFR-2, NFR-5 | Shared feature definitions with parity tests; separate identities and approvals for train/serve.         |
+| Requirements | Design response                                                                                      |
+| ------------ | ---------------------------------------------------------------------------------------------------- |
+| FR-1, NFR-1  | Keyed stream processors update entity/cohort features; online store serves a point-in-time vector.   |
+| FR-2         | Model service returns score, artifact id, feature-set id, values/references, explanation metadata.   |
+| FR-3, NFR-4  | Decision policy is separate and declares rule-only/no-model fallback.                                |
+| FR-4, NFR-3  | Shadow router mirrors sampled features; monitoring compares latency, score, drift, delayed outcomes. |
+| FR-5         | Historical snapshot and log replay write evaluation-only outputs under a run id.                     |
+| NFR-2, NFR-5 | Shared feature definitions with parity tests; separate identities and approvals for train/serve.     |
 
 ## Architecture
 

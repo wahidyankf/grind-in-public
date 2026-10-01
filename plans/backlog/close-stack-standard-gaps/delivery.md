@@ -49,20 +49,29 @@ those scripts carry their own.
       `apps/wahidyankf-www/tsconfig.json`. Acceptance: `grep -c ': false' apps/wahidyankf-www/tsconfig.json` prints `0`
       and `grep -c noUnusedParameters tsconfig.base.json` prints `1`. [AC-7]
 - [ ] [AI] Inventory the fallout: run
-      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t typecheck`
-      and the same for `wahidyankf-www-e2e`. Acceptance: every reporting file is named here with its error count; over
-      the decision-5 ceiling, revert both files and stop for the owner. [AC-7]
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t typecheck
+  ```
+  and the same for `wahidyankf-www-e2e`. Acceptance: every reporting file is named here with its error count; over the
+  decision-5 ceiling, revert both files and stop for the owner. [AC-7]
 - [ ] [AI] Fix each reported error in the files the inventory named, without relaxing an option or changing behaviour.
       Acceptance: both `typecheck` targets exit 0, and
-      `rtk ./hippo run --class ephemeral --resource-tier light --disk-path . -- npm exec -- tsc --showConfig -p apps/wahidyankf-www-e2e/tsconfig.json`
-      and the same for `apps/wahidyankf-www/tsconfig.json` print all six options `true`. [AC-7]
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier light --disk-path . -- npm exec -- \
+    tsc --showConfig -p apps/wahidyankf-www-e2e/tsconfig.json
+  ```
+  and the same for `apps/wahidyankf-www/tsconfig.json` print all six options `true`. [AC-7]
 - [ ] [AI] Prove the options bite: add an unused local in a temporary, uncommitted file under
       `apps/wahidyankf-www/src/`, run the `typecheck` target, then delete the file. Acceptance: non-zero naming the
       unused local, then 0. [AC-7]
 - [ ] [AI] Inventory: apply the decision-1 configuration locally and run
-      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t lint`
-      and the same for `wahidyankf-www-e2e`. Acceptance: every reported file is named here with its finding count; if
-      the total exceeds the ceiling fixed at decision 5, revert the configuration and stop for the owner. [AC-1]
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t lint
+  ```
+  and the same for `wahidyankf-www-e2e`. Acceptance: every reported file is named here with its finding count; if the
+  total exceeds the ceiling fixed at decision 5, revert the configuration and stop for the owner. [AC-1]
 - [ ] [AI] Fix each reported finding in the files the inventory named, without changing behaviour. Acceptance: both lint
       targets exit 0 and both projects' `test:quick` exit 0. [AC-1]
 - [ ] [AI] Prove the rule fires: add an unawaited promise-returning call in a temporary, uncommitted file under
@@ -112,14 +121,20 @@ those scripts carry their own.
       here. Acceptance: the list is recorded before any source edit. [AC-3]
 - [ ] [AI] Add `lint` and `test:coverage:unit` targets to `apps/forum-be-python/project.json` and extend `test:quick` to
       `typecheck`, `lint`, `test:unit`, `test:coverage:unit`. Fix the named findings. Acceptance:
-      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p forum-be-python -t test:quick`
-      exits 0. [AC-3]
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p forum-be-python -t test:quick
+  ```
+  exits 0. [AC-3]
 - [ ] [AI] Prove the gate fires with a temporary unused import in a pilot source file, then revert. Acceptance:
       non-zero, then 0. [AC-3]
 - [ ] [AI] Set `"reportUnnecessaryTypeIgnoreComment": "error"` in `apps/forum-be-python/pyrightconfig.json`, then run
-      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p forum-be-python -t typecheck`.
-      Give the one existing waiver its reason if it still suppresses an error, or delete it if Pyright reports it
-      unnecessary. Acceptance: `typecheck` exits 0 and every remaining waiver carries a reason on its line. [AC-8]
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p forum-be-python -t typecheck
+  ```
+  Give the one existing waiver its reason if it still suppresses an error, or delete it if Pyright reports it
+  unnecessary. Acceptance: `typecheck` exits 0 and every remaining waiver carries a reason on its line. [AC-8]
 - [ ] [AI] Prove the setting bites with a temporary type-ignore comment on a line with no type error, then revert.
       Acceptance: `typecheck` exits non-zero naming the unnecessary comment, then 0. [AC-8]
 - [ ] [AI] Update the pilot's target list in `repo-governance/development/testing-policy/tooling.md` and the target
@@ -128,9 +143,12 @@ those scripts carry their own.
 
 ### Phase 3 Gate
 
-- [ ] [AI]
-      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p forum-be-python -t test:quick`,
-      `npm run test:quick`, and `npm run check:hygiene` exit 0. [AC-3] [AC-8]
+- [ ] [AI] These exit 0:
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p forum-be-python -t test:quick
+  ```
+  then `npm run test:quick` and `npm run check:hygiene`. [AC-3] [AC-8]
 
 > **Pause Safety**: the pilot formats, lints, measures branches, and reports stale waivers. Safe to stop. Resume with
 > the pilot's `test:quick`.
@@ -174,8 +192,7 @@ those scripts carry their own.
 
 ## Phase 6: Knowledge Capture and Archival
 
-- [ ] [AI] Route every `learnings.md` entry to one durable home under
-      [knowledge capture](../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md).
+- [ ] [AI] Route every `learnings.md` entry to one durable home under [knowledge capture][knowledge-capture].
       Acceptance: each entry names its terminal state.
 - [ ] [AI] Re-run every `[AC-…]` proof against `main`. Acceptance: all eight hold; results recorded in the Execution
       Record.
@@ -189,3 +206,6 @@ those scripts carry their own.
 - [ ] [AI] `npm run test:quick`, `npm run test:repo`, and `npm run check:markdown-links` exit 0.
 
 > **Pause Safety**: the plan is archived. Nothing to resume.
+
+[knowledge-capture]:
+  ../../../repo-governance/conventions/plans-organization-policy/009-knowledge-capture-and-archival.md

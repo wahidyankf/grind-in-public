@@ -17,20 +17,22 @@ deployment.
 Run from the repository root:
 
 ```sh
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p forum-be-python -t test:quick
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p forum-be-python -t test:e2e
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p forum-be-python -t test:quick
+rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p forum-be-python -t test:e2e
 rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p forum-be-python -t dev
 ```
 
-| Target       | What it does                                                                                              |
-| ------------ | --------------------------------------------------------------------------------------------------------- |
-| `typecheck`  | pyright in strict mode over `src/`                                                                        |
-| `test:unit`  | pytest over `src/tests/unit`: pure functions, no database                                                 |
-| `test:e2e`   | starts PostgreSQL through `db:up`, then runs `src/tests/e2e`: the whole app in process on a real database |
-| `test:quick` | `typecheck`, then `test:unit`                                                                             |
-| `dev`        | serves the API with reload on `http://127.0.0.1:3202`; run `db:up` first                                  |
-| `db:up`      | starts the PostgreSQL container and waits until it is healthy                                             |
-| `db:down`    | stops and removes the container                                                                           |
+| Target       | What it does                                                                                          |
+| ------------ | ----------------------------------------------------------------------------------------------------- |
+| `typecheck`  | pyright in strict mode over `src/`                                                                    |
+| `test:unit`  | pytest over `src/tests/unit`: pure functions, no database                                             |
+| `test:e2e`   | starts PostgreSQL via `db:up`, then runs `src/tests/e2e`: the whole app in process on a real database |
+| `test:quick` | `typecheck`, then `test:unit`                                                                         |
+| `dev`        | serves the API with reload on `http://127.0.0.1:3202`; run `db:up` first                              |
+| `db:up`      | starts the PostgreSQL container and waits until it is healthy                                         |
+| `db:down`    | stops and removes the container                                                                       |
 
 The database-backed suite is `test:e2e`, not an integration target, because the
 [quality gates](../../repo-governance/development/quality-gates.md) reserve integration tests for network-free code and
@@ -38,10 +40,12 @@ these tests reach a real PostgreSQL over loopback.
 
 ## Configuration
 
-| Variable               | Default                                          | Purpose                                                                 |
-| ---------------------- | ------------------------------------------------ | ----------------------------------------------------------------------- |
-| `FORUM_DATABASE_URL`   | `postgresql://postgres@127.0.0.1:54329/forum`    | Database the API connects to                                            |
-| `FORUM_TEST_ADMIN_URL` | `postgresql://postgres@127.0.0.1:54329/postgres` | Admin connection the E2E suite uses to create and drop its own database |
+- `FORUM_DATABASE_URL`
+  - Default: `postgresql://postgres@127.0.0.1:54329/forum`
+  - Purpose: Database the API connects to
+- `FORUM_TEST_ADMIN_URL`
+  - Default: `postgresql://postgres@127.0.0.1:54329/postgres`
+  - Purpose: Admin connection the E2E suite uses to create and drop its own database
 
 The E2E suite creates a uniquely named `forum_test_*` database per run, refuses a non-loopback host, and drops only that
 database. The schema in `src/forum_be_python/schema.sql` is applied idempotently at startup.

@@ -11,14 +11,18 @@ when_to_use: >-
 
 ## Adopter Decisions
 
-| Decision | Option                                | Gains                                     | Costs                                    |
-| -------- | ------------------------------------- | ----------------------------------------- | ---------------------------------------- |
-| store    | a store library                       | selective subscriptions                   | one more dependency and idiom            |
-|          | context and reducers                  | nothing beyond React                      | broad re-renders as shared state grows   |
-| query    | a full-featured cache library         | mutations and optimistic updates built in | a larger surface to configure            |
-|          | a lighter revalidating library        | a small API                               | mutations assembled by hand              |
-| forms    | a form library with schema validation | field and error state handled once        | every form couples to it                 |
-|          | controlled components with a schema   | plain React                               | field and error state rewritten per form |
+Each decision's options, with gains and costs:
+
+- **store**
+  - a store library. Gains: selective subscriptions. Costs: one more dependency and idiom.
+  - context and reducers. Gains: nothing beyond React. Costs: broad re-renders as shared state grows.
+- **query**
+  - a full-featured cache library. Gains: mutations and optimistic updates built in. Costs: a larger surface to
+    configure.
+  - a lighter revalidating library. Gains: a small API. Costs: mutations assembled by hand.
+- **forms**
+  - a form library with schema validation. Gains: field and error state handled once. Costs: every form couples to it.
+  - controlled components with a schema. Gains: plain React. Costs: field and error state rewritten per form.
 
 Record each choice once per application, selecting libraries as
 [Dependency Selection](../../../dependency-selection-policy.md) requires. Either store option satisfies the fourth state

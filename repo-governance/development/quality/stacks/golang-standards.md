@@ -79,12 +79,15 @@ Contract, so one is exported only when a caller needs it, and a behaviour change
 
 ## Adopter Decisions
 
-| Decision              | Option                      | Gains                           | Costs                                                                          |
-| --------------------- | --------------------------- | ------------------------------- | ------------------------------------------------------------------------------ |
-| assertions            | the `testing` package only  | no dependency                   | longer comparisons and hand-written diffs                                      |
-|                       | a library; example: testify | shorter assertions, clear diffs | a dependency, per [Dependency Selection](../../dependency-selection-policy.md) |
-| integration selection | a build tag per file        | tests stay beside their package | a forgotten tag moves a test into unit                                         |
-|                       | a separate test directory   | the layer is visible by path    | tests reach only the exported API                                              |
+Each decision's options, with gains and costs:
+
+- **assertions**
+  - the `testing` package only. Gains: no dependency. Costs: longer comparisons and hand-written diffs.
+  - a library; example: testify. Gains: shorter assertions, clear diffs. Costs: a dependency, per
+    [Dependency Selection](../../dependency-selection-policy.md).
+- **integration selection**
+  - a build tag per file. Gains: tests stay beside their package. Costs: a forgotten tag moves a test into unit.
+  - a separate test directory. Gains: the layer is visible by path. Costs: tests reach only the exported API.
 
 Record each choice in the repository adapter [Stack Packs](../../../conventions/structure/stack-packs.md) defines.
 

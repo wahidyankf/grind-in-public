@@ -20,11 +20,11 @@ check someone later has to prove is obsolete before they can delete it.
 
 ## Who Implements It
 
-| Kind of check                               | Owner                                                                     |
-| ------------------------------------------- | ------------------------------------------------------------------------- |
-| reads documents — structure, links, budgets | a [RHINO](https://github.com/wahidyankf/rhino) entry in `repo-config.yml` |
-| reads the repository's own shape or wiring  | a script under `scripts/`, beside its own test                            |
-| runs an external tool at a pinned version   | a `tool` directive in `tools/go.mod`, or an equivalent pin                |
+| Kind of check                               | Owner                                                      |
+| ------------------------------------------- | ---------------------------------------------------------- |
+| reads documents — structure, links, budgets | a [RHINO][rhino] entry in `repo-config.yml`                |
+| reads the repository's own shape or wiring  | a script under `scripts/`, beside its own test             |
+| runs an external tool at a pinned version   | a `tool` directive in `tools/go.mod`, or an equivalent pin |
 
 A check that reads documents is a configuration entry, not new code. Reach for a script only when the rule is about this
 repository's own arrangement and no declared validator expresses it.
@@ -56,3 +56,5 @@ already covers it. "It seemed redundant" is not a ground.
 
 Update every reference in the same change that removes the check. A rule that names a deleted command is worse than no
 rule, because it reads as current.
+
+[rhino]: https://github.com/wahidyankf/rhino

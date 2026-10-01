@@ -39,11 +39,11 @@ reuse, freshness, parity, and ownership justify the operational surface.
 
 ## Synchronous serving choices
 
-| Choice       | Fits                                                | Cost / reject when                                      |
-| ------------ | --------------------------------------------------- | ------------------------------------------------------- |
-| In-process   | Tiny stable model, lowest latency, release together | Memory per Pod; reject for frequent independent updates |
-| Model server | Shared models, independent scaling, batching        | Network hop; reject when availability cannot match path |
-| Precompute   | Slowly changing entity scores, heavy computation    | Staleness; reject for per-event dynamic features        |
+| Choice       | Fits                                           | Cost / reject when                                   |
+| ------------ | ---------------------------------------------- | ---------------------------------------------------- |
+| In-process   | Tiny stable model, lowest latency, co-released | Memory per Pod; reject for frequent separate updates |
+| Model server | Shared models, independent scaling, batching   | Network hop; reject if availability can't match path |
+| Precompute   | Slowly changing entity scores, heavy compute   | Staleness; reject for per-event dynamic features     |
 
 Set a deadline shorter than the caller's deadline. On timeout, choose an explicit policy: safe rule-only fallback,
 manual review, rejection, or fail-open. The correct choice follows business harm, not generic availability preference.

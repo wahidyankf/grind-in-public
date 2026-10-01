@@ -31,11 +31,14 @@ hides several, and the first failure inside it has no checkbox to fail against.
 
 `- [ ] Add caching` fails that test. This passes:
 
-```markdown
+````markdown
 - [ ] [AI] Edit `apps/example/internal/detect.go`: preserve one rule-change path after normalization. Verify with
-      `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p example -t test:quick`
-      — the suite exits 0.
-```
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p example -t test:quick
+  ```
+  — the suite exits 0.
+````
 
 ## Executor Labels and AI-First Ownership
 

@@ -9,13 +9,13 @@ when_to_use: "Use after attempting Case 007 to compare synchronous latency, idem
 
 ## Requirement traceability
 
-| Requirements      | Design response                                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-3       | Idempotency reservation stores request hash and final immutable decision.                                     |
-| FR-2, NFR-1       | Orchestrator pins policy, launches independent feature/list/model calls in parallel, then evaluates rules.    |
-| FR-3, FR-4, NFR-4 | Evidence transaction stores result, versions, inputs/references, reasons, and outbox before response.         |
-| FR-5              | Shadow work is sampled, lower priority, side-effect-free, and compared asynchronously.                        |
-| NFR-2, NFR-5      | Per-dependency fallback matrix, tenant cells/quotas/caches, overload admission, and last-known-good versions. |
+| Requirements      | Design response                                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| FR-1, NFR-3       | Idempotency reservation stores request hash and final immutable decision.                       |
+| FR-2, NFR-1       | Orchestrator pins policy, runs feature/list/model calls in parallel, then evaluates rules.      |
+| FR-3, FR-4, NFR-4 | Evidence transaction stores result, versions, inputs/refs, reasons, and outbox before response. |
+| FR-5              | Shadow work is sampled, lower priority, side-effect-free, and compared asynchronously.          |
+| NFR-2, NFR-5      | Dependency fallbacks, tenant cells/quotas/caches, overload admission, last-known-good versions. |
 
 ## Latency budget
 

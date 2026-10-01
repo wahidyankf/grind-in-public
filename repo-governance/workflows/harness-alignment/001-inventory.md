@@ -8,6 +8,7 @@ when_to_use: "Use at the start of a harness alignment run, to enumerate everythi
 Inventory the canonical instructions, agents and skill bundles, harness configs, and native adapters:
 
 ```sh
-rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g 'GEMINI.md' -g 'COPILOT.md' -g '.cursorrules' -g 'SKILL.md' -g '!node_modules'
+rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g 'GEMINI.md' -g 'COPILOT.md' -g '.cursorrules' -g 'SKILL.md' \
+    -g '!node_modules'
 ls .agents/agents .agents/skills .claude/agents .claude/skills .codex/agents .opencode/agents
 ```

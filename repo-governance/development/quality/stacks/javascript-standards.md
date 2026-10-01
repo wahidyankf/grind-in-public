@@ -72,12 +72,15 @@ errors as well as types. A change to observable behaviour updates it per
 
 ## Adopter Decisions
 
-| Decision    | Option                            | Gains                                 | Costs                                          |
-| ----------- | --------------------------------- | ------------------------------------- | ---------------------------------------------- |
-| check scope | project-wide `checkJs`            | no file escapes by omission           | an existing backlog is cleaned before the gate |
-|             | per-file `// @ts-check`           | adoption file by file                 | an unmarked file is unchecked, silently        |
-| test runner | the runtime's built-in runner     | no dependency                         | coverage may still be marked experimental      |
-|             | a runner package; example: Vitest | stable branch coverage and watch mode | a dependency to pin and upgrade                |
+Each decision's options, with gains and costs:
+
+- **check scope**
+  - project-wide `checkJs`. Gains: no file escapes by omission. Costs: an existing backlog is cleaned before the gate.
+  - per-file `// @ts-check`. Gains: adoption file by file. Costs: an unmarked file is unchecked, silently.
+- **test runner**
+  - the runtime's built-in runner. Gains: no dependency. Costs: coverage may still be marked experimental.
+  - a runner package; example: Vitest. Gains: stable branch coverage and watch mode. Costs: a dependency to pin and
+    upgrade.
 
 Record each choice in the repository adapter [Stack Packs](../../../conventions/structure/stack-packs.md) defines. A
 per-file choice records how an unmarked file is found.

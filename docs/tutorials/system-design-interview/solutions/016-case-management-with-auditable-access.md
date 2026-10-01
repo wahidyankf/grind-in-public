@@ -9,14 +9,14 @@ when_to_use: "Use after attempting Case 016 to compare workflow invariants, auth
 
 ## Requirement traceability
 
-| Requirements      | Design response                                                                                                 |
-| ----------------- | --------------------------------------------------------------------------------------------------------------- |
-| FR-1, FR-6, NFR-3 | Relational case aggregate, valid-transition table, and optimistic version on every mutation.                    |
-| FR-2, NFR-4       | Immutable evidence references and append-only conclusion revisions.                                             |
-| FR-3, NFR-2       | Central policy definitions with local enforcement using actor/resource/context attributes; deny on uncertainty. |
-| FR-4              | Outbox-fed tenant-secured search projection with declared 30-second lag.                                        |
-| FR-5              | Separate append-only audit path for reads, writes, exports, assignments, and overrides.                         |
-| NFR-1, NFR-5      | Indexed work queues, cursor pagination, tenant quotas, and isolated heavy exports.                              |
+| Requirements      | Design response                                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| FR-1, FR-6, NFR-3 | Relational case aggregate, valid-transition table, and optimistic version on every mutation.    |
+| FR-2, NFR-4       | Immutable evidence references and append-only conclusion revisions.                             |
+| FR-3, NFR-2       | Central policy, local enforcement using actor/resource/context attributes; deny on uncertainty. |
+| FR-4              | Outbox-fed tenant-secured search projection with declared 30-second lag.                        |
+| FR-5              | Separate append-only audit path for reads, writes, exports, assignments, and overrides.         |
+| NFR-1, NFR-5      | Indexed work queues, cursor pagination, tenant quotas, and isolated heavy exports.              |
 
 ## Architecture
 

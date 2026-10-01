@@ -9,14 +9,14 @@ when_to_use: "Use after attempting Case 009 to compare normalization, retrieval,
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                        |
-| ------------------ | ------------------------------------------------------------------------------------------------------ |
-| FR-1, NFR-3        | Versioned language-aware normalizer emits derived forms beside immutable original fields.              |
-| FR-2, NFR-1, NFR-2 | Exact-id maps and script/language-specific search indexes retrieve a capped high-recall candidate set. |
-| FR-3               | Field-aware scorer combines name, alias, date, country, address, and identifier features with reasons. |
-| FR-4               | Tenant policy maps score/evidence to no-match, review, or match with versioned thresholds.             |
-| FR-5, NFR-5        | Governed feedback store separates raw reviewer action from validated label and protects query text.    |
-| NFR-4              | Input, token, variant, candidate, edit-distance, and total-compute limits.                             |
+| Requirements       | Design response                                                                               |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| FR-1, NFR-3        | Versioned language-aware normalizer emits derived forms beside immutable original fields.     |
+| FR-2, NFR-1, NFR-2 | Exact-id maps and script/language search indexes retrieve a capped high-recall candidate set. |
+| FR-3               | Field-aware scorer weighs name, alias, date, country, address, ID features, with reasons.     |
+| FR-4               | Tenant policy maps score/evidence to no-match, review, or match with versioned thresholds.    |
+| FR-5, NFR-5        | Governed feedback splits raw reviewer action from validated label and protects query text.    |
+| NFR-4              | Input, token, variant, candidate, edit-distance, and total-compute limits.                    |
 
 ## Pipeline
 

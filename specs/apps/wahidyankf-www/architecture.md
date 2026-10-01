@@ -23,9 +23,10 @@ One deployable application and one test-only E2E project bind the corpus.
 | ------- | ------------------------------------------------------------------------------------- |
 | Visitor | An anonymous browser user. There is nothing to authenticate as; every page is public. |
 
-| External system | Interaction                                                                                                                                                                   |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Vercel          | Builds the site from `main` and serves it, terminating TLS and holding the edge cache. A build runs only when the `ignoreCommand` in `vercel.json` sees the promotion branch. |
+One external system:
+
+- **Vercel** — Builds the site from `main` and serves it, terminating TLS and holding the edge cache. A build runs only
+  when the `ignoreCommand` in `vercel.json` sees the promotion branch.
 
 ## System Context
 
@@ -49,9 +50,9 @@ One deployable application and one test-only E2E project bind the corpus.
 
 One container. There is no backend, no database, and no message bus; all content is TypeScript bundled at build time.
 
-| Container | Technology | Deployment     | Description                                                                   |
-| --------- | ---------- | -------------- | ----------------------------------------------------------------------------- |
-| `web`     | Next.js 16 | Vercel, static | The whole site: every route, the client-side search index, and the CV record. |
+| Container | Technology | Deployment     | Description                                                               |
+| --------- | ---------- | -------------- | ------------------------------------------------------------------------- |
+| `web`     | Next.js 16 | Vercel, static | The whole site: every route, the client-side search index, the CV record. |
 
 ```text
    +-----------+                +----------------------------------+
@@ -77,17 +78,17 @@ to live in its dedicated E2E project.
 
 ## Components
 
-The application is organized by feature, under `src/features/`, with routes in `src/app/`.
+The application is organized by feature, each component under `src/features/<component>/`, with routes in `src/app/`.
 
-| Component           | Path                              | Responsibility                                                                              |
-| ------------------- | --------------------------------- | ------------------------------------------------------------------------------------------- |
-| `app-shell`         | `src/features/app-shell/`         | Navigation chrome: sidebar on desktop, bottom tab bar on mobile.                            |
-| `home`              | `src/features/home/`              | The landing page — top skills, languages, frameworks, and the about-me summary.             |
-| `cv`                | `src/features/cv/`                | The CV page and the CV record itself.                                                       |
-| `personal-projects` | `src/features/personal-projects/` | The projects listing and its technology-tag filter.                                         |
-| `search`            | `src/features/search/`            | Client-side search across every other component's content.                                  |
-| `ui/shell`          | `src/features/ui/shell/`          | The presentation primitives the shell renders — inlined during the migration.               |
-| `env/core`          | `src/features/env/core/`          | Tier-aware environment loading and listener-port resolution — inlined during the migration. |
+| Component           | Responsibility                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `app-shell`         | Navigation chrome: sidebar on desktop, bottom tab bar on mobile.                            |
+| `home`              | The landing page — top skills, languages, frameworks, and the about-me summary.             |
+| `cv`                | The CV page and the CV record itself.                                                       |
+| `personal-projects` | The projects listing and its technology-tag filter.                                         |
+| `search`            | Client-side search across every other component's content.                                  |
+| `ui/shell`          | The presentation primitives the shell renders — inlined during the migration.               |
+| `env/core`          | Tier-aware environment loading and listener-port resolution — inlined during the migration. |
 
 ```text
                         +-----------------+
@@ -117,9 +118,10 @@ shape on them, so adding a field to the CV record cannot break search's contract
 
 One, and it is not a database.
 
-| Store     | Location                       | Description                                                                                                                    |
-| --------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| CV record | `src/features/cv/core/data.ts` | The single authoritative CV record in this repository. It is TypeScript compiled into the bundle, not data fetched at runtime. |
+- **CV record**
+  - Location: `src/features/cv/core/data.ts`
+  - Description: The single authoritative CV record in this repository. It is TypeScript compiled into the bundle, not
+    data fetched at runtime.
 
 That it is the _only_ one is load-bearing rather than incidental. Before the migration this repository also kept a `cv/`
 directory at its root, and two records of the same career are a guarantee of eventually publishing the stale one. The
@@ -143,16 +145,18 @@ file when the tier is anything other than `local`. The E2E adapter pins its tier
 
 ## Behaviour Traceability
 
-| Feature                                                                         | Component it exercises                       |
-| ------------------------------------------------------------------------------- | -------------------------------------------- |
-| [accessibility.feature](behaviours/accessibility.feature)                       | `app-shell`, and every page it frames        |
-| [cv.feature](behaviours/cv.feature)                                             | `cv`                                         |
-| [env-loader.feature](behaviours/env-loader.feature)                             | `env/core`                                   |
-| [home.feature](behaviours/home.feature)                                         | `home`                                       |
-| [personal-projects.feature](behaviours/personal-projects.feature)               | `personal-projects`                          |
-| [port-resolver.feature](behaviours/port-resolver.feature)                       | `env/core`                                   |
-| [responsive.feature](behaviours/responsive.feature)                             | `app-shell`                                  |
-| [search.feature](behaviours/search.feature)                                     | `search`                                     |
-| [static-filterable-routes.feature](behaviours/static-filterable-routes.feature) | `personal-projects`, at the routing boundary |
-| [theme.feature](behaviours/theme.feature)                                       | `ui/shell`                                   |
-| [tier-env-loading.feature](behaviours/tier-env-loading.feature)                 | `env/core`                                   |
+| Feature                                                           | Component it exercises                       |
+| ----------------------------------------------------------------- | -------------------------------------------- |
+| [accessibility.feature](behaviours/accessibility.feature)         | `app-shell`, and every page it frames        |
+| [cv.feature](behaviours/cv.feature)                               | `cv`                                         |
+| [env-loader.feature](behaviours/env-loader.feature)               | `env/core`                                   |
+| [home.feature](behaviours/home.feature)                           | `home`                                       |
+| [personal-projects.feature](behaviours/personal-projects.feature) | `personal-projects`                          |
+| [port-resolver.feature](behaviours/port-resolver.feature)         | `env/core`                                   |
+| [responsive.feature](behaviours/responsive.feature)               | `app-shell`                                  |
+| [search.feature](behaviours/search.feature)                       | `search`                                     |
+| [static-filterable-routes.feature][static-routes]                 | `personal-projects`, at the routing boundary |
+| [theme.feature](behaviours/theme.feature)                         | `ui/shell`                                   |
+| [tier-env-loading.feature](behaviours/tier-env-loading.feature)   | `env/core`                                   |
+
+[static-routes]: behaviours/static-filterable-routes.feature

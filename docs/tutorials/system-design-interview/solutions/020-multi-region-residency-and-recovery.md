@@ -9,14 +9,14 @@ when_to_use: "Use after attempting Case 020 to compare regional strategies and e
 
 ## Requirement traceability
 
-| Requirements | Design response                                                                                         |
-| ------------ | ------------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-2  | Residency-aware placement maps every canonical, derived, backup, key, and telemetry class.              |
-| FR-2, NFR-4  | Signed tenant placement cached at routers/cells; conflict or expired authority rejects writes.          |
-| FR-3, NFR-3  | Quorum-controlled monotonically increasing writer epoch fences old region before promotion.             |
-| FR-4         | Restore/replay canonical inputs, rebuild projections, compare counts/hashes/invariants.                 |
-| FR-5, NFR-5  | Automated exercises record detection, decisions, epoch, RPO/RTO, reconciliation, and follow-ups.        |
-| NFR-1        | Async cross-region log/database replication within five-minute lag and warm capacity within 30 minutes. |
+| Requirements | Design response                                                                                      |
+| ------------ | ---------------------------------------------------------------------------------------------------- |
+| FR-1, NFR-2  | Residency-aware placement maps every canonical, derived, backup, key, and telemetry class.           |
+| FR-2, NFR-4  | Signed tenant placement cached at routers/cells; conflict or expired authority rejects writes.       |
+| FR-3, NFR-3  | Quorum-controlled monotonically increasing writer epoch fences old region before promotion.          |
+| FR-4         | Restore/replay canonical inputs, rebuild projections, compare counts/hashes/invariants.              |
+| FR-5, NFR-5  | Automated exercises record detection, decisions, epoch, RPO/RTO, reconciliation, and follow-ups.     |
+| NFR-1        | Async cross-region log/database replication within 5-minute lag and warm capacity within 30 minutes. |
 
 ## Per-data-class strategy
 

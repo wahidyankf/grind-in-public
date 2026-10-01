@@ -66,11 +66,26 @@ rewriting it would falsify the record.
 
 ## This Repository's Deviations
 
-| Block             | Status  | Reason                                                                                                                                                                                                                                        |
-| ----------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| diagrams          | adapted | Every diagram here is ASCII in a fenced `text` block, not Mermaid, per the [markdown style policy](../markdown-style-policy.md). This repository's output is read in terminals and plain-text feeds, where a Mermaid block renders as source. |
-| idea layout       | adapted | Briefs are filed under quadrant directories rather than directly in `ideas/`, because an unsorted brief list stops being read. See [Lifecycle and Folders](001-lifecycle-and-folders.md).                                                     |
-| executor labels   | adopted | The local third label was dropped for the canonical two; see the section above.                                                                                                                                                               |
-| module numbering  | adapted | The canonical lifecycle block is split across modules `001` and `002`, because a single module would exceed this repository's 750-word document limit.                                                                                        |
-| execution record  | adapted | `delivery.md` additionally opens with a dated execution record; see [Execution Record](012-execution-record.md). This is an addition, and it removes nothing.                                                                                 |
-| every other block | adopted | Applied as written.                                                                                                                                                                                                                           |
+- **diagrams**
+  - Status: adapted
+  - Reason: Every diagram here is ASCII in a fenced `text` block, not Mermaid, per the
+    [markdown style policy](../markdown-style-policy.md). This repository's output is read in terminals and plain-text
+    feeds, where a Mermaid block renders as source.
+- **idea layout**
+  - Status: adapted
+  - Reason: Briefs are filed under quadrant directories rather than directly in `ideas/`, because an unsorted brief list
+    stops being read. See [Lifecycle and Folders](001-lifecycle-and-folders.md).
+- **executor labels**
+  - Status: adopted
+  - Reason: The local third label was dropped for the canonical two; see the section above.
+- **module numbering**
+  - Status: adapted
+  - Reason: The canonical lifecycle block is split across modules `001` and `002`, because a single module would exceed
+    this repository's 750-word document limit.
+- **execution record**
+  - Status: adapted
+  - Reason: `delivery.md` additionally opens with a dated execution record; see
+    [Execution Record](012-execution-record.md). This is an addition, and it removes nothing.
+- **every other block**
+  - Status: adopted
+  - Reason: Applied as written.

@@ -13,15 +13,15 @@ document rules but cannot groom, execute, review, or archive a plan has adopted 
 Seven capabilities cover the lifecycle. Each must be reachable — by a named workflow, an equivalent local procedure, or
 a documented decision that it does not apply.
 
-| Stage            | Capability                                                               | Owner here                 |
-| ---------------- | ------------------------------------------------------------------------ | -------------------------- |
-| idea grooming    | turn raw ideas into briefs, and retire the ones not worth keeping        | `plan-ideas-grooming.md`   |
-| backlog grooming | keep backlog plans current, ordered, and still worth doing               | `plan-backlog-grooming.md` |
-| plan creation    | author a complete formal plan from a brief or a request                  | `plan-planning.md`         |
-| plan execution   | work through `delivery.md`, recording results as it goes                 | `plan-execution.md`        |
-| quality review   | judge a plan against the specification and return a terminal verdict     | `plan-quality-gate.md`     |
-| execution review | judge finished execution before the plan is archived                     | `plan-execution-check.md`  |
-| cleanup          | remove the artifacts the work created but the repository should not keep | `dev-artifact-clean-up.md` |
+| Stage            | Capability                                                           | Owner here                 |
+| ---------------- | -------------------------------------------------------------------- | -------------------------- |
+| idea grooming    | turn raw ideas into briefs, and retire the ones not worth keeping    | `plan-ideas-grooming.md`   |
+| backlog grooming | keep backlog plans current, ordered, and still worth doing           | `plan-backlog-grooming.md` |
+| plan creation    | author a complete formal plan from a brief or a request              | `plan-planning.md`         |
+| plan execution   | work through `delivery.md`, recording results as it goes             | `plan-execution.md`        |
+| quality review   | judge a plan against the specification and return a terminal verdict | `plan-quality-gate.md`     |
+| execution review | judge finished execution before the plan is archived                 | `plan-execution-check.md`  |
+| cleanup          | remove what the work created but the repository should not keep      | `dev-artifact-clean-up.md` |
 
 Every owner above lives under [`repo-governance/workflows/`](../../workflows/README.md).
 

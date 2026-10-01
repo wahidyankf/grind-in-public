@@ -52,7 +52,8 @@ comparison against `git ls-files '*.js' '*.mjs' '*.cjs'`.
 Scenario: The pilot's quick gate formats, lints, and measures branches
   Given apps/forum-be-python
   When its test:quick target runs
-  Then it runs the formatter in check mode, the linter with a committed rule selection, pyright, and the unit suite under branch coverage
+  Then it runs the formatter in check mode, the linter with a committed rule selection, and pyright
+  And it runs the unit suite under branch coverage
   And a probe with a misformatted line or an unused import makes it exit non-zero
 ```
 
@@ -104,7 +105,8 @@ Delivered in U1, beside [AC-1].
 Scenario: The resolved compiler options of both TypeScript projects meet the standard
   Given apps/wahidyankf-www/tsconfig.json and apps/wahidyankf-www-e2e/tsconfig.json
   When each project's resolved configuration is printed
-  Then strict, noUncheckedIndexedAccess, noImplicitReturns, noFallthroughCasesInSwitch, noUnusedLocals, and noUnusedParameters are all true
+  Then strict, noUncheckedIndexedAccess, noImplicitReturns, and noFallthroughCasesInSwitch are all true
+  And noUnusedLocals and noUnusedParameters are both true
   And each project's typecheck target exits 0
   And a probe with an unused local makes the typecheck exit non-zero
 ```

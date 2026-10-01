@@ -12,15 +12,17 @@ Add a line when a phase completes, when a gate passes or fails, when a retry pro
 and when execution changed the plan. Date each line and write it as the event happens: reconstructed at archival, the
 record says what the author already believed.
 
-```markdown
+````markdown
 ## Execution Record
 
-- 2026-08-31: Phase 1 gate passed;
-  `rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t test:quick`
-  green.
+- 2026-08-31: Phase 1 gate passed; this ran green:
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p wahidyankf-www -t test:quick
+  ```
 - 2026-08-31: Phase 2 stopped at the link check — a renamed policy left two dead links in `docs/`. Fixed at the source,
   reran green.
-```
+````
 
 A plan that has not started carries the heading and no lines. An archived plan is never rewritten to add a record it
 never kept: `plans/done/` is history, so this rule binds a plan while it is being executed.

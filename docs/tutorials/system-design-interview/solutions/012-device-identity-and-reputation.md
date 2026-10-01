@@ -9,14 +9,14 @@ when_to_use: "Use after attempting Case 012 to compare identity resolution, grap
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                         |
-| ------------------ | ------------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-1, NFR-2 | Exact approved keys plus bounded similarity model resolve to versioned device clusters with confidence. |
-| FR-2               | Append time-bounded, provenance-rich observations; graph projection derives relationships.              |
-| FR-3               | Low-latency reputation row stores precomputed features, freshness, version, and reasons.                |
-| FR-4               | Validated outcomes update weighted evidence; scheduled decay expires old contribution.                  |
-| FR-5, NFR-3        | Data catalogue, short raw TTL, pseudonymous ids, unlink/delete workflow, and minimal audit record.      |
-| NFR-4, NFR-5       | Cardinality/rate limits, supernode handling, tenant namespaces, and explicit shared-data contracts.     |
+| Requirements       | Design response                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| FR-1, NFR-1, NFR-2 | Exact approved keys + bounded similarity model yield versioned device clusters with confidence. |
+| FR-2               | Append time-bounded, provenance-rich observations; graph projection derives relationships.      |
+| FR-3               | Low-latency reputation row stores precomputed features, freshness, version, and reasons.        |
+| FR-4               | Validated outcomes update weighted evidence; scheduled decay expires old contribution.          |
+| FR-5, NFR-3        | Data catalogue, short raw TTL, pseudonymous ids, unlink/delete workflow, minimal audit record.  |
+| NFR-4, NFR-5       | Cardinality/rate limits, supernode handling, tenant namespaces, explicit shared-data contracts. |
 
 ## Data flow
 

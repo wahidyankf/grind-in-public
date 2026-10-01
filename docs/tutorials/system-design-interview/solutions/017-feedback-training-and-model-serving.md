@@ -8,14 +8,14 @@ when_to_use: "Use after attempting Case 017 to compare the complete governed ML 
 
 ## Requirement traceability
 
-| Requirements        | Design response                                                                                             |
-| ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| FR-1                | Raw feedback is immutable; validated label revisions cite reviewer, evidence, policy, and superseded label. |
-| FR-2, NFR-3         | Dataset manifest pins source snapshots, cutoff, feature/code versions, cohort query, and hashes.            |
-| FR-3                | Isolated jobs evaluate cost, calibration, and cohort metrics against an approved baseline.                  |
-| FR-4, FR-6          | Role-separated registry stages and immutable active pointer support shadow/canary/rollback.                 |
-| FR-5, NFR-1         | Warm model-serving Pods return artifact/feature versions under a 40 ms budget.                              |
-| NFR-2, NFR-4, NFR-5 | Separate compute quotas, multi-layer monitoring, and residency-scoped data/artifact stores.                 |
+| Requirements        | Design response                                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| FR-1                | Raw feedback immutable; validated revisions cite reviewer, evidence, policy, superseded label. |
+| FR-2, NFR-3         | Dataset manifest pins source snapshots, cutoff, feature/code versions, cohort query, hashes.   |
+| FR-3                | Isolated jobs evaluate cost, calibration, and cohort metrics against an approved baseline.     |
+| FR-4, FR-6          | Role-separated registry stages and immutable active pointer support shadow/canary/rollback.    |
+| FR-5, NFR-1         | Warm model-serving Pods return artifact/feature versions under a 40 ms budget.                 |
+| NFR-2, NFR-4, NFR-5 | Separate compute quotas, multi-layer monitoring, and residency-scoped data/artifact stores.    |
 
 ## Lifecycle
 

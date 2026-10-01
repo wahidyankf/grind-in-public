@@ -8,13 +8,13 @@ when_to_use: "Use after attempting Case 001 to compare durability, partitioning,
 
 ## Requirement traceability
 
-| Requirements      | Design response                                                                                    |
-| ----------------- | -------------------------------------------------------------------------------------------------- |
-| FR-1, FR-2, NFR-2 | Gateway validates envelope; ingestion reserves idempotency and acknowledges only after log quorum. |
-| FR-3, NFR-1       | Log key is `tenant_id + entity_id`; oversized tenants receive dedicated partition ranges.          |
-| FR-4, FR-5, NFR-5 | Retained canonical log, per-consumer offsets, quarantine topic, and object evidence archive.       |
-| FR-6, NFR-4       | Per-tenant acceptance, rejection, duplicate, quota, lag, and oldest-age telemetry.                 |
-| NFR-3, NFR-6      | Multi-zone replication, tenant-scoped auth/keys/quotas, and cell-local blast radius.               |
+| Requirements      | Design response                                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| FR-1, FR-2, NFR-2 | Gateway checks envelope; ingestion reserves idempotency and acknowledges only after log quorum. |
+| FR-3, NFR-1       | Log key is `tenant_id + entity_id`; oversized tenants receive dedicated partition ranges.       |
+| FR-4, FR-5, NFR-5 | Retained canonical log, per-consumer offsets, quarantine topic, and object evidence archive.    |
+| FR-6, NFR-4       | Per-tenant acceptance, rejection, duplicate, quota, lag, and oldest-age telemetry.              |
+| NFR-3, NFR-6      | Multi-zone replication, tenant-scoped auth/keys/quotas, and cell-local blast radius.            |
 
 ## Architecture
 

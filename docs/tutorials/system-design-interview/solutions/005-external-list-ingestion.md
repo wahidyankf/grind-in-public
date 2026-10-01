@@ -7,13 +7,13 @@ when_to_use: "Use after attempting Case 005 to compare ingestion, validation, pu
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                     |
-| ------------------ | --------------------------------------------------------------------------------------------------- |
-| FR-1, NFR-3        | Immutable raw object plus signed manifest preserves provider bytes, checksum, and receipt metadata. |
-| FR-2, NFR-4        | Staged validation gates schema, signature, counts, uniqueness, references, and change thresholds.   |
-| FR-3               | Versioned normalizer emits canonical records with source fields and transformation lineage.         |
-| FR-4, NFR-1, NFR-2 | Build/index immutable candidate off-path; activate one signed version pointer atomically.           |
-| FR-5, NFR-5        | Exact-key store, search projection, diff dataset, status API, and least-privilege subscriptions.    |
+| Requirements       | Design response                                                                               |
+| ------------------ | --------------------------------------------------------------------------------------------- |
+| FR-1, NFR-3        | Immutable raw object and signed manifest keep provider bytes, checksum, and receipt metadata. |
+| FR-2, NFR-4        | Staged validation gates schema, signature, counts, uniqueness, references, change thresholds. |
+| FR-3               | Versioned normalizer emits canonical records with source fields and transformation lineage.   |
+| FR-4, NFR-1, NFR-2 | Build/index immutable candidate off-path; activate one signed version pointer atomically.     |
+| FR-5, NFR-5        | Exact-key store, search projection, diff dataset, status API, least-privilege subscriptions.  |
 
 ## Pipeline
 

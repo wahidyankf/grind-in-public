@@ -4,10 +4,15 @@ Wahidyan Kresna Fridayoka's career evidence and professional-profile drafts. The
 LinkedIn work; read the relevant file before making a claim, an edit, or an export.
 
 They live inside this application because the application holds the repository's single authoritative CV record. That
-record is `src/features/cv/core/data.ts`, not a document here: the site renders it, and
-`rtk ./hippo run --class transactional --resource-tier standard --disk-path . -- npm exec -- nx run -p wahidyankf-www -t generate:cv-pdf`
-exports it to `public/wahidyankf-kresna-fridayoka-cv.pdf`. Nothing in this directory is imported by a route, so editing
-one changes no rendered page.
+record is `src/features/cv/core/data.ts`, not a document here: the site renders it, and this command exports it to
+`public/wahidyankf-kresna-fridayoka-cv.pdf`:
+
+```sh
+rtk ./hippo run --class transactional --resource-tier standard --disk-path . -- npm exec -- \
+  nx run -p wahidyankf-www -t generate:cv-pdf
+```
+
+Nothing in this directory is imported by a route, so editing one changes no rendered page.
 
 ## Working Rules
 

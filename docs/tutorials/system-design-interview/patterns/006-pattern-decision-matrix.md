@@ -5,18 +5,48 @@ when_to_use: "Use to review a design for unjustified complexity or to choose a d
 
 # Pattern Decision Matrix
 
-| Pressure                            | Candidate                      | Evidence to require                       | Simpler starting point             |
-| ----------------------------------- | ------------------------------ | ----------------------------------------- | ---------------------------------- |
-| DB change plus reliable event       | Transactional outbox           | measured event-loss consequence           | in-process call in one transaction |
-| Independent read shapes             | CQRS projections               | query SLO/load mismatch                   | indexed relational query           |
-| Long-running multi-owner workflow   | Orchestrated saga              | explicit intermediate states/compensation | one service transaction            |
-| Full temporal reconstruction        | Event sourcing                 | history is authority, not diagnostics     | current state plus audit log       |
-| Repeated expensive reads            | Cache-aside                    | hit rate and latency/cost benefit         | tune canonical query               |
-| One tenant or key dominates         | isolation/cell/dedicated shard | skew and blast-radius data                | weighted quotas                    |
-| Specialized text retrieval          | Search projection              | analyzer/query requirements               | database full-text/index           |
-| Variable-depth relationship query   | Graph projection               | traversal dominates fixed joins           | relational edges + recursive query |
-| Independent scale/release/ownership | Microservice extraction        | baseline coupling and team ownership      | modular monolith                   |
-| Regional loss requirement           | multi-region data strategy     | explicit RPO/RTO and conflict semantics   | tested backup and single-region DR |
+Each design pressure, with its candidate pattern, the evidence to require first, and a simpler starting point:
+
+- **DB change plus reliable event**
+  - Candidate: Transactional outbox
+  - Evidence to require: measured event-loss consequence
+  - Simpler starting point: in-process call in one transaction
+- **Independent read shapes**
+  - Candidate: CQRS projections
+  - Evidence to require: query SLO/load mismatch
+  - Simpler starting point: indexed relational query
+- **Long-running multi-owner workflow**
+  - Candidate: Orchestrated saga
+  - Evidence to require: explicit intermediate states/compensation
+  - Simpler starting point: one service transaction
+- **Full temporal reconstruction**
+  - Candidate: Event sourcing
+  - Evidence to require: history is authority, not diagnostics
+  - Simpler starting point: current state plus audit log
+- **Repeated expensive reads**
+  - Candidate: Cache-aside
+  - Evidence to require: hit rate and latency/cost benefit
+  - Simpler starting point: tune canonical query
+- **One tenant or key dominates**
+  - Candidate: isolation/cell/dedicated shard
+  - Evidence to require: skew and blast-radius data
+  - Simpler starting point: weighted quotas
+- **Specialized text retrieval**
+  - Candidate: Search projection
+  - Evidence to require: analyzer/query requirements
+  - Simpler starting point: database full-text/index
+- **Variable-depth relationship query**
+  - Candidate: Graph projection
+  - Evidence to require: traversal dominates fixed joins
+  - Simpler starting point: relational edges + recursive query
+- **Independent scale/release/ownership**
+  - Candidate: Microservice extraction
+  - Evidence to require: baseline coupling and team ownership
+  - Simpler starting point: modular monolith
+- **Regional loss requirement**
+  - Candidate: multi-region data strategy
+  - Evidence to require: explicit RPO/RTO and conflict semantics
+  - Simpler starting point: tested backup and single-region DR
 
 ## Review questions
 

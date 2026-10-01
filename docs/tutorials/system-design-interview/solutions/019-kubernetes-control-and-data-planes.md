@@ -8,14 +8,14 @@ when_to_use: "Use after attempting Case 019 to compare cells, fleet delivery, Ku
 
 ## Requirement traceability
 
-| Requirements       | Design response                                                                                    |
-| ------------------ | -------------------------------------------------------------------------------------------------- |
-| FR-1, FR-3         | Authoritative placement directory uses versioned state machine and one writer epoch per tenant.    |
-| FR-2, NFR-1, NFR-3 | Signed immutable configuration bundles cached in cells; request pins one version.                  |
-| FR-4, NFR-4        | Separate workload classes, service accounts, network policies, quotas, keys, and tenant admission. |
-| FR-5               | Cell/tenant SLO, capacity, configuration convergence, and placement telemetry.                     |
-| NFR-2              | Cell contains no more than 5% of tenant blast radius and avoids synchronous cross-cell data calls. |
-| NFR-5              | Declarative fleet templates, progressive waves, conformance checks, and drift detection.           |
+| Requirements       | Design response                                                                                 |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| FR-1, FR-3         | Authoritative placement directory uses versioned state machine and one writer epoch per tenant. |
+| FR-2, NFR-1, NFR-3 | Signed immutable configuration bundles cached in cells; request pins one version.               |
+| FR-4, NFR-4        | Separate workload classes, service accounts, network policies, quotas, keys, tenant admission.  |
+| FR-5               | Cell/tenant SLO, capacity, configuration convergence, and placement telemetry.                  |
+| NFR-2              | Cell holds no more than 5% of tenant blast radius and avoids synchronous cross-cell data calls. |
+| NFR-5              | Declarative fleet templates, progressive waves, conformance checks, and drift detection.        |
 
 ## Architecture
 
