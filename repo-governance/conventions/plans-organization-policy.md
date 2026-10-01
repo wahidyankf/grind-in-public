@@ -20,6 +20,10 @@ changes. Drills and study are not planned unless the owner asks: the owner pract
 harness task list, as the [task tracking policy](task-tracking-policy.md) requires. Rules Propagation may edit multiple
 governance surfaces without a delivery plan because its bounded transaction records the authorized rule outcome.
 
+The one standing request is the adopted [upstream tool defects](../development/upstream-tool-defects.md) standard: it
+covers a blocking defect's [bug-fix plan](plans-organization-policy/018-bug-fix-plan.md), including its quality gate and
+execution, and any other defect's idea brief.
+
 ## Rules
 
 Read the rule you need rather than the whole set. The modules are numbered in reading order and
@@ -46,6 +50,7 @@ Read the rule you need rather than the whole set. The modules are numbered in re
   device proof.
 - [Plan Document Safety](plans-organization-policy/017-plan-document-safety.md) — ASCII diagrams and secret-free plan
   records.
+- [Bug-Fix Plan](plans-organization-policy/018-bug-fix-plan.md) — the one-document plan for a single blocking defect.
 
 ## Delivery
 

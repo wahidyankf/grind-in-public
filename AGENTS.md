@@ -58,13 +58,14 @@ sibling layouts are forbidden.
 
 ## Planning
 
-Create plans only on the owner's explicit request. Each plan has six documents, `tech-docs` among them, and no time
-estimates, promoted from a quadrant idea through `backlog/`, `in-progress/`, and `done/`; see the
+Create plans only on the owner's explicit request or as the
+[upstream tool defects](repo-governance/development/upstream-tool-defects.md) standard directs. Each plan except a
+bug-fix plan has six documents, `tech-docs` among them, and no time estimates, promoted from a quadrant idea through
+`backlog/`, `in-progress/`, and `done/`; see the
 [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with
 [plan-planning](repo-governance/workflows/plan-planning.md), validate with
 [plan-quality-gate](repo-governance/workflows/plan-quality-gate.md) only at an explicitly requested checkpoint, and run
-with [plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`. Each `delivery.md`
-opens with a dated Execution Record, written as phases complete and gates pass or fail.
+with [plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`.
 
 ## Nx and Coding Conventions
 

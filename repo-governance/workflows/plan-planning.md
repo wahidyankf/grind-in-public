@@ -1,6 +1,6 @@
 ---
 tldr: "Turns a described change into a six-document plan ready for an explicitly requested quality gate."
-when_to_use: "Use only after the owner explicitly requests a plan."
+when_to_use: "Use only after the owner explicitly requests a plan other than a bug-fix plan."
 ---
 
 # Plan Planning
@@ -15,7 +15,8 @@ plan lands in `plans/backlog/` or `plans/in-progress/` ready for a separately au
 
 Use it only after the owner explicitly requests a plan. The
 [plans organization policy](../conventions/plans-organization-policy.md) states that authorization boundary. Do not use
-it for application work, infrastructure work, substantial rule work, or a drill unless the owner asks for a plan.
+it for application work, infrastructure work, substantial rule work, or a drill unless the owner asks for a plan. A
+[bug-fix plan](../conventions/plans-organization-policy/018-bug-fix-plan.md) is not planned through this workflow.
 
 ## Prerequisites
 

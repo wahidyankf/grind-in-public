@@ -11,7 +11,7 @@ Codex and opencode both discover these skills automatically from this directory;
 - [`plan-grooming-idea-briefs/`](plan-grooming-idea-briefs/SKILL.md) — judges whether a brief is worth promoting,
   keeping with a trigger, or retiring.
 - [`plan-creating-project-plans/`](plan-creating-project-plans/SKILL.md) — writes the six documents so each answers its
-  own question and the checklist is executable.
+  own question and the checklist is executable, and points a bug-fix plan to its one-document module.
 - [`plan-writing-gherkin-criteria/`](plan-writing-gherkin-criteria/SKILL.md) — writes acceptance scenarios that describe
   observable behaviour and can actually fail.
 - [`plan-validating-quality/`](plan-validating-quality/SKILL.md) — judges a draft beyond what structural validation

@@ -22,6 +22,10 @@ Deciding where it belongs is deferred, not skipped. Before a plan is archived, e
 durable owner, or discarded with a reason. "Interesting, keep it here" is not a resolution — it archives the entry into
 a folder nobody will open again.
 
+A [bug-fix plan](018-bug-fix-plan.md)'s Learnings section stands in for `learnings.md`. A learning that exposes a defect
+in a pinned upstream tool goes to that tool's owner through
+[Upstream Tool Defects](../../development/upstream-tool-defects.md), not to an owner below.
+
 ## Durable Owners
 
 The final phase of every substantive plan, immediately before archival, is Knowledge Capture. It promotes each entry to

@@ -4,8 +4,9 @@ Plans are this repository's working record of change: why work exists, what it d
 finished. They are not documentation. `docs/` explains the repository to a reader and `repo-governance/` holds its
 rules; a plan describes one piece of work and retires when that work lands.
 
-Plan documents are created only when the owner explicitly requests a plan. When no plan is requested, work proceeds
-without creating a plan folder; the
+Plan documents are created only when the owner explicitly requests a plan, or when the
+[upstream tool defects](../repo-governance/development/upstream-tool-defects.md) standard calls for a defect's idea
+brief or bug-fix plan. Otherwise work proceeds without creating a plan folder; the
 [plans organization policy](../repo-governance/conventions/plans-organization-policy.md) owns that authorization
 boundary.
 

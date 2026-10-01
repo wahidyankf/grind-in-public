@@ -15,7 +15,7 @@ frees review to spend its attention on the part no validator can reach.
 | lifecycle spelling  | a plan root is not one of the four canonical names                                |
 | slug form           | a live slug carries a date, or a `done/` slug lacks the `YYYY-MM-DD__` prefix     |
 | single occupancy    | one slug appears under more than one lifecycle root                               |
-| required documents  | any of the six is missing from a backlog or in-progress plan                      |
+| required documents  | any of the six, or a bug-fix plan's `README.md`, is missing from a live plan      |
 | technical shape     | both shapes are present, or neither is                                            |
 | companion names     | an ordinal is not three digits, or the name is not descriptive kebab-case         |
 | companion order     | ordinals are not contiguous from `001`, or duplicate                              |
@@ -65,7 +65,7 @@ No pinned tool implements the table above here: the RHINO that `rhino.lock` pins
 script reads plan structure. Two parts run mechanically. `npm run check:markdown-links` resolves every plan link, and
 `npm run test:repo` requires every `plans/` directory README to index its direct siblings.
 
-Everything else in the table is checked by review against the six-document convention. The author applies the
+Everything else in the table is checked by review against the plans convention. The author applies the
 [structural review](../../workflows/plan-planning/004-structural-review.md) before hand-off, and the `plan-checker`
 agent re-checks it in the [plan quality gate](../../workflows/plan-quality-gate.md) audit. A validator added later must
 satisfy the [plan validator contract](../plan-validator-contract.md).

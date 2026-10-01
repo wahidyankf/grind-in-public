@@ -10,7 +10,7 @@ when_to_use: "Use when adding, renaming, or generating a planning skill or agent
 | Skill                           | Owns                                                        |
 | ------------------------------- | ----------------------------------------------------------- |
 | `grill-me`                      | the shared decision protocol both planning gates use        |
-| `plan-creating-project-plans`   | how to author the six documents well                        |
+| `plan-creating-project-plans`   | how to author the six documents, or a bug-fix plan, well    |
 | `plan-grooming-idea-briefs`     | how to judge whether a brief is worth promoting             |
 | `plan-writing-gherkin-criteria` | how to write acceptance criteria that are actually testable |
 | `plan-validating-quality`       | how to judge a draft beyond what structure can be checked   |

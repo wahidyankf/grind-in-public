@@ -47,6 +47,8 @@ foundational principles without replacing focused development policies or repeat
 - [Grilling Harness Binding](grilling-harness-binding.md) — the question tool each harness uses and the Markdown
   fallback. Use it when asking a decision question or adding a harness; its per-harness detail lives in
   [`grilling-harness-binding/`](grilling-harness-binding/README.md).
+- [Bug Reports](bug-reports.md) — the recorded duplicate search and the fields a bug report carries, and how a report
+  becomes a fix. Use it when filing a bug or writing a bug-fix plan's report.
 - [Plans Organization Policy](plans-organization-policy.md) — how a plan is staged, named, structured, and archived
   under `plans/`. Use it when creating, executing, or archiving a plan; its detail lives in
   [`plans-organization-policy/`](plans-organization-policy/README.md).

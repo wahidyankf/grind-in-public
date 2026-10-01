@@ -5,9 +5,10 @@ when_to_use: "Use only for a checkpoint the owner explicitly requests."
 
 # Plan Quality Gate
 
-Run only when the owner explicitly names this gate or unambiguously directs its semantic audit. Do not infer
-authorization from creating, editing, reviewing, or executing a plan, Plan mode, or another workflow. An instruction may
-authorize multiple named checkpoints; otherwise it authorizes one run.
+Run only when the owner explicitly names this gate or unambiguously directs its semantic audit; the adopted
+[upstream tool defects](../development/upstream-tool-defects.md) standard directs it for a landed bug-fix plan. Do not
+infer authorization from creating, editing, reviewing, or executing a plan, Plan mode, or another workflow. An
+instruction may authorize multiple named checkpoints; otherwise it authorizes one run.
 
 Produce exactly one terminal result: `PASS` or one `BLOCKED_*` variant for one formal plan. When authorized, run at the
 directed pre-execution or post-material-change checkpoint. Never recurse or automatically start another run.

@@ -80,8 +80,8 @@ rewriting it would falsify the record.
   - Reason: The local third label was dropped for the canonical two; see the section above.
 - **module numbering**
   - Status: adapted
-  - Reason: The canonical lifecycle block is split across modules `001` and `002`, because a single module would exceed
-    this repository's 750-word document limit.
+  - Reason: The canonical lifecycle block spans `001` and `002`, since one module would exceed the 750-word limit; the
+    bug-fix plan follows the local additions as `018`.
 - **execution record**
   - Status: adapted
   - Reason: `delivery.md` additionally opens with a dated execution record; see

@@ -5,8 +5,9 @@ when_to_use: "Use when starting, executing, or archiving a plan, or when reading
 
 # Execution Record
 
-`delivery.md` opens with a dated Execution Record, above the tag legend. A checkbox states what was intended and a tick
-states that it eventually held; neither states what happened in between.
+`delivery.md` opens with a dated Execution Record, above the tag legend; a [bug-fix plan](018-bug-fix-plan.md)'s
+Delivery section opens with one too. A checkbox states what was intended and a tick states that it eventually held;
+neither states what happened in between.
 
 Add a line when a phase completes, when a gate passes or fails, when a retry proves something the first attempt did not,
 and when execution changed the plan. Date each line and write it as the event happens: reconstructed at archival, the

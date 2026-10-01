@@ -13,4 +13,5 @@ that exercise the same responsibility. When they share the cause, repair the sha
 guard to each caller or patching only the path named in the report.
 
 If a durable fix requires owner direction or exceeds the task scope, report the evidence, impact, and recommended next
-step.
+step. A defect in a pinned tool consumed from an upstream follows
+[Upstream Tool Defects](../development/upstream-tool-defects.md).

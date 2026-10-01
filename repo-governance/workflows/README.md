@@ -34,7 +34,8 @@ link to related governance guidance instead of duplicating it.
   every keep and retire.
 - [Plan Backlog Grooming](plan-backlog-grooming.md) re-judges every backlog plan against the current repository and
   orders the survivors.
-- [Plan Planning](plan-planning.md) turns a described change into a validated six-document plan under `plans/`.
+- [Plan Planning](plan-planning.md) turns a described change into a validated six-document plan under `plans/`; a
+  bug-fix plan follows its own module instead.
 - [Plan Quality Gate](plan-quality-gate.md) runs only on explicit owner direction and uses a frozen snapshot and finite
   ledger to return one bounded semantic verdict after at most two cycles.
 - [Gherkin Implementation Review](gherkin-implementation-review.md) inspects each expanded scenario and applicable

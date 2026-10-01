@@ -5,8 +5,8 @@ when_to_use: "Use when scaffolding a plan folder or deciding which file a sectio
 
 # Required Documents
 
-Every formal plan — one in `plans/backlog/` or `plans/in-progress/` — contains six documents. Not five, and not five
-plus an optional sixth.
+Every formal plan — one in `plans/backlog/` or `plans/in-progress/` — contains six documents, except a
+[bug-fix plan](018-bug-fix-plan.md). Not five, and not five plus an optional sixth.
 
 | Document            | Answers                                                                                      |
 | ------------------- | -------------------------------------------------------------------------------------------- |
@@ -65,10 +65,10 @@ a plan that fails validation for a reason the text told it was correct.
 its day, so its prose is left alone and only its links are repaired when a rule file it points at is renamed. Rewriting
 history to agree with a newer rule would make the archive useless for the one thing it is for.
 
-## No Single-File Exception
+## No Other Single-File Plan
 
-An owner-requested plan uses all six documents. Do not delete or skip a requested plan because its size appears small;
-ask the owner whether to amend or cancel it instead.
+Every other owner-requested plan uses all six documents. Do not delete or skip a requested plan because its size appears
+small; ask the owner whether to amend or cancel it instead.
 
 The plan quality gate requires all six documents and verifies their distinct reader jobs.
 

@@ -18,9 +18,10 @@ Use it when a plan is ready to run. Resuming an interrupted plan uses this workf
 ## Prerequisites
 
 Require a current `PASS` from an explicitly owner-directed [plan-quality-gate](plan-quality-gate.md) run. Execution
-authority does not authorize that gate. If the result is absent or blocked, stop without starting or rerunning it. The
-plan sits in `plans/in-progress/`: move it out of `backlog/`, update both indexes, and push that move only when
-authorized before running any checklist item, per the
+authority does not authorize that gate. For a bug-fix plan, the adopted
+[upstream tool defects](../development/upstream-tool-defects.md) standard is that direction. If the result is absent or
+blocked, stop without starting or rerunning it. The plan sits in `plans/in-progress/`: move it out of `backlog/`, update
+both indexes, and push that move only when authorized before running any checklist item, per the
 [lifecycle rules](../conventions/plans-organization-policy/002-lifecycle-moves.md).
 
 ## Steps

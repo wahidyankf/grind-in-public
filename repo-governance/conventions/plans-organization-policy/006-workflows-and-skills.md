@@ -57,7 +57,8 @@ is written are not the questions worth asking about a finished draft.
 
 Each gate presents mutually exclusive choices with exactly one recommendation, always keeps an open-ended alternative
 and a discussion alternative available, and records every material decision it resolves. A gate that resolves nothing
-was not a gate. The `grill-me` skill owns how those questions are posed.
+was not a gate. The `grill-me` skill owns how those questions are posed. A [bug-fix plan](018-bug-fix-plan.md) has no
+gates until it stops being one.
 
 ## Retired Names Do Not Linger
 

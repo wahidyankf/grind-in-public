@@ -28,7 +28,7 @@ authoring: it has passed the [plan-quality-gate](../../workflows/plan-quality-ga
 
 **`in-progress/`** holds active plans. Keep the count small, because a second active plan splits attention rather than
 doubling output. Execution reads and ticks the plan's `delivery.md` in place, and a plan is never executed out of
-`backlog/`.
+`backlog/`. A [bug-fix plan](018-bug-fix-plan.md) starts here, with no idea or backlog stage.
 
 **`done/`** holds finished plans as a historical record. A done plan is not casually rewritten: it records what
 happened, including the parts that went badly, and its value comes from being accurate rather than tidy.

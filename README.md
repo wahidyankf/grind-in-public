@@ -77,10 +77,10 @@ recorded contract.
 
 Which work is planned before it starts, and which — drills among them — is not, is set by the
 [plans organization policy](repo-governance/conventions/plans-organization-policy.md). A plan has six documents, one of
-them its technical shape, moving from quadrant-classified `ideas/` through `backlog/` and `in-progress/` to `done/`, and
-delivering directly to `main` at each phase gate. What the software should do is described as Gherkin in
-[`specs/`](specs/README.md), alongside each non-drill application's current as-built architecture and separate from the
-code that implements them.
+them its technical shape (a bug-fix plan for a single blocking defect has one), moving from quadrant-classified `ideas/`
+through `backlog/` and `in-progress/` to `done/`, and delivering directly to `main` at each phase gate. What the
+software should do is described as Gherkin in [`specs/`](specs/README.md), alongside each non-drill application's
+current as-built architecture and separate from the code that implements them.
 
 ## Documentation
 

@@ -48,6 +48,8 @@ only the policy that matches the work at hand:
 - [Testing](testing-policy.md) for quick and integration-test responsibilities.
 - [Test Data Isolation](test-data-isolation.md) for synthetic identities, per-run boundaries, and cleanup.
 - [Testing Policy Details](testing-policy/README.md) for focused testing requirements.
+- [Upstream Tool Defects](upstream-tool-defects.md) for handling a defect in a pinned upstream tool: report it at its
+  owner, and fix there only one that blocks with no workaround.
 - [Workspace Commands](workspace-commands.md) for the canonical command, check, and hook reference.
 
 Foundational principles remain in [`../principles/`](../principles/README.md), and repeatable procedures remain in
