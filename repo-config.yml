@@ -44,7 +44,7 @@ harness:
         route-field: body
         route:
           "Before acting, read the complete canonical agent definition at the
-          repository-root path {path} and follow it as authoritative. If it
+          repository-root path\n{path}\nand follow it as authoritative. If it
           cannot be read, stop and report the missing path."
         identity: { name: name, description: description }
         fixed: { model: inherit }
@@ -86,7 +86,7 @@ harness:
         format: front-matter
         route-field: body
         route:
-          "Read {path} completely, resolve every relative resource from that
+          "Read {path} completely,\nresolve every relative resource from that
           skill directory, and follow it as authoritative before acting."
         identity: { name: name, description: description }
     - id: codex
@@ -101,7 +101,7 @@ harness:
         route-field: developer_instructions
         route:
           "Before acting, read the complete canonical agent definition at the
-          repository-root path {path} and follow it as authoritative. If it
+          repository-root path\n{path}\nand follow it as authoritative. If it
           cannot be read, stop and report the missing path."
         identity: { name: name, description: description }
         fixed: { sandbox_mode: read-only }
@@ -118,7 +118,7 @@ harness:
         route-field: body
         route:
           "Before acting, read the complete canonical agent definition at the
-          repository-root path {path} and follow it as authoritative. If it
+          repository-root path\n{path}\nand follow it as authoritative. If it
           cannot be read, stop and report the missing path."
         identity: { description: description }
         fixed: { mode: subagent }
@@ -166,6 +166,7 @@ policies:
     internal-link:
       exclude-sources: ["specs/fixtures/**"]
     mermaid:
+      authoring-rule: plain-text
       node-label-graphemes: 32
       edge-label-graphemes: 24
       fill-colors: []
@@ -332,6 +333,12 @@ gates:
         executable: ./rhino
         args:
           [{ literal: md }, { literal: internal-link }, { literal: validate }]
+      run-on: { pre-push: {}, pull-request: {}, main: {} }
+    - id: markdown-line-length
+      type: check
+      command:
+        executable: ./node_modules/.bin/markdownlint-cli2
+        args: []
       run-on: { pre-push: {}, pull-request: {}, main: {} }
     - id: mermaid
       type: check

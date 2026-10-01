@@ -66,6 +66,8 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm run check:harness-parity` validates instructions, skills, and agent adapters.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
   a new document before trusting a local run.
+- `npm run check:markdown-line-length` enforces the 120-column limit of the
+  [Markdown style policy](../conventions/markdown-style-policy.md).
 - `npm run check:project-contract` validates the deterministic owner/E2E descriptor contract for every declared pair.
 - `npm run check:workflow-contract` validates stable authorization, terminal-result, convergence, and TDD-evidence
   tokens without attempting semantic review.

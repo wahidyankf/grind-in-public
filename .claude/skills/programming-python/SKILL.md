@@ -4,4 +4,5 @@ description: |-
 name: programming-python
 ---
 
-Read .agents/skills/programming-python/SKILL.md completely, resolve every relative resource from that skill directory, and follow it as authoritative before acting.
+Read .agents/skills/programming-python/SKILL.md completely,
+resolve every relative resource from that skill directory, and follow it as authoritative before acting.
