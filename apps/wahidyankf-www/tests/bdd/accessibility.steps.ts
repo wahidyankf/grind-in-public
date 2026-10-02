@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/features/ui/shell";
 import { HomeContent } from "@/features/home/shell/home-content";
 import { CvContent } from "@/features/cv/shell/cv-content";
 import { PersonalProjectsContent } from "@/features/personal-projects/shell/personal-projects-content";
+import NotFound from "@/app/not-found";
 
 // Navigation reads the current route via usePathname() and HomeContent/CvContent/
 // PersonalProjectsContent navigate via useRouter() — both need a router shim since
@@ -133,6 +134,23 @@ describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
             within(desktopNav).getByRole("link", { name }),
           ).toBeInTheDocument();
         }
+      });
+    },
+  );
+
+  Scenario(
+    "An unknown page says in its title that it was not found",
+    ({ When, Then }) => {
+      When("a visitor opens an address the site does not have", () => {
+        window.history.replaceState({}, "", "/no-such-page");
+        render(React.createElement(NotFound));
+      });
+
+      // React hoists the page's <title> into the document head, so the title
+      // read here is the one a browser tab and a screen reader announce.
+      // @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:An unknown page says in its title that it was not found
+      Then("the page title says the page was not found", () => {
+        expect(document.title).toMatch(/^Page not found \| /);
       });
     },
   );

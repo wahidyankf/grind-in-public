@@ -31,3 +31,9 @@ Feature: Accessibility
     When a visitor opens the home page
     Then the theme toggle button exposes an aria-label
     And every navigation link exposes link text or an aria-label
+
+  # Exemption(integration): Browser-rendered behaviour has no local resource boundary; alternative-proof: wahidyankf-www-e2e:test:e2e / An unknown page says in its title that it was not found
+  @integration-exempt
+  Scenario: An unknown page says in its title that it was not found
+    When a visitor opens an address the site does not have
+    Then the page title says the page was not found

@@ -33,3 +33,9 @@ Feature: Responsive layout across viewports
   Scenario: The theme toggle is always reachable
     When a visitor opens the home page at any viewport
     Then the theme toggle button is present in the DOM and clickable
+
+  # Exemption(integration): Browser-rendered behaviour has no local resource boundary; alternative-proof: wahidyankf-www-e2e:test:e2e / The CV page reflows without horizontal scrolling on a mobile viewport
+  @integration-exempt
+  Scenario: The CV page reflows without horizontal scrolling on a mobile viewport
+    When a visitor opens the CV page at 375 by 812 viewport
+    Then the page content fits within the viewport width

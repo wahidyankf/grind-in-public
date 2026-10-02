@@ -59,3 +59,13 @@ Then(
     }
   },
 );
+
+When("a visitor opens an address the site does not have", async ({ page }) => {
+  await page.goto("/no-such-page");
+  await page.waitForLoadState("load");
+});
+
+// @covers specs/apps/wahidyankf-www/behaviours/accessibility.feature:An unknown page says in its title that it was not found
+Then("the page title says the page was not found", async ({ page }) => {
+  await expect(page).toHaveTitle(/^Page not found \| /);
+});

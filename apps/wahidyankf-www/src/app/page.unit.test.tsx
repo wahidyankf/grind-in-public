@@ -199,3 +199,12 @@ describe("Home component", () => {
     );
   });
 });
+
+describe("Home page metadata", () => {
+  it("names the site, because the root layout no longer carries a title", async () => {
+    const { metadata } = await import("./page");
+    expect(metadata.title).toBe(
+      "Wahidyan Kresna Fridayoka | Engineering Leader — Digital Banking, Fintech & RegTech",
+    );
+  });
+});

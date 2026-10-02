@@ -75,3 +75,18 @@ Then(
     await expect(toggle).toBeEnabled();
   },
 );
+
+When("a visitor opens the CV page at 375 by 812 viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/cv");
+  await page.waitForLoadState("load");
+});
+
+// @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:The CV page reflows without horizontal scrolling on a mobile viewport
+Then("the page content fits within the viewport width", async ({ page }) => {
+  const widths = await page.evaluate(() => ({
+    content: document.documentElement.scrollWidth,
+    viewport: window.innerWidth,
+  }));
+  expect(widths.content).toBeLessThanOrEqual(widths.viewport);
+});

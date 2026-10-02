@@ -5,10 +5,15 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { expect, vi } from "vitest";
 import { ThemeToggle } from "@/features/ui/shell";
 import { Navigation } from "@/features/app-shell/shell/navigation";
+import { CvContent } from "@/features/cv/shell/cv-content";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
+  useSearchParams: () => new URLSearchParams(),
 }));
+
+vi.stubGlobal("scrollTo", vi.fn());
 
 // DOM cleanup runs after each scenario, so all assertions observe the exact
 // Navigation or ThemeToggle instance invoked by When.
@@ -164,4 +169,26 @@ describeFeature(feature, ({ Scenario, Background, AfterEachScenario }) => {
       expect(toggle).not.toBeDisabled();
     });
   });
+
+  Scenario(
+    "The CV page reflows without horizontal scrolling on a mobile viewport",
+    ({ When, Then }) => {
+      When("a visitor opens the CV page at 375 by 812 viewport", () => {
+        window.history.replaceState({}, "", "/cv");
+        Object.defineProperty(window, "innerWidth", {
+          configurable: true,
+          value: 375,
+        });
+        render(React.createElement(CvContent));
+      });
+
+      // jsdom lays nothing out, so the fit is approximated structurally: an
+      // unbroken string such as a credential ID can only stay inside a narrow
+      // viewport when the CV's main region lets long words wrap.
+      // @covers specs/apps/wahidyankf-www/behaviours/responsive.feature:The CV page reflows without horizontal scrolling on a mobile viewport
+      Then("the page content fits within the viewport width", () => {
+        expect(screen.getByRole("main").className).toContain("wrap-break-word");
+      });
+    },
+  );
 });

@@ -6,9 +6,9 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// No `title` here: a layout title would also head the 404 page, which names
+// itself in `not-found.tsx`. Each page declares its own.
 export const metadata: Metadata = {
-  title:
-    "Wahidyan Kresna Fridayoka | Engineering Leader — Digital Banking, Fintech & RegTech",
   description:
     "Portfolio and CV of Wahidyan Kresna Fridayoka, an engineering leader with nearly nine years of experience in Sharia-compliant digital banking, fintech, and RegTech, leading cross-functional engineering teams and open-source work.",
   icons: [
