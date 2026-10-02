@@ -1,6 +1,6 @@
 ---
 tldr:
-  "Fixes the three terminal verdicts, the two-cycle repair bound, what an evidence record carries, and what resolves an
+  "Fixes the four advisory gate verdicts, the three-cycle bound, what an evidence record carries, and what resolves an
   item."
 when_to_use: "Use when running a plan quality gate or recording the proof a delivery item claims."
 ---
@@ -9,28 +9,30 @@ when_to_use: "Use when running a plan quality gate or recording the proof a deli
 
 ## Terminal Verdicts
 
-A quality gate returns exactly one of three results against a frozen snapshot of the plan:
+A quality gate returns exactly one of four results against a frozen snapshot of the plan, per the
+[Quality Gate Contract](../../development/workflow/quality-gate-contract.md):
 
-| Verdict              | Means                                                            |
-| -------------------- | ---------------------------------------------------------------- |
-| `PASS`               | nothing outstanding                                              |
-| `PASS_WITH_FINDINGS` | findings exist, are recorded, and none of them blocks proceeding |
-| `FAIL`               | at least one finding blocks proceeding                           |
+| Verdict              | Means                                                               |
+| -------------------- | ------------------------------------------------------------------- |
+| `PASS`               | nothing outstanding                                                 |
+| `PASS_WITH_FINDINGS` | findings exist, are recorded, and none of them is blocking          |
+| `FAIL`               | at least one blocking finding stayed open                           |
+| `BLOCKED`            | the run could not finish: red tooling, a changed input, or no agent |
 
-All three are terminal. "Almost passing", "passing pending a fix", and "re-run it and see" are not verdicts — they are
-the absence of one, and they let work proceed on an unresolved question while appearing to have cleared a gate.
+All four are terminal and advisory: none stops the caller, which gives each open blocking row an owner and continues.
+"Almost passing", "passing pending a fix", and "re-run it and see" are not verdicts — they are the absence of one, and
+they let work proceed on an unresolved question while appearing to have cleared a gate.
 
 The snapshot is frozen because a gate that re-reads a changing plan is measuring a moving target and cannot say what it
 verified.
 
 ## Bounded Repair
 
-A gate does not run until it goes green. It runs once, and findings may then be repaired for at most two cycles.
-
-At the ceiling the outcome is decided rather than retried: either the repaired plan is accepted on its merits or the
-last known-good state is kept, whichever is better against the criteria that were declared before the first cycle. That
-decision is recorded with its reasoning. Extending the budget because the next attempt feels close is how an unbounded
-loop starts.
+A gate does not start its audit until its entry check is green. Each cycle is one full audit and one repair by the
+family's propagation, for at most three cycles. At the ceiling the outcome is decided rather than retried: verified
+repairs stay, and any open blocking row makes the verdict `FAIL`. Extending the budget because the next attempt feels
+close is how an unbounded loop starts. The plan records the one-line verdict in `delivery.md`; the gate's ledger stays
+uncommitted under `local-tmp/quality/`.
 
 ## Evidence Records
 
@@ -59,7 +61,7 @@ convenient.
 
 A plan whose result has a user-facing surface routes evidence through distinct layers, records each one separately, and
 remains incomplete while any applicable layer is unresolved. What each layer proves and what an assertion must state are
-owned by the [exploratory and usability testing](../../workflows/exploratory-and-usability-testing.md) workflow rather
+owned by the [exploratory usability review](../../workflows/quality/exploratory-usability-review.md) workflow rather
 than restated here.
 
 ## Resolution Is Not a Tick

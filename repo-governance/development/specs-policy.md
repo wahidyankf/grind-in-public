@@ -57,5 +57,5 @@ practice, not repository behaviour. So is the recorded [pilot](testing-policy/to
 Each subject's behaviour gate recursively discovers its corpus, rejects malformed features, and fails for undefined,
 ambiguous, or unused bindings. It also proves every required adapter consumes the same catalog, so adding, editing,
 renaming, nesting, or deleting a feature or binding cannot silently bypass verification. The
-[plan quality gate](../workflows/plan-quality-gate.md) additionally verifies that a plan's Gherkin follows the
+[plan quality gate](../workflows/quality/plan-quality-gate.md) additionally verifies that a plan's Gherkin follows the
 cardinality rule and every planned scenario has a RED step.

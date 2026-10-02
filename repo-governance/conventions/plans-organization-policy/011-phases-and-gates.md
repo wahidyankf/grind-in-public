@@ -42,7 +42,8 @@ Phase 0 is environment setup and baseline. It records a clean starting state —
 before any change — so a later failure can be attributed to the work rather than to the machine. Its gate is that
 recorded baseline, and it commits nothing but the plan itself.
 
-The [plan quality gate](../../workflows/plan-quality-gate.md) verifies the phase gate, Pause Safety note, and Phase 0.
+The [plan quality gate](../../workflows/quality/plan-quality-gate.md) verifies the phase gate, Pause Safety note, and
+Phase 0.
 
 ## Ordering
 

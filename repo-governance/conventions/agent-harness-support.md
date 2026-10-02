@@ -49,6 +49,6 @@ canonical instruction instead of pretending that an unavailable native control e
 
 ## Verification
 
-Run the [Harness Alignment](../workflows/harness-alignment.md) workflow after changing any instruction file, harness
-config, or subagent. Test a new tool's discovery behaviour yourself before relying on it, because support changes
-between releases.
+Run the [Harness Parity Verification](../workflows/quality/harness-parity-verification.md) workflow after changing any
+instruction file, harness config, or subagent. Test a new tool's discovery behaviour yourself before relying on it,
+because support changes between releases.

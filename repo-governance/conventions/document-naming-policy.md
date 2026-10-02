@@ -20,7 +20,7 @@ is a path a link has to reproduce exactly, so a name that needs escaping or shif
 
 **Name the subject, not the action.** A document is named for what it covers: `markdown-style-policy.md`,
 `commit-hook-policy.md`, `001-lifecycle-and-folders.md`. A workflow is named the same way, as a domain-prefixed noun
-phrase — `rules-propagation.md`, `harness-alignment.md`, `plan-quality-gate.md` — not as an imperative such as
+phrase — `rules-propagation.md`, `harness-parity-verification.md`, `plan-quality-gate.md` — not as an imperative such as
 `propagate-rules.md`. The noun form sorts into families as a directory grows, and the family prefix is what makes six
 workflows readable at a glance.
 

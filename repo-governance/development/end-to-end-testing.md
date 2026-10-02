@@ -28,7 +28,7 @@ Every automated or agent-operated browser run closes each page, tab, and context
 also runs after failure. Never close unrelated user-owned tabs. Before completing rendered UI work, inspect every
 affected route/state at the exact served origin and supported viewport classes. Automated success supplements but never
 replaces this rendered check. Formal UI plans also run the separate
-[exploratory and usability workflow](../workflows/exploratory-and-usability-testing.md).
+[exploratory usability review](../workflows/quality/exploratory-usability-review.md).
 
 Exploratory review separates spec-aware verification from usability review so the written scenario does not hide a
 confusing interaction. Record requested reports under ignored `generated-reports/`; they are evidence, not authority.

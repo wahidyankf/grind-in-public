@@ -32,7 +32,7 @@ Where a change has a user-facing surface, automation is necessary and not suffic
 false while a required layer is unresolved.
 
 What each layer proves, what an assertion must state before it runs, and how interface alternatives are chosen belong to
-the [exploratory and usability testing](../../workflows/exploratory-and-usability-testing.md) workflow, which is this
+the [exploratory usability review](../../workflows/quality/exploratory-usability-review.md) workflow, which is this
 repository's owner for that standard. This module owns only the routing rule: every behaviour-changing item names its
 layer.
 

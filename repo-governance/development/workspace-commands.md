@@ -74,9 +74,9 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm run test:repo` runs every deterministic repository mechanism, including directory maps and frontmatter.
 - `rtk ./.github/scripts/test-hippo-bootstrap.sh` verifies the pinned consumer without network or the real installation
   cache; `rtk ./hippo version --json` verifies the installed release identity.
-- `npm run check:rule-change` automatically triggers the [rules-propagation](../workflows/rules/rules-propagation.md)
-  workflow for staged rule paths, and [harness-alignment](../workflows/harness-alignment.md) when a harness reads that
-  path. It reports without blocking.
+- `npm run check:rule-change` automatically triggers the [rules-propagation](../workflows/quality/rules-propagation.md)
+  workflow for staged rule paths, and [harness-parity-verification](../workflows/quality/harness-parity-verification.md)
+  when a harness reads that path. It reports without blocking.
 - `npm run check:workflows` validates GitHub Actions workflow syntax and schema with the owner-pinned Actionlint tool.
 - `npm audit --audit-level=low` checks the locked dependency tree, and `npm run check:go-vulnerabilities` scans the Go
   module dependencies.

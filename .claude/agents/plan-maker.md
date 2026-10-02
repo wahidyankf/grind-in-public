@@ -1,6 +1,6 @@
 ---
 description: |-
-  Authors a complete formal plan from a request or groomed brief, runs both decision gates, and repairs its own draft within the declared budget. Use when a formal plan is requested and no draft exists yet.
+  Authors a complete formal plan from a request or groomed brief and runs both decision gates; a separate fixer repairs the plan quality gate's findings. Use when a formal plan is requested and no draft exists yet.
 model: inherit
 name: plan-maker
 tools: |-

@@ -6,7 +6,7 @@ when_to_use: "Use when writing a delivery checklist or implementing any behaviou
 # TDD Policy
 
 Develop every new or changed application and library behaviour with TDD, using the
-[red-green-refactor workflow](../workflows/red-green-refactor.md). This includes the validation scripts under
+[red-green-refactor workflow](../workflows/quality/red-green-refactor.md). This includes the validation scripts under
 `scripts/`, whose defects can silently disable repository gates.
 
 Treat test declarations and implementations as living documentation. Before interpreting or changing production code,
@@ -50,6 +50,6 @@ characterization tests before restructuring behaviour that lacks adequate covera
 ## Verification
 
 `test:quick` and applicable broader targets run the resulting tests under the [testing policy](testing-policy.md). The
-[plan quality gate](../workflows/plan-quality-gate.md) checks traceability only when explicitly requested. Task or plan
-records prove ordering by preserving the expected and observed RED plus final GREEN and REFACTOR-green results;
+[plan quality gate](../workflows/quality/plan-quality-gate.md) checks traceability only when explicitly requested. Task
+or plan records prove ordering by preserving the expected and observed RED plus final GREEN and REFACTOR-green results;
 automation proves the final state, not the historical sequence.

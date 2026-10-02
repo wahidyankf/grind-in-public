@@ -32,4 +32,5 @@ A record written during execution then stays for good. `learnings.md` is drained
 scatter the sequence across the file, so this is the one place a reader of an archived plan can see the order, the
 failures, and the retries.
 
-The [plan quality gate](../../workflows/plan-quality-gate.md) checks this record's shape during its semantic audit.
+The [plan quality gate](../../workflows/quality/plan-quality-gate.md) checks this record's shape during its semantic
+audit.

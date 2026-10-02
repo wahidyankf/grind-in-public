@@ -44,5 +44,5 @@ harness, skill, and agent counts plus a SHA-256 digest over normalized canonical
 path-specific. The validator is read-only, network-free, process-free, and excludes generated trees, user-global state,
 and local overrides.
 
-Follow [Harness Alignment](../workflows/harness-alignment.md) for the canonical edit, adapter reconciliation,
-verification, and recovery sequence.
+Follow [Harness Parity Verification](../workflows/quality/harness-parity-verification.md) for the canonical edit,
+adapter reconciliation, verification, and recovery sequence.

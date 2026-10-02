@@ -46,8 +46,8 @@ replaces local proof. Preserve applicable routes and evidence through compaction
   - Enforcement or evidence route: **Required/push:** static behaviour coverage through `test:quick`.
 - **Substantive Gherkin implementation**
   - Rule: [BDD](behaviour-driven-development-policy.md)
-  - Enforcement or evidence route: **Evidence:** [one-by-one review](../workflows/gherkin-implementation-review.md) and
-    runtime gates.
+  - Enforcement or evidence route: **Evidence:**
+    [one-by-one review](../workflows/quality/gherkin-implementation-review.md) and runtime gates.
 - **Synthetic isolated test state**
   - Rule: [Test data](test-data-isolation.md)
   - Enforcement or evidence route: **Runtime:** fail-closed boundaries. **Required:** policy tests and cleanup.
@@ -59,13 +59,14 @@ replaces local proof. Preserve applicable routes and evidence through compaction
   - Rule: [Specs](specs-policy.md)
   - Enforcement or evidence route: **Evidence:** semantic reconciliation. **Required/conditional push:** `test:repo`.
 - **Executable formal plans**
-  - Rule: [Plan gate](../workflows/plan-quality-gate.md)
-  - Enforcement or evidence route: **Evidence:** explicitly requested `PASS`. **Required:** repository checks.
+  - Rule: [Plan gate](../workflows/quality/plan-quality-gate.md)
+  - Enforcement or evidence route: **Evidence:** explicitly requested, recorded verdict. **Required:** repository
+    checks.
 - **Sufficient consistent rules**
-  - Rule: [Rules gate](../workflows/rules-quality-gate.md)
+  - Rule: [Rules gate](../workflows/quality/rules-quality-gate.md)
   - Enforcement or evidence route: **Evidence:** automatic propagation; explicit audits hand off every non-pass.
 - **Leak-free outbound history**
-  - Rule: [Push leak review](../workflows/push-leak-review.md)
+  - Rule: [Push leak review](../workflows/quality/push-leak-review.md)
   - Enforcement or evidence route: **Evidence:** review of each outgoing commit. **Push:** commit-by-commit screen.
     **Detection:** hosted replay of each push to `main`.
 - **Necessary reproducibly locked dependencies**

@@ -7,8 +7,9 @@ when_to_use: "Use when changing the rule paths, the pre-commit announcement, or 
 
 ## Scope
 
-This policy covers the automation that triggers [Rules Propagation](../workflows/rules/rules-propagation.md) and
-[Harness Alignment](../workflows/harness-alignment.md). Each workflow owns what to do once triggered.
+This policy covers the automation that triggers [Rules Propagation](../workflows/quality/rules-propagation.md) and
+[Harness Parity Verification](../workflows/quality/harness-parity-verification.md). Each workflow owns what to do once
+triggered.
 
 ## Rule Paths
 

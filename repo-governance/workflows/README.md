@@ -1,5 +1,5 @@
 ---
-tldr: "Indexes repeatable repository procedures."
+tldr: "Indexes repeatable repository procedures in their plan, quality, and maintenance groups."
 when_to_use: "Use when a task has a defined sequence, required checks, or recovery steps."
 ---
 
@@ -8,57 +8,34 @@ when_to_use: "Use when a task has a defined sequence, required checks, or recove
 This directory contains repeatable procedures for working in Grind in Public. Use a workflow when a task has a defined
 sequence, required checks, or recovery steps that should be performed consistently by contributors and agents.
 
-## Adding a Workflow
+## Groups
 
-Create one Markdown file per procedure. The [document naming policy](../conventions/document-naming-policy.md) owns what
-to name it, and how a workflow that outgrows one file splits into a child directory. Keep each workflow narrowly scoped;
-link to related governance guidance instead of duplicating it.
+Every workflow sits in one of three groups. No other entry belongs at this level.
 
-## Available Workflows
+- [Plan](plan/README.md) holds the plan lifecycle: ideas and backlog grooming, planning, execution, and the execution
+  check.
+- [Quality](quality/README.md) holds every quality gate with its propagation, the automatically triggered Rules and Docs
+  Propagation, and every single-pass review: Gherkin implementation, exploratory usability, harness parity, and the push
+  leak review.
+- [Maintenance](maintenance/README.md) holds upkeep: rules grooming and development artifact clean-up.
 
-- [Rule workflows](rules/README.md) index the automatically triggered procedures for rule-path changes.
-- [Harness Alignment](harness-alignment.md) verifies that every supported harness receives the same rules through its
-  instruction file, config, and subagents. Its detail lives in [`harness-alignment/`](harness-alignment/README.md).
-- [Rules Propagation](rules/rules-propagation.md) automatically starts for a rule-path change, remains the sole writer,
-  and consumes `NEEDS_PROPAGATION` ledgers. Its detail lives in
-  [`rules/rules-propagation/`](rules/rules-propagation/README.md).
-- [Push Leak Review](push-leak-review.md) reviews every outgoing commit for a leak, privately, before each push; its
-  classes, review, and enforcement live in [`push-leak-review/`](push-leak-review/README.md).
-- [Docs Propagation](docs-propagation.md) automatically carries each change into every human-facing document it affects,
-  removing obsolete ones, and consumes Docs Quality Gate ledgers.
-- [Docs Quality Gate](docs-quality-gate.md) runs only on explicit owner direction, never edits, hands every finding to
-  Docs Propagation, and audits again until two consecutive audits are clean.
-- [Rules Quality Gate](rules-quality-gate.md) runs only on explicit owner direction and cannot end blocked; every
-  non-pass hands its ledger to Rules Propagation.
-- [Rules Grooming](rules-grooming.md) runs only on explicit owner direction, never writes, and hands each approved
-  reduction to Rules Propagation.
-- [Plan Ideas Grooming](plan-ideas-grooming.md) gives every brief in `plans/ideas/` one disposition, with a reason for
-  every keep and retire.
-- [Plan Backlog Grooming](plan-backlog-grooming.md) re-judges every backlog plan against the current repository and
-  orders the survivors.
-- [Plan Planning](plan-planning.md) turns a described change into a validated six-document plan under `plans/`; a
-  bug-fix plan follows its own module instead.
-- [Plan Quality Gate](plan-quality-gate.md) runs only on explicit owner direction and uses a frozen snapshot and finite
-  ledger to return one bounded semantic verdict after at most two cycles.
-- [Gherkin Implementation Review](gherkin-implementation-review.md) inspects each expanded scenario and applicable
-  adapter for substantive Given-When-Then evidence.
-- [Exploratory and Usability Testing](exploratory-and-usability-testing.md) separates spec-aware probing from a fresh,
-  spec-blind usability pass for UI-affecting plans.
-- [Red-Green-Refactor](red-green-refactor.md) defines the evidenced TDD cycle for application and library behaviour.
-- [Plan Execution](plan-execution.md) executes a plan phase by phase, delivering to `main` at each gate, then archives
-  it.
-- [Plan Execution Check](plan-execution-check.md) judges finished execution in a fixed order and returns one terminal
-  verdict that archival depends on.
-- [Dev Artifact Clean-Up](dev-artifact-clean-up.md) removes exactly the development artifacts one piece of work created
-  — its regenerable build output — and leaves local `main` level with `origin/main`.
+Every quality gate follows the [Quality Gate Contract](../development/workflow/quality-gate-contract.md): it runs only
+on an explicit owner request, never edits, hands its blocking findings to its family's propagation, stops after at most
+three cycles, and returns an advisory verdict. The
+[Quality Gate Adapter](../development/workflow/quality-gate-adapter.md) records how this repository adopted the
+contract.
 
-Plan Planning and Plan Execution keep detail in [`plan-planning/`](plan-planning/README.md) and
-[`plan-execution/`](plan-execution/README.md).
-
-These seven — ideas grooming, backlog grooming, planning, execution, the quality gate, the execution check, and artifact
-clean-up — are the complete lifecycle roster named in
+Ideas grooming, backlog grooming, planning, execution, the plan quality gate, the execution check, and artifact clean-up
+are the complete lifecycle roster named in
 [Workflows and Skills](../conventions/plans-organization-policy/006-workflows-and-skills.md). A missing one is a gap in
 the lifecycle, not a preference.
+
+## Adding a Workflow
+
+Create one Markdown file per procedure in the group that owns its purpose. The
+[document naming policy](../conventions/document-naming-policy.md) owns what to name it, and how a workflow that
+outgrows one file splits into a child directory of numbered modules. Keep each workflow narrowly scoped; link to related
+governance guidance instead of duplicating it.
 
 ## Workflow Template
 
@@ -71,8 +48,9 @@ Each workflow should include:
 5. **Verification** — Checks that prove the outcome is complete.
 6. **Recovery** — Safe next actions if a step fails, when applicable.
 
-Use exact commands and paths where possible. Keep instructions current with the repository tooling, including the
-formatting, governance, and dependency checks defined in `package.json`.
+A quality gate and a propagation instead carry the section shapes their contracts fix. Use exact commands and paths
+where possible. Keep instructions current with the repository tooling, including the formatting, governance, and
+dependency checks defined in `package.json`.
 
 ## Maintenance
 

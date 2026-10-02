@@ -24,7 +24,7 @@ different words does not have this convention; it has a different one, and its p
 earned a plan yet; see the [two-pager template](013-two-pager-template.md).
 
 **`backlog/`** holds prepared plans that nobody is executing. A backlog plan is complete enough to start without further
-authoring: it has passed the [plan-quality-gate](../../workflows/plan-quality-gate.md) workflow.
+authoring: it has passed the [plan-quality-gate](../../workflows/quality/plan-quality-gate.md) workflow.
 
 **`in-progress/`** holds active plans. Keep the count small, because a second active plan splits attention rather than
 doubling output. Execution reads and ticks the plan's `delivery.md` in place, and a plan is never executed out of

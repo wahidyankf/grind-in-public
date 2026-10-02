@@ -11,8 +11,8 @@ Assume other agents and processes are using the same checkout and remote at the 
 Adapted from the catalog rule of the same name. What changed: work lands on local `main` and is pushed straight to
 `origin/main` under the [integration path policy](../conventions/integration-path-policy.md), so rewriting pushed
 history means rewriting `main` itself; and because the stash stack is shared, as
-[dev artifact clean-up](../workflows/dev-artifact-clean-up.md) warns, the rows for uncommitted work point at a commit
-rather than a stash.
+[dev artifact clean-up](../workflows/maintenance/dev-artifact-clean-up.md) warns, the rows for uncommitted work point at
+a commit rather than a stash.
 
 ## The Rule Is the Effect
 

@@ -58,23 +58,26 @@ When a finding accepted as a false positive is raised again, neither apply it no
 reading the same rule differently means the rule, or the checker's reading of it, is ambiguous. Record the finding once
 for a person who owns the rule, and take it out of the loop's count.
 
+## Confidence Decides the Row's Status
+
+Each rating ends the row in one ledger status, so the gate counts the same outcome whoever wrote it:
+
+| Confidence       | The fixer                                     | Status                        |
+| ---------------- | --------------------------------------------- | ----------------------------- |
+| `HIGH`           | applies the repair, then verifies the row     | `resolved`, or `not-resolved` |
+| `MEDIUM`         | leaves it with the evidence that kept it open | `needs-decision`              |
+| `FALSE_POSITIVE` | records the disproof and what would stop it   | `not-applicable`              |
+
+A row whose target state already holds is `resolved` with no edit. A row the fixer did not reach stays `open`.
+
 ## Stable, Not Empty
 
-A clean report after a fix can mean the checker skipped what the fix touched. The workflows ask for two consecutive
-clean validations for that reason. A count that stops falling usually means a non-deterministic check or a scope that
-grows while it is fixed, and another identical cycle will not change either; Bounded Convergence decides what happens
-next.
-
-## Planning Has No Separate Fixer
-
-This pattern is recorded as contradicting the planning roster, and planning wins inside its own scope.
-[Skill and Agent Roster](../../../repo-governance/development/planning-capabilities/002-skill-and-agent-roster.md) has
-the plan maker apply validated findings itself, within the repair budget of
-[Plan Quality Gate](../../../repo-governance/workflows/plan-quality-gate.md), because a loop waiting for an empty report
-can always reach one.
-
-Outside planning, a workflow may declare a dedicated fixer. In both arrangements, whoever applies findings uses the
-judgement above.
+A clean audit after a repair can mean the checker skipped what the repair touched, so every audit is a full one. A count
+that stops falling usually means a non-deterministic check or a scope that grows while it is fixed, and another
+identical cycle will not change either. The
+[Quality Gate Contract](../../../repo-governance/development/workflow/quality-gate-contract.md) ends every gate within
+three cycles; no role extends it. Planning follows the same split: `plan-maker` authors and `plan-fixer` repairs, per
+[Skill and Agent Roster](../../../repo-governance/development/planning-capabilities/002-skill-and-agent-roster.md).
 
 [finding-criticality-and-confidence]:
   ../../../repo-governance/development/quality/evidence/finding-criticality-and-confidence.md

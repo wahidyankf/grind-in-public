@@ -6,11 +6,11 @@ import { validateWorkflowContract } from "./workflow-contract.mjs";
 function validDocuments() {
   return {
     planGate:
-      "Run only when the owner explicitly cycle `2` BLOCKED_NON_CONVERGENT authorizes neither execution nor commit/push",
+      "The gate starts only on an explicit owner request | `max-cycles` | integer | 1, 2, or 3 | PASS_WITH_FINDINGS No verdict stops the caller",
     propagation:
-      "sole writer, never invokes the quality gate strictly decreases PASS_NO_CHANGE PASS_CHANGED BLOCKED_INPUT BLOCKED_CONFLICT BLOCKED_TOOLING BLOCKED_INPUT_CHANGED",
+      "This is the `rules` family's sole writer Entry is automatic The run never commits",
     rulesGate:
-      "Run only when the owner explicitly NEEDS_PROPAGATION never ends blocked, repairs rules, reruns itself",
+      "The gate starts only on an explicit owner request | `max-cycles` | integer | 1, 2, or 3 | PASS_WITH_FINDINGS No verdict stops the caller",
     taskTracking:
       "separate RED, GREEN, and REFACTOR items expected behavioural RED reason REFACTOR-green results",
     tdd: "living documentation compilation, configuration, or infrastructure failure is not RED evidence characterization tests automation proves the final state, not the historical sequence",
@@ -24,7 +24,7 @@ test("accepts the bounded plan, rules, and TDD workflow contracts", () => {
 test("rejects a missing explicit authorization and TDD process evidence", () => {
   const documents = validDocuments();
   documents.planGate = documents.planGate.replace(
-    "Run only when the owner explicitly",
+    "The gate starts only on an explicit owner request",
     "",
   );
   documents.taskTracking = "";
@@ -33,16 +33,30 @@ test("rejects a missing explicit authorization and TDD process evidence", () => 
   assert.ok(findings.some((finding) => finding.startsWith("taskTracking:")));
 });
 
-test("rejects legacy recursive rules-gate results", () => {
+test("rejects a gate that loses its three-cycle bound or advisory verdict", () => {
+  const documents = validDocuments();
+  documents.rulesGate = documents.rulesGate
+    .replace("1, 2, or 3", "1 to 7")
+    .replace("No verdict stops the caller", "");
+  const findings = validateWorkflowContract(documents);
+  assert.ok(findings.some((finding) => finding.includes("1, 2, or 3")));
+  assert.ok(
+    findings.some((finding) => finding.includes("No verdict stops the caller")),
+  );
+});
+
+test("rejects legacy unbounded and recursive gate results", () => {
   const documents = validDocuments();
   documents.propagation += " PASS_READY BLOCKED_NON_CONVERGENT";
-  documents.rulesGate += " BLOCKED_SEMANTIC";
+  documents.rulesGate += " NEEDS_PROPAGATION";
+  documents.planGate += " max-iterations";
   const findings = validateWorkflowContract(documents);
   assert.ok(findings.some((finding) => finding.includes("PASS_READY")));
-  assert.ok(findings.some((finding) => finding.includes("BLOCKED_SEMANTIC")));
+  assert.ok(findings.some((finding) => finding.includes("NEEDS_PROPAGATION")));
   assert.ok(
     findings.some((finding) => finding.includes("BLOCKED_NON_CONVERGENT")),
   );
+  assert.ok(findings.some((finding) => finding.includes("max-iterations")));
 });
 
 test("returns findings in deterministic order", () => {

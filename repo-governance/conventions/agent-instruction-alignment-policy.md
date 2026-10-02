@@ -19,5 +19,6 @@ Tool configuration contains only documented operational settings, not rules. Det
 canonical source or recorded as native adapter metadata; it is never appended to the instruction body.
 
 The [harness capability parity policy](harness-capability-parity-policy.md) owns canonical skills, agents, native
-adapters, and deterministic contract verification. Follow [Harness Alignment](../workflows/harness-alignment.md) after
-changing any instruction source or harness config.
+adapters, and deterministic contract verification. Follow
+[Harness Parity Verification](../workflows/quality/harness-parity-verification.md) after changing any instruction source
+or harness config.

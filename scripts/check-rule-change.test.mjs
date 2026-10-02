@@ -29,8 +29,9 @@ import { fileURLToPath } from "node:url";
 const ENTRYPOINT = fileURLToPath(
   new URL("./check-rule-change.mjs", import.meta.url),
 );
-const PROPAGATION = "repo-governance/workflows/rules/rules-propagation.md";
-const HARNESS = "repo-governance/workflows/harness-alignment.md";
+const PROPAGATION = "repo-governance/workflows/quality/rules-propagation.md";
+const HARNESS =
+  "repo-governance/workflows/quality/harness-parity-verification.md";
 
 // The variables Git exports to a hook. Removing them is what makes `cwd` the
 // only thing that decides which repository a child reads.

@@ -24,8 +24,8 @@ technical shape is a single file, and five files plus one directory when it is a
 
 ## What Each Document Owns
 
-**`README.md`** is the first file the [plan quality gate](../../workflows/plan-quality-gate.md) reads for scope, so name
-the affected projects explicitly rather than describing them.
+**`README.md`** is the first file the [plan quality gate](../../workflows/quality/plan-quality-gate.md) reads for scope,
+so name the affected projects explicitly rather than describing them.
 
 **`brd.md`** carries the business rationale. In a personal repository the "business" is the owner's own goals, so write
 real reasoning and label a judgment call as one. Never invent a metric to fill a heading.

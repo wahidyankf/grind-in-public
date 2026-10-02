@@ -9,17 +9,18 @@ import path from "node:path";
 
 // The procedure every rule change must follow. The notice points at it rather
 // than restating its steps, so the workflow stays the one source.
-export const WORKFLOW = "repo-governance/workflows/rules/rules-propagation.md";
+export const WORKFLOW =
+  "repo-governance/workflows/quality/rules-propagation.md";
 
 // Proves the harnesses stayed equal after a change to one of them. A harness
 // change is also a rule change, so both workflows can apply at once.
 export const HARNESS_WORKFLOW =
-  "repo-governance/workflows/harness-alignment.md";
+  "repo-governance/workflows/quality/harness-parity-verification.md";
 
 // The paths a harness reads: the agent instruction files, each tool's
 // configuration, and the directories holding its subagents, skills, and
 // commands. Changing one of them can leave the harnesses unequal, which is
-// what the alignment workflow checks.
+// what the parity verification workflow checks.
 const harnessFiles = ["AGENTS.md", "CLAUDE.md", "opencode.json"];
 const harnessDirectories = [".claude", ".codex", ".opencode", ".agents"];
 

@@ -31,8 +31,8 @@ It depends on everything else. Written first, it becomes a checklist for a plan 
 the plan is then reverse-engineered to justify it.
 
 A phase that changes what a README, documentation page, or specification describes also carries a
-[Docs Propagation](../../../repo-governance/workflows/docs-propagation.md) item, landing in the same commit as the
-change.
+[Docs Propagation](../../../repo-governance/workflows/quality/docs-propagation.md) item, landing in the same commit as
+the change.
 
 ## Granularity Is the Hard Part
 

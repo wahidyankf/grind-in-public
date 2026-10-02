@@ -39,6 +39,6 @@ happened. Add a path to `Paths` before its first edit, not after, since the head
 ## Closing
 
 When the work lands on `origin/main` or is abandoned, set `Status` accordingly; the
-[dev artifact clean-up](../../workflows/dev-artifact-clean-up.md) then removes the ledger with the rest of this work's
-scratch. An `active` ledger left by a crashed session is reclaimed only as that workflow describes, never by another
-task deciding it looks stale.
+[dev artifact clean-up](../../workflows/maintenance/dev-artifact-clean-up.md) then removes the ledger with the rest of
+this work's scratch. An `active` ledger left by a crashed session is reclaimed only as that workflow describes, never by
+another task deciding it looks stale.

@@ -56,7 +56,7 @@ or success-sentinel branches for exempt scenarios.
 applicable adapter. It must reject undefined, ambiguous, duplicate, and unused bindings; invalid exemptions; missing
 alternative proof; adapter corpus drift; and direct non-Gherkin E2E specs. Discovery and diagnostics are stable and
 sorted. Static compliance is read-only, network-free, and cannot replace runtime registration or the
-[Gherkin implementation review](../workflows/gherkin-implementation-review.md).
+[Gherkin implementation review](../workflows/quality/gherkin-implementation-review.md).
 
 Godog remains the runtime for Go behaviour. Each Go adapter registers Given, When, and Then directly on
 `*godog.ScenarioContext`. TypeScript adapters use their project runner but obey the same exact-corpus, binding,

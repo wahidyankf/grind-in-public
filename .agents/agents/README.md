@@ -7,10 +7,7 @@ adapters contain only native metadata and a route to one definition here.
 
 - [`drill-reviewer.md`](drill-reviewer.md) — reviews a completed owner-solved drill without supplying a solution.
 - [`repo-explorer.md`](repo-explorer.md) — locates repository evidence without changing repository state.
-- [`plan-maker.md`](plan-maker.md) — authors a formal plan end to end and repairs its own draft within a declared
-  budget.
-- [`plan-checker.md`](plan-checker.md) — audits a frozen draft and returns findings with a terminal verdict, changing
-  nothing.
+- [`plan-maker.md`](plan-maker.md) — authors a formal plan end to end and runs both decision gates.
 - [`plan-execution-checker.md`](plan-execution-checker.md) — audits finished execution in fixed order and returns the
   verdict archival depends on.
 - [`swe-code-maker.md`](swe-code-maker.md) — builds a project's behaviour test-first under the adopted standards and the
@@ -20,5 +17,19 @@ adapters contain only native metadata and a route to one definition here.
 - [`swe-code-fixer.md`](swe-code-fixer.md) — re-validates code checker findings and applies only the high-confidence
   ones, test first where a fix needs a test.
 
-There is no plan-fixer. The maker repairs its own work, because a separate fixer would let the checker hand off a
-finding and consider itself finished.
+Each quality-gate family has one read-only checker and one fixer that executes its propagation, per the
+[Quality Gate Contract](../../repo-governance/development/workflow/quality-gate-contract.md):
+
+- [`plan-checker.md`](plan-checker.md) and [`plan-fixer.md`](plan-fixer.md) — a plan draft.
+- [`docs-checker.md`](docs-checker.md) and [`docs-fixer.md`](docs-fixer.md) — human-facing documents.
+- [`rules-checker.md`](rules-checker.md) and [`rules-fixer.md`](rules-fixer.md) — the repository's rules.
+- [`harness-checker.md`](harness-checker.md) and [`harness-fixer.md`](harness-fixer.md) — drift from each harness's
+  upstream conventions.
+- [`ci-checker.md`](ci-checker.md) and [`ci-fixer.md`](ci-fixer.md) — test targets, hooks, and hosted workflows.
+- [`pr-review-checker.md`](pr-review-checker.md) and [`pr-review-fixer.md`](pr-review-fixer.md) — one commit range.
+- [`specs-checker.md`](specs-checker.md) and [`specs-fixer.md`](specs-fixer.md) — specification folders.
+- [`ui-web-checker.md`](ui-web-checker.md) and [`ui-web-fixer.md`](ui-web-fixer.md) — a running web interface.
+- [`api-http-checker.md`](api-http-checker.md) and [`api-http-fixer.md`](api-http-fixer.md) — a running HTTP interface.
+
+The plan maker authors and the plan fixer repairs only the rows of a frozen ledger, so each audit stays independent of
+the repair before it.

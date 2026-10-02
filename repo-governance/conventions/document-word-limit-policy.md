@@ -31,8 +31,8 @@ line instead of many. The [documentation index policy](../documentation-index-po
 do to fit.
 
 The deterministic repository gate reports the breach. The read-only
-[rules quality gate](../workflows/rules-quality-gate.md) consumes that finding, and Rules Propagation performs any
-required relocation without dropping unique intent.
+[rules quality gate](../workflows/quality/rules-quality-gate.md) consumes that finding, and Rules Propagation performs
+any required relocation without dropping unique intent.
 
 ## Verification
 

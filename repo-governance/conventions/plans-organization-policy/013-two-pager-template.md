@@ -34,5 +34,5 @@ solution.
 Two pages is the point. An idea that needs five pages to be understood is a plan wearing an idea's clothes: promote it
 and write the six documents, or cut it until the core argument stands alone.
 
-The [plan quality gate](../../workflows/plan-quality-gate.md) reads these sections directly; no harness copy is
+The [plan quality gate](../../workflows/quality/plan-quality-gate.md) reads these sections directly; no harness copy is
 maintained.

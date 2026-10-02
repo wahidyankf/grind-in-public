@@ -1,0 +1,59 @@
+---
+tldr: "Executes a plan phase by phase, delivering to main at each gate, then archives it."
+when_to_use: "Use when starting or resuming execution of a plan under plans/."
+---
+
+# Plan Execution
+
+## Purpose
+
+Execute a plan's `delivery.md` phase by phase until every item is ticked, every gate has passed, and the plan is
+archived in `plans/done/`.
+
+## When to Use
+
+Use it when a plan is ready to run. Resuming an interrupted plan uses this workflow too, starting from
+[resuming](plan-execution/004-finalization.md#resuming).
+
+## Prerequisites
+
+Require a current verdict from an explicitly owner-directed [plan-quality-gate](../quality/plan-quality-gate.md) run.
+Any of the four verdicts lets execution start once each open blocking row of a `FAIL` or `BLOCKED` verdict has an owner.
+Execution authority does not authorize that gate. For a bug-fix plan, the adopted
+[upstream tool defects](../../development/upstream-tool-defects.md) standard is that direction. If no verdict is
+recorded, stop without starting or rerunning the gate. The plan sits in `plans/in-progress/`: move it out of `backlog/`,
+update both indexes, and push that move only when authorized before running any checklist item, per the
+[lifecycle rules](../../conventions/plans-organization-policy/002-lifecycle-moves.md).
+
+## Steps
+
+1. [Materialize the checklist into the harness task list](plan-execution/001-task-list-sync.md), one task per checkbox.
+2. Run Phase 0 and record the baseline: dependencies installed, gates green before anything changes.
+3. [Work the current phase](plan-execution/002-phase-loop.md) item by item, in checklist order, ticking each only after
+   its change exists.
+4. [Pass the phase gate, then deliver](plan-execution/003-gates-and-pushes.md) to `main` only when commit and push are
+   separately authorized. Do not begin the next phase while a gate or required delivery item fails.
+5. Repeat until the last delivery phase is complete.
+6. [Run Knowledge Capture and the execution check, then archive](plan-execution/004-finalization.md) the plan to
+   `plans/done/`. The execution check alone closes the plan; the plan-quality-gate is not re-run at the end.
+
+## Verification
+
+```sh
+rtk npm test
+rtk npm run format:check
+rtk npm run check:markdown-links
+```
+
+Execution is complete when every checkbox is ticked, every gate passed, every `learnings.md` entry reached a terminal
+state, and the plan folder sits in `plans/done/` with a completion-date prefix and both indexes updated.
+
+## Recovery
+
+A failing gate is fixed inside its own phase, never by continuing. If the fix changes the approach, stop and amend the
+plan through [plan-planning](plan-planning.md), then require explicit owner direction for a fresh
+[plan-quality-gate](../quality/plan-quality-gate.md) run before resuming. Execution never authorizes that run.
+
+If a step turns out to be impossible, do not tick it and do not silently drop it. Record what blocked it in
+`learnings.md`, mark the item blocked in `delivery.md` with one line of explanation, and finish every item that does not
+depend on it.

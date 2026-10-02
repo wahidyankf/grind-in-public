@@ -1,0 +1,49 @@
+---
+tldr: "Covers the Knowledge Capture phase, archival to done/, and resuming a stopped plan."
+when_to_use: "Use when a plan's delivery phases are complete, or when resuming an interrupted plan."
+---
+
+# Finalization
+
+## Knowledge Capture
+
+The last phase before archival triages `learnings.md`. Every entry is routed to exactly one durable home — a governance
+rule, a document, a subagent instruction, code, a test, or a new two-pager — or discarded with a one-line reason. Both
+safety checks run first: no secret leaves the plan, and the lesson generalizes beyond this one incident. The
+[knowledge capture rules](../../../conventions/plans-organization-policy/009-knowledge-capture-and-archival.md) hold the
+full routing.
+
+Routing a rule into `repo-governance/` automatically triggers the
+[rules-propagation](../../quality/rules-propagation.md) workflow, and touching a harness path triggers
+[harness-parity-verification](../../quality/harness-parity-verification.md) as well.
+
+Archival is blocked until every entry is terminal, or the plan records `No generalizable learnings — <reason>`.
+
+## Archival
+
+1. Require explicit owner direction for a [plan-execution-check](../plan-execution-check.md) run; for a bug-fix plan,
+   the adopted [upstream tool defects](../../../development/upstream-tool-defects.md) standard directs that run and the
+   archival. The check alone closes the plan; the plan-quality-gate judges plans, not delivered work, and is never
+   re-run here. Continue only on a verdict that permits archival; never start that run from this workflow otherwise.
+   Reconcile every acceptance criterion, specification, README, gate, learning, and conditional task with the delivered
+   system.
+2. Record a dated, evidence-backed `Not triggered` disposition for every dormant recovery task.
+3. Refuse an existing `plans/done/YYYY-MM-DD__<identifier>/` destination; rename the folder with the completion date and
+   move it there only once.
+4. Update maps, resolve archived internal links directly, and confirm the source is absent. Commit and push the move
+   only under separate authorization.
+
+## Resuming
+
+A plan resumed in a new session starts from the repository, not from memory:
+
+1. Read `delivery.md` and find the first unticked item.
+2. Check the Git log and the working tree against the ticked items above it. A ticked item whose change does not exist
+   is unticked and re-run.
+3. Rebuild the harness task list for the current phase only.
+
+## Reopening
+
+If a defect appears after archival, move the folder back to `in-progress/`, strip the date prefix, add a dated note in
+`README.md` explaining what broke, and execute the fix as a new phase. Editing a `done/` plan in place erases the
+history that makes the archive worth keeping.

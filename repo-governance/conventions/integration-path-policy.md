@@ -14,9 +14,9 @@ push remain separate owner-authorized actions under the [commit hook policy](../
 policy chooses the route and grants neither permission.
 
 With no pull request to review before a commit reaches `origin/main`, the
-[push leak review](../workflows/push-leak-review.md) of each outgoing commit is required before every push, including a
-push retried after the merge below. The pre-push hook screens the pushed range commit by commit, and a hosted leak
-screen replays it on `main` afterwards; neither replaces the review.
+[push leak review](../workflows/quality/push-leak-review.md) of each outgoing commit is required before every push,
+including a push retried after the merge below. The pre-push hook screens the pushed range commit by commit, and a
+hosted leak screen replays it on `main` afterwards; neither replaces the review.
 
 Other tasks share the same local `main`, working tree, and index; stage, commit, and push only this task's work, as
 [concurrent ownership](task-tracking-policy/concurrent-ownership.md) requires.
@@ -29,8 +29,8 @@ uncommitted edits, and its autostash would move them. If the merge refuses or co
 `main` is the only persistent development branch. If an external tool creates a temporary branch or worktree for a
 non-integration purpose, place it only at `{repository location}/worktrees/<task>`, give it one explicit purpose, and
 remove it immediately after that purpose completes or is abandoned, following
-[dev artifact clean-up](../workflows/dev-artifact-clean-up.md). A sibling `*-worktrees/` path is forbidden. Never retain
-the worktree as undeclared backlog or use it to bypass the direct-main route.
+[dev artifact clean-up](../workflows/maintenance/dev-artifact-clean-up.md). A sibling `*-worktrees/` path is forbidden.
+Never retain the worktree as undeclared backlog or use it to bypass the direct-main route.
 
 ## Promotion Exception
 

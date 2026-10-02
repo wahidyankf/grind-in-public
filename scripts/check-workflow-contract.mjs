@@ -4,9 +4,9 @@ import { validateWorkflowContract } from "./workflow-contract.mjs";
 
 const workspaceRoot = new URL("../", import.meta.url);
 const paths = {
-  planGate: "repo-governance/workflows/plan-quality-gate.md",
-  propagation: "repo-governance/workflows/rules/rules-propagation.md",
-  rulesGate: "repo-governance/workflows/rules-quality-gate.md",
+  planGate: "repo-governance/workflows/quality/plan-quality-gate.md",
+  propagation: "repo-governance/workflows/quality/rules-propagation.md",
+  rulesGate: "repo-governance/workflows/quality/rules-quality-gate.md",
   taskTracking: "repo-governance/conventions/task-tracking-policy.md",
   tdd: "repo-governance/development/tdd-policy.md",
 };

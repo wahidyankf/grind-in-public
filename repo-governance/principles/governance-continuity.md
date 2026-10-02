@@ -14,6 +14,7 @@ bounded gate, reset its cycle counter, reopen a resolved finding, or infer new a
 changed.
 
 A material input or repository-state change that invalidates a frozen snapshot ends the current gate with its defined
-`BLOCKED_INPUT_CHANGED` result. Resume only when new input or authority starts a fresh invocation.
+input-changed result, such as a quality gate's `BLOCKED` (input-changed). Resume only when new input or authority starts
+a fresh invocation.
 
 Task tracking records current execution state but never grants commit, push, deployment, or destructive authority.

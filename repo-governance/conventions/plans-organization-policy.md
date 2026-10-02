@@ -62,5 +62,5 @@ phase ends, its gate passes, and separately authorized commit and push actions d
 ## Verification
 
 `plans/` is outside `repo-governance/`, so no word limit applies to a plan. Repository checks still validate its tracked
-Markdown links and required indexes. The [plan quality gate](../workflows/plan-quality-gate.md) owns semantic review and
-bounded repairs, then consumes those deterministic results before returning `PASS`.
+Markdown links and required indexes. The [plan quality gate](../workflows/quality/plan-quality-gate.md) owns semantic
+review and bounded repairs, and runs those deterministic checks as its entry and exit check.

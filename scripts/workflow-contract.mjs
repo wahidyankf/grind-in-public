@@ -1,26 +1,21 @@
+// Each gate keeps the bounded, advisory contract: explicit entry, a cycle
+// ceiling of 3, the four verdicts, and a caller that is never stopped. The
+// rules writer keeps automatic entry and leaves delivery to its caller.
+const gate = [
+  "The gate starts only on an explicit owner request",
+  "| `max-cycles` | integer | 1, 2, or 3 |",
+  "PASS_WITH_FINDINGS",
+  "No verdict stops the caller",
+];
+
 const required = {
-  planGate: [
-    "Run only when the owner explicitly",
-    "cycle `2`",
-    "BLOCKED_NON_CONVERGENT",
-    "authorizes neither execution nor commit/push",
-  ],
+  planGate: gate,
   propagation: [
-    "sole writer, never invokes the quality gate",
-    "strictly decreases",
-    "PASS_NO_CHANGE",
-    "PASS_CHANGED",
-    "BLOCKED_INPUT",
-    "BLOCKED_CONFLICT",
-    "BLOCKED_TOOLING",
-    "BLOCKED_INPUT_CHANGED",
+    "This is the `rules` family's sole writer",
+    "Entry is automatic",
+    "The run never commits",
   ],
-  rulesGate: [
-    "Run only when the owner explicitly",
-    "NEEDS_PROPAGATION",
-    "never ends blocked",
-    "never ends blocked, repairs rules, reruns itself",
-  ],
+  rulesGate: gate,
   taskTracking: [
     "separate RED, GREEN, and REFACTOR items",
     "expected behavioural RED reason",
@@ -34,9 +29,21 @@ const required = {
   ],
 };
 
+// Results and inputs of the retired unbounded and recursive gate models.
+const legacy = [
+  "PASS_READY",
+  "BLOCKED_SEMANTIC",
+  "BLOCKED_NON_CONVERGENT",
+  "NEEDS_PROPAGATION",
+  "max-iterations",
+  "max-audits",
+  "min-iterations",
+];
+
 const forbidden = {
-  propagation: ["PASS_READY", "BLOCKED_SEMANTIC", "BLOCKED_NON_CONVERGENT"],
-  rulesGate: ["PASS_READY", "BLOCKED_SEMANTIC", "BLOCKED_NON_CONVERGENT"],
+  planGate: legacy,
+  propagation: legacy,
+  rulesGate: legacy,
 };
 
 /** Validates stable, machine-decidable tokens in semantic workflow contracts. */

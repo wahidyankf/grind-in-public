@@ -51,6 +51,8 @@ only the policy that matches the work at hand:
 - [Upstream Tool Defects](upstream-tool-defects.md) for handling a defect in a pinned upstream tool: report it at its
   owner, and fix there only one that blocks with no workaround.
 - [Workspace Commands](workspace-commands.md) for the canonical command, check, and hook reference.
+- [Workflow Contracts](workflow/README.md) for the quality-gate and sole-writer contracts every gate and propagation
+  follows, with this repository's adapter.
 
 Foundational principles remain in [`../principles/`](../principles/README.md), and repeatable procedures remain in
 [`../workflows/`](../workflows/README.md).

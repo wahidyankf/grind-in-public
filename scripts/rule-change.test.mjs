@@ -27,8 +27,9 @@ async function load() {
   return import("./rule-change.mjs");
 }
 
-const PROPAGATION = "repo-governance/workflows/rules/rules-propagation.md";
-const HARNESS = "repo-governance/workflows/harness-alignment.md";
+const PROPAGATION = "repo-governance/workflows/quality/rules-propagation.md";
+const HARNESS =
+  "repo-governance/workflows/quality/harness-parity-verification.md";
 
 test("selects a staged governance path as a rule change", async () => {
   const { rulePaths } = await load();

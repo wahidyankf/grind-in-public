@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.8.0/schemas/repo-config/v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.9.0/schemas/repo-config/v2.schema.json
 schema: rhino/repo-config/v2
 
 repository: {}
@@ -164,7 +164,7 @@ harness:
 policies:
   markdown:
     internal-link:
-      exclude-sources: ["specs/fixtures/**"]
+      exclude-sources: ["specs/fixtures/**", "plans/done/**"]
     mermaid:
       authoring-rule: plain-text
       node-label-graphemes: 32
@@ -185,6 +185,37 @@ policies:
         - { glob: ".opencode/README.md", fail: 750 }
     directory-map:
       trees: []
+    quality-gates:
+      root: repo-governance/workflows
+      agents: .agents/agents
+      groups: [plan, quality, maintenance]
+      gate-group: quality
+      gate-headings:
+        [
+          Entry,
+          Inputs,
+          Deterministic Boundary,
+          Cycle,
+          Termination,
+          Verdict,
+          Ledger,
+        ]
+      verdict-heading: Verdict
+      verdicts: [PASS, PASS_WITH_FINDINGS, FAIL, BLOCKED]
+      retired-inputs: [max-iterations, min-iterations, max-audits]
+      propagation-headings:
+        [Contract, Scope, Executor, Row Verification, Family Rules]
+      defaults: { mode: normal, max-cycles: 3 }
+      gates:
+        - { family: plan }
+        - { family: docs }
+        - { family: rules }
+        - { family: harness }
+        - { family: ci }
+        - { family: pr-review }
+        - { family: specs }
+        - { family: ui-web, subject: apps/wahidyankf-www }
+        - { family: api-http, subject: apps/forum-be-python }
 
 extensions:
   # Owner: repo-governance/development/quality/stacks/repository-adapter.md
@@ -306,6 +337,17 @@ gates:
           [
             { literal: governance },
             { literal: word-budget },
+            { literal: validate },
+          ]
+      run-on: { main: {} }
+    - id: quality-gates
+      type: check
+      command:
+        executable: ./rhino
+        args:
+          [
+            { literal: governance },
+            { literal: quality-gates },
             { literal: validate },
           ]
       run-on: { main: {} }

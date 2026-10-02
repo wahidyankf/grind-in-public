@@ -10,7 +10,7 @@ when_to_use: "Use when writing a rule, or when judging how strongly an existing 
 This policy defines what a rule is and how strongly it binds. The
 [rule change trigger policy](../development/rule-change-trigger-policy.md) owns which _paths_ carry rules and what a
 change to one announces; this policy owns what makes a _sentence_ one. Both feed the
-[rules propagation](../workflows/rules/rules-propagation.md) workflow, which integrates the rule once it exists.
+[rules propagation](../workflows/quality/rules-propagation.md) workflow, which integrates the rule once it exists.
 
 ## What a Rule Is
 
@@ -47,5 +47,5 @@ restating it, so strength cannot drift between the copy and the original.
 ## Verification
 
 No automated check reads a sentence for strength. Run the read-only
-[rules quality gate](../workflows/rules-quality-gate.md) only on explicit owner direction; its non-passing ledger hands
-off to propagation, which owns every repair and blocker.
+[rules quality gate](../workflows/quality/rules-quality-gate.md) only on explicit owner direction; its non-passing
+ledger hands off to propagation, which owns every repair and blocker.

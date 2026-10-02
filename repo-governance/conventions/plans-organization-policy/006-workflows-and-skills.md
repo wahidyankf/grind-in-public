@@ -46,8 +46,8 @@ for one concern, the workflow says what happens next and the skill says how to d
 other.
 
 Skills live under `.agents/skills/` and agents under `.agents/agents/`, each with generated per-harness adapters; the
-[harness-alignment](../../workflows/harness-alignment.md) workflow owns keeping those adapters true to the canonical
-definition.
+[harness-parity-verification](../../workflows/quality/harness-parity-verification.md) workflow owns keeping those
+adapters true to the canonical definition.
 
 ## Decision Gates
 
@@ -66,5 +66,7 @@ When a capability is retired or renamed, the old name is removed rather than ali
 discoverable, and a repository whose corpus still names it will keep routing work to something that no longer exists.
 Every retirement names the replacement owner explicitly, so the behaviour has somewhere to go.
 
-There is no plan-fixer role. Repair belongs to the workflow that found the fault, inside its own bounded repair budget;
-a separate fixer would let a gate hand off a finding and consider itself finished.
+The plan maker authors and the plan fixer repairs. When the
+[plan quality gate](../../workflows/quality/plan-quality-gate.md) hands over blocking findings, `plan-fixer` runs
+[Plan Propagation](../../workflows/quality/plan-propagation.md), repairing only the rows of the frozen ledger, and the
+gate ends on a verdict within three cycles rather than waiting for an empty report.

@@ -58,7 +58,7 @@ the Bug Report's expected behaviour where another plan cites an acceptance ident
   under an adopted [Upstream Tool Defects](../../development/upstream-tool-defects.md) standard, or when the owner asks.
   That standing request also directs its plan quality gate, its execution, its release, its plan execution check, and
   its archival: once the plan lands, run the gate on it, execute on a passing verdict, release the fix once its tests
-  pass, then run the [plan execution check](../../workflows/plan-execution-check.md) and archive on a verdict that
+  pass, then run the [plan execution check](../../workflows/plan/plan-execution-check.md) and archive on a verdict that
   permits it, without a further prompt.
 
 Every other plan rule holds: slug rules, one root, executor labels, no time estimates, the

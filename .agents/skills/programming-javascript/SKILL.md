@@ -14,7 +14,7 @@ Every JavaScript rule is owned by
 [JavaScript Standards](../../../repo-governance/development/quality/stacks/javascript-standards.md).
 [Test-Driven Development](../../../repo-governance/development/tdd-policy.md) and
 [Test Boundaries and Gates](../../../repo-governance/development/quality-gates.md) govern tests and gates,
-[Red, Green, Refactor](../../../repo-governance/workflows/red-green-refactor.md) runs each cycle, and
+[Red, Green, Refactor](../../../repo-governance/workflows/quality/red-green-refactor.md) runs each cycle, and
 [Developing Applications](../developing-applications/SKILL.md) carries the judgement that holds in every language. This
 skill adds only the procedure and judgement of applying them in JavaScript. Where a sentence here seems to state a rule,
 the standard decides.

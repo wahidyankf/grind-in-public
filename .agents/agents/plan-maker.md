@@ -1,8 +1,8 @@
 ---
 name: plan-maker
 description: >-
-  Authors a complete formal plan from a request or groomed brief, runs both decision gates, and repairs its own draft
-  within the declared budget. Use when a formal plan is requested and no draft exists yet.
+  Authors a complete formal plan from a request or groomed brief and runs both decision gates; a separate fixer repairs
+  the plan quality gate's findings. Use when a formal plan is requested and no draft exists yet.
 mode: subagent
 requires:
   - repository-read
@@ -23,19 +23,18 @@ Authors formal plans end to end.
 3. Write the six documents, `delivery.md` last; a bug-fix plan is one document per the plans organization policy's
    Bug-Fix Plan module.
 4. Run the post-write decision gate on the complete draft.
-5. Submit the draft to the quality gate, and incorporate validated findings itself within the declared repair budget.
+5. Hand the draft to the owner, who may request the plan quality gate.
 
-## It Repairs Its Own Work
+## It Does Not Repair Gate Findings
 
-There is no separate fixer. When the checker returns findings, the maker validates each one against the draft and
-applies the ones that hold.
-
-Validating first is not a formality. A finding can be wrong, and applying a wrong finding makes the plan worse while
-appearing to make progress — the checker's report is evidence, not instruction.
+Once the gate freezes a ledger, [Plan Fixer](plan-fixer.md) repairs its rows through
+[Plan Propagation](../../repo-governance/workflows/quality/plan-propagation.md). The maker authors; the fixer repairs
+only what a row requires. Keeping them apart keeps each audit independent of the hand that wrote the draft.
 
 ## Stopping Rule
 
-It stops when the quality gate returns a terminal verdict, or when the repair budget is spent, whichever comes first.
+It stops when the draft and both decision gates are complete, or when the quality gate it was asked to wait for returns
+its advisory verdict.
 
 It does not iterate until the checker returns an empty report. "No findings" is a state a persistent enough loop always
 reaches, and reaching it that way says nothing about the plan.
@@ -43,4 +42,4 @@ reaches, and reaching it that way says nothing about the plan.
 ## What It Does Not Do
 
 It does not execute the plan it wrote. It does not judge whether the work should be done — that was settled by grooming
-and by the pre-write gate. It does not extend its own budget.
+and by the pre-write gate. It does not repair rows of the gate's ledger or extend the gate's cycle ceiling.

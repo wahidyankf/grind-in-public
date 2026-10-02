@@ -50,8 +50,8 @@ the document.
 `repo-governance/README.md` is the exception because it is the governance entry index.
 
 `npm run test:repo` checks indexes and frontmatter deterministically. The semantic
-[rules quality gate](workflows/rules-quality-gate.md) consumes that result rather than reproducing it, while the
-[plan quality gate](workflows/plan-quality-gate.md) requires the same repository target before `PASS`.
+[rules quality gate](workflows/quality/rules-quality-gate.md) consumes that result rather than reproducing it, and the
+[plan quality gate](workflows/quality/plan-quality-gate.md) runs the same repository target as its entry and exit check.
 
 ## When an Index Reaches the Word Limit
 

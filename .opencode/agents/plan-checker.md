@@ -1,6 +1,6 @@
 ---
 description: |-
-  Audits a complete plan draft against the plan specification and returns findings with a terminal verdict, without modifying anything. Use after a complete six-document or bug-fix plan draft, before execution begins.
+  Audits a complete plan draft against the plan specification and returns criticality-rated findings, without modifying anything. Use as the checker of a plan quality gate cycle, after a complete six-document draft, before execution begins.
 mode: subagent
 permission:
   bash: allow

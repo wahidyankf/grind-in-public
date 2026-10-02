@@ -34,8 +34,8 @@ ranks with the document it splits, because it holds that document's own detail r
 The order exists so that most conflicts settle without a round trip. When two documents at different levels disagree,
 the higher one stands and the lower one changes: that resolution is mechanical, and an agent performs it. When they sit
 at the same level, nothing ranks them, so choosing between them is a decision only the owner can make.
-[Conflict resolution](../workflows/rules/rules-propagation/003-conflict-resolution.md) owns both paths and states what
-each one requires.
+[Conflict and Overlap](../workflows/quality/rules-propagation/001-statement-and-conflict.md#conflict-and-overlap) owns
+both paths and states what each one requires.
 
 Precedence settles which document changes. It never settles whether a rule is right: a higher-level document that is
 wrong is amended deliberately, not worked around by an exception written below it.

@@ -21,13 +21,14 @@ implementation and release specifications stay upstream. For CV work, read
 
 ## Rule Changes and Audience
 
-Rule-path automation triggers the [`rules-propagation` workflow](repo-governance/workflows/rules/rules-propagation.md)
+Rule-path automation triggers the [`rules-propagation` workflow](repo-governance/workflows/quality/rules-propagation.md)
 before edits and at pre-commit; follow it without waiting for an owner reminder. A change to what a harness reads also
-requires the [`harness-alignment` workflow](repo-governance/workflows/harness-alignment.md). Run Plan Quality Gate and
-Rules Quality Gate only when the owner explicitly requests the semantic checkpoint; neither planning, execution, review,
-nor propagation grants that authority. Governance is ordered — principles, then conventions, then development policies,
-then workflows — so a cross-level conflict is settled by [precedence](repo-governance/principles/README.md#precedence)
-and only a same-level one reaches the owner. What counts as a rule, and how strongly each wording binds, is the
+requires the [`harness-parity-verification` workflow](repo-governance/workflows/quality/harness-parity-verification.md).
+Run a [quality gate](repo-governance/development/workflow/quality-gate-contract.md) only when the owner explicitly
+requests it; neither planning, execution, review, nor propagation grants that authority. Governance is ordered —
+principles, then conventions, then development policies, then workflows — so a cross-level conflict is settled by
+[precedence](repo-governance/principles/README.md#precedence) and only a same-level one reaches the owner. What counts
+as a rule, and how strongly each wording binds, is the
 [rule definition policy](repo-governance/conventions/rule-definition-policy.md). `README.md` and `docs/` serve people;
 instruction files serve agents; `repo-governance/` serves both. `CLAUDE.md` must defer to this file; see the
 [agent instruction alignment policy](repo-governance/conventions/agent-instruction-alignment-policy.md). Every `docs/`,
@@ -63,9 +64,9 @@ Create plans only on the owner's explicit request or as the
 bug-fix plan has six documents, `tech-docs` among them, and no time estimates, promoted from a quadrant idea through
 `backlog/`, `in-progress/`, and `done/`; see the
 [plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with
-[plan-planning](repo-governance/workflows/plan-planning.md), validate with
-[plan-quality-gate](repo-governance/workflows/plan-quality-gate.md) only at an explicitly requested checkpoint, and run
-with [plan-execution](repo-governance/workflows/plan-execution.md). Plans deliver directly to `main`.
+[plan-planning](repo-governance/workflows/plan/plan-planning.md), validate with
+[plan-quality-gate](repo-governance/workflows/quality/plan-quality-gate.md) only at an explicitly requested checkpoint,
+and run with [plan-execution](repo-governance/workflows/plan/plan-execution.md). Plans deliver directly to `main`.
 
 ## Nx and Coding Conventions
 
@@ -105,5 +106,5 @@ Landing on `main` is not deploying: promoting a commit and cutting a domain over
 [deployment policy](repo-governance/development/deployment-policy.md). Commit and push are separate permissions: the
 [commit hook policy](repo-governance/development/commit-hook-policy.md) owns authorization, public-repository safety,
 attribution, and hook requirements. Every push first passes the
-[push leak review](repo-governance/workflows/push-leak-review.md) of each outgoing commit. Do not commit `node_modules/`
-or unreviewed dependency updates.
+[push leak review](repo-governance/workflows/quality/push-leak-review.md) of each outgoing commit. Do not commit
+`node_modules/` or unreviewed dependency updates.

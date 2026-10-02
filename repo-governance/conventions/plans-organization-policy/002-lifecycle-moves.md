@@ -14,9 +14,10 @@ ideas/ --promote--> backlog/ --start--> in-progress/ --complete--> done/
 ```
 
 **Promoting an idea.** After the owner explicitly requests a plan and its open questions are answered, create
-`plans/backlog/<slug>/`, author the required documents through the [plan-planning](../../workflows/plan-planning.md)
-workflow, delete the idea file, and update both maps. Promotion is authorship, not renaming: the brief is the input to
-writing the plan, and its prior art and non-goals carry into `brd.md` rather than being rewritten from scratch.
+`plans/backlog/<slug>/`, author the required documents through the
+[plan-planning](../../workflows/plan/plan-planning.md) workflow, delete the idea file, and update both maps. Promotion
+is authorship, not renaming: the brief is the input to writing the plan, and its prior art and non-goals carry into
+`brd.md` rather than being rewritten from scratch.
 
 **Starting work.** Move the folder from `backlog/<slug>/` to `in-progress/<slug>/`, update both stage READMEs, and —
 when separately authorized — commit and push the move before executing any checklist item, so the repository states what
@@ -28,7 +29,7 @@ brief again.
 
 **Completing work.** Run the Knowledge Capture phase; see
 [Knowledge Capture and Archival](009-knowledge-capture-and-archival.md). Then require explicit owner direction for a
-[plan execution check](../../workflows/plan-execution-check.md) run — for a bug-fix plan, the adopted
+[plan execution check](../../workflows/plan/plan-execution-check.md) run — for a bug-fix plan, the adopted
 [upstream tool defects](../../development/upstream-tool-defects.md) standard directs that run and the archival — and
 continue only on a verdict that permits archival, reconciling every acceptance criterion, specification, README, gate,
 learning, and conditional task with the delivered system. The execution check alone closes a plan; the quality gate
@@ -55,5 +56,5 @@ Every directory recursively under `plans/`, including each technical and asset d
 discoverable. A move updates its source and destination maps in the same change, so no index describes an artifact that
 moved.
 
-The [plan quality gate](../../workflows/plan-quality-gate.md) reads these canonical moves and verifies both the
+The [plan quality gate](../../workflows/quality/plan-quality-gate.md) reads these canonical moves and verifies both the
 stage-aware naming rule and this index requirement directly; no harness copy is maintained.

@@ -43,7 +43,8 @@ exactly one owner:
 
 One owner, not several. An entry copied into three places creates three things that can drift, and no rule for which is
 authoritative when they do. A governance entry is integrated through the automatically triggered
-[rules-propagation](../../workflows/rules/rules-propagation.md) workflow rather than written straight into a rule file.
+[rules-propagation](../../workflows/quality/rules-propagation.md) workflow rather than written straight into a rule
+file.
 
 Before routing, every surviving entry passes two checks: it holds no secret or sensitive detail, and it is relevant to
 this repository rather than to one incident. A silent deletion is not a discard, because the next person to discover the
