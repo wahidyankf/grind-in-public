@@ -57,9 +57,10 @@ the Bug Report's expected behaviour where another plan cites an acceptance ident
 - **[Authorization](../plans-organization-policy.md#when-a-plan-is-allowed):** it needs no separate request when written
   under an adopted [Upstream Tool Defects](../../development/upstream-tool-defects.md) standard, or when the owner asks.
   That standing request also directs its plan quality gate, its execution, its release, its plan execution check, and
-  its archival: once the plan lands, run the gate on it, execute on a passing verdict, release the fix once its tests
-  pass, then run the [plan execution check](../../workflows/plan/plan-execution-check.md) and archive on a verdict that
-  permits it, without a further prompt.
+  its archival: once the plan lands, run the gate on it, execute once its verdict is recorded and every open blocking
+  row has an owner, release the fix once its tests pass, then run the
+  [plan execution check](../../workflows/plan/plan-execution-check.md) and archive on a verdict that permits it, without
+  a further prompt.
 
 Every other plan rule holds: slug rules, one root, executor labels, no time estimates, the
 [execution record](012-execution-record.md), knowledge capture, and archival.

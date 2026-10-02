@@ -41,10 +41,11 @@ surprised the same way; its fix may be documentation.
    prior art. Land it through the owner's route, then resume on the workaround.
 5. **Only when the defect blocks the work in hand and no workaround exists, fix it.** Write a
    [bug-fix plan](../conventions/plans-organization-policy/018-bug-fix-plan.md) in the owning repository, researching
-   the cause and the solution and citing every source. Land the plan alone on the owner's trunk through its route first,
-   run the plan quality gate on it, and on a passing verdict execute it through the owner's delivery, regression test
-   first. Once its regression test and the owner's full release gate pass on the exact revision, release the fix through
-   the owner's Release Cut without a further prompt, skipping no step, and repin every consumer.
+   cause and solution, citing every source. Land the plan alone on the owner's trunk through its route first, run its
+   plan quality gate, and once its verdict is recorded and every open blocking row has an owner, execute it through the
+   owner's delivery, regression test first. Once its regression test and the owner's full release gate pass on the exact
+   revision, release the fix through the owner's Release Cut without a further prompt, skipping no step, and repin every
+   consumer.
 
 A workaround is any route to the current work's outcome that does not edit the tool or its pin: another option or
 command, a documented manual step, or a retry that reliably succeeds. It is recorded beside the link or brief so the
@@ -55,9 +56,9 @@ A security defect skips every public step and goes through the owner's private s
 ## Relationship to Root Cause Orientation
 
 This is [Root Cause Orientation](../principles/root-cause-orientation.md) applied across a repository boundary: the
-cause lives in the owner, so the fix does too, and the consumer never carries a local patch or a vendored copy. A defect
-that does not block is reported to its owner with evidence, as that principle requires, and the work that found it
-continues on a workaround, so it stays reviewable.
+cause lives in the owner, so the fix does too, and the consumer carries no local patch or vendored copy. A defect that
+does not block is reported to its owner with evidence, as that principle requires, and the work that found it continues
+on a workaround, so it stays reviewable.
 
 ## Adopter Decision
 
