@@ -7,8 +7,8 @@ when_to_use: "Use before planning, executing, or reviewing any task."
 
 ## Scope
 
-This policy covers the task list kept while work is in progress: when one is required, how small its items must be, and
-when it must be updated. It applies to every supported harness; see the
+This policy covers the task list kept while work is in progress: when one is required, how small its items must be, when
+it must be updated, and how many delegated agents work on it at once. It applies to every supported harness; see the
 [agent harness support policy](agent-harness-support.md), whatever each calls the feature.
 
 ## When a List Is Required
@@ -53,18 +53,15 @@ The list must describe the present, not a plan written once and abandoned:
 
 ## New Direction Mid-Task
 
-New, follow-on, or changed direction reaches the list before it reaches the work. Read it against every open item first:
-some are now wrong, some are superseded, some are unaffected, and the direction usually implies more than one new item.
-Record that reconciliation, then continue.
+New, follow-on, or changed direction reaches the list before it reaches the work: reconcile it against every open item,
+record that reconciliation, then continue. Appending the new work alone is insufficient. See
+[new direction](task-tracking-policy/new-direction.md).
 
-This is not the discovered-work rule above. Discovery is found by the actor and only ever adds to the list; direction is
-given to it and can invalidate items already on it. Only the second can make an open item wrong, so appending the new
-work without re-reading the old is insufficient.
+## Delegated Agents
 
-Acting first and updating afterwards produces a list describing the task as it was requested rather than as it is being
-performed, which is the state the list exists to prevent. The reconciliation is also where a contradiction between old
-and new direction becomes visible; carrying both silently resolves it by accident, and the resolution is never recorded
-as the decision it was.
+At most three delegated agents run at once besides the main thread, counted at any depth, foreground or background, in
+every harness; work beyond the cap waits for one to return. See the
+[delegated agent cap](task-tracking-policy/delegated-agent-cap.md).
 
 ## Concurrent Ownership
 

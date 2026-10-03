@@ -39,8 +39,9 @@ foundational principles without replacing focused development policies or repeat
   governed promotion-branch exception.
 - [Project README Policy](project-readme-policy.md) — the required entry point and impact check for every Nx project.
 - [Task Tracking Policy](task-tracking-policy.md) — how granular a task list must be, when it must be updated, where its
-  `local-tmp/` ledger lives, and how concurrent tasks stay visible to each other. Use it before starting or reviewing
-  any task; its detail lives in [`task-tracking-policy/`](task-tracking-policy/README.md).
+  `local-tmp/` ledger lives, how many delegated agents run at once, and how concurrent tasks stay visible to each other.
+  Use it before starting or reviewing any task; its detail lives in
+  [`task-tracking-policy/`](task-tracking-policy/README.md).
 - [Grilling-With-Options Policy](grilling-with-options-policy.md) — the structured form an agent must use to resolve an
   open decision with the owner. Use it before asking the owner to decide anything; its validation checklist lives in
   [`grilling-with-options-policy/`](grilling-with-options-policy/README.md).
