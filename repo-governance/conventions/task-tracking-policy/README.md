@@ -18,5 +18,5 @@ individually rather than performed in order, and the [document naming policy](..
   at any depth and in every harness, with the rest waiting.
 - [New Direction](new-direction.md) — reconciling new, follow-on, or changed direction against every open item before
   acting on it.
-- [Progress Ledger](progress-ledger.md) — the `local-tmp/` ledger that holds a task's list outside plan execution and
-  lets other tasks see its claimed paths.
+- [Progress Ledger](progress-ledger.md) — the `local-tmp/` ledger that holds a task's list outside plan execution, lets
+  other tasks see its claimed paths, and lets a broken-off session resume.

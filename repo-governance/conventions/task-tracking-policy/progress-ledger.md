@@ -1,5 +1,7 @@
 ---
-tldr: "Keeps each task's list in an ignored local-tmp ledger that every other task on the machine can read."
+tldr:
+  "Keeps each task's list in an ignored local-tmp ledger that every other task on the machine can read and a broken-off
+  session resumes from."
 when_to_use: "Use before starting any task that is not executing a plan, and when finishing or abandoning one."
 ---
 
@@ -33,12 +35,17 @@ Authorization: <commit and push permissions granted, or none>
 Paths: <every repository path this task edits>
 ```
 
-Below it come the task items, kept under the task tracking policy's granularity and sync rules, and a dated log of what
-happened. Add a path to `Paths` before its first edit, not after, since the header is the claim another task reads.
+Below it come the task's goal; every rule decision active for it, such as its route, authorization, placement, or
+enforcement choice; the task items, kept under the task tracking policy's granularity and sync rules; and a dated log of
+what happened. Add a path to `Paths` before its first edit, not after, since the header is the claim another task reads.
+
+The ledger is the task's written progress record: a session that breaks off resumes from it alone. Record each decision
+when it is made and update each item as it resolves, so a resumed session never re-derives either from memory.
 
 ## Closing
 
-When the work lands on `origin/main` or is abandoned, set `Status` accordingly; the
-[dev artifact clean-up](../../workflows/maintenance/dev-artifact-clean-up.md) then removes the ledger with the rest of
-this work's scratch. An `active` ledger left by a crashed session is reclaimed only as that workflow describes, never by
+When the work lands on `origin/main` or is abandoned, set `Status` accordingly. The ledger stays until the whole task
+has ended, delivery and clean-up in every repository it touches included; the
+[dev artifact clean-up](../../workflows/maintenance/dev-artifact-clean-up.md) then removes it with the rest of this
+work's scratch. An `active` ledger left by a crashed session is reclaimed only as that workflow describes, never by
 another task deciding it looks stale.
