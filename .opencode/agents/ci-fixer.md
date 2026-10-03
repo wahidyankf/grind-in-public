@@ -1,6 +1,6 @@
 ---
 description: |-
-  Applies a CI checker's findings to test targets, hooks, and pipeline definitions after re-validating each one, and records what it fixed, disproved, and left for a person. Use as the fixer in a CI quality gate, once a CI checker has returned findings for the current revision.
+  Applies a CI checker's findings to test targets, hooks, and pipeline definitions after re-validating each one, and records what it fixed, disproved, and left for a person.
 mode: subagent
 permission:
   bash: allow
@@ -8,6 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

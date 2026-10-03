@@ -1,5 +1,5 @@
 ---
-description: Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival. Use once every substantive delivery item is terminal and archival is the next step.
+description: Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival.
 mode: subagent
 permission:
   bash: allow
@@ -7,7 +7,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

@@ -7,7 +7,8 @@ when_to_use: "Use when writing or reviewing any checkbox in a plan's delivery.md
 
 `delivery.md` is the executable part of a plan, read literally by an agent that cannot reconstruct omitted details.
 
-The dated log it opens with is a separate artifact; the [execution record](012-execution-record.md) owns it.
+The dated log it opens with, and how results are recorded so an executor with no memory of the plan can resume, belong
+to the [execution record](012-execution-record.md).
 
 ## One Checkbox, One Action
 
@@ -40,6 +41,19 @@ hides several, and the first failure inside it has no checkbox to fail against.
   — the suite exits 0.
 ````
 
+## Deterministic and Executable
+
+**Deterministic proof.** Every checklist item's proof is a deterministic check: a command with its expected exit status
+or output, or a file whose presence or content a command tests. "Holds on read", "looks right", and "satisfy review" are
+not proofs.
+
+**Execution-tier executable.** An agent at the `execution` tier can carry out every item from the plan's own documents,
+without consulting other context or making a policy choice. An item labelled `[HUMAN]` for one of the four reasons below
+is the only exception.
+
+A plan item is a goal an executor works toward, and only a check that passes or fails the same way for everyone can say
+the goal is met.
+
 ## Executor Labels and AI-First Ownership
 
 Every checkbox states who can execute it, tagged `[AI]` or `[HUMAN]`. The default is `[AI]`, and an untagged checkbox is
@@ -58,16 +72,13 @@ preparation is `[AI]` with the authorization recorded once, and only the action 
 step the owner does by hand to learn it is `[HUMAN]` by choice.
 
 **Significance is never a reason.** Important, irreversible, expensive, or public-facing does not transfer an item to a
-human; they call for care, evidence, and an authorization recorded once. A plan that marks items `[HUMAN]` because they
-matter has stopped being executable and become a request for supervision. Git-mechanical steps — committing, pushing,
+human; they call for care, evidence, and an authorization recorded once. Git-mechanical steps — committing, pushing,
 moving a plan folder — are `[AI]` unless a specific reason says otherwise.
 
-Where the outcome is uncertain, the item becomes a bounded checkpoint with a predeclared fallback — what is tried, how
-many attempts, what happens at the ceiling — decided when the plan is written.
+Where the outcome is uncertain, the item becomes a bounded checkpoint with a predeclared fallback (what is tried, how
+many attempts, what happens at the ceiling) decided when the plan is written.
 
-Recovery work names its trigger and stays dormant until triggered, read against its wording rather than the presence of
-a failure. At final reconciliation a dormant item receives a dated, evidence-backed `Not triggered` disposition, never a
-false completion mark.
+Recovery work follows [Resolution Is Not a Tick](008-evidence-and-quality.md#resolution-is-not-a-tick).
 
 ## Structure
 
@@ -77,10 +88,4 @@ false completion mark.
 - the **delivery units** — the transaction boundaries, each with one owner, one testable outcome, one rollback; and
 - **pause safety** — what is recorded at a pause so work resumes without re-deriving it.
 
-Phases follow in dependency order and each ends at a gate; see [Phases and Gates](011-phases-and-gates.md). Archival
-items live in their own section after every substantive phase, because a plan can be finished without being filed.
-
-## Cold-Executor Resumability
-
-The test for `delivery.md` is whether an executor with no memory of the plan can open it and know what to do next. That
-means recording results, not only ticks: a tick says an action happened, not what it produced.
+Phases, their gates, and the archival section follow [Phases and Gates](011-phases-and-gates.md).

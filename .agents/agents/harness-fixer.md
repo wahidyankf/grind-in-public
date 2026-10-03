@@ -2,10 +2,11 @@
 name: harness-fixer
 description: >-
   Re-validates harness compatibility findings against current files and their cited sources, repairs mechanical drift at
-  the canonical source, regenerates adapters, and hands every decision to a person. Use after a harness compatibility
-  audit returns findings, inside a harness quality gate's repair.
-mode: subagent
-requires:
+  the canonical source, regenerates adapters, and hands every decision to a person.
+when_to_use: >-
+  Use after a harness compatibility audit returns findings, inside a harness quality gate's repair.
+tier: execution
+capabilities:
   - repository-read
   - repository-write
   - shell

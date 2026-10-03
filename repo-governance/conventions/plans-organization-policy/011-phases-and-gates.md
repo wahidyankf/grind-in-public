@@ -47,6 +47,7 @@ Phase 0.
 
 ## Ordering
 
-Order phases so each builds on a green predecessor. Delivery to `main` happens at phase boundaries: the gate passes,
-then the phase's work is committed and pushed. A phase whose gate cannot be expressed as a command is a phase that has
-not been thought through.
+Order phases so each builds on a green predecessor, in dependency order. Archival items live in their own section after
+every substantive phase, because a plan can be finished without being filed. Delivery to `main` happens at phase
+boundaries: the gate passes, then the phase's work is committed and pushed. A phase whose gate cannot be expressed as a
+command is a phase that has not been thought through.

@@ -2,9 +2,10 @@
 name: developing-applications
 description: >-
   Guides language-agnostic application work: placing code in the right layer, deciding where each error is handled or
-  propagated, what a log line carries, where input is validated, and building every behaviour test-first. Use when
-  implementing or reviewing application or library code in any language, alongside that language's own skill or stack
-  standard.
+  propagated, what a log line carries, where input is validated, and building every behaviour test-first.
+when_to_use: >-
+  Use when implementing or reviewing application or library code in any language, alongside that language's own skill or
+  stack standard.
 compatibility: Requires read access to the application source, its tests, and its dependency manifests.
 ---
 

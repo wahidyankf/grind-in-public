@@ -2,14 +2,14 @@
 name: plan-maker
 description: >-
   Authors a complete formal plan from a request or groomed brief and runs both decision gates; a separate fixer repairs
-  the plan quality gate's findings. Use when a formal plan is requested and no draft exists yet.
-mode: subagent
-requires:
+  the plan quality gate's findings.
+when_to_use: >-
+  Use when a formal plan is requested and no draft exists yet.
+tier: plan
+capabilities:
   - repository-read
   - repository-write
   - shell
-denies:
-  - nested-agent
 ---
 
 # Plan Maker

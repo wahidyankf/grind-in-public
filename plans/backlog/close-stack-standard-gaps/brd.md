@@ -30,7 +30,7 @@ Re-verifying those five found two more that the adapter does not record, so no r
 
 ## Who It Affects
 
-The owner, and every agent session that writes code under the adopted standards. The `swe-code-checker` agent reads the
+The owner, and every agent session that writes code under the adopted standards. The `swe-reviewer` agent reads the
 standards and will report these gaps on every audit until a gate closes them, which turns a known, accepted gap into
 recurring noise.
 

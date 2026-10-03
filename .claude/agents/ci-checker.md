@@ -1,7 +1,8 @@
 ---
 description: |-
-  Audits each project's test targets, local hooks, and pipeline definitions against the adopted gate standards and returns rated findings, without modifying anything. Use as the checker in a CI quality gate, after adding a project or changing hooks or pipeline definitions, or for a periodic audit of gate wiring.
-model: inherit
+  Audits each project's test targets, local hooks, and pipeline definitions against the adopted gate standards and returns rated findings, without modifying anything.
+effort: xhigh
+model: sonnet
 name: ci-checker
 tools: |-
   Read, Glob, Grep, Bash

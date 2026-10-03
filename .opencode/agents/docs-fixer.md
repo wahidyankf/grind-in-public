@@ -1,6 +1,6 @@
 ---
 description: |-
-  Applies documentation checker findings after re-validating each against the current text and its recorded evidence, edits only high-confidence fixes, and records false positives and findings left for a person. Use as the documentation fixer in a quality gate, once a documentation checker has returned findings for the current content.
+  Applies documentation checker findings after re-validating each against the current text and its recorded evidence, edits only high-confidence fixes, and records false positives and findings left for a person.
 mode: subagent
 permission:
   bash: allow
@@ -8,6 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

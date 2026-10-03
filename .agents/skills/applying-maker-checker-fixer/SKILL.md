@@ -2,8 +2,10 @@
 name: applying-maker-checker-fixer
 description: >-
   Guides the judgement inside a make, check, and fix loop: which role a request calls for, how applied findings are
-  re-validated, when an edit counts as a fix, and when a disagreement leaves the loop for a person. Use when acting as a
-  maker, checker, or fixer in a quality loop, or when deciding which of those roles a request needs.
+  re-validated, when an edit counts as a fix, and when a disagreement leaves the loop for a person.
+when_to_use: >-
+  Use when acting as a maker, checker, or fixer in a quality loop, or when deciding which of those roles a request
+  needs.
 compatibility: Requires read access to the content under review and to the report being acted on.
 ---
 

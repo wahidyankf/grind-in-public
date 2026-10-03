@@ -75,14 +75,15 @@ Prefer the standard library and existing repository mechanisms; the
 dependency may be added. Use Nx only as a raw task runner with `command` targets. Add no plugin, executor, or generator
 without explicit owner direction; see the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md).
 
-Prettier is the source of truth; this repository is read in a terminal, so Markdown keeps every line, tables and code
-included, within 120 columns and draws terminal-first ASCII diagrams—see the
-[Markdown style policy](repo-governance/conventions/markdown-style-policy.md). The language target, naming, indentation,
-and import style follow the [code style policy](repo-governance/development/code-style-policy.md); project stack
-standards follow the [repository adapter](repo-governance/development/quality/stacks/repository-adapter.md).
+Prettier is the source of truth; Markdown keeps every line, tables and code included, within 120 columns and draws
+terminal-first ASCII diagrams—see the [Markdown style policy](repo-governance/conventions/markdown-style-policy.md). The
+language target, naming, indentation, and import style follow the
+[code style policy](repo-governance/development/code-style-policy.md); project stack standards follow the
+[repository adapter](repo-governance/development/quality/stacks/repository-adapter.md).
 
 Comments must explain intent, flow, and non-obvious decisions without narrating syntax; see the
-[code commentary policy](repo-governance/development/code-commentary-policy.md).
+[code commentary policy](repo-governance/development/code-commentary-policy.md). Dispatch coding work to the fitting
+`swe-*` agent per the [SWE delegation policy](repo-governance/conventions/swe-delegation-policy.md).
 
 ## Testing and Commits
 

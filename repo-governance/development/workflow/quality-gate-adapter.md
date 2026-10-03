@@ -45,18 +45,16 @@ Not adopted: the content, `pdf-to-md`, and tutorial families, because the reposi
   each repair as a new commit on local `main` and never pushes; pushing stays a separate permission.
 - **Review route.** No scout or lens checker is adopted, so every pass takes the trivial tier: `pr-review-checker`
   reviews the whole change alone and returns its report for the caller to record.
-- **Running surfaces.** No interface tester agent is adopted. `ui-web-checker` drives the served site with a headless
-  browser and `api-http-checker` sends real requests to the served API, each started through its `dev` target under
-  `./hippo` and stopped after the audit.
-- **Agent fields.** Catalog `capabilities` become `requires`, `read-only` becomes denied `repository-write` and
-  `nested-agent` with `inline-result-only`, and `tier` and `skills` are dropped. No harness here declares `network`, so
-  `docs-checker` and `harness-checker` return each outside-world research need to their caller.
+- **Running surfaces.** `swe-web-tester` drives the served site with a headless browser and `swe-api-tester` sends real
+  requests to the served API, each started through its `dev` target under `./hippo` and stopped after the audit;
+  `swe-developer` repairs.
+- **Agent fields.** Catalog agents keep their fields, `tier`, `capabilities`, and `constraints` included; a `skills`
+  entry naming a skill not adopted here is dropped, and a judge adds `inline-result-only` to `read-only`. `docs-checker`
+  and `harness-checker` hold no `network`, so they return each outside-world research need to their caller.
 - **Skills not adopted.** `authoring-documentation`, `propagating-rules`, `checking-harness-compatibility`,
   `applying-ci-standards`, `validating-specification-structure`, `resolving-review-threads`,
-  `synthesizing-review-findings`, `producing-review-findings`, `validating-factual-accuracy`, `validating-links`,
-  `validating-governance-rules`, `understanding-governance-architecture`, `exploratory-testing`,
-  `design-fidelity-review`, `usability-heuristic-evaluation`, and `developing-frontend-ui`. Each executor works from its
-  workflow and agent text.
+  `synthesizing-review-findings`, `validating-factual-accuracy`, `validating-links`, `validating-governance-rules`, and
+  `understanding-governance-architecture`. Each executor works from its workflow and agent text.
 - **Shape.** Adopted documents carry `tldr` and `when_to_use` front matter, as the
   [documentation index policy](../../documentation-index-policy.md) requires.
 

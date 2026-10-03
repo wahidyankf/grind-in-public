@@ -1,16 +1,15 @@
 ---
 name: plan-execution-checker
 description: >-
-  Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival. Use
-  once every substantive delivery item is terminal and archival is the next step.
-mode: subagent
-requires:
+  Audits finished plan execution in fixed order and returns the terminal verdict that permits or blocks archival.
+when_to_use: >-
+  Use once every substantive delivery item is terminal and archival is the next step.
+tier: plan
+capabilities:
   - repository-read
   - shell
-denies:
-  - repository-write
-  - nested-agent
 constraints:
+  - read-only
   - inline-result-only
 ---
 

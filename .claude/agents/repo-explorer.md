@@ -1,7 +1,8 @@
 ---
 description: |-
-  Read-only explorer that reports where code, tests, documentation, and governance rules live. Use it to locate something, or to check which rule applies before making a change; it never edits anything.
-model: inherit
+  Read-only explorer that reports where code, tests, documentation, and governance rules live.
+effort: xhigh
+model: haiku
 name: repo-explorer
 tools: |-
   Read, Glob, Grep

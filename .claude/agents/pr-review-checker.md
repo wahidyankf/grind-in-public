@@ -1,6 +1,6 @@
 ---
 description: |-
-  Checks one pinned change for the pr-review family by coordinating one review pass: after the lens checkers report, it deduplicates, re-categorizes, filters, verifies, and rates raw findings for criticality, then publishes the one review bound to the pinned head, editing no file. Use as the checker of a PR review quality gate cycle, or at the synthesis step of any review pass on a pull request or a local commit range, once the selected lens checkers have returned their findings, or alone when the tier runs none.
+  Checks one pinned change for the pr-review family by coordinating one review pass: after the lens checkers report, it deduplicates, re-categorizes, filters, verifies, and rates raw findings for criticality, then publishes the one review bound to the pinned head, editing no file.
 model: inherit
 name: pr-review-checker
 tools: |-

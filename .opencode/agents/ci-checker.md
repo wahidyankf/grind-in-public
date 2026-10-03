@@ -1,6 +1,6 @@
 ---
 description: |-
-  Audits each project's test targets, local hooks, and pipeline definitions against the adopted gate standards and returns rated findings, without modifying anything. Use as the checker in a CI quality gate, after adding a project or changing hooks or pipeline definitions, or for a periodic audit of gate wiring.
+  Audits each project's test targets, local hooks, and pipeline definitions against the adopted gate standards and returns rated findings, without modifying anything.
 mode: subagent
 permission:
   bash: allow
@@ -8,7 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

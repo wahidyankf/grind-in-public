@@ -1,6 +1,6 @@
 ---
 description: |-
-  Guides rating a finding's criticality from its consequence and its confidence from re-validation, and avoiding the inflation, conflation, and shortcuts that make both scales useless. Use when a checker is about to assign a level to a finding, or when whoever applies findings is rating confidence and choosing an order.
+  Guides rating a finding's criticality from its consequence and its confidence from re-validation, and avoiding the inflation, conflation, and shortcuts that make both scales useless.
 name: assessing-criticality-confidence
 ---
 

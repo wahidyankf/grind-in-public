@@ -2,11 +2,12 @@
 name: plan-fixer
 description: >-
   Executes Plan Propagation on a frozen plan quality ledger, re-validating each row against the current plan, repairing
-  only what the plan's own decisions settle, and leaving every policy choice to the plan's owner. Use as the writer's
-  executor in a plan quality gate cycle, once the plan checker's findings are frozen in a ledger, or when someone
-  explicitly names rows of one to repair.
-mode: subagent
-requires:
+  only what the plan's own decisions settle, and leaving every policy choice to the plan's owner.
+when_to_use: >-
+  Use as the writer's executor in a plan quality gate cycle, once the plan checker's findings are frozen in a ledger, or
+  when someone explicitly names rows of one to repair.
+tier: execution
+capabilities:
   - repository-read
   - repository-write
   - shell

@@ -31,7 +31,7 @@ to start.
 
 ## Deterministic Boundary
 
-The checker reports none of these properties. The entry and exit checks run their owners instead.
+The judge reports none of these properties. The entry and exit checks run their owners instead.
 
 | Property                           | Owned by                  | This repository runs        |
 | ---------------------------------- | ------------------------- | --------------------------- |
@@ -43,11 +43,10 @@ No contract linter or schema test runs here, so the served OpenAPI document and 
 
 ## Cycle
 
-Each cycle is one full audit by `api-http-checker` and one repair by [API HTTP Propagation](api-http-propagation.md),
-run by `api-http-fixer`, per
-[Sequence and Termination](../../development/workflow/quality-gate-contract/002-sequence-and-termination.md). The
-checker may delegate the requests to the repository's interface tester. It sends real requests against the contract and
-behaviour specifications, and judges:
+Each cycle is one full audit by the judge, `swe-api-tester` under its `contract` charter, and one repair by
+[API HTTP Propagation](api-http-propagation.md), run by `swe-developer` in its Apply Findings mode, per
+[Sequence and Termination](../../development/workflow/quality-gate-contract/002-sequence-and-termination.md). The judge
+sends real requests against the contract and behaviour specifications, and judges:
 
 - status codes, and response and error shapes, where no schema test already pins them;
 - authorization boundaries: what each role can and cannot reach;

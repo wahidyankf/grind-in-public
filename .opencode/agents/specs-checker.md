@@ -1,6 +1,6 @@
 ---
 description: |-
-  Audits explicitly listed specification folders for index quality, scenario format, cross-folder consistency, architecture views, references, and implementation alignment, and returns rated findings without modifying anything. Use as the checker in a specification quality gate, or before restructuring, migrating, or bulk-editing a named set of specification folders.
+  Audits explicitly listed specification folders for index quality, scenario format, cross-folder consistency, architecture views, references, and implementation alignment, and returns rated findings without modifying anything.
 mode: subagent
 permission:
   bash: allow
@@ -8,7 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

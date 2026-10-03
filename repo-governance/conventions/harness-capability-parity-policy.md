@@ -14,7 +14,8 @@ canonical content, and native adapters must preserve it without adding prompt in
 - `.agents/skills/<name>/SKILL.md` and every regular supporting file below its directory form one canonical skill
   bundle. Its directory and frontmatter name match.
 - `.agents/agents/<name>.md` is the canonical prompt and semantic capability contract for one custom agent. Its
-  frontmatter records `name`, `description`, `mode`, `requires`, `denies`, and `constraints`.
+  frontmatter records `name`, `description`, `when_to_use`, `tier`, `capabilities`, and the optional `skills`,
+  `constraints`, and `dispatches`.
 - Root `AGENTS.md` and its exact Claude import remain governed by the
   [instruction alignment policy](agent-instruction-alignment-policy.md).
 

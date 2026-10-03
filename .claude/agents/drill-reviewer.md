@@ -1,7 +1,8 @@
 ---
 description: |-
-  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality. Use it after solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution.
-model: inherit
+  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality.
+effort: xhigh
+model: sonnet
 name: drill-reviewer
 tools: |-
   Read, Glob, Grep

@@ -28,8 +28,8 @@ standard wins, and is recorded below as a deviation.
 
 | Source                          | Decision            | Choice                       | Reason            |
 | ------------------------------- | ------------------- | ---------------------------- | ----------------- |
-| `swe-code-maker`                | stack skill         | read on demand               | no edit per stack |
-| `swe-code-checker`              | stack rules         | each listed stack's standard | shared choices    |
+| `swe-developer`                 | Stack skills        | read on demand               | no edit per stack |
+| `swe-reviewer`                  | stack rules         | each listed stack's standard | shared choices    |
 | coverage                        | floor               | 99% unit and integration     | local; see below  |
 | task runner                     | runner              | Nx as a raw command runner   | local policy      |
 | `nx-standards.md`               | tag vocabulary      | none yet                     | gap               |
@@ -46,9 +46,10 @@ standard wins, and is recorded below as a deviation.
 | `shell-standards.md`            | test tool           | Bash test scripts            | no dependency     |
 | `generating-validation-reports` | report location     | `generated-reports/`         | already ignored   |
 
-The Python pilot pins Pyright in `apps/forum-be-python/pyproject.toml` and sets strict mode in its `pyrightconfig.json`.
-Report timestamps carry an explicit offset. Promotion and hosting follow the
-[deployment policy](../../deployment-policy.md).
+The other `swe-*` decisions take the catalog default: ADR location `docs/explanation/decisions/`, Host-integrated proof
+not required, Reviewer output inline, Specification completeness not checked, and Test boundary default. The Python
+pilot pins Pyright in `apps/forum-be-python/pyproject.toml` and sets strict mode in its `pyrightconfig.json`. Report
+timestamps carry an explicit offset. Promotion and hosting follow the [deployment policy](../../deployment-policy.md).
 
 ## Deviations
 

@@ -34,3 +34,8 @@ failures, and the retries.
 
 The [plan quality gate](../../workflows/quality/plan-quality-gate.md) checks this record's shape during its semantic
 audit.
+
+## Cold-Executor Resumability
+
+The test for `delivery.md` is whether an executor with no memory of the plan can open it and know what to do next. That
+means recording results, not only ticks: a tick says an action happened, not what it produced.

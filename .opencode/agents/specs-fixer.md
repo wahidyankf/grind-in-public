@@ -1,6 +1,6 @@
 ---
 description: |-
-  Applies specification checker findings inside the folders that audit covered, after re-validating each one, repairs only structure a rule settles, and records what it fixed, disproved, and left for a person. Use as the fixer in a specification quality gate, once a specification checker has returned findings for the current revision of the listed folders.
+  Applies specification checker findings inside the folders that audit covered, after re-validating each one, repairs only structure a rule settles, and records what it fixed, disproved, and left for a person.
 mode: subagent
 permission:
   bash: allow
@@ -8,6 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

@@ -2,8 +2,10 @@
 name: programming-typescript
 description: >-
   Guides the procedure for writing or changing TypeScript: loading the TypeScript standard first, driving each increment
-  test-first, finding which rule a decision falls under, and confirming the gates before handing off. Use when writing,
-  changing, or reviewing TypeScript code, before the first edit, alongside the language-agnostic application skill.
+  test-first, finding which rule a decision falls under, and confirming the gates before handing off.
+when_to_use: >-
+  Use when writing, changing, or reviewing TypeScript code, before the first edit, alongside the language-agnostic
+  application skill.
 compatibility: Requires a TypeScript project with type check, lint, format, and unit test targets.
 ---
 

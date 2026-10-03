@@ -1,6 +1,6 @@
 ---
 description: |-
-  Guides writing an audit or fix report that survives interruption, links to the runs before and after it, closes with an honest status, and carries what a re-run needs so the loop converges. Use when a checker or fixer starts a report file, or when a later run has to read an earlier report to decide what to check again.
+  Guides writing an audit or fix report that survives interruption, links to the runs before and after it, closes with an honest status, and carries what a re-run needs so the loop converges.
 name: generating-validation-reports
 ---
 

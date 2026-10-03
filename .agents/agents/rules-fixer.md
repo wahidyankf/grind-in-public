@@ -2,11 +2,12 @@
 name: rules-fixer
 description: >-
   Re-validates each repository rules finding against current files, applies only high-confidence repairs through Rules
-  Propagation with the higher governance level as authority, and hands every open judgement to the rule's owner. Use as
-  the writer's executor in a rules quality gate cycle, or once a rules checker has returned findings, as the repair step
-  of a rules consistency check.
-mode: subagent
-requires:
+  Propagation with the higher governance level as authority, and hands every open judgement to the rule's owner.
+when_to_use: >-
+  Use as the writer's executor in a rules quality gate cycle, or once a rules checker has returned findings, as the
+  repair step of a rules consistency check.
+tier: execution
+capabilities:
   - repository-read
   - repository-write
   - shell

@@ -1,7 +1,8 @@
 ---
 description: |-
-  Re-validates each repository rules finding against current files, applies only high-confidence repairs through Rules Propagation with the higher governance level as authority, and hands every open judgement to the rule's owner. Use as the writer's executor in a rules quality gate cycle, or once a rules checker has returned findings, as the repair step of a rules consistency check.
-model: inherit
+  Re-validates each repository rules finding against current files, applies only high-confidence repairs through Rules Propagation with the higher governance level as authority, and hands every open judgement to the rule's owner.
+effort: xhigh
+model: sonnet
 name: rules-fixer
 tools: |-
   Read, Glob, Grep, Write, Edit, Bash

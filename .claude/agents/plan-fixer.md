@@ -1,7 +1,8 @@
 ---
 description: |-
-  Executes Plan Propagation on a frozen plan quality ledger, re-validating each row against the current plan, repairing only what the plan's own decisions settle, and leaving every policy choice to the plan's owner. Use as the writer's executor in a plan quality gate cycle, once the plan checker's findings are frozen in a ledger, or when someone explicitly names rows of one to repair.
-model: inherit
+  Executes Plan Propagation on a frozen plan quality ledger, re-validating each row against the current plan, repairing only what the plan's own decisions settle, and leaving every policy choice to the plan's owner.
+effort: xhigh
+model: sonnet
 name: plan-fixer
 tools: |-
   Read, Glob, Grep, Write, Edit, Bash

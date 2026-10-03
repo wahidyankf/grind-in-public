@@ -30,6 +30,17 @@ Codex and opencode both discover these skills automatically from this directory;
   [`applying-maker-checker-fixer/`](applying-maker-checker-fixer/SKILL.md), and
   [`generating-validation-reports/`](generating-validation-reports/SKILL.md) — rate findings, run a make, check, and fix
   loop, and write its reports.
+- [`modeling-threats/`](modeling-threats/SKILL.md) — names the assets, trust boundaries, and threats a design opens or
+  closes, for the swe architect.
+- [`producing-review-findings/`](producing-review-findings/SKILL.md) — decides which review findings are worth raising
+  and how each is written.
+- [`developing-frontend-ui/`](developing-frontend-ui/SKILL.md),
+  [`design-fidelity-review/`](design-fidelity-review/SKILL.md), and
+  [`writing-browser-e2e-tests/`](writing-browser-e2e-tests/SKILL.md) — build interface components, judge a render
+  against its design, and write browser end-to-end tests.
+- [`exploratory-testing/`](exploratory-testing/SKILL.md) and
+  [`usability-heuristic-evaluation/`](usability-heuristic-evaluation/SKILL.md) — run charter-based sessions against a
+  running interface or API, and judge first use against usability heuristics.
 
 The stack skills are chosen per project by the
 [repository adapter](../../repo-governance/development/quality/stacks/repository-adapter.md).

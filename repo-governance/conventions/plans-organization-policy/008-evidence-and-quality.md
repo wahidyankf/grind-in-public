@@ -66,6 +66,10 @@ than restated here.
 
 ## Resolution Is Not a Tick
 
+Recovery work names its trigger and stays dormant until triggered, read against its wording rather than the presence of
+a failure. At final reconciliation a dormant item receives a dated, evidence-backed `Not triggered` disposition, never a
+false completion mark.
+
 An item is resolved when its outcome is recorded, not when its box is ticked: a recovery trigger that never fires stays
 unticked under a dated `Not triggered` disposition, and that has always counted as resolved.
 

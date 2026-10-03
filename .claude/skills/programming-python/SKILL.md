@@ -1,6 +1,6 @@
 ---
 description: |-
-  Guides Python work under the Python standard: annotating every signature for Pyright in strict mode, handling paths as pathlib values, placing tests by the boundary they touch, and judging data shapes, failures, and async code. Use when writing, changing, or reviewing Python code, before the first test of the change.
+  Guides Python work under the Python standard: annotating every signature for Pyright in strict mode, handling paths as pathlib values, placing tests by the boundary they touch, and judging data shapes, failures, and async code.
 name: programming-python
 ---
 

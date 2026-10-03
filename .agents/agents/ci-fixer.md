@@ -2,10 +2,11 @@
 name: ci-fixer
 description: >-
   Applies a CI checker's findings to test targets, hooks, and pipeline definitions after re-validating each one, and
-  records what it fixed, disproved, and left for a person. Use as the fixer in a CI quality gate, once a CI checker has
-  returned findings for the current revision.
-mode: subagent
-requires:
+  records what it fixed, disproved, and left for a person.
+when_to_use: >-
+  Use as the fixer in a CI quality gate, once a CI checker has returned findings for the current revision.
+tier: execution
+capabilities:
   - repository-read
   - repository-write
   - shell

@@ -1,6 +1,6 @@
 ---
 description: |-
-  Audits a repository's harness bindings for internal parity with their canonical sources and for drift from each harness's current documented conventions, and returns rated findings without editing. Use in harness parity verification or a harness quality gate, after changing canonical agents, skills, root instructions, or the adapter generator, or after a harness announces a configuration change.
+  Audits a repository's harness bindings for internal parity with their canonical sources and for drift from each harness's current documented conventions, and returns rated findings without editing.
 mode: subagent
 permission:
   bash: allow
@@ -8,7 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

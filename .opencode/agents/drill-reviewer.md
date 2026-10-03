@@ -1,13 +1,15 @@
 ---
 description: |-
-  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality. Use it after solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution.
+  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality.
 mode: subagent
 permission:
+  bash: deny
   edit: deny
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

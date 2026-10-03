@@ -2,9 +2,10 @@
 name: programming-javascript
 description: >-
   Guides JavaScript work under the JavaScript standard: confirming the file is type-checked, typing through JSDoc,
-  validating input the checker cannot see, and noticing floating promises and swallowed errors before handing off. Use
-  when writing, changing, or reviewing authored JavaScript, such as a script, tool, or module, before the first test of
-  the change.
+  validating input the checker cannot see, and noticing floating promises and swallowed errors before handing off.
+when_to_use: >-
+  Use when writing, changing, or reviewing authored JavaScript, such as a script, tool, or module, before the first test
+  of the change.
 compatibility: Requires a JavaScript project with type check, lint, format, and unit test targets.
 ---
 

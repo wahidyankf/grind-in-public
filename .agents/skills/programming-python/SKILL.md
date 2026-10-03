@@ -2,8 +2,9 @@
 name: programming-python
 description: >-
   Guides Python work under the Python standard: annotating every signature for Pyright in strict mode, handling paths as
-  pathlib values, placing tests by the boundary they touch, and judging data shapes, failures, and async code. Use when
-  writing, changing, or reviewing Python code, before the first test of the change.
+  pathlib values, placing tests by the boundary they touch, and judging data shapes, failures, and async code.
+when_to_use: >-
+  Use when writing, changing, or reviewing Python code, before the first test of the change.
 compatibility: Requires a Python project with Pyright and its recorded linter, formatter, and test runner.
 ---
 

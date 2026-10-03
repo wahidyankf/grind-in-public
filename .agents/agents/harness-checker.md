@@ -2,17 +2,16 @@
 name: harness-checker
 description: >-
   Audits a repository's harness bindings for internal parity with their canonical sources and for drift from each
-  harness's current documented conventions, and returns rated findings without editing. Use in harness parity
-  verification or a harness quality gate, after changing canonical agents, skills, root instructions, or the adapter
-  generator, or after a harness announces a configuration change.
-mode: subagent
-requires:
+  harness's current documented conventions, and returns rated findings without editing.
+when_to_use: >-
+  Use in harness parity verification or a harness quality gate, after changing canonical agents, skills, root
+  instructions, or the adapter generator, or after a harness announces a configuration change.
+tier: execution
+capabilities:
   - repository-read
   - shell
-denies:
-  - repository-write
-  - nested-agent
 constraints:
+  - read-only
   - inline-result-only
 ---
 

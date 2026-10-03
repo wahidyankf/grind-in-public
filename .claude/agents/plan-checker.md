@@ -1,6 +1,6 @@
 ---
 description: |-
-  Audits a complete plan draft against the plan specification and returns criticality-rated findings, without modifying anything. Use as the checker of a plan quality gate cycle, after a complete six-document draft, before execution begins.
+  Audits a complete plan draft against the plan specification and returns criticality-rated findings, without modifying anything.
 model: inherit
 name: plan-checker
 tools: |-

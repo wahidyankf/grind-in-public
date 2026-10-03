@@ -25,6 +25,7 @@ choices and deviations, and each project README holds its commands.
 | `ci-scripts`         | `.github/scripts`         | Shell                                  |
 | `workspace`          | `.`                       | Nx                                     |
 
-The `swe-code-maker`, `swe-code-checker`, and `swe-code-fixer` agents in
-[`.agents/agents/`](../../.agents/agents/README.md) read that inventory and load each listed pack's local skill and
-standard before they work in a project. The inventory is informational: it holds no command or version.
+The `swe-developer`, `swe-reviewer`, and `swe-debugger` agents in [`.agents/agents/`](../../.agents/agents/README.md)
+read that inventory and load each listed pack's local skill and standard before they work in a project; the
+[SWE delegation policy](../../repo-governance/conventions/swe-delegation-policy.md) routes coding work to the whole
+`swe-*` family. The inventory is informational: it holds no command or version.

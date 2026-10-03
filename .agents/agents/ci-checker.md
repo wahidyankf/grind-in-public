@@ -2,16 +2,16 @@
 name: ci-checker
 description: >-
   Audits each project's test targets, local hooks, and pipeline definitions against the adopted gate standards and
-  returns rated findings, without modifying anything. Use as the checker in a CI quality gate, after adding a project or
-  changing hooks or pipeline definitions, or for a periodic audit of gate wiring.
-mode: subagent
-requires:
+  returns rated findings, without modifying anything.
+when_to_use: >-
+  Use as the checker in a CI quality gate, after adding a project or changing hooks or pipeline definitions, or for a
+  periodic audit of gate wiring.
+tier: execution
+capabilities:
   - repository-read
   - shell
-denies:
-  - repository-write
-  - nested-agent
 constraints:
+  - read-only
   - inline-result-only
 ---
 

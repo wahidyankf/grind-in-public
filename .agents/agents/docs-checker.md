@@ -3,17 +3,16 @@ name: docs-checker
 description: >-
   Audits documentation for factual accuracy against authoritative sources and the repository, for contradictions within
   and across documents, and for references to things that no longer exist, returning rated findings; as a combined
-  validator it also checks structure and links. Use as the factual-accuracy validator in a documentation quality gate,
-  or as its combined validator where recorded, after documentation changes, or before a release that the documentation
-  describes.
-mode: subagent
-requires:
+  validator it also checks structure and links.
+when_to_use: >-
+  Use as the factual-accuracy validator in a documentation quality gate, or as its combined validator where recorded,
+  after documentation changes, or before a release that the documentation describes.
+tier: execution
+capabilities:
   - repository-read
   - shell
-denies:
-  - repository-write
-  - nested-agent
 constraints:
+  - read-only
   - inline-result-only
 ---
 

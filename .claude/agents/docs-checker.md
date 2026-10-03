@@ -1,7 +1,8 @@
 ---
 description: |-
-  Audits documentation for factual accuracy against authoritative sources and the repository, for contradictions within and across documents, and for references to things that no longer exist, returning rated findings; as a combined validator it also checks structure and links. Use as the factual-accuracy validator in a documentation quality gate, or as its combined validator where recorded, after documentation changes, or before a release that the documentation describes.
-model: inherit
+  Audits documentation for factual accuracy against authoritative sources and the repository, for contradictions within and across documents, and for references to things that no longer exist, returning rated findings; as a combined validator it also checks structure and links.
+effort: xhigh
+model: sonnet
 name: docs-checker
 tools: |-
   Read, Glob, Grep, Bash

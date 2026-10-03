@@ -2,8 +2,10 @@
 name: assessing-criticality-confidence
 description: >-
   Guides rating a finding's criticality from its consequence and its confidence from re-validation, and avoiding the
-  inflation, conflation, and shortcuts that make both scales useless. Use when a checker is about to assign a level to a
-  finding, or when whoever applies findings is rating confidence and choosing an order.
+  inflation, conflation, and shortcuts that make both scales useless.
+when_to_use: >-
+  Use when a checker is about to assign a level to a finding, or when whoever applies findings is rating confidence and
+  choosing an order.
 compatibility: Requires read access to the content each finding names.
 ---
 

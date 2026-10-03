@@ -38,6 +38,8 @@ foundational principles without replacing focused development policies or repeat
 - [Integration Path Policy](integration-path-policy.md) — direct-main integration, temporary branch cleanup, and the
   governed promotion-branch exception.
 - [Project README Policy](project-readme-policy.md) — the required entry point and impact check for every Nx project.
+- [SWE Delegation Policy](swe-delegation-policy.md) — when a session dispatches coding work to a `swe-*` agent, what
+  counts as coding work, and the three exceptions. Use it before implementing, debugging, reviewing, or testing code.
 - [Task Tracking Policy](task-tracking-policy.md) — how granular a task list must be, when it must be updated, where its
   `local-tmp/` ledger lives, how many delegated agents run at once, and how concurrent tasks stay visible to each other.
   Use it before starting or reviewing any task; its detail lives in

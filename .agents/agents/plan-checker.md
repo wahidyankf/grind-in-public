@@ -2,16 +2,15 @@
 name: plan-checker
 description: >-
   Audits a complete plan draft against the plan specification and returns criticality-rated findings, without modifying
-  anything. Use as the checker of a plan quality gate cycle, after a complete six-document draft, before execution
-  begins.
-mode: subagent
-requires:
+  anything.
+when_to_use: >-
+  Use as the checker of a plan quality gate cycle, after a complete six-document draft, before execution begins.
+tier: plan
+capabilities:
   - repository-read
   - shell
-denies:
-  - repository-write
-  - nested-agent
 constraints:
+  - read-only
   - inline-result-only
 ---
 

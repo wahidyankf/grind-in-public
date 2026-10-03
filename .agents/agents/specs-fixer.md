@@ -2,11 +2,12 @@
 name: specs-fixer
 description: >-
   Applies specification checker findings inside the folders that audit covered, after re-validating each one, repairs
-  only structure a rule settles, and records what it fixed, disproved, and left for a person. Use as the fixer in a
-  specification quality gate, once a specification checker has returned findings for the current revision of the listed
-  folders.
-mode: subagent
-requires:
+  only structure a rule settles, and records what it fixed, disproved, and left for a person.
+when_to_use: >-
+  Use as the fixer in a specification quality gate, once a specification checker has returned findings for the current
+  revision of the listed folders.
+tier: execution
+capabilities:
   - repository-read
   - repository-write
   - shell

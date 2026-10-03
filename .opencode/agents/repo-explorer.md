@@ -1,6 +1,6 @@
 ---
 description: |-
-  Read-only explorer that reports where code, tests, documentation, and governance rules live. Use it to locate something, or to check which rule applies before making a change; it never edits anything.
+  Read-only explorer that reports where code, tests, documentation, and governance rules live.
 mode: subagent
 permission:
   bash: deny
@@ -8,7 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

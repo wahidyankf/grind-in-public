@@ -1,6 +1,6 @@
 ---
 description: |-
-  Re-validates harness compatibility findings against current files and their cited sources, repairs mechanical drift at the canonical source, regenerates adapters, and hands every decision to a person. Use after a harness compatibility audit returns findings, inside a harness quality gate's repair.
+  Re-validates harness compatibility findings against current files and their cited sources, repairs mechanical drift at the canonical source, regenerates adapters, and hands every decision to a person.
 mode: subagent
 permission:
   bash: allow
@@ -8,6 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

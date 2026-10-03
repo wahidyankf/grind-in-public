@@ -1,6 +1,6 @@
 ---
 description: |-
-  Re-validates each repository rules finding against current files, applies only high-confidence repairs through Rules Propagation with the higher governance level as authority, and hands every open judgement to the rule's owner. Use as the writer's executor in a rules quality gate cycle, or once a rules checker has returned findings, as the repair step of a rules consistency check.
+  Re-validates each repository rules finding against current files, applies only high-confidence repairs through Rules Propagation with the higher governance level as authority, and hands every open judgement to the rule's owner.
 mode: subagent
 permission:
   bash: allow
@@ -8,6 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

@@ -1,17 +1,15 @@
 ---
 name: drill-reviewer
 description: >-
-  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality. Use it after
-  solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution.
-mode: subagent
-requires:
+  Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality.
+when_to_use: >-
+  Use it after solving an exercise by hand, when you want feedback rather than an answer; it never writes the solution.
+tier: execution
+capabilities:
   - repository-read
-  - approval-or-read-only-shell
-denies:
-  - repository-write
-  - nested-agent
-  - solution-output
 constraints:
+  - read-only
+  - no-solution-output
   - owner-solved-first
   - inline-result-only
 ---

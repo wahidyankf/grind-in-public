@@ -1,6 +1,6 @@
 ---
 description: |-
-  Audits documentation for factual accuracy against authoritative sources and the repository, for contradictions within and across documents, and for references to things that no longer exist, returning rated findings; as a combined validator it also checks structure and links. Use as the factual-accuracy validator in a documentation quality gate, or as its combined validator where recorded, after documentation changes, or before a release that the documentation describes.
+  Audits documentation for factual accuracy against authoritative sources and the repository, for contradictions within and across documents, and for references to things that no longer exist, returning rated findings; as a combined validator it also checks structure and links.
 mode: subagent
 permission:
   bash: allow
@@ -8,7 +8,8 @@ permission:
   glob: allow
   grep: allow
   read: allow
-  task: deny
+  webfetch: deny
+  websearch: deny
 ---
 
 Before acting, read the complete canonical agent definition at the repository-root path

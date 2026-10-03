@@ -2,7 +2,9 @@
 name: plan-verifying-execution
 description: >-
   Guides judging whether completed execution actually did what the plan said, by checking claims against the repository
-  rather than against the checklist. Use when auditing finished plan execution before archival.
+  rather than against the checklist.
+when_to_use: >-
+  Use when auditing finished plan execution before archival.
 ---
 
 # Verifying Plan Execution
