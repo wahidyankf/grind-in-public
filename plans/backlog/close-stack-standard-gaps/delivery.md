@@ -127,7 +127,12 @@ those scripts carry their own.
   ```
   exits 0. [AC-3]
 - [ ] [AI] Prove the gate fires with a temporary unused import in a pilot source file, then revert. Acceptance:
-      non-zero, then 0. [AC-3]
+      non-zero, then 0. [AC-3] acceptance: with the unused import in place,
+  ```sh
+  rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
+    nx run -p forum-be-python -t test:quick
+  ```
+  exits non-zero, then exits 0 after the revert.
 - [ ] [AI] Set `"reportUnnecessaryTypeIgnoreComment": "error"` in `apps/forum-be-python/pyrightconfig.json`, then run
   ```sh
   rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- npm exec -- \
@@ -157,13 +162,14 @@ those scripts carry their own.
 
 - [ ] [AI] Record the decision-4 vocabulary and constraints in the adapter. Acceptance: the `tag vocabulary` row no
       longer reads "gap". [AC-4] [AC-6]
-- [ ] [AI] RED: in `scripts/project-contract.test.mjs`, add failing cases for an untagged project, an unknown tag, and a
-      forbidden dependency. Acceptance: `node --test scripts/project-contract.test.mjs` fails on exactly those cases.
-      [AC-4]
-- [ ] [AI] GREEN: replace the `tags must be []` rule in `scripts/project-contract.mjs` and extend
-      `scripts/check-project-contract.mjs` to read `apps/forum-be-python/project.json`. Acceptance: the test suite
-      passes. [AC-4]
-- [ ] [AI] REFACTOR: simplify without changing results. Acceptance: the suite still passes. [AC-4]
+- [ ] [AI] Delegate to `swe-developer`: RED: in `scripts/project-contract.test.mjs`, add failing cases for an untagged
+      project, an unknown tag, and a forbidden dependency. Acceptance: `node --test scripts/project-contract.test.mjs`
+      fails on exactly those cases. [AC-4]
+- [ ] [AI] Delegate to `swe-developer`: GREEN: replace the `tags must be []` rule in `scripts/project-contract.mjs` and
+      extend `scripts/check-project-contract.mjs` to read `apps/forum-be-python/project.json`. Acceptance: the test
+      suite passes. [AC-4]
+- [ ] [AI] Delegate to `swe-developer`: REFACTOR: simplify without changing results. Acceptance: the suite still passes.
+      [AC-4] acceptance: `node --test scripts/project-contract.test.mjs` exits 0
 - [ ] [AI] Tag `apps/wahidyankf-www/project.json`, `apps/wahidyankf-www-e2e/project.json`, and
       `apps/forum-be-python/project.json`. Acceptance: `node scripts/check-project-contract.mjs` exits 0. [AC-4]
 - [ ] [AI] Remove the tags clause from the adapter's known-gaps sentence, naming the validator as boundary enforcement;
@@ -197,7 +203,8 @@ those scripts carry their own.
 - [ ] [AI] Re-run every `[AC-…]` proof against `main`. Acceptance: all eight hold; results recorded in the Execution
       Record.
 - [ ] [HUMAN] Direct a plan execution check; the owner holds that authority. Acceptance: a verdict that permits
-      archival.
+      archival. acceptance:
+      `grep -c 'verdict: permits archival' plans/in-progress/close-stack-standard-gaps/delivery.md` prints at least 1
 - [ ] [AI] Move the plan to `plans/done/YYYY-MM-DD__close-stack-standard-gaps/` with the completion date, update both
       stage READMEs, and commit and push when separately authorized. Acceptance: `npm run check:markdown-links` exits 0.
 
