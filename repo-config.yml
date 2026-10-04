@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.10.0/schemas/repo-config/v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.11.0/schemas/repo-config/v2.schema.json
 schema: rhino/repo-config/v2
 
 repository: {}
@@ -196,6 +196,7 @@ harness:
               field: permission,
               entries: { webfetch: allow, websearch: allow },
             }
+          - { when: no-dispatches, field: permission, entries: { task: deny } }
 
 policies:
   markdown:

@@ -60,7 +60,7 @@
     {
       "id": "agent/pr-review-checker",
       "path": ".agents/agents/pr-review-checker.md",
-      "digest": "751c27428567da57fe4052ed5ceb3ccb7a9586aa73e9a950f60dba81d22d7943"
+      "digest": "e2b777a3b7d9aee8d53e3bc433360b9fef808ac8f28289dcb766e213c32d7d79"
     },
     {
       "id": "agent/pr-review-fixer",
@@ -100,7 +100,7 @@
     {
       "id": "agent/swe-architect",
       "path": ".agents/agents/swe-architect.md",
-      "digest": "a68dab8b89bbcb3d523f3cdd495ea73963a4177e9d776594d76f71a6a8d29bcd"
+      "digest": "260db77996c4c65aef66dbf0a360a65268b61ba58753fb341bfff250d431e55e"
     },
     {
       "id": "agent/swe-debugger",
@@ -110,7 +110,7 @@
     {
       "id": "agent/swe-developer",
       "path": ".agents/agents/swe-developer.md",
-      "digest": "b9b01b6e6fc9d3293e998c1c406d56dabd42f507331df9e9e1d09e2d44e46dc1"
+      "digest": "7f8199fb85a8be34c4f80b0d332c2ef1535bd9fe4f807b4a9d70e38da16f4441"
     },
     {
       "id": "agent/swe-orchestrator",
@@ -120,7 +120,7 @@
     {
       "id": "agent/swe-reviewer",
       "path": ".agents/agents/swe-reviewer.md",
-      "digest": "d499750e00432737be82b738302d23be2bbe5641a84cc5a40e1aa846799bc589"
+      "digest": "d54c5239b2fd464e3b7161a0711c4f0b9f495cce44191a183b7bc3021fcdf0f3"
     },
     {
       "id": "agent/swe-usability-tester",
@@ -130,12 +130,12 @@
     {
       "id": "agent/swe-web-tester",
       "path": ".agents/agents/swe-web-tester.md",
-      "digest": "0f91330d1b5b720bf361ef5b8eb956ddef942e2598b2dcd68b65155bc1359faf"
+      "digest": "678d54cf913903bd46a517a2e528acdcddd880a9273a6d35a467ba38879ed4a5"
     },
     {
       "id": "skill/applying-maker-checker-fixer",
       "path": ".agents/skills/applying-maker-checker-fixer/SKILL.md",
-      "digest": "c8326fc8b40790a103a13af5c5e57afc43ea0119d1a44146e53d73f3b318bbe3"
+      "digest": "3b43c3764032b6a3db41b37a77a99a58edff314a888aafa552d63bbf17cc1b2e"
     },
     {
       "id": "skill/assessing-criticality-confidence",
@@ -195,7 +195,7 @@
     {
       "id": "skill/plan-creating-project-plans",
       "path": ".agents/skills/plan-creating-project-plans/SKILL.md",
-      "digest": "18dbd4b5dfac645c6c95bf0fb1ff71d0ca035db31ef48cb67701587b8fbf4fc2"
+      "digest": "612ce44df5087fc4a9bad047e3c53ff32e9750bff012abb40b0b5a02d078a184"
     },
     {
       "id": "skill/plan-grooming-idea-briefs",

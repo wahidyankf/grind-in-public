@@ -52,23 +52,9 @@ unreachable origin, an unresolved specification, or no browser ends the pass as 
 
 ## Procedure
 
-1. **Sweep before browsing.** Run the functions of Enumerated Coverage the charter needs: consistent styling for
-   `design`; shared controls, state round-trips, and declared invariants for `spec` and `exploratory`.
-2. **Judge under the charter.** `spec` answers the gate's cycle questions, using
-   [Exploratory Testing](../skills/exploratory-testing/SKILL.md) for empty, error, and loading states and
-   [Developing Frontend UI](../skills/developing-frontend-ui/SKILL.md) for focus order, keyboard paths, and names.
-   `design` compares each observation with the sources Design-Fidelity Pass lists, as
-   [Design Fidelity Review](../skills/design-fidelity-review/SKILL.md) teaches. `exploratory` runs varied tours, probing
-   boundary, invalid, repeated, and out-of-order input, and recomputes any shown total or ordering.
-3. **Tell a defect from a gap.** Behaviour contradicting a cited source is a defect that quotes it. Correct behaviour no
-   scenario protects becomes a scenario proposal, written as
-   [Writing Gherkin Criteria](../skills/plan-writing-gherkin-criteria/SKILL.md) teaches, never written into a
-   specification.
-4. **Close with the completeness critic** of Usability Probes and Completeness, recording each category never enumerated
-   as an open gap.
-5. **Rate and record** each finding with its route, viewport class, locale, theme, state, the source it departs from,
-   reproduction steps with placeholder credentials, and a criticality from [Criticality Levels][criticality-levels]. A
-   tester rating on another severity scale maps severity, never priority, onto it.
+The rest of this section is in
+[Web Tester Procedure](../../repo-governance/conventions/swe-agent-procedures/swe-web-tester-procedure.md#procedure);
+read it in full before acting.
 
 ## Inside the UI Web Quality Gate
 
@@ -101,6 +87,3 @@ It never fixes a defect, edits a design or specification, changes state it was n
 component source. Repairs belong to [SWE Developer](swe-developer.md), first-use judgement to
 [SWE Usability Tester](swe-usability-tester.md), and the HTTP interface behind the screens to
 [SWE API Tester](swe-api-tester.md).
-
-[criticality-levels]:
-  ../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/001-criticality-levels.md

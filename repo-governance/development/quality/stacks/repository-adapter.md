@@ -47,9 +47,10 @@ standard wins, and is recorded below as a deviation.
 | `generating-validation-reports` | report location     | `generated-reports/`         | already ignored   |
 
 The other `swe-*` decisions take the catalog default: ADR location `docs/explanation/decisions/`, Host-integrated proof
-not required, Reviewer output inline, Specification completeness not checked, and Test boundary default. The Python
-pilot pins Pyright in `apps/forum-be-python/pyproject.toml` and sets strict mode in its `pyrightconfig.json`. Report
-timestamps carry an explicit offset. Promotion and hosting follow the [deployment policy](../../deployment-policy.md).
+not required, Reviewer output inline, and Specification completeness not checked. Test boundary `local`, judged against
+the testing policy in [quality gates](../../quality-gates.md). The Python pilot pins Pyright in
+`apps/forum-be-python/pyproject.toml` and sets strict mode in its `pyrightconfig.json`. Report timestamps carry an
+explicit offset. Promotion and hosting follow the [deployment policy](../../deployment-policy.md).
 
 ## Deviations
 
@@ -67,9 +68,9 @@ Each stronger local rule wins over the adopted standard it touches:
 - Drills stay owner-solved under the [drill practice policy](../../../conventions/drill-practice-policy.md): no agent
   writes a drill's solution.
 
-Known gaps, left for a separate plan rather than fixed by adoption: TypeScript lint runs Biome without type-aware rules;
-no JavaScript file is type-checked through JSDoc; the Python pilot has no formatter, linter, or coverage gate; project
-`tags` are empty; the two `.github/scripts/` tests run under `sh`.
+Known gaps, deferred to a separate plan: TypeScript lint runs Biome without type-aware rules; no JavaScript file is
+type-checked through JSDoc; the Python pilot has no formatter, linter, or coverage gate; project `tags` are empty; the
+two `.github/scripts/` tests run under `sh`.
 
 ## Project Applicability
 

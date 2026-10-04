@@ -37,24 +37,12 @@ judges source, never a running render or a live service.
 
 ## Code
 
-1. **Placement and failure handling.** Hexagonal Architecture and Functional Core, Imperative Shell, with error fates,
-   logging, and input validation judged as [Developing Applications](../skills/developing-applications/SKILL.md)
-   teaches, and types per
-   [Type and Boundary Safety](../../repo-governance/development/quality/code/type-and-boundary-safety.md).
-2. **Clarity and cost.** Code Clarity, Code as Liability,
-   [Dependency Selection](../../repo-governance/development/dependency-selection-policy.md), and
-   [Shell Scripts](../../repo-governance/development/quality/code/shell-scripts.md) for any script in scope.
-3. **Stack rules** from the stacks the project lists, read from the repository's local copies as
-   [Stack Packs](../../repo-governance/conventions/structure/stack-packs.md) resolves them. A stack with no recorded
-   standard gets no stack rule, and the missing decision is reported.
-4. **Test design.** Each test sits at its layer, per the test-boundary standard below; doubles follow Test Doubles, data
-   follows [Test Data Isolation](../../repo-governance/development/test-data-isolation.md), any git fixture follows Git
-   Fixture Isolation, and a coverage number measures only what
-   [Meaningful Coverage](../../repo-governance/development/quality/testing/meaningful-coverage.md) allows.
-5. **Test-first evidence.** New or changed behaviour has a test, and the records Cycle and Evidence requires exist
-   wherever the work kept them. Behaviour shipped with no test is a finding.
-6. **Regression tests.** Each bug fix carries the test
-   [Regression Tests](../../repo-governance/development/tdd-policy/regression-tests.md) requires.
+Six checks: placement and failure handling, clarity and cost, stack rules, test design, test-first evidence, and
+regression tests.
+
+The rest of this section is in
+[SWE Reviewer Code Checks](../../repo-governance/conventions/swe-agent-procedures/swe-reviewer-code-checks.md#code);
+read it in full before acting.
 
 ## Interface
 
@@ -99,11 +87,10 @@ Either way the reviewer never modifies what it judges, as Agent Authoring sets o
 
 ## Rating and Findings
 
-Rate each finding per [Criticality Levels][criticality-levels]. A blocking finding names an unmet goal, a failing
-deterministic check, or behaviour without a deterministic test; style, wording, and preference findings are advisory.
-Each finding names the project, file and line, the rule and its standard, what was observed, and its criticality, with
-how many files were read; zero read is never a clean result. Accepted false positives the caller supplies are left out
-of the count.
+Rate each finding per Criticality Levels. A blocking finding names an unmet goal, a failing deterministic check, or
+behaviour without a deterministic test; style, wording, and preference findings are advisory. Each finding names the
+project, file and line, the rule and its standard, what was observed, and its criticality, with how many files were
+read; zero read is never a clean result. Accepted false positives the caller supplies are left out of the count.
 
 ## Shell
 
@@ -120,6 +107,3 @@ be read, reporting it as not run.
 It never edits, chooses a stack standard, or researches the web. Findings go to [SWE Developer](swe-developer.md), a
 running interface to [SWE Web Tester](swe-web-tester.md), structure to [SWE Architect](swe-architect.md), targets and
 pipelines to [CI Checker](ci-checker.md), and documentation to [Docs Checker](docs-checker.md).
-
-[criticality-levels]:
-  ../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/001-criticality-levels.md
