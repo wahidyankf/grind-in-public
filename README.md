@@ -15,12 +15,12 @@ read `AGENTS.md` directly, while [`CLAUDE.md`](CLAUDE.md) imports it exactly. Ca
 live in `.agents/`; each harness keeps only its configuration and required native adapters. See the
 [agent harness support policy](repo-governance/conventions/agent-harness-support.md).
 
-Command Code's leaf adapters remain pending generation. Roles declaring `subagent` or nonempty `dispatches` run from
-their complete canonical definition in the main session; native leaves cannot dispatch nested agents. Command Code reads
-`.agents/skills/` natively and pins no model or effort. Its model follows the active session; omitted `reasoningEffort`
-uses the model default. Personal `.commandcode/settings.local.json` and the entire `.commandcode/taste/` tree stay
-ignored and preserved, with learning active. Current native policies are indexed in
-[the hook README](.commandcode/hooks/README.md).
+Command Code has 25 generated native leaf adapters with static parity verified. Native runtime discovery and enforcement
+remain unverified. Roles declaring `subagent` or nonempty `dispatches` run from their complete canonical definition in
+the main session; native leaves cannot dispatch nested agents. Command Code reads `.agents/skills/` natively and pins no
+model or effort. Its model follows the active session; omitted `reasoningEffort` uses the model default. Personal
+`.commandcode/settings.local.json` and the entire `.commandcode/taste/` tree stay ignored and preserved, with learning
+active. Current native policies are indexed in [the hook README](.commandcode/hooks/README.md).
 
 ## Hands-On by Design
 

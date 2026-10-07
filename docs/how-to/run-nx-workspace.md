@@ -49,8 +49,10 @@ Integration tests are not part of the pre-push hook.
 
 ## Run the Repository Checks
 
-The repository-wide commands below were not exercised in this documentation pass; verification was limited to the edited
-documentation. Command Code adapter generation and parity remain pending the required RHINO release.
+The governance and harness-parity commands below were not repeated in this documentation pass. Verification covered the
+edited documentation and the declared Markdown link check. Command Code's 25 native leaf adapters are generated;
+configuration and static adapter validation passed with RHINO v0.12.0. Native runtime discovery and enforcement remain
+unverified.
 
 Run these checks after changing the agent instruction files, `AGENTS.md` and `CLAUDE.md`, Markdown files under
 `repo-governance/`, anything under `.agents/`, `.claude/`, `.codex/`, `.opencode/`, or `.commandcode/`, or a project's
