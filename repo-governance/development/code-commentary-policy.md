@@ -1,5 +1,5 @@
 ---
-tldr: "Requires purposeful comments that teach intent, flow, and non-obvious decisions."
+tldr: "Requires purposeful comments that explain why code and non-obvious decisions are needed."
 when_to_use: "Use when adding or reviewing executable source, tests, or repository scripts."
 ---
 
@@ -7,8 +7,9 @@ when_to_use: "Use when adding or reviewing executable source, tests, or reposito
 
 ## Purpose
 
-This is a learning repository. Code should help a reader understand both what it does and the reasoning behind it,
-including the owner returning to a drill months later.
+This is a learning repository. Comments should help a reader understand why code and non-obvious decisions are needed,
+including the owner returning to a drill months later. Follow the [language policy](../conventions/language-policy.md)
+for concise, accessible prose.
 
 ## Required Commentary
 
@@ -16,7 +17,7 @@ Add purposeful comments to executable source, tests, and repository scripts. Exp
 syntax alone, including:
 
 - the intent and boundary of a module, function, or test;
-- important control-flow stages and data transformations;
+- why important control-flow stages and data transformations are needed;
 - invariants, security or correctness checks, and failure behaviour;
 - why a dependency is injected, mocked, cached, or intentionally avoided; and
 - a deliberate simplification that accepts a real ceiling, using a `ceiling:` comment that names both the limit and the

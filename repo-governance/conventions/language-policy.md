@@ -15,6 +15,15 @@ Use the Beaver Nest vocabulary for behaviour-related terminology. Spell `behavio
 identifiers, directory names, and Nx targets; do not introduce the American variant. This deliberate British spelling
 also matches Elixir's `@behaviour` terminology and keeps cross-repository searches deterministic.
 
+## Writing Style
+
+Keep comments, commit messages, and notes brief; remove detail that does not help readers understand the reason. When
+these explain code, say why the code is needed or why a choice was made instead of retelling what the code does. Use
+clear, simple, natural English that readers who use English as an additional language can follow.
+
+Review these judgments in context: a repeated operation, unnecessary detail, or wording that obscures the reason
+violates the style. No mechanical check can judge the meaning reliably, so this rule is unenforced by decision.
+
 ## Conversation Is Not Covered
 
 This policy governs repository artifacts, not people. The owner may talk to an agent in Bahasa Indonesia, English, or a
