@@ -1,12 +1,13 @@
 # Repository Guidelines
 
+Use clear, simple, and natural English that is easy for non-native speakers to understand when writing in English,
+including replies to the user. Follow the [language policy](repo-governance/conventions/language-policy.md).
+
 ## Purpose and Working Style
 
-Grind in Public is a personal lifelong-learning workspace for software engineering. Follow the
-[drill practice](repo-governance/conventions/drill-practice-policy.md) and
+Follow the [drill practice](repo-governance/conventions/drill-practice-policy.md) and
 [task tracking](repo-governance/conventions/task-tracking-policy.md), which governs `local-tmp/` progress ledgers and
-concurrent edits. Write files in English; see the [language policy](repo-governance/conventions/language-policy.md). Use
-the smallest responsible change; maintained surfaces prove recurring value. See
+concurrent edits. Write files in English. Use the smallest responsible change. See
 [minimum sufficiency](repo-governance/principles/minimum-sufficiency.md) and
 [maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with options,
 not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).

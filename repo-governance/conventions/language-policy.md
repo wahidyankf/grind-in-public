@@ -1,6 +1,6 @@
 ---
-tldr: "Requires English in everything the repository authors, while leaving conversation unrestricted."
-when_to_use: "Use when writing code, documentation, specifications, tests, or commit messages."
+tldr: "Requires English in repository artifacts and clear, simple English when an agent replies in English."
+when_to_use: "Use when writing code, documentation, plans, tests, commit messages, or an English agent reply."
 ---
 
 # Language Policy
@@ -17,20 +17,20 @@ also matches Elixir's `@behaviour` terminology and keeps cross-repository search
 
 ## Writing Style
 
-Keep comments, commit messages, and notes brief; remove detail that does not help readers understand the reason. When
-these explain code, say why the code is needed or why a choice was made instead of retelling what the code does. Use
-clear, simple, natural English that readers who use English as an additional language can follow.
+Use clear, simple, and natural English that is easy for non-native speakers to understand. Apply this to all English
+repository writing and to agent replies when the agent uses English.
+
+Keep comments, commit messages, notes, plans, and other documents concise; remove detail that does not help readers.
+Explain why code or a choice is needed when the reason is not evident, without retelling visible operations. Keep
+behaviour, usage, and verification details that readers need.
 
 Review these judgments in context: a repeated operation, unnecessary detail, or wording that obscures the reason
 violates the style. No mechanical check can judge the meaning reliably, so this rule is unenforced by decision.
 
-## Conversation Is Not Covered
+## Conversation Language
 
-This policy governs repository artifacts, not people. The owner may talk to an agent in Bahasa Indonesia, English, or a
-mix, and an agent answers in the language it was addressed in. Only what lands in a file is bound.
-
-The split matters because the two have different readers. A conversation has one reader who chose the language; a
-committed file has every future reader, including the owner months later and every agent that loads it as context.
+The owner may talk to an agent in Bahasa Indonesia, English, or a mix, and an agent answers in the language it was
+addressed in. The English clarity guidance applies when an agent answers in English.
 
 ## The Exceptions
 
