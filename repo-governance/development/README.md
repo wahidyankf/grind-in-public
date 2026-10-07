@@ -39,6 +39,8 @@ only the policy that matches the work at hand:
   it.
 - [Resource-Aware Development](resource-aware-development.md) for checksum-pinned admission and recovery of
   compute-bearing Nx work.
+- [Resource-Aware Development Evidence](resource-aware-development-evidence.md) for consumer pins, shared-root safety,
+  and retained HIPPO identity and evidence.
 - [Specs](specs-policy.md) for Gherkin acceptance criteria and the `specs/` tree; its
   [detail index](specs-policy/README.md) holds focused structural guidance.
 - [Software Quality Enforcement](software-quality-enforcement.md) for truthful gate, hook, schedule, runtime, and

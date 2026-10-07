@@ -55,32 +55,15 @@ Never bypass HIPPO, weaken a gate, delete possibly live state, or raise mapped c
 
 An unguarded sibling Nx fan-out once exhausted memory and forced a restart. HIPPO cannot shed unknown work.
 
-[The boundary hook](../../.claude/hooks/require-hippo-boundary.sh) rejects unguarded compute before spawn. All three
-harnesses bind the byte-identical shared consumer hook.
+[The boundary hook](../../.claude/hooks/require-hippo-boundary.sh) rejects unguarded compute before spawn. All four
+harnesses bind this shared consumer boundary. Command Code registers it in
+[native settings](../../.commandcode/settings.json) through
+[its policy bridge](../../.commandcode/hooks/run-policy-hook.sh), which maps native shell payloads and delegates to the
+same boundary hook.
 
 The hook checks presence, not class judgment, and matches compute verbs only in command position.
 
 ## Consumer Integrity and Evidence
 
-`hippo.lock` pins release, commit, and each platform asset's SHA-256. The wrapper revalidates bytes, publishes
-atomically, and bounds its cache. `hippo.local.json.example` documents schema 3; ignored machine policy cannot weaken
-upstream floors. A worktree without it inherits the primary checkout's policy.
-
-The lock pins executable identity, not governance semantics. Before changing consumer behaviour, read the Hippo
-repository at the commit in `hippo.lock`, especially its exit-code and recovery references, then reconcile this rule,
-Gherkin, and harness checks with the capabilities that commit actually provides. Never infer capability from SemVer
-ordering or copy a release number into the rule.
-
-Use the shared per-user root. Override `HIPPO_ROOT` only for isolated tests. Unverifiable coordination state fails
-closed; follow upstream recovery guidance rather than deleting state from diagnostic PIDs.
-
-Evidence contains capacity and process health, never contents, arguments, origins, credentials, or user data. Test
-pressure only with isolated synthetic state. Scheduled Linux/macOS smoke verifies identity, schema, mappings, root, and
-cleanup; ordinary hosted jobs retain runner-native limits.
-
-`hippo.identity.json` labels this repository in live status and the bounded 30-day history. Identity discovery works
-from nested paths and an explicitly authorized contained `worktrees/<task>` checkout; add privacy-safe
-`--tag checkout=worktree --tag plan=<slug>` values per run. Use `./hippo status`,
-`./hippo watch --source grind-in-public`, and `./hippo history --since 30d --source grind-in-public` directly. Every
-checkout uses the shared default root; set `HIPPO_ROOT` only for isolated tests. Raw evidence rolls for seven days;
-compacted daily summaries roll for 30 days under byte caps.
+See [Consumer Integrity and Evidence](resource-aware-development-evidence.md) for consumer identity, policy
+reconciliation, shared-root safety, and retained evidence.
