@@ -49,9 +49,12 @@ Integration tests are not part of the pre-push hook.
 
 ## Run the Repository Checks
 
+The repository-wide commands below were not exercised in this documentation pass; verification was limited to the edited
+documentation. Command Code adapter generation and parity remain pending the required RHINO release.
+
 Run these checks after changing the agent instruction files, `AGENTS.md` and `CLAUDE.md`, Markdown files under
-`repo-governance/`, anything under `.agents/`, `.claude/`, `.codex/`, or `.opencode/`, or a project's `project.json` or
-`nx.json`:
+`repo-governance/`, anything under `.agents/`, `.claude/`, `.codex/`, `.opencode/`, or `.commandcode/`, or a project's
+`project.json` or `nx.json`:
 
 ```sh
 rtk npm run check:governance

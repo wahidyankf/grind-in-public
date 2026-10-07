@@ -10,10 +10,17 @@ I keep building.
 This README and [`docs/`](docs/README.md) are for people. AI agents use [`AGENTS.md`](AGENTS.md) and related instruction
 files; shared repository governance in [`repo-governance/`](repo-governance/README.md) applies to both.
 
-Three agent harnesses are supported: Claude Code, Codex, and opencode. Codex and opencode read `AGENTS.md` directly,
-while [`CLAUDE.md`](CLAUDE.md) imports it exactly. Canonical skills and custom-agent prompts live in `.agents/`; each
-harness keeps only its configuration and required native adapters. See the
+Four agent harnesses are declared: Claude Code, Codex, OpenCode, and Command Code. Codex, OpenCode, and Command Code
+read `AGENTS.md` directly, while [`CLAUDE.md`](CLAUDE.md) imports it exactly. Canonical skills and custom-agent prompts
+live in `.agents/`; each harness keeps only its configuration and required native adapters. See the
 [agent harness support policy](repo-governance/conventions/agent-harness-support.md).
+
+Command Code's leaf adapters remain pending generation. Roles declaring `subagent` or nonempty `dispatches` run from
+their complete canonical definition in the main session; native leaves cannot dispatch nested agents. Command Code reads
+`.agents/skills/` natively and pins no model or effort. Its model follows the active session; omitted `reasoningEffort`
+uses the model default. Personal `.commandcode/settings.local.json` and the entire `.commandcode/taste/` tree stay
+ignored and preserved, with learning active. Current native policies are indexed in
+[the hook README](.commandcode/hooks/README.md).
 
 ## Hands-On by Design
 

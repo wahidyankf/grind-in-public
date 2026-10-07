@@ -22,7 +22,13 @@ export const HARNESS_WORKFLOW =
 // commands. Changing one of them can leave the harnesses unequal, which is
 // what the parity verification workflow checks.
 const harnessFiles = ["AGENTS.md", "CLAUDE.md", "opencode.json"];
-const harnessDirectories = [".claude", ".codex", ".opencode", ".agents"];
+const harnessDirectories = [
+  ".claude",
+  ".codex",
+  ".opencode",
+  ".commandcode",
+  ".agents",
+];
 
 // The paths that carry rules without being harness surfaces: the shared
 // governance, and the Git hooks that enforce it.

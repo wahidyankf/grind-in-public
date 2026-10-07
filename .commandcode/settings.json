@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^SHELL$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.commandcode/hooks/run-policy-hook.sh\" require-hippo-boundary",
+            "timeout": 3,
+            "failClosed": true
+          }
+        ]
+      },
+      {
+        "matcher": "^(WRITE|EDIT)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$(git rev-parse --show-toplevel)/.commandcode/hooks/run-policy-hook.sh\" check-rule-change",
+            "timeout": 3
+          }
+        ]
+      }
+    ]
+  }
+}

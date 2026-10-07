@@ -48,3 +48,7 @@ __pycache__/
 # Kulala's personal environment overrides: a secret, a local port, and the auth tokens Kulala fetches
 # and saves there. The shared http-client.env.json next to a collection stays tracked.
 http-client.private.env.json
+
+# Command Code personal project state
+/.commandcode/settings.local.json
+/.commandcode/taste/

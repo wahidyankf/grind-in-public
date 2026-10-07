@@ -8,9 +8,9 @@ when_to_use:
 
 ## Scope
 
-This repository supports three harnesses, in the sense the [agent vocabulary](agent-vocabulary.md) defines: the tool
-that runs the model. `AGENTS.md` is the sole repository-rule body. Codex and opencode read it directly; Claude Code
-reaches it through the exact `@AGENTS.md` import in `CLAUDE.md`.
+This repository supports four harnesses, in the sense the [agent vocabulary](agent-vocabulary.md) defines: the tool that
+runs the model. `AGENTS.md` is the sole repository-rule body. Codex, OpenCode, and Command Code read it directly; Claude
+Code reaches it through the exact `@AGENTS.md` import in `CLAUDE.md`.
 
 ## Details
 

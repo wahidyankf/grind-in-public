@@ -10,5 +10,5 @@ Inventory the canonical instructions, agents and skill bundles, harness configs,
 ```sh
 rg --files -g 'AGENTS.md' -g 'CLAUDE.md' -g 'GEMINI.md' -g 'COPILOT.md' -g '.cursorrules' -g 'SKILL.md' \
     -g '!node_modules'
-ls .agents/agents .agents/skills .claude/agents .claude/skills .codex/agents .opencode/agents
+ls .agents/agents .agents/skills .claude/agents .claude/skills .codex/agents .opencode/agents .commandcode/agents
 ```

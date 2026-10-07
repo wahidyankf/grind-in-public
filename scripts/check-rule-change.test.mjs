@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdtempSync,
+  mkdirSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -40,7 +46,7 @@ const ISOLATED = Object.fromEntries(
 );
 
 function withRepository(body) {
-  const root = mkdtempSync(path.join(tmpdir(), "rule-change-"));
+  const root = realpathSync(mkdtempSync(path.join(tmpdir(), "rule-change-")));
   try {
     execFileSync("git", ["init", "-q"], { cwd: root, env: ISOLATED });
     body(root);
@@ -141,5 +147,19 @@ test("the hook command does not block on a payload it cannot read", () => {
     const { code, stdout } = announce(root, "hook", "not json at all");
     assert.equal(code, 0);
     assert.equal(stdout, "");
+  });
+});
+
+test("a native Command Code write reports both workflows without blocking", () => {
+  withRepository((root) => {
+    const payload = JSON.stringify({
+      tool_name: "write_file",
+      tool_input: { file_path: path.join(root, ".commandcode/settings.json") },
+    });
+    const { code, stdout } = announce(root, "hook", payload);
+    assert.equal(code, 0);
+    const event = JSON.parse(stdout);
+    assert.ok(event.hookSpecificOutput.additionalContext.includes(PROPAGATION));
+    assert.ok(event.hookSpecificOutput.additionalContext.includes(HARNESS));
   });
 });

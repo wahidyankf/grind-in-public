@@ -11,8 +11,9 @@ when_to_use: "Use after checking instruction routing, to verify capability adapt
 
 Edit the canonical skill bundle or custom-agent definition first, then reconcile every native adapter as the
 [harness capability parity policy](../../../conventions/harness-capability-parity-policy.md) requires. Confirm exact
-descriptions and routes, complete supporting resources, one adapter per required harness, and the documented native
-permission mapping. Remove stale copies rather than carrying two prompt bodies.
+descriptions and routes, complete supporting resources, one adapter per selected native role, complete canonical
+main-session routes, and the documented native permission mapping. Remove stale copies rather than carrying two prompt
+bodies.
 
 ## Configs and Indexes
 

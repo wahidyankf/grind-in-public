@@ -49,7 +49,7 @@ run ./.github/scripts/test-pre-push-contract.sh
 printf '\n[repo] British spelling\n'
 if rg -n -i 'behavio[r]' \
 	AGENTS.md CLAUDE.md \
-	repo-governance apps specs scripts .github .husky .agents .claude .codex .opencode \
+	repo-governance apps specs scripts .github .husky .agents .claude .codex .opencode .commandcode \
 	--glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.tsx' \
 	--glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.unit.test.tsx'; then
 	echo 'ERROR: repository-owned terms must use the British spelling behaviour' >&2

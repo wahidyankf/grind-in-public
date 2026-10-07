@@ -63,6 +63,19 @@ test("selects every rule-bearing file and directory, and nothing else", async ()
   assert.equal(selected.length, 9);
 });
 
+test("Command Code settings and agents trigger both workflows", async () => {
+  const { rulePaths, harnessPaths, notice } = await load();
+  const paths = [
+    ".commandcode/settings.json",
+    ".commandcode/agents/swe-developer.md",
+  ];
+  assert.deepEqual(rulePaths(paths), [...paths].sort());
+  assert.deepEqual(harnessPaths(paths), [...paths].sort());
+  assert.ok(notice(paths).includes(PROPAGATION));
+  assert.ok(notice(paths).includes(HARNESS));
+  assert.deepEqual(rulePaths([".commandcode-notes/a.md"]), []);
+});
+
 test("normalises, de-duplicates, and sorts what it reports", async () => {
   const { rulePaths } = await load();
   assert.deepEqual(

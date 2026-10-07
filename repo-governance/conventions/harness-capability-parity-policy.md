@@ -5,9 +5,10 @@ when_to_use: "Use when adding, changing, renaming, or removing a shared skill, a
 
 # Harness Capability Parity Policy
 
-Codex, Claude Code, and opencode receive the same repository-owned skill workflows, custom-agent intent, safety
-constraints, and supported capabilities. Matching names or counts is insufficient: every harness must reach the same
-canonical content, and native adapters must preserve it without adding prompt instructions or weakening restrictions.
+The supported harnesses in [Agent Harness Support](agent-harness-support.md) receive the same repository-owned skill
+workflows, custom-agent intent, safety constraints, and supported capabilities. Matching names or counts is
+insufficient: every harness must reach the same canonical content, and native adapters must preserve it without adding
+prompt instructions or weakening restrictions.
 
 ## Canonical Sources
 
@@ -20,17 +21,39 @@ canonical content, and native adapters must preserve it without adding prompt in
   [instruction alignment policy](agent-instruction-alignment-policy.md).
 
 Claude receives one thin skill adapter under `.claude/skills/<name>/SKILL.md`. It repeats only the exact canonical name
-and description, then directs the harness to read the complete canonical bundle. Codex and opencode discover
-`.agents/skills/` directly; no opencode copy is allowed.
+and description, then directs the harness to read the complete canonical bundle. Harnesses that discover
+`.agents/skills/` directly receive no skill copy.
 
-Every canonical custom agent has exactly one native adapter under `.claude/agents/`, `.codex/agents/`, and
-`.opencode/agents/`. An adapter contains only native identity, mode, tools or permission metadata, and the fixed route
+Every canonical custom agent has exactly one native adapter in each declared native profile, except the main-session
+roles described below. An adapter contains only native identity, mode, tools or permission metadata, and the fixed route
 to its canonical definition. It must preserve the canonical description and strongest native representation of every
 required capability, denial, and constraint. When a harness cannot express one natively, the canonical prompt retains
 the restriction and the supported-harness policy records the limitation; never silently omit it.
 
 Commands remain harness-native and are outside the canonical skill and agent contract. No repository capability is
 required merely because a harness supports it; add one only after a separate rule establishes recurring need.
+
+## Session Coordination
+
+A profile whose native subagents cannot dispatch must explicitly select only canonical leaf agents. Any role declaring
+`subagent` or a nonempty `dispatches` list is read completely in the main session and coordinated there, following its
+named dispatch allowlist. This is the exception to one native adapter per canonical role; it preserves reachability
+without claiming nested dispatch. The main-session roles here are `swe-orchestrator`.
+
+For a session-inheriting profile, omit tier mappings and model, featureModels, effort, and reasoningEffort pins from
+adapters, project settings, shared global sources, and smoke commands. The active session supplies the model; omitted
+reasoning fields use the harness default. Native leaf adapters must retain the strongest documented tool grants and
+denials.
+
+Keep declared personal project settings and taste-learning trees local and ignored, preserving their contents and active
+learning. The new native transaction owns only its declared agent root, never local state or project settings.
+
+Declared-profile parity verifies leaf selection and adapter contents; a runtime probe verifies main-session dispatch.
+Semantic compliance with the canonical role remains unenforced by decision: adapter validation cannot judge a model's
+conduct in the main session.
+
+When canonical agents change, update the explicit profile selection in the same change. It must equal every canonical
+leaf, excluding exactly roles declaring `subagent` or nonempty `dispatches`; audit that equality after regeneration.
 
 ## Deterministic Verification
 
