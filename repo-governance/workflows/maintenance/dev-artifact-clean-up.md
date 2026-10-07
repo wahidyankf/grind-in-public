@@ -32,8 +32,10 @@ recorded regeneration, non-use, and secret-free evidence. This never makes a sha
 The worktree and branch halves of this workflow do not apply. The
 [integration path policy](../../conventions/integration-path-policy.md) makes local `main` the sole integration path, so
 no task branch or worktree exists to remove. Where an external tool created a temporary one for a non-integration
-purpose, that policy already requires removing it the moment its purpose completes, and `prod-<project>` promotion
-branches are never in scope.
+purpose, that policy requires removing it the moment its purpose completes, and `prod-<project>` promotion branches are
+never in scope. If `git branch -d` refuses that branch, force it only when no worktree holds it and
+`git cherry origin/main <branch>` prints only `-` lines, or its tip is over 72 hours old and first saved by
+`git bundle create local-tmp/<branch>.bundle origin/main..<branch>`.
 
 Everything else on the machine belongs to someone else — another repository's state, an artifact this work did not
 create. That holds even when it looks abandoned.

@@ -43,7 +43,8 @@ the command destroys and who made it, not whether it appears below.
   - Use instead: leave the entries
 - `git branch -D`, `git update-ref -d`
   - Destroys: a branch, skipping the merged check
-  - Use instead: `git branch -d`
+  - Use instead: `git branch -d`; for a tool's task branch,
+    [dev artifact clean-up](../workflows/maintenance/dev-artifact-clean-up.md)
 - **expiring the reflog and pruning at once**
   - Destroys: the recovery path itself
   - Use instead: let automatic maintenance run
