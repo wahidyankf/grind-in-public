@@ -12,13 +12,14 @@ grep -Eq '^version=v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$' "$reposi
 grep -Eq '^commit=[0-9a-f]{40}$' "$repository_root/hippo.lock"
 grep -Fq -- '--path-format=absolute --git-common-dir' "$repository_root/hippo"
 resource_rule="$repository_root/repo-governance/development/resource-aware-development.md"
+resource_evidence_rule="$repository_root/repo-governance/development/resource-aware-development-evidence.md"
 grep -Fqi 'exit `124`' "$resource_rule"
 grep -Fq 'never-started' "$resource_rule"
 grep -Fqi 'exit `125`' "$resource_rule"
 grep -Fqi 'never retried' "$resource_rule"
 grep -Fq 'protocol-mismatch' "$resource_rule"
-grep -Fq 'repository at the commit in `hippo.lock`' "$resource_rule"
-grep -Fq '30 days' "$resource_rule"
+grep -Fq 'repository at the commit in `hippo.lock`' "$resource_evidence_rule"
+grep -Fq '30 days' "$resource_evidence_rule"
 # Keep every tracked active example compatible with schema 3 and prevent the
 # self-contention caused by wrapping an already-guarded package script.
 tier_findings=$(git -C "$repository_root" grep -n -E \
