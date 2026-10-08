@@ -16,6 +16,17 @@
       "nx affected*": "deny",
       "rtk nx affected*": "deny",
       "*./hippo run*": "allow"
+    },
+    "*": "allow",
+    "read": {
+      "*": "allow",
+      "**/.env*": "deny",
+      "**/.env.example": "allow"
+    },
+    "edit": {
+      "*": "allow",
+      "**/.env*": "deny",
+      "**/.env.example": "allow"
     }
   }
 }

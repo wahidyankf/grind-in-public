@@ -76,3 +76,11 @@ This repository does not use pull requests for integration. Follow the
 
 A bypass is allowed only with explicit approval from the repository owner. Record the approval and reason in the commit
 record so the skipped validation is visible and can be rerun promptly.
+
+## Agent Environment Access
+
+Agent tools must not directly read, write, or edit `.env*` files, except `.env.example`. The repository owns this
+restriction in addition to its commit checks. [`.agents/agent-policy.json`](../../.agents/agent-policy.json) declares
+the protected paths for `scripts/agent-policy-hook.sh`; `.serena/project.yml` excludes them from semantic indexing.
+Claude Code, OpenCode, and Command Code native bindings enforce their own physical checkout; neutral routing covers
+another destination.

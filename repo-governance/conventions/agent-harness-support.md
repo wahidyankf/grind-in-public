@@ -32,7 +32,7 @@ requirement, and the check that enforces it.
 
 Keep each project config to settings that the tool documents and that the repository actually needs. A config file is
 not a place for rules; rules belong in `AGENTS.md` or `repo-governance/`. Do not re-list an auto-discovered file as an
-extra instruction; `opencode.json` therefore pins only its schema.
+extra instruction. `opencode.json` declares repository permissions and keeps model selection inherited.
 
 Write every agent description as two things: a short statement of what the agent does, then a short sentence saying when
 it should be used. Harnesses route work by description, so an agent that omits its trigger will be picked at the wrong
@@ -44,8 +44,12 @@ file by name, and what each does with an index, is recorded in
 [directory index behaviour](agent-harness-support/directory-index-behaviour.md).
 
 A permission control that one harness lacks is recorded in the canonical definition, the native mapping, and the
-supported-harness table. Codex has no per-agent shell switch, so its read-only explorer combines `sandbox_mode` with the
-canonical instruction instead of pretending that an unavailable native control exists.
+supported-harness table. OpenCode Serena registration is deferred; Claude Code and Command Code retain semantic
+integration. Codex 0.161 retains its existing guards; Serena and new destination routing are deferred. Its [release role
+loader][role] omits MCP overrides, and native shell hooks omit the requested working directory. No role-local MCP
+capability enforcement is claimed. Shell controls remain separate from semantic MCP access.
+
+[role]: https://github.com/openai/codex/blob/979011409de0a60b52f179721948e65531d26144/codex-rs/core/src/agent/role.rs
 
 ## Verification
 

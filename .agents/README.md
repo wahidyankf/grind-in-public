@@ -10,3 +10,10 @@ directly; custom-agent adapters route to the prompts here. See the
 - [`skills/`](skills/README.md) — the shared skills available in this repository.
 
 Nothing here is harness-specific by nature. Native adapters contain only the metadata and route their harness needs.
+
+## Repository Tool Policy
+
+[`agent-policy.json`](agent-policy.json) declares protected and permitted path patterns for the repository-owned
+[`agent-policy-hook.sh`](../scripts/agent-policy-hook.sh) endpoint. Governing obligations remain in repository security
+and resource conventions. Claude Code, OpenCode, and Command Code native bindings and cross-repository routing invoke
+this endpoint. Codex retains its existing guards; its new routing and Serena registration are deferred.

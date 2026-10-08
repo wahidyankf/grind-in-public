@@ -1,0 +1,15 @@
+project_name: "grind-in-public"
+language_servers:
+  - typescript
+  - go
+  - python
+  - java
+  - kotlin
+  - rust
+  - csharp
+  - bash
+encoding: utf-8
+ignore_all_files_in_gitignore: true
+ignored_paths:
+  - "**/.[eE][nN][vV]*"
+  - "!**/.[eE][nN][vV].[eE][xX][aA][mM][pP][lL][eE]"
