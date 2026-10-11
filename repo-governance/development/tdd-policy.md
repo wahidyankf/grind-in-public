@@ -18,9 +18,11 @@ read the relevant tests to establish intended behaviour, constraints, and bounda
 Each behaviour starts Gherkin-first: add or update exactly one canonical scenario before its RED test, then deliver it
 as a RED -> GREEN -> REFACTOR cycle:
 
-1. **RED** — write the test that expresses the scenario and run its narrowest Nx target. It must fail for the stated
-   behavioural reason; compilation, configuration, or infrastructure failure is not RED evidence.
-2. **GREEN** — write only enough production code to pass the test and its surrounding suite.
+1. **RED** — write the test that expresses the scenario and run only the check covering the current item (its narrowest
+   Nx target). Do not run the block to prove a single item. It must fail for the stated behavioural reason; compilation,
+   configuration, or infrastructure failure is not RED evidence.
+2. **GREEN** — write only enough production code to pass the test. Demonstrate GREEN by running only that same covering
+   check, not the block.
 3. **REFACTOR** — improve the design without adding behaviour and keep the target green.
 
 ## One Scenario per Cycle

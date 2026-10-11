@@ -39,7 +39,9 @@ without an Nx cycle.
 ## Runtime and Selection
 
 Integration and E2E targets are uncached and stay outside `test:quick` and Git hooks. Run affected suites before
-completion. Scheduled CI runs complete integration coverage before complete E2E.
+completion. At the end of each plan phase, and before a pull request is marked ready-for-review or a session ends as a
+safety net, run the whole automated suite except the complete E2E run, plus only the E2E journeys the change affects.
+Scheduled CI runs complete integration coverage before complete E2E.
 
 Tests create only synthetic state inside boundaries owned by their run and fail closed instead of reusing an unverified
 process, identity, filesystem root, browser context, or data store. Follow [test data isolation](test-data-isolation.md)

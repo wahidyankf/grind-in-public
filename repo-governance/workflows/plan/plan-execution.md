@@ -25,6 +25,10 @@ recorded, stop without starting or rerunning the gate. The plan sits in `plans/i
 update both indexes, and push that move only when authorized before running any checklist item, per the
 [lifecycle rules](../../conventions/plans-organization-policy/002-lifecycle-moves.md).
 
+Before starting execution, sync the execution checkout from the latest `origin/main`. This repository has no worktree
+flow — execution runs in the single checkout — so the rule adapts to: fetch `origin` and fast-forward local `main`
+before working the first checklist item.
+
 ## Steps
 
 1. [Materialize the checklist into the harness task list](plan-execution/001-task-list-sync.md), one task per checkbox.

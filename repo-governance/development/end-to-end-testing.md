@@ -18,6 +18,9 @@ owner's canonical Gherkin corpus and observes only its built public boundary; it
 - Use exact local origins and fail when an unexpected existing process answers the test port in CI.
 - Keep runtime E2E uncached and outside commit and push hooks. Run affected journeys before completion and the complete
   suite after integration coverage in scheduled CI.
+- Run the full E2E suite on its scheduled CI workflow (CRON) by default; keep local E2E selective to the touched flow.
+- Never require a full E2E run as a completion condition for plan execution or a plan phase; full E2E is a separately
+  batched set.
 
 Browser E2E covers representative desktop, tablet, and mobile viewports when layout changes with width. It verifies
 semantic roles, keyboard reachability, focus behaviour, accessible names, and automated WCAG findings where applicable.
