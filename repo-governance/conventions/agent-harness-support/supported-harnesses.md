@@ -11,6 +11,7 @@ when_to_use: "Use when configuring a harness or checking which file it reads."
 | Codex        | `AGENTS.md`                               | `.codex/config.toml`         |
 | opencode     | `AGENTS.md`                               | `opencode.json`              |
 | Command Code | `AGENTS.md`                               | `.commandcode/settings.json` |
+| Muse         | `AGENTS.md`                               | `.muse/hooks.json`           |
 
 Where each harness loads canonical skills and native custom-agent adapters belongs to the
 [harness capability parity policy](../harness-capability-parity-policy.md).
