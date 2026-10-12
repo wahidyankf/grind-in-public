@@ -29,7 +29,7 @@ new authorization decision.
    reconciliation are proved.
 4. Rebase only the task-owned commits onto the current trunk under
    [Integration Path Policy](../../conventions/integration-path-policy.md).
-5. Resolve a conflict only when its affected paths and intended behavior are owned and already settled by the task;
+5. Resolve a conflict only when its affected paths and intended behaviour are owned and already settled by the task;
    review the resolution and rerun affected checks. Abort and escalate a conflict involving foreign work, uncertain
    intent, or a new material choice. Never choose all incoming or current changes blindly.
 6. Read the whole incoming diff and reconcile the task against it; verify that the replay preserves the task's intended
