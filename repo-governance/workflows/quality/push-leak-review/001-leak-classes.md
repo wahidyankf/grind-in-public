@@ -32,6 +32,9 @@ synthetic passes.
 
 - A home-relative path such as `~/notes`. It names no account and resolves on every machine.
 - A repository-relative path, or a documented placeholder such as `<name>` or `<repository-path>`.
+- An environment-variable name without its value, or an unmistakably fake placeholder.
+- A standard non-identifying system path such as `/dev/null`, or an owner's already-public identity in a public
+  repository URL.
 - Public identifiers, documented public values, and loopback addresses in test configuration that targets a local
   service.
 - Synthetic fixtures that are unmistakably synthetic.

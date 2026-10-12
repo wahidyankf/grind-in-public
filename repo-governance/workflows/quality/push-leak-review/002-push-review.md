@@ -42,6 +42,10 @@ the latest commit, or rebuild the range without it.
 | `protected_environment_property` | an environment variable declared in the committed template                  |
 | `machine_specific_absolute_path` | a `~/` path, a repository-relative path, or a documented placeholder        |
 
+Once material is in history, contain it: never repeat the value in diagnostics, reports, issues, or replacement commits.
+Treat authentication material as compromised, and revoke or rotate it through its owning system. Keep only sanitized
+evidence, and report the affected paths and revisions without the value.
+
 After the push, the value is disclosed. Stop, rotate any credential, and report it to the repository owner without the
 value. Rewriting published history requires the owner's explicit approval under the
 [commit hook policy](../../../development/commit-hook-policy.md#public-repository-safety); correcting the tree alone is

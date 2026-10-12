@@ -53,6 +53,12 @@ Each agent suppresses its own attribution: no `Co-Authored-By` trailer for an as
 no session link, by hand or by tool default. For Claude Code, `.claude/settings.json` sets `attribution.commitTrailers`
 to `false`, empties the `commit` and `pr` text, and turns `sessionUrl` off. The commit hook policy owns the prohibition.
 
+Agent tools must not directly read, write, or edit `.env*` files, except `.env.example`.
+[`.agents/agent-policy.json`](../../.agents/agent-policy.json) declares the protected paths for
+`scripts/agent-policy-hook.sh`; `.serena/project.yml` excludes them from semantic indexing. Claude Code, OpenCode, and
+Command Code native bindings enforce their own physical checkout; neutral routing covers another destination. The
+[commit hook policy](../development/commit-hook-policy.md#agent-secret-access) links here for the restriction.
+
 [role]: https://github.com/openai/codex/blob/979011409de0a60b52f179721948e65531d26144/codex-rs/core/src/agent/role.rs
 
 ## Verification

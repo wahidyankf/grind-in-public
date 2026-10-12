@@ -65,7 +65,8 @@ The [testing policy](testing-policy.md) owns the target contract and ordered `te
 - `npm run check:governance` enforces the [document word limit policy](../conventions/document-word-limit-policy.md).
 - `npm run check:harness-parity` validates instructions, skills, and agent adapters.
 - `npm run check:markdown-links` validates repository-local Markdown links. It reads Git-tracked files, so `git add -N`
-  a new document before trusting a local run.
+  a new document before trusting a local run. A rename breaks links in files the change never touched, so the check
+  reads every tracked file.
 - `npm run check:markdown-line-length` enforces the 120-column limit of the
   [Markdown style policy](../conventions/markdown-style-policy.md).
 - `npm run check:project-contract` validates the deterministic owner/E2E descriptor contract for every declared pair.

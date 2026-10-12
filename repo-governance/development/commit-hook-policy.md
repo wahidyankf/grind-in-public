@@ -35,55 +35,53 @@ passwords, tokens, private keys, cookies, authorization headers, connection stri
 hostnames, and private addresses. Never place a real sensitive value in a fixture, example, comment, document, generated
 artifact, or commit message.
 
-Use environment-variable names without values, unmistakably fake placeholders, and repository-relative paths. Standard
-non-identifying system paths such as `/dev/null` and an owner's already-public identity in a public repository URL are
-not machine-secret disclosures. When context makes a value uncertain, leave it unstaged until the owner confirms it is
-public.
+Write only values the [leak classes](../workflows/quality/push-leak-review/001-leak-classes.md#what-is-not-a-leak)
+clear, and leave an uncertain value unstaged until the owner confirms it is public.
 
 Immediately before every commit, run `git diff --cached --check`, inspect `git diff --cached --no-ext-diff`, and search
 the staged additions for credential-shaped values and user-specific home paths. These checks supplement judgment; a
 clean pattern search never proves that arbitrary content is safe.
 
-Immediately before every push, run the [push leak review](../workflows/quality/push-leak-review.md): read each outgoing
-commit's additions, file names, and message against its three leak classes, because a value one commit adds and a later
-commit deletes is still published. The staged-diff review above does not replace it. A finding blocks the push until the
-unpushed history no longer carries the value.
+Immediately before every push, run the [push leak review](../workflows/quality/push-leak-review.md) over each outgoing
+commit; a finding blocks the push. The staged-diff review above does not replace it.
 
-If sensitive material enters Git history, do not repeat it in diagnostics, reports, issues, or replacement commits.
-Treat authentication material as compromised and revoke or rotate it through its owning system. Preserve only sanitized
-evidence, report the affected paths and revisions without the value, and obtain separate owner authorization before
-rewriting shared history. Deleting the value in a later commit does not restore confidentiality.
+A leak that reaches history follows
+[push review remediation](../workflows/quality/push-leak-review/002-push-review.md#remediation).
 
 ## Markdown Link Validation
 
-Pre-push validates every Git-tracked repository Markdown file, not only changed documents, because a rename breaks links
-in files the change never touched. [Workspace commands](workspace-commands.md#repository-checks) records the details.
+Pre-push validates every tracked Markdown file; [workspace commands](workspace-commands.md#repository-checks) records
+the check.
 
 ## Commit Attribution
 
 Commits and pull requests carry no AI attribution: no assistant `Co-Authored-By` trailer, no generated-with footer, no
 session link. The author and committer remain the repository owner. Each agent suppresses its own attribution; the
-per-harness settings live in [agent harness support](../conventions/agent-harness-support.md).
-
-## Pull Request Content
-
-This repository does not use pull requests for integration. Follow the
-[integration path policy](../conventions/integration-path-policy.md).
+per-harness settings live in [agent harness support](../conventions/agent-harness-support.md). This repository does not
+use pull requests for integration; follow the [integration path policy](../conventions/integration-path-policy.md).
 
 ## Exception
 
 A bypass is allowed only with explicit approval from the repository owner. Record the approval and reason in the commit
 record so the skipped validation is visible and can be rerun promptly.
 
-## Agent Environment Access
+## Agent Secret Access
 
-Agent tools must not directly read, write, or edit `.env*` files, except `.env.example`. The repository owns this
-restriction in addition to its commit checks. [`.agents/agent-policy.json`](../../.agents/agent-policy.json) declares
-the protected paths for `scripts/agent-policy-hook.sh`; `.serena/project.yml` excludes them from semantic indexing.
-Claude Code, OpenCode, and Command Code native bindings enforce their own physical checkout; neutral routing covers
-another destination.
+Agent `.env*` access lives in the [agent harness support policy](../conventions/agent-harness-support.md).
 
-Agents never open or read private-key contents anywhere. When private-key or secret access is necessary, agents hand the
-command or script to the user, who executes it in their own terminal, and only local-development secret values (loopback
-services, examples like `.env.example`) may appear in session records. No mechanical check enforces this; review checks
-it.
+1. Agents must not open or read private-key contents anywhere, including outside every repository.
+2. Each secret step is exactly one copy-ready command carrying its working directory, placed by the agent on the
+   operator clipboard; the operator runs it in their own terminal, entering each secret at a hidden prompt only, and
+   replies with the success word the step names; the agent continues only on it.
+3. Agents must never request, handle, or record secret values, full outputs, or screenshots, and must avoid any script
+   or interaction that prints, echoes, logs, or otherwise exposes a secret to the harness session; diagnosis uses exit
+   and error codes alone, and only local-development secrets (loopback services, dummy/example values such as
+   .env.example) may appear in session records.
+4. The secret session opens only inside the phase that needs it and locks before any review, pause, or PR handoff.
+5. Agent-assisted delivery applies only with a proper pipeline and secrets management (tracked wrapper, closed one-word
+   outputs, leak screens, green gates); elsewhere the agent stops at the secret boundary.
+6. An agent may operate the leak review after reading every commit at the pinned head against the three leak classes; a
+   record without that reading is fabrication.
+
+Reason: regtech [HUMAN] removes value exposure from the session, and proper pipelines earn faster delivery. Disposition:
+unenforced by decision; review checks the observations.

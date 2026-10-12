@@ -68,8 +68,9 @@ First look for a route that destroys nothing: a new commit, a revert, a removal 
 Approval never carries forward. The repository can change between two operations, and the earlier answer was about a
 state that no longer exists.
 
-A secret found in history is no exception: the [commit hook policy](commit-hook-policy.md#public-repository-safety) puts
-rotation first and requires separate owner authorization before any rewrite of shared history.
+A secret found in history is no exception:
+[push review remediation](../workflows/quality/push-leak-review/002-push-review.md#remediation) puts rotation first and
+requires separate owner authorization before any rewrite of shared history.
 
 ## Shared State
 
