@@ -28,7 +28,7 @@ run() {
 	}
 
 	{
-		git init -q "$repo" &&
+		git init -q -b main "$repo" &&
 			printf 'kept from before adoption: %s\nsecond line\n' "$home_path" >"$repo/old.md" &&
 			fixture_commit "base" &&
 			base=$(git -C "$repo" rev-parse HEAD) &&
