@@ -21,6 +21,9 @@ to edit, fix, finish, test, or stage authorizes none of it.
 
 A plan authorizes only the steps it states, and a plan the owner has not approved authorizes nothing.
 
+A single-action grant applies once. Ongoing delivery retains its scope under
+[task authority](no-destructive-git-operations/001-authorized-task-branch-sync.md#ongoing-task-authority).
+
 ## Required Hooks
 
 Do not bypass Git hooks with `--no-verify`, including for `git commit` and `git push`. Hooks enforce formatting,

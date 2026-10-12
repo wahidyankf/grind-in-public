@@ -8,11 +8,16 @@ when_to_use: "Use before resetting, cleaning, force-removing, deleting a branch,
 Git keeps no undo for work that was never committed, and a rewrite of pushed history reaches every clone that holds it.
 Assume other agents and processes are using the same checkout and remote at the same moment.
 
-Adapted from the catalog rule of the same name. What changed: work lands on local `main` and is pushed straight to
-`origin/main` under the [integration path policy](../conventions/integration-path-policy.md), so rewriting pushed
-history means rewriting `main` itself; and because the stash stack is shared, as
-[dev artifact clean-up](../workflows/maintenance/dev-artifact-clean-up.md) warns, the rows for uncommitted work point at
-a commit rather than a stash.
+Adapted for [direct-main delivery](../conventions/integration-path-policy.md): rewriting pushed history rewrites `main`.
+The shared stash stack requires committing uncommitted work instead, per
+[dev artifact clean-up](../workflows/maintenance/dev-artifact-clean-up.md).
+
+## Authorized Task Delivery
+
+Ongoing task authority follows [Commit Hook Policy](commit-hook-policy.md#authorization). The copied
+[owned-branch sync contract](no-destructive-git-operations/001-authorized-task-branch-sync.md) is reference material:
+direct-main delivery permits no integration branch/worktree or force push to `main`. Promotion pointers remain under
+their separate deployment authorization.
 
 ## The Rule Is the Effect
 
@@ -25,7 +30,7 @@ the command destroys and who made it, not whether it appears below.
 
 - `git push --force`, or `--force-with-lease` without an expected value
   - Destroys: remote commits absent locally
-  - Use instead: `--force-with-lease=<ref>:<expected-sha> --force-if-includes`, approved
+  - Use instead: `git revert` for `main`; other refs remain under their separately authorized owning policy
 - **rebasing or amending commits already pushed**
   - Destroys: history others built on
   - Use instead: `git revert`
