@@ -54,7 +54,7 @@ the restriction. An adopter's copy lists only the family agents that repository 
 - [SWE Web Tester](swe-web-tester.md), [SWE Usability Tester](swe-usability-tester.md), and
   [SWE API Tester](swe-api-tester.md) to judge a running surface.
 
-Independent tasks run in parallel within the concurrency cap and dispatch order of
+Independent tasks run in parallel within the concurrency cap (N=3) and dispatch order of
 [Subagent Orchestration](../../repo-governance/conventions/task-tracking-policy/delegated-agent-cap.md). Each result is
 verified before the next task relies on it, and the results are merged into one report.
 
