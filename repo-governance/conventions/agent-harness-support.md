@@ -49,6 +49,10 @@ integration. Codex 0.161 retains its existing guards; Serena and new destination
 loader][role] omits MCP overrides, and native shell hooks omit the requested working directory. No role-local MCP
 capability enforcement is claimed. Shell controls remain separate from semantic MCP access.
 
+Each agent suppresses its own attribution: no `Co-Authored-By` trailer for an assistant, no generated-with footer, and
+no session link, by hand or by tool default. For Claude Code, `.claude/settings.json` sets `attribution.commitTrailers`
+to `false`, empties the `commit` and `pr` text, and turns `sessionUrl` off. The commit hook policy owns the prohibition.
+
 [role]: https://github.com/openai/codex/blob/979011409de0a60b52f179721948e65531d26144/codex-rs/core/src/agent/role.rs
 
 ## Verification

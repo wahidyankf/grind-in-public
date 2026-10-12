@@ -33,8 +33,8 @@ allowed when the harness needs them. It exposes no unit, integration, or numeric
 
 Its `test:quick` runs only `typecheck`, `lint`, and `test:coverage:behaviour:e2e`. Its generic behaviour target
 delegates to the owner's aggregate. The owner aggregate composes `test:coverage:behaviour:<owner>` with the E2E slice.
-Declare inputs and project dependencies so a feature, binding, config, or owner change invalidates the correct cache
-without an Nx cycle.
+Affected browser and API boundaries are confirmed manually after the automated runs. Declare inputs and project
+dependencies so a feature, binding, config, or owner change invalidates the correct cache without an Nx cycle.
 
 ## Runtime and Selection
 

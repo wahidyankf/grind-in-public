@@ -57,15 +57,13 @@ rewriting shared history. Deleting the value in a later commit does not restore 
 ## Markdown Link Validation
 
 Pre-push validates every Git-tracked repository Markdown file, not only changed documents, because a rename breaks links
-in files the change never touched. The [workspace commands](workspace-commands.md#repository-checks) reference states
-what the check reads and the `git add -N` caveat for a new document.
+in files the change never touched. [Workspace commands](workspace-commands.md#repository-checks) records the details.
 
 ## Commit Attribution
 
-Commits and pull requests must carry no AI attribution. Do not add a `Co-Authored-By` trailer for an assistant, a
-generated-with footer, or a session link, by hand or by tool default. The author and committer remain the repository
-owner. Configure each agent to suppress its own attribution; for Claude Code, `.claude/settings.json` sets
-`attribution.commitTrailers` to `false`, empties the `commit` and `pr` text, and turns `sessionUrl` off.
+Commits and pull requests carry no AI attribution: no assistant `Co-Authored-By` trailer, no generated-with footer, no
+session link. The author and committer remain the repository owner. Each agent suppresses its own attribution; the
+per-harness settings live in [agent harness support](../conventions/agent-harness-support.md).
 
 ## Pull Request Content
 
@@ -84,3 +82,8 @@ restriction in addition to its commit checks. [`.agents/agent-policy.json`](../.
 the protected paths for `scripts/agent-policy-hook.sh`; `.serena/project.yml` excludes them from semantic indexing.
 Claude Code, OpenCode, and Command Code native bindings enforce their own physical checkout; neutral routing covers
 another destination.
+
+Agents never open or read private-key contents anywhere. When private-key or secret access is necessary, agents hand the
+command or script to the user, who executes it in their own terminal, and only local-development secret values (loopback
+services, examples like `.env.example`) may appear in session records. No mechanical check enforces this; review checks
+it.
