@@ -8,9 +8,9 @@ when_to_use:
 
 ## Scope
 
-This repository supports four harnesses, in the sense the [agent vocabulary](agent-vocabulary.md) defines: the tool that
-runs the model. `AGENTS.md` is the sole repository-rule body. Codex, OpenCode, and Command Code read it directly; Claude
-Code reaches it through the exact `@AGENTS.md` import in `CLAUDE.md`.
+This repository supports five harnesses, in the sense the [agent vocabulary](agent-vocabulary.md) defines: the tool that
+runs the model. `AGENTS.md` is the sole repository-rule body. Codex, OpenCode, Command Code, and Muse read it directly;
+Claude Code reaches it through the exact `@AGENTS.md` import in `CLAUDE.md`.
 
 ## Details
 
@@ -55,9 +55,9 @@ to `false`, empties the `commit` and `pr` text, and turns `sessionUrl` off. The 
 
 Agent tools must not directly read, write, or edit `.env*` files, except `.env.example`.
 [`.agents/agent-policy.json`](../../.agents/agent-policy.json) declares the protected paths for
-`scripts/agent-policy-hook.sh`; `.serena/project.yml` excludes them from semantic indexing. Claude Code, OpenCode, and
-Command Code native bindings enforce their own physical checkout; neutral routing covers another destination. The
-[commit hook policy](../development/commit-hook-policy.md#agent-secret-access) links here for the restriction.
+`scripts/agent-policy-hook.sh`; `.serena/project.yml` excludes them from semantic indexing. Claude Code, OpenCode,
+Command Code, and Muse native bindings enforce their own physical checkout; neutral routing covers another destination.
+The [commit hook policy](../development/commit-hook-policy.md#agent-secret-access) links here for the restriction.
 
 [role]: https://github.com/openai/codex/blob/979011409de0a60b52f179721948e65531d26144/codex-rs/core/src/agent/role.rs
 

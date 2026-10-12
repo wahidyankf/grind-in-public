@@ -677,8 +677,9 @@ gates:
         args:
           - literal: -c
           - literal:
-              "./rhino harness adapters validate && exec bash
-              .commandcode/hooks/policy-hooks.test.sh"
+              "./rhino harness adapters validate && bash
+              .commandcode/hooks/policy-hooks.test.sh && exec bash
+              .muse/hooks/run-policy-hook.test.sh"
       run-on: { main: {} }
     - id: internal-link
       type: check

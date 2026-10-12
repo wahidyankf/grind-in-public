@@ -332,6 +332,7 @@ export function hasLocalBinding(root, harness, nativeTool) {
     codex: [".codex/hooks.json"],
     opencode: [".opencode/plugins/agent-policy.ts"],
     commandcode: [".commandcode/settings.json"],
+    muse: [".muse/hooks.json"],
   };
   return (bindings[harness] ?? []).some((path) => {
     try {
@@ -401,7 +402,7 @@ export async function route(
       throw new Error("Invalid scope");
     if (
       harness !== undefined &&
-      !["claude", "codex", "opencode", "commandcode"].includes(harness)
+      !["claude", "codex", "opencode", "commandcode", "muse"].includes(harness)
     )
       throw new Error("Invalid harness");
     const calls = normalize(payload, startupCwd);
