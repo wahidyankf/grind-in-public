@@ -30,6 +30,13 @@ The push has already landed when it runs, so it is detective rather than prevent
 mandatory. A failure is a disclosure: follow the after-push remediation in
 [Push Review](002-push-review.md#remediation).
 
+## Fresh-Context Judgement
+
+No posted record exists to prove who judged, because this repository posts nothing. Freshness is therefore unenforced by
+decision, with this reason: the harness spawns the reviewer, and a spawn failure or an unreadable range blocks the push
+exactly as a finding does, so the mechanical layers still fail closed on every outcome a machine can observe. A
+self-judged verdict is a rule breach, not a passing review with a caveat.
+
 ## Adopter Decisions
 
 - **Integration path:** direct push to `main`; no pull request.

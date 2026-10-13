@@ -24,11 +24,17 @@ repository that is `origin/main..main`. A ref the remote lacks starts where it l
      ./hippo run --class ephemeral --resource-tier standard --disk-path . -- bash scripts/public-safety/check.sh
    ```
 
-3. **Read every commit.** Each commit's added lines, its file names, its message, and the ref name. A merge contributes
-   what it resolved beyond the automatic merge. A summary or memory of the change is not a reading, and no file is
-   skipped because a screen covers it.
-4. **Judge against the [leak classes](001-leak-classes.md).** No candidate is copied into notes, commands, or logs.
-5. **Decide.** No finding: push. Any finding: do not push; remediate, then start again from step 1.
+3. **Spawn a fresh-context reviewer.** The harness spawns one read-only subagent for this range alone: no part in
+   authoring the commits, no memory of an earlier range, and never pushing. It receives only the range and the three
+   leak classes. A failed spawn blocks the push exactly as a finding does; the harness never judges itself, and no human
+   substitutes.
+4. **Read every commit.** The subagent reads each commit's added lines, its file names, its message, and the ref name. A
+   merge contributes what it resolved beyond the automatic merge. A summary or memory of the change is not a reading,
+   and no file is skipped because a screen covers it.
+5. **Judge against the [leak classes](001-leak-classes.md).** The subagent returns the count per class and each finding
+   without its value. No candidate is copied into notes, commands, or logs.
+6. **Decide.** The harness acts on that verdict unchanged. No finding: push. Any finding: do not push; remediate, then
+   start again from step 1 with a new subagent.
 
 ## Remediation
 
