@@ -5,8 +5,9 @@ when_to_use: "Use while working the items of a delivery phase."
 
 # Phase Loop
 
-A phase is worked in checklist order. The order is not decoration: it was authored so the repository stays coherent
-between items.
+A phase is worked in dependency-graph order rather than list position, per
+[Dependency Graph and Recovery](../../../conventions/plans-organization-policy/019-dependency-graph-and-recovery.md).
+The graph is not decoration: it was authored so the repository stays coherent between items.
 
 ## Working an Item
 

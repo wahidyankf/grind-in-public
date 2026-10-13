@@ -1,5 +1,5 @@
 ---
-tldr: "Indexes the eighteen modules behind the plans organization policy, in reading order."
+tldr: "Indexes the nineteen modules behind the plans organization policy, in reading order."
 when_to_use: "Use when looking up one specific plan rule rather than the whole policy."
 ---
 
@@ -7,8 +7,9 @@ when_to_use: "Use when looking up one specific plan rule rather than the whole p
 
 These modules hold the detail behind the [plans organization policy](../plans-organization-policy.md). Modules `001`
 through `010` are this repository's copy of the portable plan system; `011` through `017` are its own additions; `018`
-is the portable bug-fix plan, numbered after them. The numbers are the reading order, and later modules assume earlier
-ones — see the [document naming policy](../document-naming-policy.md) for why they are numbered at all.
+is the portable bug-fix plan, numbered after them; `019` adopts the portable dependency-graph-and-recovery module under
+the next free number. The numbers are the reading order, and later modules assume earlier ones — see the
+[document naming policy](../document-naming-policy.md) for why they are numbered at all.
 
 ## Contents
 
@@ -32,3 +33,5 @@ ones — see the [document naming policy](../document-naming-policy.md) for why 
 17. [Plan Document Safety](017-plan-document-safety.md) — ASCII-only diagrams and secret-free plan records.
 18. [Bug-Fix Plan](018-bug-fix-plan.md) — the one-document plan for a single blocking defect, its sections, and the
     rules it is exempt from.
+19. [Dependency Graph and Recovery](019-dependency-graph-and-recovery.md) — dependency ordering, the parallelization
+    model, and conditional recovery items.

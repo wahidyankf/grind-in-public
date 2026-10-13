@@ -15,8 +15,10 @@ logs, the touched-file ledger — never a copy of the checklist, its ticks, or i
 
 ## One Task per Checkbox
 
-Materialize the current phase's checkboxes as tasks, one to one, in checklist order. Do not batch several checkboxes
-into one task: that hides progress, which is the failure the
+Materialize the current phase's checkboxes as tasks, one to one, in dependency-graph order rather than list position,
+per
+[Dependency Graph and Recovery](../../../conventions/plans-organization-policy/019-dependency-graph-and-recovery.md). Do
+not batch several checkboxes into one task: that hides progress, which is the failure the
 [task tracking policy](../../../conventions/task-tracking-policy.md) exists to prevent.
 
 Materialize one phase at a time. A task list holding every phase of a long plan reports a backlog rather than the work

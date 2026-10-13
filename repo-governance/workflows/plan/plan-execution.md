@@ -33,10 +33,16 @@ before working the first checklist item.
 
 1. [Materialize the checklist into the harness task list](plan-execution/001-task-list-sync.md), one task per checkbox.
 2. Run Phase 0 and record the baseline: dependencies installed, gates green before anything changes.
-3. [Work the current phase](plan-execution/002-phase-loop.md) item by item, in checklist order, ticking each only after
-   its change exists.
+3. [Work the current phase](plan-execution/002-phase-loop.md) in dependency-graph order rather than list position,
+   ticking each item only after its change exists, per
+   [Dependency Graph and Recovery](../../conventions/plans-organization-policy/019-dependency-graph-and-recovery.md).
 4. [Pass the phase gate, then deliver](plan-execution/003-gates-and-pushes.md) to `main` only when commit and push are
-   separately authorized. Do not begin the next phase while a gate or required delivery item fails.
+   separately authorized. Dispatch every item whose dependencies are terminal, up to the concurrency cap the plan's
+   Parallelization Model declares, in the single checkout; a failure blocks only its downstream. Do not begin the next
+   phase while a gate or required delivery item fails. A more optimal order found mid-run revises `delivery.md` first,
+   keeping acceptance criteria and the end result; a material change re-passes the quality gate. Independent units land
+   in any order, each refreshed with its gates re-run, per
+   [Delivery Seams and Ownership](../../development/planning-capabilities/005-delivery-seams-and-ownership.md).
 5. Repeat until the last delivery phase is complete.
 6. [Run Knowledge Capture and the execution check, then archive](plan-execution/004-finalization.md) the plan to
    `plans/done/`. The execution check alone closes the plan; the plan-quality-gate is not re-run at the end.

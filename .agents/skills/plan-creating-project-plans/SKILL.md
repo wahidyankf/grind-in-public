@@ -30,6 +30,13 @@ A phase that changes what a README, documentation page, or specification describ
 [Docs Propagation](../../../repo-governance/workflows/quality/docs-propagation.md) item, landing in the same commit as
 the change.
 
+## Order the Checklist by Dependency
+
+Sequence in the file is not dependency. Express phases and items as the dependency graph [Dependency Graph and
+Recovery][dep-graph] defines, with a Parallelization Model section, so independent nodes can run concurrently.
+
+[dep-graph]: ../../../repo-governance/conventions/plans-organization-policy/019-dependency-graph-and-recovery.md
+
 ## Granularity Is the Hard Part
 
 An item should be small enough that failing it is informative. "Implement the validator" fails as a unit; the person
