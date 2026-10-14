@@ -17,12 +17,13 @@ Use it when a plan is ready to run. Resuming an interrupted plan uses this workf
 
 ## Prerequisites
 
-Require a current verdict from an explicitly owner-directed [plan-quality-gate](../quality/plan-quality-gate.md) run.
-Any of the four verdicts lets execution start once each open blocking row of a `FAIL` or `BLOCKED` verdict has an owner.
-Execution authority does not authorize that gate. For a bug-fix plan, the adopted
-[upstream tool defects](../../development/upstream-tool-defects.md) standard is that direction. If no verdict is
-recorded, stop without starting or rerunning the gate. The plan sits in `plans/in-progress/`: move it out of `backlog/`,
-update both indexes, and push that move only when authorized before running any checklist item, per the
+A [plan-quality-gate](../quality/plan-quality-gate.md) verdict is optional manual history, never a prerequisite. Any of
+the four verdicts, when recorded, lets execution continue once each open blocking row of a `FAIL` or `BLOCKED` verdict
+has an owner. Execution never runs the gate itself. For a bug-fix plan, the adopted
+[upstream tool defects](../../development/upstream-tool-defects.md) standard remains available direction when explicitly
+invoked. A missing verdict is recorded as `plan-quality-gate: not run (manual-only)`, never a stop. The plan sits in
+`plans/in-progress/`: move it out of `backlog/`, update both indexes, and push that move only when authorized before
+running any checklist item, per the
 [lifecycle rules](../../conventions/plans-organization-policy/002-lifecycle-moves.md).
 
 Before starting execution, sync the execution checkout from the latest `origin/main`. This repository has no worktree
