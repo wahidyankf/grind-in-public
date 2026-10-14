@@ -33,8 +33,8 @@ case where inferring is expensive.
 | `pre-push`   | the refs being pushed, the outgoing messages, names, each commit's additions, the tree    |
 | `ci`         | the ref, head message, and tree; or one declared range, screened as `pre-push` screens it |
 
-`ci` takes a range only when `PUBLIC_SAFETY_BASE` and `PUBLIC_SAFETY_HEAD` both hold commit IDs; the hosted leak screen
-uses it to replay each push to `main`.
+`ci` takes a range only when `PUBLIC_SAFETY_BASE` and `PUBLIC_SAFETY_HEAD` both hold commit IDs; the push review runs
+the range that way before each push.
 
 A range is screened commit by commit, never as its final files: a value one commit adds and the next deletes is still in
 every clone. Each commit contributes only the lines it added, at the line numbers they occupy, labelled
@@ -143,7 +143,7 @@ bash scripts/public-safety/tests/run.sh 080        # one case by name fragment
 - `130-hook-environment-isolation` — a suite started from a Git hook leaves the hook's own repository untouched
 - `140-cidr-network-prefix` — a CIDR network prefix passes; host forms in every private range still block
 - `150-hostname-trailing-underscore` — an underscore continues a hostname token; real hostnames still block
-- `160-range-history` — a pushed or replayed range is screened commit by commit; untouched content is not
+- `160-range-history` — a pushed or declared range is screened commit by commit; untouched content is not
 - `170-canary-fails-closed` — missing detection, disclosure, or scanner failure blocks and cleans up
 
 Every probe value is assembled at run time from fragments, so no string this repository's own gate would flag exists in

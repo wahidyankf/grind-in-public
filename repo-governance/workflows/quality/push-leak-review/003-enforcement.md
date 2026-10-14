@@ -1,12 +1,13 @@
 ---
-tldr: "Enforces the push leak review through a commit-by-commit pre-push screen and a hosted replay of each push."
-when_to_use: "Use when changing the leak screen, the pre-push hook, or the hosted leak screen workflow."
+tldr:
+  "Enforces the push leak review through a commit-by-commit pre-push screen and the fresh-context push review alone."
+when_to_use: "Use when changing the leak screen or the pre-push hook, or when deciding how the push review is enforced."
 ---
 
 # Enforcement
 
-A precondition stated only in prose is a convention someone forgets. This repository enforces the push leak review in
-two mechanical layers beneath the review itself; each fails closed.
+A precondition stated only in prose is a convention someone forgets. This repository enforces the push leak review with
+one mechanical layer beneath the review itself; it fails closed.
 
 ## The Screen
 
@@ -19,29 +20,24 @@ hostnames, beside a credential scanner.
 
 The screen matches shapes; the review reads context. Neither replaces the other.
 
-## Hosted Replay
+## No Hosted Replay
 
-`.github/workflows/leak-screen.yml` replays the same screen over each push to `main`, from the event's previous tip to
-its new one, because a local hook can be skipped and a hosted check cannot. When the previous tip is all zeros or absent
-from the clone, it replays the new tip's own commit against its first parent, and screens the whole tree for a root
-commit.
-
-The push has already landed when it runs, so it is detective rather than preventive, and the push review stays
-mandatory. A failure is a disclosure: follow the after-push remediation in
-[Push Review](002-push-review.md#remediation).
+No hosted check replays a push. The push review is the only review: a fresh-context reviewer subagent, run by the
+harness before every push, refuses the push on any finding or failed spawn. A local hook can be skipped, and no hosted
+check remains to catch a push afterwards. A leak found after the push is a disclosure: follow the after-push remediation
+in [Push Review](002-push-review.md#remediation).
 
 ## Fresh-Context Judgement
 
 No posted record exists to prove who judged, because this repository posts nothing. Freshness is therefore unenforced by
 decision, with this reason: the harness spawns the reviewer, and a spawn failure or an unreadable range blocks the push
-exactly as a finding does, so the mechanical layers still fail closed on every outcome a machine can observe. A
+exactly as a finding does, so the mechanical screen still fails closed on every outcome a machine can observe. A
 self-judged verdict is a rule breach, not a passing review with a caveat.
 
 ## Adopter Decisions
 
 - **Integration path:** direct push to `main`; no pull request.
-- **Hosted check:** `Leak screen`, the range replay above, run on push rather than required by branch protection, since
-  no pull request precedes the push.
+- **Hosted check:** none; the push review before each push is the only review.
 - **Not adopted:** the posted review record, its marker and reviewer identity, the `leak-review` record status, and its
   `scripts/leak-review/` publisher. Each exists to gate a pull request's merge, and this repository has no pull request
   to carry or gate a record.

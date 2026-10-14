@@ -306,8 +306,8 @@ pre-push)
 
 ci)
 	if [[ -n "${PUBLIC_SAFETY_BASE:-}" || -n "${PUBLIC_SAFETY_HEAD:-}" ]]; then
-		# A hosted replay of one pushed range, screened exactly as pre-push
-		# screens it. The tree is a separate gate there.
+		# One declared pushed range, screened exactly as pre-push screens it,
+		# as the push review runs it. The tree is a separate gate there.
 		is_commit_id "${PUBLIC_SAFETY_BASE:-}" && is_commit_id "${PUBLIC_SAFETY_HEAD:-}" ||
 			range_error "the declared range is incomplete or not commit IDs"
 		args+=(--text "$PUBLIC_SAFETY_BASE" --text "$PUBLIC_SAFETY_HEAD")

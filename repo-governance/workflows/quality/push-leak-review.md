@@ -1,6 +1,6 @@
 ---
 tldr: "Defines a leak and reviews every commit bound for origin, privately, before each push to main."
-when_to_use: "Use immediately before every push, and whenever the pre-push screen or the hosted leak screen fails."
+when_to_use: "Use immediately before every push, and whenever the pre-push screen or the push review reports a finding."
 ---
 
 # Push Leak Review
@@ -39,14 +39,14 @@ Local `main` holds the commits to push, and `origin/main` is fetched, so the out
 
 ## Verification
 
-The push succeeds with the pre-push screen clean, and the hosted leak screen replays the same range on `main` and
-passes. No candidate value appears in any note, command, log, or report the review produced.
+The push succeeds with the pre-push screen clean and the push review returning no finding. No candidate value appears in
+any note, command, log, or report the review produced.
 
 ## Recovery
 
-A hosted leak screen failure, or any leak found after the push, means the value is disclosed: follow the after-push
-remediation in [Push Review](push-leak-review/002-push-review.md#remediation). A scan error blocks exactly as a finding
-does; fix the cause rather than retrying past it.
+A leak found after the push means the value is disclosed: follow the after-push remediation in
+[Push Review](push-leak-review/002-push-review.md#remediation). A scan error blocks exactly as a finding does; fix the
+cause rather than retrying past it.
 
 ## Example Usage
 

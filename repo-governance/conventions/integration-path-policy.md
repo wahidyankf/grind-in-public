@@ -15,8 +15,8 @@ policy chooses the route and grants neither permission.
 
 With no pull request to review before a commit reaches `origin/main`, the
 [push leak review](../workflows/quality/push-leak-review.md) of each outgoing commit is required before every push,
-including a push retried after the merge below. The pre-push hook screens the pushed range commit by commit, and a
-hosted leak screen replays it on `main` afterwards; neither replaces the review.
+including a push retried after the merge below. The pre-push hook screens the pushed range commit by commit, but the
+screen does not replace the review, which is the only review.
 
 Other tasks share the same local `main`, working tree, and index; stage, commit, and push only this task's work, as
 [concurrent ownership](task-tracking-policy/concurrent-ownership.md) requires.
