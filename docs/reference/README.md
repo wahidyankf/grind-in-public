@@ -10,3 +10,5 @@ helps readers look up facts without following a lesson or procedure.
 
 Use this area for stable conventions, exercise metadata, command details, and other structured facts. Keep it concise,
 neutral, and organized around the thing being described; link to guides or explanation when context is needed.
+
+- [Self-hosting](self-hosting.md): how to run the site and how its configuration and secrets work.

@@ -6,7 +6,7 @@ import { env } from "./env";
 // `createEnv()` call is still here rather than deleted, because it is the
 // validation seam a future variable gets added to, and it runs at import time —
 // so importing this module at all is most of what the test does. What is
-// asserted is the emptiness, which is the claim `.env.example` also makes.
+// asserted is the emptiness, which is also the claim the self-hosting guide makes.
 describe("env", () => {
   it("validates successfully with no declared server variables", () => {
     expect(env).toBeDefined();
@@ -15,7 +15,7 @@ describe("env", () => {
   it("declares no variables of its own", () => {
     // `createEnv` returns a proxy carrying only what was declared. Anything
     // appearing here would be a variable added without a matching entry in
-    // `.env.example`.
+    // `docs/reference/self-hosting.md`.
     expect(Object.keys(env)).toEqual([]);
   });
 });
