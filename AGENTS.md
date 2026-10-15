@@ -22,7 +22,7 @@ user. Keep changes small.
 
 Run from the repository root with `npm run <script>`:
 
-- `npm run test:repo`: deterministic repository checks, including the Markdown checks and the project contract.
+- `npm run test:repo`: deterministic repository checks, including the Markdown checks and the spelling check.
 - `npm run test:quick`: quick tests for every project. It does not select only affected projects.
 - `npm run check:markdown-links`, `npm run check:markdown-line-length`: Markdown checks.
 - `npm run validate:config`: validates the Markdown policy in `repo-config.yml`.
@@ -40,7 +40,7 @@ The `pre-push` hook runs the Markdown checks, then `nx affected -t test:quick` a
 Run one target with `npx nx <target> <project>`. Every app is an Nx project with its own `project.json`.
 
 - `wahidyankf-www` (`apps/wahidyankf-www`, the Next.js site):
-  - `dev` and `start`: run the site on port 3201.
+  - `dev` and `start`: run the site on port 3201, or on `WAHIDYANKF_WWW_PORT` when it is set.
   - `build`: make a production build.
   - `typecheck` and `lint`: `tsc`, Biome, and ESLint.
   - `test:unit` and `test:integration`: Vitest. Integration tests use the real filesystem.
@@ -70,7 +70,7 @@ Run one target with `npx nx <target> <project>`. Every app is an Nx project with
     for `/api/health`.
   - `lint`, `typecheck`, and `test:quick`.
 - The `edutech-*` apps are standalone. They do not use the Gherkin corpus or the coverage targets above. Their required
-  targets are listed in `scripts/project-contract.mjs`.
+  targets are not checked by any script, so review each `project.json` by hand when they change.
 
 ## Conventions
 
