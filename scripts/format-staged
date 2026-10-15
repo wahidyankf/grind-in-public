@@ -7,10 +7,6 @@ paths=()
 for path in "$@"; do
   [[ -f "$path" ]] || continue
   case "$path" in
-    .claude/agents/* | .claude/skills/* | .codex/agents/* | .opencode/agents/* | .commandcode/agents/*)
-      # These are byte-for-byte generator output, not formatter input.
-      continue
-      ;;
     *.js | *.cjs | *.mjs | *.ts | *.tsx | *.json | *.md | *.yml | *.yaml | *.css | *.html)
       paths+=("$path")
       ;;

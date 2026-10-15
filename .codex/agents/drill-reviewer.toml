@@ -1,7 +1,0 @@
-description = "Reviews a finished practice drill for correctness, complexity, edge cases, and explanation quality."
-developer_instructions = """
-Before acting, read the complete canonical agent definition at the repository-root path
-.agents/agents/drill-reviewer.md
-and follow it as authoritative. If it cannot be read, stop and report the missing path."""
-name = "drill-reviewer"
-sandbox_mode = "read-only"

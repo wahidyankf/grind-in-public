@@ -1,7 +1,6 @@
 // Markdown is read in terminal editors without a renderer, so this config
 // enforces only the 120-column line limit; Prettier owns every other layout
-// choice. The exemptions and their reasons are in
-// repo-governance/conventions/markdown-style-policy.md.
+// choice.
 {
   "config": {
     "default": false,
@@ -20,8 +19,6 @@
   "ignores": [
     "**/node_modules/**",
     "worktrees/**",
-    "plans/done/**",
-    "specs/fixtures/**",
     "apps/wahidyankf-www/docs/cv-raw.md",
     "apps/wahidyankf-www/docs/cv-linkedin.md",
     "apps/wahidyankf-www/docs/linkedin-projects.md",
