@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.12.0/schemas/repo-config/v2.schema.json
+# Read only by RHINO's Markdown checks (internal links and Mermaid). Nothing else reads this file.
 schema: rhino/repo-config/v2
 
 repository: {}
@@ -23,93 +24,3 @@ policies:
       fill-colors: []
       edge-colors: []
       text-colors: []
-extensions:
-  software-development:
-    projects:
-      wahidyankf-www:
-        path: apps/wahidyankf-www
-        kind: app
-        stacks: [typescript, javascript, react, nextjs]
-      wahidyankf-www-e2e:
-        path: apps/wahidyankf-www-e2e
-        kind: app
-        stacks: [typescript, javascript]
-      edutech-be:
-        path: apps/edutech-be
-        kind: app
-        stacks: [python, fastapi]
-      edutech-web:
-        path: apps/edutech-web
-        kind: app
-        stacks: [typescript, javascript, react, nextjs]
-      edutech-web-e2e:
-        path: apps/edutech-web-e2e
-        kind: app
-        stacks: [typescript, javascript]
-      repo-scripts:
-        path: scripts
-        kind: tooling
-        stacks: [javascript, shell]
-      workspace:
-        path: .
-        kind: tooling
-        stacks: [nx]
-
-gates:
-  composition:
-    pull-request: { relation: exact }
-  entries:
-    - id: commitlint
-      type: check
-      inputs:
-        message: { kind: commit-message }
-      command:
-        executable: ./scripts/validate-commit-message
-        args: [{ input: message.text, expand: single }]
-      run-on:
-        commit-msg:
-          bind:
-            message: { source: hook-message-file }
-        pull-request:
-          bind:
-            message: { source: explicit-range, range: explicit }
-    - id: format-staged
-      type: mutation
-      inputs:
-        staged: { kind: files }
-      mutation: { local: apply-index, ci: verify-clean }
-      command:
-        executable: ./scripts/format-staged
-        args: [{ input: staged.paths, expand: repeat }]
-      run-on:
-        pre-commit:
-          bind:
-            staged: { source: git-index }
-        pull-request:
-          bind:
-            staged: { source: explicit-range, range: explicit }
-    - id: repo-config
-      type: check
-      command:
-        executable: ./rhino
-        args: [{ literal: repo-config }, { literal: validate }]
-      run-on: { main: {} }
-    - id: internal-link
-      type: check
-      command:
-        executable: ./rhino
-        args:
-          [{ literal: md }, { literal: internal-link }, { literal: validate }]
-      run-on: { pre-push: {}, pull-request: {}, main: {} }
-    - id: markdown-line-length
-      type: check
-      command:
-        executable: ./node_modules/.bin/markdownlint-cli2
-        args: []
-      run-on: { pre-push: {}, pull-request: {}, main: {} }
-    - id: mermaid
-      type: check
-      command:
-        executable: ./rhino
-        args: [{ literal: md }, { literal: mermaid }, { literal: validate }]
-      run-on: { main: {} }
