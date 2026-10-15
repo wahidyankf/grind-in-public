@@ -14,30 +14,30 @@ user. Keep changes small.
 - `docs/` human-facing documentation. Only the index READMEs and `reference/self-hosting.md` are kept.
 - `specs/` Gherkin scenarios and C4 architecture for `wahidyankf-www`.
 - `scripts/` repository-local automation. `scripts/check-repo.sh` runs the deterministic repository checks.
-- `.husky/` git hooks: pre-commit, commit-msg, and pre-push.
-- `repo-config.yml` declares the projects and the repository gates read by RHINO.
+- `.husky/` git hooks: pre-commit (lint-staged), commit-msg (commitlint), and pre-push (Markdown checks, then Nx).
+- `repo-config.yml` holds the Markdown policy that RHINO reads for its link and Mermaid checks. Nothing else reads it.
 - `exercises/` and `local-tmp/` are personal, untracked work areas. Do not edit or commit them.
 
 ## Commands
 
 Run from the repository root with `npm run <script>`:
 
-- `npm run test:repo`: deterministic repository checks, including the RHINO `main` gate.
+- `npm run test:repo`: deterministic repository checks, including the Markdown checks and the project contract.
 - `npm run test:quick`: quick tests for every project. It does not select only affected projects.
 - `npm run check:markdown-links`, `npm run check:markdown-line-length`: Markdown checks.
-- `npm run validate:config`: validates `repo-config.yml`.
+- `npm run validate:config`: validates the Markdown policy in `repo-config.yml`.
 - `npm run format` and `npm run format:check`: Prettier.
 - `npm run lint`, `npm run typecheck`, `npm run build`: Nx tasks for each project.
 
 Nx is used only as a raw task runner. Do not add Nx plugins.
 
-The `pre-push` hook runs the RHINO `pre-push` gate, then `nx affected -t test:quick` against `origin/main`. It runs
+The `pre-push` hook runs the Markdown checks, then `nx affected -t test:quick` against `origin/main`. It runs
 `npm run test:repo` only when the pushed range changes `specs`, `scripts`, `.github`, `.husky`, `package.json`,
 `nx.json`, `repo-config.yml`, `rhino`, `rhino.lock`, or an app's `project.json`. It needs a local `origin/main`.
 
 ## Projects and targets
 
-Run one target with `npx nx <target> <project>`. Every app is declared in `repo-config.yml`.
+Run one target with `npx nx <target> <project>`. Every app is an Nx project with its own `project.json`.
 
 - `wahidyankf-www` (`apps/wahidyankf-www`, the Next.js site):
   - `dev` and `start`: run the site on port 3201.

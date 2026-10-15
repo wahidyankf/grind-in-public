@@ -50,9 +50,9 @@ The repository uses Nx as a raw task runner for its npm workspaces:
 Build all projects with `npm run build` and run quick checks with `npm test`. This workspace deliberately avoids
 technology-specific Nx plugins and uses Nx only as a raw task runner.
 
-Repository checks, including Markdown links and line length, are run through
-[RHINO](https://github.com/wahidyankf/rhino), a Rust CLI consumed through a checksum-pinned wrapper and configured
-entirely by `repo-config.yml`. Run `npm run test:repo` for the deterministic repository checks.
+Markdown links and diagrams are checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI consumed through a
+checksum-pinned wrapper. Its policy lives in `repo-config.yml`. Markdown line length is checked by markdownlint. Git
+hooks use husky, and Nx runs the tests. Run `npm run test:repo` for the deterministic repository checks.
 
 Two groups of applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and
 it holds the repository's single authoritative CV record — the practice workspace and its public face maintained under
