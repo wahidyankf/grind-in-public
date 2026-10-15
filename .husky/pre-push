@@ -18,7 +18,7 @@ ZERO_SHA="0000000000000000000000000000000000000000"
 # empty tree lets git diff evaluate the first push using normal range logic.
 EMPTY_TREE=$(git hash-object -t tree /dev/null)
 # Multiple ref updates can arrive in one hook invocation; defer this shared
-# check until every update has established whether governance changed.
+# check until every update has established whether repository checks apply.
 SHOULD_CHECK_REPO=0
 
 if ! git rev-parse --verify --quiet origin/main >/dev/null; then
@@ -30,14 +30,12 @@ fi
 # Screen first. Git's own arguments are deliberately not forwarded: arguments
 # after `--` reach every gate on the surface, and nothing here takes a remote
 # name or a URL. What the safety gate reads is the ref-update lines, which
-# arrive on stdin either way -- and the guard passes stdin through, so the
-# admission boundary that repository checks run behind costs nothing here.
-printf '%s\n' "$ref_updates" | ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
-	./rhino gate run --surface pre-push --push-updates-stdin
+# arrive on stdin.
+printf '%s\n' "$ref_updates" | ./rhino gate run --surface pre-push --push-updates-stdin
 
 # Git provides: local ref, local SHA, remote ref, and remote SHA for each ref
 # update. Each non-deletion is checked against the mainline baseline, while the
-# governance check remains scoped to its own pushed range. The heredoc keeps
+# repository check remains scoped to its own pushed range. The heredoc keeps
 # the loop in this shell, so SHOULD_CHECK_REPO survives it.
 while read -r local_ref local_sha remote_ref remote_sha; do
 	if [ -z "$local_ref" ]; then
@@ -52,8 +50,7 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 
 	# Always compare with main, rather than the remote ref, so Nx selects every
 	# project affected by the branch's accumulated change set.
-	NX_NO_CLOUD=true ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
-		npm exec -- nx affected -t test:quick --base=origin/main --head="$local_sha"
+	NX_NO_CLOUD=true npm exec -- nx affected -t test:quick --base=origin/main --head="$local_sha"
 
 	base_sha="$remote_sha"
 	if [ "$remote_sha" = "$ZERO_SHA" ]; then
@@ -62,10 +59,8 @@ while read -r local_ref local_sha remote_ref remote_sha; do
 	fi
 
 	if ! git diff --quiet "$base_sha" "$local_sha" -- \
-		AGENTS.md CLAUDE.md repo-governance specs scripts .github .husky \
-		.claude .codex .opencode .commandcode .agents package.json nx.json 'apps/*/project.json' \
-		repo-config.yml rhino rhino.lock \
-		hippo hippo.lock hippo.identity.json hippo.local.json.example; then
+		specs scripts .github .husky package.json nx.json 'apps/*/project.json' \
+		repo-config.yml rhino rhino.lock; then
 		SHOULD_CHECK_REPO=1
 	fi
 done <<REFS

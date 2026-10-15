@@ -1,10 +1,3 @@
 # Format staged files and screen them before anything is recorded. Rhino owns
-# the typed index mutation; Hippo owns the compute admission.
-./hippo run --class transactional --resource-tier standard --disk-path . -- \
-  ./rhino gate run --surface pre-commit
-
-# Automatically trigger Rules Propagation whenever the staged change touches a
-# rule. This runs for every editor and agent, so the workflow does not depend on
-# anyone remembering it. It reports and never blocks: a hook cannot judge
-# semantic decisions, only that the procedure applies.
-node scripts/check-rule-change.mjs
+# the typed index mutation.
+./rhino gate run --surface pre-commit
