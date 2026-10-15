@@ -80,6 +80,9 @@ export default defineConfig({
     cwd: "../..",
     reuseExistingServer: false,
     timeout: 120000,
+    // Nx runs `next start` outside Playwright's process group. The default SIGKILL stops only the
+    // group, so the server would be left running. SIGTERM lets Nx pass the signal on to the server.
+    gracefulShutdown: { signal: "SIGTERM", timeout: 10000 },
   },
   projects: [
     {
