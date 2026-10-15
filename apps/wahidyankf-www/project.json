@@ -24,22 +24,7 @@
       "options": { "cwd": "{projectRoot}" }
     },
     "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npm exec nx -- run wahidyankf-www:lint:biome",
-          "npm exec nx -- run wahidyankf-www:lint:commentary"
-        ],
-        "parallel": false
-      }
-    },
-    "lint:biome": {
       "command": "biome check",
-      "options": { "cwd": "{projectRoot}" },
-      "cache": true
-    },
-    "lint:commentary": {
-      "command": "eslint --config eslint.config.mjs src",
       "options": { "cwd": "{projectRoot}" },
       "cache": true
     },

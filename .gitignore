@@ -30,6 +30,7 @@ local-tmp/*
 # command ran last. Regenerated on demand, including on the Vercel build.
 apps/*/next-env.d.ts
 coverage/
+.vitest/
 test-results/
 playwright-report/
 .features-gen/

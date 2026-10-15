@@ -42,7 +42,7 @@ Run one target with `npx nx <target> <project>`. Every app is an Nx project with
 - `wahidyankf-www` (`apps/wahidyankf-www`, the Next.js site):
   - `dev` and `start`: run the site on port 3201, or on `WAHIDYANKF_WWW_PORT` when it is set.
   - `build`: make a production build.
-  - `typecheck` and `lint`: `tsc`, Biome, and ESLint.
+  - `typecheck` and `lint`: `tsc` and Biome.
   - `test:unit` and `test:integration`: Vitest. Integration tests use the real filesystem.
   - `test:coverage:unit`, `test:coverage:integration`, `test:coverage:behaviour`: coverage runs. The unit and
     integration runs enforce a 99% line floor.
