@@ -38,8 +38,9 @@ foundational principles without replacing focused development policies or repeat
 - [Integration Path Policy](integration-path-policy.md) — direct-main integration, temporary branch cleanup, and the
   governed promotion-branch exception.
 - [Project README Policy](project-readme-policy.md) — the required entry point and impact check for every Nx project.
-- [SWE Delegation Policy](swe-delegation-policy.md) — when a session dispatches coding work to a `swe-*` agent, what
-  counts as coding work, and the three exceptions. Use it before implementing, debugging, reviewing, or testing code.
+- [SWE Delegation Policy](swe-delegation-policy.md) — when a session dispatches code and configuration work to a `swe-*`
+  agent, what counts as such work, and its exceptions. Use it before changing code or configuration, or before
+  debugging, reviewing, or testing code.
 - [SWE Agent Procedures](swe-agent-procedures/README.md) — procedure sections moved out of four `swe-*` agent
   definitions. Use it to find the section an agent links to.
 - [PR Review Agent Procedures](pr-review-agent-procedures/README.md) — the `pr-review-checker` procedure, moved out of

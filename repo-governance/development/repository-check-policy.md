@@ -27,7 +27,9 @@ check someone later has to prove is obsolete before they can delete it.
 | runs an external tool at a pinned version   | a `tool` directive in `tools/go.mod`, or an equivalent pin |
 
 A check that reads documents is a configuration entry, not new code. Reach for a script only when the rule is about this
-repository's own arrangement and no declared validator expresses it.
+repository's own arrangement and no declared validator expresses it. Writing the entry, the script, or the hook wiring
+is declarative configuration or code work, so `swe-developer` makes it, per
+[SWE Delegation](../conventions/swe-delegation-policy.md).
 
 ## How It Must Behave
 

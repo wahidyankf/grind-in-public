@@ -8,7 +8,8 @@ when_to_use: "Use when a plan's delivery phases are complete, or when resuming a
 ## Knowledge Capture
 
 The last phase before archival triages `learnings.md`. Every entry is routed to exactly one durable home — a governance
-rule, a document, a subagent instruction, code, a test, or a new two-pager — or discarded with a one-line reason. Both
+rule, a document, a subagent instruction, code, a test, or a new two-pager — or discarded with a one-line reason. Code
+and tests are written by `swe-developer`, per [SWE Delegation](../../../conventions/swe-delegation-policy.md). Both
 safety checks run first: no secret leaves the plan, and the lesson generalizes beyond this one incident. The
 [knowledge capture rules](../../../conventions/plans-organization-policy/009-knowledge-capture-and-archival.md) hold the
 full routing.

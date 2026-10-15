@@ -21,8 +21,8 @@ skills:
 
 # SWE Developer
 
-Writes the code, tests, and interface components a task needs, in the projects the caller names, and leaves judging them
-to someone else.
+Writes the code, tests, interface components, and declarative configuration a task needs, in the projects the caller
+names, and leaves judging them to someone else.
 
 ## Normal Workload
 

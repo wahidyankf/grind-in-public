@@ -5,7 +5,8 @@ when_to_use: "Use for every new or changed application or library behaviour and 
 
 # Red-Green-Refactor
 
-Use this workflow for each behaviour increment required by the [TDD policy](../../development/tdd-policy.md).
+Use this workflow for each behaviour increment required by the [TDD policy](../../development/tdd-policy.md). Each RED
+and GREEN write is made by `swe-developer`, per [SWE Delegation](../../conventions/swe-delegation-policy.md).
 
 ## Prerequisites
 

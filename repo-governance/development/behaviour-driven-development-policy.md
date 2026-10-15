@@ -16,7 +16,8 @@ binding, config, or adapter change must invalidate and rerun applicable static c
 Read relevant features, scenarios, steps, and tests before changing production code. For every observable behaviour
 change: update one canonical scenario -> bind its failing steps in every applicable adapter -> confirm the expected Nx
 RED -> implement production code. Never skip or reorder this sequence. Refactors preserve Gherkin, begin from green or
-characterization coverage, and remain green.
+characterization coverage, and remain green. Each binding, step, and production-code write in that sequence is made by
+`swe-developer`, per [SWE Delegation](../conventions/swe-delegation-policy.md).
 
 ## Applicable Layers
 

@@ -1,7 +1,7 @@
 # Repository Guidelines
 
-Use clear, simple, and natural English that is easy for non-native speakers to understand when writing in English,
-including replies to the user. Follow the [language policy](repo-governance/conventions/language-policy.md).
+Write clear, simple, natural English that non-native speakers can follow, including replies to the user. Follow the
+[language policy](repo-governance/conventions/language-policy.md).
 
 ## Purpose and Working Style
 
@@ -9,7 +9,7 @@ Follow the [drill practice](repo-governance/conventions/drill-practice-policy.md
 [task tracking](repo-governance/conventions/task-tracking-policy.md), which governs `local-tmp/` progress ledgers and
 concurrent edits. Write files in English. Use the smallest responsible change. See
 [minimum sufficiency](repo-governance/principles/minimum-sufficiency.md) and
-[maintenance value](repo-governance/principles/maintenance-value.md). Resolve an open decision by grilling with options,
+[maintenance value](repo-governance/principles/maintenance-value.md). Resolve open decisions by grilling with options,
 not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
 
 ## Reference Repositories
@@ -23,11 +23,11 @@ implementation and release specifications stay upstream. For CV work, read
 ## Rule Changes and Audience
 
 Rule-path automation triggers the [`rules-propagation` workflow](repo-governance/workflows/quality/rules-propagation.md)
-before edits and at pre-commit; follow it without waiting for an owner reminder. A change to what a harness reads also
-requires the [`harness-parity-verification` workflow](repo-governance/workflows/quality/harness-parity-verification.md).
-Run a [quality gate](repo-governance/development/workflow/quality-gate-contract.md) only when the owner explicitly
-requests it; neither planning, execution, review, nor propagation grants that authority. Governance is ordered —
-principles, then conventions, then development policies, then workflows — so a cross-level conflict is settled by
+before edits and at pre-commit; follow it unprompted. A change to what a harness reads also requires the
+[`harness-parity-verification` workflow](repo-governance/workflows/quality/harness-parity-verification.md). Run a
+[quality gate](repo-governance/development/workflow/quality-gate-contract.md) only when the owner explicitly requests
+it; neither planning, execution, review, nor propagation grants that authority. Governance is ordered — principles, then
+conventions, then development policies, then workflows — so a cross-level conflict is settled by
 [precedence](repo-governance/principles/README.md#precedence) and only a same-level one reaches the owner. What counts
 as a rule, and how strongly each wording binds, is the
 [rule definition policy](repo-governance/conventions/rule-definition-policy.md). `README.md` and `docs/` serve people;
@@ -83,8 +83,9 @@ language target, naming, indentation, and import style follow the
 [repository adapter](repo-governance/development/quality/stacks/repository-adapter.md).
 
 Comments must explain intent, flow, and non-obvious decisions without narrating syntax; see the
-[code commentary policy](repo-governance/development/code-commentary-policy.md). Dispatch coding work to the fitting
-`swe-*` agent per the [SWE delegation policy](repo-governance/conventions/swe-delegation-policy.md).
+[code commentary policy](repo-governance/development/code-commentary-policy.md). Dispatch every create, modify, update,
+or delete of code or declarative configuration to the fitting `swe-*` agent, except a harness without subagents or a
+tool repin, per [SWE delegation](repo-governance/conventions/swe-delegation-policy.md).
 
 ## Testing and Commits
 
@@ -104,7 +105,7 @@ implementation review after material corpus or adapter changes.
 
 Use the direct-main [integration path](repo-governance/conventions/integration-path-policy.md), Conventional Commits,
 and one purpose per commit under the [thematic commits policy](repo-governance/conventions/thematic-commits-policy.md).
-Landing on `main` is not deploying: promoting a commit and cutting a domain over are separate authorized acts under the
+Landing on `main` is not deploying: promoting a commit and cutting a domain over are separate authorized acts per the
 [deployment policy](repo-governance/development/deployment-policy.md). Commit and push are separate permissions: the
 [commit hook policy](repo-governance/development/commit-hook-policy.md) owns authorization, public-repository safety,
 private-key and secret-access handoff, attribution, and hook requirements. Every push first passes the

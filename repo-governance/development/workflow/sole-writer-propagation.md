@@ -18,13 +18,8 @@ This standard implements One Source Per Fact and [Minimal Sufficiency](../../pri
 
 ## Why One Writer
 
-A single writer bound to a frozen ledger is what lets three cycles suffice:
-
-- **The input is fixed.** The writer receives a frozen ledger and may touch only what its rows require. A repair cannot
-  grow into an edit made "while I'm here" that the next audit reports as a new finding, so nitpicks do not cascade.
-- **It is idempotent.** The same ledger against the same state produces the same change. Running it again on an
-  already-repaired state changes nothing, so the open count can only fall.
-- **Judging and writing stay separate.** The checker never writes, so each audit after a repair is independent of it.
+The reasons a single frozen-ledger writer suffices are in
+[001 Why One Writer](sole-writer-propagation/001-why-one-writer.md).
 
 ## Shared Rules
 
@@ -71,7 +66,9 @@ it.
 ## Executor Naming
 
 The writer is always `<family>-propagation`, and its executor is always `<family>-fixer`, in every family. A maker
-authors; a fixer repairs only ledger rows. One agent never holds both roles in the same gate run.
+authors; a fixer repairs only ledger rows. One agent never holds both roles in the same gate run. Configuration or code
+a repair changes is written by the `swe-developer` the executor names, per
+[SWE Delegation](../../conventions/swe-delegation-policy.md), under rules 1 to 8.
 
 ## Existing Writers Keep Their Rules
 

@@ -156,10 +156,10 @@ harness:
           skill directory, and follow it as authoritative before acting."
         identity: { name: name, description: description }
       tiers:
-        ultra: {}
-        plan: {}
-        execution: { model: sonnet, effort: xhigh }
-        fast: { model: haiku, effort: xhigh }
+        ultra: { model: opus, effort: high }
+        plan: { model: sonnet, effort: high }
+        execution: { model: haiku, effort: high }
+        fast: { model: haiku, effort: medium }
     - id: codex
       supports:
         capabilities:

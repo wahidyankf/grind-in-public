@@ -15,9 +15,11 @@ Read the whole checkbox before acting. It names the path, the command, and the a
 no interpretation. If it does need interpretation, that is a plan defect: fix the plan, note it in `learnings.md`, and
 continue.
 
-Respect the executor tag. An `[AI]` item is performed directly. A `[HUMAN]` item is prepared as far as an agent can take
-it, then stops execution and hands off to the owner with a statement of what remains; the owner's part is never
-performed on their behalf, and never ticked as though it were.
+Respect the executor tag. An `[AI]` item that changes code or declarative configuration is dispatched to the fitting
+`swe-*` agent, per [SWE Delegation](../../../conventions/swe-delegation-policy.md); any other `[AI]` item is performed
+directly. A `[HUMAN]` item is prepared as far as an agent can take it, then stops execution and hands off to the owner
+with a statement of what remains; the owner's part is never performed on their behalf, and never ticked as though it
+were.
 
 ## Behaviour Cycles
 
@@ -30,7 +32,8 @@ A behaviour change runs RED → GREEN → REFACTOR against exactly one Gherkin s
 3. Refactor with the test still green.
 
 Each is its own checkbox. Record the exact test path and Nx target, expected and observed behavioural RED, GREEN, and
-REFACTOR-green result so a half-finished cycle and the process evidence remain visible.
+REFACTOR-green result so a half-finished cycle and the process evidence remain visible. Each step's write is dispatched
+to `swe-developer`, per [SWE Delegation](../../../conventions/swe-delegation-policy.md).
 
 ## Implementation Notes
 

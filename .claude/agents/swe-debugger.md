@@ -1,7 +1,7 @@
 ---
 description: |-
   Resolves failing type checks, lint findings, and tests one cause at a time, diagnosing each before changing code, keeping pinned behaviour intact, and never suppressing or bypassing a check.
-effort: xhigh
+effort: high
 model: sonnet
 name: swe-debugger
 tools: |-

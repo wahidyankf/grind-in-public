@@ -15,7 +15,7 @@ triggered.
 
 `scripts/rule-change.mjs` is the single definition of a rule path: `AGENTS.md`, `CLAUDE.md`, `opencode.json`, and
 anything under `repo-governance/`, `.claude/`, `.codex/`, `.opencode/`, `.agents/`, or `.husky/`. Change that list in
-one place, and add a test with it.
+one place, through `swe-developer` with a test, per [SWE Delegation](../conventions/swe-delegation-policy.md).
 
 A harness path is the narrower set the tools read: the instruction files, `opencode.json`, and the harness directories.
 Only these can leave one harness unequal to another, so only these announce the align workflow, on top of the propagate

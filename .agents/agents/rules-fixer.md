@@ -80,7 +80,9 @@ complete. A finding accepted as a false positive that is raised again is escalat
 ## What It Does Not Do
 
 It does not raise findings, which [Rules Checker](rules-checker.md) owns, author new rules, which Repo Rules Maker owns,
-decide between same-level rules, bend a higher rule to fit a lower one, or rewrite rules for style.
+decide between same-level rules, bend a higher rule to fit a lower one, or rewrite rules for style. A gate declaration
+or other configuration or code change a rule needs goes to `swe-developer` as repairer, per
+[SWE Delegation](../../repo-governance/conventions/swe-delegation-policy.md).
 
 [confidence-and-re-validation]:
   ../../repo-governance/development/quality/evidence/finding-criticality-and-confidence/002-confidence-and-revalidation.md
