@@ -1,113 +1,36 @@
 # Repository Guidelines
 
-Write clear, simple, natural English that non-native speakers can follow, including replies to the user. Follow the
-[language policy](repo-governance/conventions/language-policy.md).
+Personal learning workspace. Write clear, simple English that non-native speakers can follow, including replies to the
+user. Keep changes small.
 
-## Purpose and Working Style
+## Layout
 
-Follow the [drill practice](repo-governance/conventions/drill-practice-policy.md) and
-[task tracking](repo-governance/conventions/task-tracking-policy.md), which governs `local-tmp/` progress ledgers and
-concurrent edits. Write files in English. Use the smallest responsible change. See
-[minimum sufficiency](repo-governance/principles/minimum-sufficiency.md) and
-[maintenance value](repo-governance/principles/maintenance-value.md). Resolve open decisions by grilling with options,
-not prose; see the [grilling-with-options policy](repo-governance/conventions/grilling-with-options-policy.md).
-
-## Reference Repositories
-
-Use [ose-public](https://github.com/wahidyankf/ose-public), [ose-primer](https://github.com/wahidyankf/ose-primer), and
-[beaver-nest](https://github.com/wahidyankf/beaver-nest) as read-only references; local rules govern. Consume
-[HIPPO](https://github.com/wahidyankf/hippo) only through this repository's pinned external bootstrap; its
-implementation and release specifications stay upstream. For CV work, read
-[apps/wahidyankf-www/docs/README.md](apps/wahidyankf-www/docs/README.md).
-
-## Rule Changes and Audience
-
-Rule-path automation triggers the [`rules-propagation` workflow](repo-governance/workflows/quality/rules-propagation.md)
-before edits and at pre-commit; follow it unprompted. A change to what a harness reads also requires the
-[`harness-parity-verification` workflow](repo-governance/workflows/quality/harness-parity-verification.md). Run a
-[quality gate](repo-governance/development/workflow/quality-gate-contract.md) only when the owner explicitly requests
-it; neither planning, execution, review, nor propagation grants that authority. Governance is ordered — principles, then
-conventions, then development policies, then workflows — so a cross-level conflict is settled by
-[precedence](repo-governance/principles/README.md#precedence) and only a same-level one reaches the owner. What counts
-as a rule, and how strongly each wording binds, is the
-[rule definition policy](repo-governance/conventions/rule-definition-policy.md). `README.md` and `docs/` serve people;
-instruction files serve agents; `repo-governance/` serves both. `CLAUDE.md` must defer to this file; see the
-[agent instruction alignment policy](repo-governance/conventions/agent-instruction-alignment-policy.md). Every `docs/`,
-`repo-governance/`, `scripts/`, `plans/`, `specs/`, and harness directory requires an indexed README; see the
-[documentation index policy](repo-governance/documentation-index-policy.md).
-
-## Project Structure
-
-- `apps/` runnable applications; `libs/` reusable packages.
-- Every Nx project maintains its [project README](repo-governance/conventions/project-readme-policy.md).
-- `docs/` human-facing Diátaxis documentation.
-- `repo-governance/` shared policies and workflows; `plans/` delivery plans; `specs/` as-built application architecture
-  and Gherkin behaviour.
-- Root configs: `package.json`, `nx.json`, `tsconfig.base.json`.
-
-Keep implementation and tests under `src/`; use lowercase-hyphenated project directories. Keep assets in the project
-needing them.
+- `apps/` runnable applications: `wahidyankf-www` (Next.js site) and `wahidyankf-www-e2e` (Playwright suite).
+- `libs/` reusable packages. None yet.
+- `docs/` human-facing documentation. Only the index READMEs are kept.
+- `specs/` Gherkin scenarios and C4 architecture for `wahidyankf-www`.
+- `scripts/` repository-local automation. `scripts/check-repo.sh` runs the deterministic repository checks.
+- `.husky/` git hooks: pre-commit, commit-msg, and pre-push.
+- `repo-config.yml` declares the projects and the repository gates read by RHINO.
+- `exercises/` and `local-tmp/` are personal, untracked work areas. Do not edit or commit them.
 
 ## Commands
 
-[Workspace commands](repo-governance/development/workspace-commands.md) defines commands, checks, and hooks. Guard
-compute-bearing Nx work through checksum-pinned `./hippo` under the
-[resource-aware development policy](repo-governance/development/resource-aware-development.md); never bypass or
-parallel-retry an admission deferral.
+Run from the repository root with `npm run <script>`:
 
-Authorized temporary worktrees live only at `{repository location}/worktrees/<task>` and use their local `./hippo`;
-sibling layouts are forbidden.
+- `npm run test:repo`: deterministic repository checks, including the RHINO `main` gate.
+- `npm run test:quick`: quick tests for every affected project.
+- `npm run check:markdown-links`, `npm run check:markdown-line-length`: Markdown checks.
+- `npm run validate:config`: validates `repo-config.yml`.
+- `npm run format` and `npm run format:check`: Prettier.
+- `npm run lint`, `npm run typecheck`, `npm run build`: Nx tasks for each project.
 
-## Planning
+Nx is used only as a raw task runner. Do not add Nx plugins.
 
-Create plans only on the owner's explicit request or as the
-[upstream tool defects](repo-governance/development/upstream-tool-defects.md) standard directs. Each plan except a
-bug-fix plan has six documents, `tech-docs` among them, and no time estimates, promoted from a quadrant idea through
-`backlog/`, `in-progress/`, and `done/`; see the
-[plans organization policy](repo-governance/conventions/plans-organization-policy.md). Author with
-[plan-planning](repo-governance/workflows/plan/plan-planning.md), validate with
-[plan-quality-gate](repo-governance/workflows/quality/plan-quality-gate.md) only at an explicitly requested checkpoint,
-and run with [plan-execution](repo-governance/workflows/plan/plan-execution.md). Plans deliver directly to `main`.
+## Conventions
 
-## Nx and Coding Conventions
-
-Prefer the standard library and existing repository mechanisms; the
-[dependency selection policy](repo-governance/development/dependency-selection-policy.md) states when an external
-dependency may be added. Use Nx only as a raw task runner with `command` targets. Add no plugin, executor, or generator
-without explicit owner direction; see the [Nx workspace policy](repo-governance/development/nx-workspace-policy.md).
-
-Prettier is the source of truth; Markdown keeps every line, tables and code included, within 120 columns and draws
-terminal-first ASCII diagrams—see the [Markdown style policy](repo-governance/conventions/markdown-style-policy.md). The
-language target, naming, indentation, and import style follow the
-[code style policy](repo-governance/development/code-style-policy.md); project stack standards follow the
-[repository adapter](repo-governance/development/quality/stacks/repository-adapter.md).
-
-Comments must explain intent, flow, and non-obvious decisions without narrating syntax; see the
-[code commentary policy](repo-governance/development/code-commentary-policy.md). Dispatch every create, modify, update,
-or delete of code or declarative configuration to the fitting `swe-*` agent, except a harness without subagents or a
-tool repin, per [SWE delegation](repo-governance/conventions/swe-delegation-policy.md).
-
-## Testing and Commits
-
-Each Nx project follows the [testing policy](repo-governance/development/testing-policy.md) and the compulsory
-[BDD policy](repo-governance/development/behaviour-driven-development-policy.md). Each non-drill application maintains
-its as-built C4 model in `specs/`; see the
-[architecture specification policy](repo-governance/development/architecture-specifications.md). Behaviour is specified
-as Gherkin in `specs/` and implemented test-first, one scenario per red-green-refactor cycle; see the
-[specs policy](repo-governance/development/specs-policy.md) and the
-[TDD policy](repo-governance/development/tdd-policy.md). The
-[recorded pilot](repo-governance/development/testing-policy/tooling.md#recorded-deviations) is exempt from BDD, specs,
-and C4.
-
-Represent every behaviour increment and bug fix as separate evidenced RED, GREEN, and REFACTOR task items. Use synthetic
-isolated test data, keep integration network-free and E2E outside quick hooks, and run the one-by-one Gherkin
-implementation review after material corpus or adapter changes.
-
-Use the direct-main [integration path](repo-governance/conventions/integration-path-policy.md), Conventional Commits,
-and one purpose per commit under the [thematic commits policy](repo-governance/conventions/thematic-commits-policy.md).
-Landing on `main` is not deploying: promoting a commit and cutting a domain over are separate authorized acts per the
-[deployment policy](repo-governance/development/deployment-policy.md). Commit and push are separate permissions: the
-[commit hook policy](repo-governance/development/commit-hook-policy.md) owns authorization, public-repository safety,
-private-key and secret-access handoff, attribution, and hook requirements. Every push first passes the
-[push leak review](repo-governance/workflows/quality/push-leak-review.md) of each outgoing commit. Do not commit
-`node_modules/` or unreviewed dependency updates.
+- Prettier is the formatter. Markdown lines stay within 120 columns.
+- Commit messages follow Conventional Commits. `commitlint` checks them.
+- Commit and push only when the owner asks. Landing on `main` is not deploying.
+- Keep test data synthetic and isolated.
+- Behaviour work starts from a Gherkin scenario in `specs/`, written test-first.
