@@ -72,9 +72,8 @@ One container. There is no backend, no database, and no message bus; all content
 
 The E2E adapter is drawn because it is a real process boundary: it starts the application through `next start` and
 drives it over HTTP through a browser, which is a different toolchain from the in-process behaviour adapter. It is not a
-container, which is why the count above still reads one: it exists only at test time and is never deployed. The
-[BDD policy](../../../repo-governance/development/behaviour-driven-development-policy.md) requires this public boundary
-to live in its dedicated E2E project.
+container, which is why the count above still reads one: it exists only at test time and is never deployed. The BDD
+policy requires this public boundary to live in its dedicated E2E project.
 
 ## Components
 

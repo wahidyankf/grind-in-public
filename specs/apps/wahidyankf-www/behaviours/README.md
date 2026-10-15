@@ -15,8 +15,7 @@ Browser-only scenarios carry `@integration-exempt`; local-only scenarios carry `
 proof. A scenario may carry both tags when each omitted boundary is independently justified and the mandatory Unit
 adapter provides substantive alternative proof.
 
-Scenario shape and cardinality belong to the [specs policy](../../../../repo-governance/development/specs-policy.md);
-how a scenario reaches a test belongs to the [TDD policy](../../../../repo-governance/development/tdd-policy.md). The
+Scenario shape and cardinality belong to the specs policy; how a scenario reaches a test belongs to the TDD policy. The
 as-built boundaries these scenarios exercise live in [architecture.md](../architecture.md).
 
 The dedicated `apps/wahidyankf-www-e2e/` project recursively consumes this corpus. It has no skip baseline: static
