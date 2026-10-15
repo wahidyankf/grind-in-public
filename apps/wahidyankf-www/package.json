@@ -9,12 +9,12 @@
     "start": "next start --port ${WAHIDYANKF_WWW_PORT:-3201}"
   },
   "dependencies": {
-    "@next/third-parties": "16.3.3",
+    "@next/third-parties": "16.4.1",
     "@t3-oss/env-nextjs": "0.13.11",
     "dotenv": "16.4.7",
     "clsx": "2.1.1",
     "lucide-react": "0.577.0",
-    "next": "16.3.3",
+    "next": "16.4.1",
     "pdfkit": "0.20.2",
     "react": "19.2.6",
     "react-dom": "19.2.6",
@@ -31,11 +31,11 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.2.0",
-    "@vitest/coverage-v8": "4.1.0",
+    "@vitest/coverage-v8": "4.1.11",
     "axe-core": "4.10.3",
     "jsdom": "29.0.0",
     "tailwindcss": "4.2.1",
     "vite-tsconfig-paths": "6.1.1",
-    "vitest": "4.1.0"
+    "vitest": "4.1.11"
   }
 }
