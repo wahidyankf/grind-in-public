@@ -7,22 +7,7 @@ Personal lifelong-learning workspace maintained by **Wahidyan Kresna Fridayoka**
 This repository is where I practice, review, and document the craft of software engineering, in the open, for as long as
 I keep building.
 
-This README and [`docs/`](docs/README.md) are for people. AI agents use [`AGENTS.md`](AGENTS.md) and related instruction
-files; shared repository governance in [`repo-governance/`](repo-governance/README.md) applies to both.
-
-Four agent harnesses are declared: Claude Code, Codex, OpenCode, and Command Code. Codex, OpenCode, and Command Code
-read `AGENTS.md` directly, while [`CLAUDE.md`](CLAUDE.md) imports it exactly. Canonical skills and custom-agent prompts
-live in `.agents/`; each harness keeps only its configuration and required native adapters. See the
-[agent harness support policy](repo-governance/conventions/agent-harness-support.md).
-
-Command Code has 25 generated native leaf adapters with static parity verified. Native runtime discovery and enforcement
-remain unverified. Roles declaring `subagent` or nonempty `dispatches` run from their complete canonical definition in
-the main session; native leaves cannot dispatch nested agents. Command Code reads `.agents/skills/` natively and pins no
-model or effort. Its model follows the active session; Command Code 1.77.0's native caller/resolver passes supported
-session reasoning effort to inherited-model leaves; absent or unsupported effort supplies no override. Pure-function
-checks verify this behavior; provider calls remain unverified. Personal `.commandcode/settings.local.json` and the
-entire `.commandcode/taste/` tree stay ignored and preserved, with learning active. Current native policies are indexed
-in [the hook README](.commandcode/hooks/README.md).
+This README and [`docs/`](docs/README.md) are for people.
 
 ## Hands-On by Design
 
@@ -62,36 +47,23 @@ The repository uses Nx as a raw task runner for its npm workspaces:
 - `apps/` holds runnable applications.
 - `libs/` holds reusable packages consumed by applications.
 
-Build all projects with `rtk npm run build` and run quick checks with `rtk npm test`. The root wrapper consumes a
-checksum-pinned external [HIPPO](https://github.com/wahidyankf/hippo) release and maps its fixed allocation only to Nx
-and Go worker controls. See [the Nx workspace guide](docs/how-to/run-nx-workspace.md) for the full workflow. This
-workspace deliberately avoids technology-specific Nx plugins; the
-[Nx workspace policy](repo-governance/development/nx-workspace-policy.md) states which kinds are excluded and the one
-exception.
+Build all projects with `npm run build` and run quick checks with `npm test`. This workspace deliberately avoids
+technology-specific Nx plugins and uses Nx only as a raw task runner.
 
-Documentation hygiene — governance-document word limits, directory maps, repository-local Markdown links, the Mermaid
-ban, and harness capability parity — is checked by [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI consumed the
-same checksum-pinned way as HIPPO and configured entirely by `repo-config.yml`. Announcing the workflows a rule change
-requires is a repository script, `scripts/check-rule-change.mjs`, wired into pre-commit and into every harness's
-pre-edit hook. [Workspace commands](repo-governance/development/workspace-commands.md) lists the `npm run check:`
-command for each check.
+Repository checks, including Markdown links and line length, are run through
+[RHINO](https://github.com/wahidyankf/rhino), a Rust CLI consumed through a checksum-pinned wrapper and configured
+entirely by `repo-config.yml`. Run `npm run test:repo` for the deterministic repository checks.
 
-Two applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
+One application lives here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
 the repository's single authoritative CV record — the practice workspace and its public face maintained under one set of
 rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99% line-coverage
-floor. [forum-be-python](apps/forum-be-python/README.md) is a small FastAPI and PostgreSQL pilot held to a lighter,
-recorded contract.
+floor.
 
-## Plans and Specs
+## Specs
 
-Which work is planned before it starts, and which — drills among them — is not, is set by the
-[plans organization policy](repo-governance/conventions/plans-organization-policy.md). A plan has six documents, one of
-them its technical shape (a bug-fix plan for a single blocking defect has one), moving from quadrant-classified `ideas/`
-through `backlog/` and `in-progress/` to `done/`, and delivering directly to `main` at each phase gate. What the
-software should do is described as Gherkin in [`specs/`](specs/README.md), alongside each non-drill application's
-current as-built architecture and separate from the code that implements them.
+What the software should do is described as Gherkin in [`specs/`](specs/README.md), alongside each non-drill
+application's current as-built architecture and separate from the code that implements them.
 
 ## Documentation
 
-Human-facing project documentation is organized with the [Diátaxis framework](docs/README.md). Repository and agent
-rules are maintained separately in [`repo-governance/`](repo-governance/README.md).
+Human-facing project documentation is organized with the [Diátaxis framework](docs/README.md).
