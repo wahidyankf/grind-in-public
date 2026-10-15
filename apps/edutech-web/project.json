@@ -1,0 +1,78 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "edutech-web",
+  "projectType": "application",
+  "sourceRoot": "apps/edutech-web",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run dev",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/.next"],
+      "options": {
+        "command": "npm run build",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "npm run start",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run lint",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx next typegen && npx tsc --noEmit",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "test:unit": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest run",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "test:unit:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest",
+        "cwd": "apps/edutech-web"
+      }
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx typecheck edutech-web",
+          "npx nx lint edutech-web",
+          "npx nx test:unit edutech-web"
+        ],
+        "cwd": ".",
+        "parallel": false
+      }
+    },
+    "test:quick:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=edutech-web --initialRun -- npx nx run-many -t typecheck lint test:unit -p edutech-web --output-style=stream",
+        "cwd": "."
+      }
+    }
+  }
+}
