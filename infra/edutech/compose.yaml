@@ -7,9 +7,9 @@ services:
   postgres:
     image: postgres:18
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-edutech_be}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-edutech_be}
-      POSTGRES_DB: ${POSTGRES_DB:-edutech_be}
+      POSTGRES_USER: ${POSTGRES_USER:-gip_edutech}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gip_edutech}
+      POSTGRES_DB: ${POSTGRES_DB:-gip_edutech}
     ports:
       - "${POSTGRES_PORT:-5132}:5432"
     volumes:
