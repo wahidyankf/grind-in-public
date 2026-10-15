@@ -11,6 +11,7 @@ user. Keep changes small.
 - Each app keeps its manual HTTP requests in `api.http`, next to its code, so the requests can be updated with the
   routes they call.
 - `libs/` reusable packages. None yet.
+- `drill/` hands-on practice code. It is standalone, not an Nx project, and has its own `pyproject.toml`.
 - `docs/` human-facing documentation. Only the index READMEs and `reference/self-hosting.md` are kept.
 - `specs/` Gherkin scenarios and C4 architecture for `wahidyankf-www`.
 - `scripts/` repository-local automation. `scripts/check-repo.sh` runs the deterministic repository checks.
