@@ -19,9 +19,12 @@ run() {
 	"$@"
 }
 
-# The declared gates, dispatched by surface so what runs is read from
-# repo-config.yml rather than listed twice.
-run ./rhino gate run --surface main
+# Markdown and config checks. RHINO runs the Markdown link and Mermaid checks
+# and reads their policy from repo-config.yml.
+run ./rhino repo-config validate
+run ./rhino md internal-link validate
+run ./rhino md mermaid validate
+run ./node_modules/.bin/markdownlint-cli2
 
 # The repository's own mechanisms: each validator paired with the unit tests
 # that prove the validator itself still discriminates.

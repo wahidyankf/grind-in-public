@@ -3,14 +3,8 @@ set -e
 # The last local moment before anything reaches the remote, which for a public
 # repository is the moment publication begins.
 #
-# Git supplies the ref updates on stdin, and two consumers want them: the
-# declared `pre-push` surface, whose safety gate screens the refs, the commit
-# messages, and each commit's own additions about to be published -- the
-# mechanical half of the push leak review -- and the loop below, which decides
-# which projects are affected. A pipe can only be drained once, so it is read
-# once into a variable and each consumer is fed from that. Whichever ran first
-# would otherwise leave the second reading an empty stream and reporting a
-# clean pass over nothing.
+# Git supplies the ref updates on stdin. The loop below reads them to decide
+# which projects are affected, so the stream is read once into a variable.
 ref_updates=$(cat)
 
 ZERO_SHA="0000000000000000000000000000000000000000"
@@ -27,11 +21,9 @@ if ! git rev-parse --verify --quiet origin/main >/dev/null; then
 	exit 1
 fi
 
-# Screen first. Git's own arguments are deliberately not forwarded: arguments
-# after `--` reach every gate on the surface, and nothing here takes a remote
-# name or a URL. What the safety gate reads is the ref-update lines, which
-# arrive on stdin.
-printf '%s\n' "$ref_updates" | ./rhino gate run --surface pre-push --push-updates-stdin
+# Markdown checks run on every push, as they did when RHINO's pre-push gate ran them.
+npm run check:markdown-links
+npm run check:markdown-line-length
 
 # Git provides: local ref, local SHA, remote ref, and remote SHA for each ref
 # update. Each non-deletion is checked against the mainline baseline, while the

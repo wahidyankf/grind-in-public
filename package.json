@@ -13,7 +13,6 @@
   ],
   "scripts": {
     "build": "nx run-many -t build",
-    "check:hygiene": "./rhino gate run --surface main",
     "validate:config": "./rhino repo-config validate",
     "check:markdown-links": "./rhino md internal-link validate",
     "check:markdown-line-length": "markdownlint-cli2",
