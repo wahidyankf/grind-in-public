@@ -31,23 +31,23 @@ The comment above each command says what that target proves.
 
 ```sh
 # Unit, Integration, E2E rows, exemptions, and bindings are complete.
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+rtk \
   npm exec -- nx run -p wahidyankf-www -t test:coverage:behaviour
 
 # Unit and behaviour together reach the 99% line floor.
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+rtk \
   npm exec -- nx run -p wahidyankf-www -t test:coverage:unit
 
 # The integration adapter reaches the 99% line floor.
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+rtk \
   npm exec -- nx run -p wahidyankf-www -t test:coverage:integration
 
 # Browser corpus, exemptions, and bindings are complete.
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+rtk \
   npm exec -- nx run -p wahidyankf-www-e2e -t test:coverage:behaviour:e2e
 
 # The browser suite passes against `next start`.
-rtk ./hippo run --class ephemeral --resource-tier standard --disk-path . -- \
+rtk \
   npm exec -- nx run -p wahidyankf-www-e2e -t test:e2e
 ```
 

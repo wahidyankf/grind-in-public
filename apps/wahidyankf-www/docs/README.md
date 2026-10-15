@@ -8,7 +8,7 @@ record is `src/features/cv/core/data.ts`, not a document here: the site renders 
 `public/wahidyankf-kresna-fridayoka-cv.pdf`:
 
 ```sh
-rtk ./hippo run --class transactional --resource-tier standard --disk-path . -- npm exec -- \
+rtk npm exec -- \
   nx run -p wahidyankf-www -t generate:cv-pdf
 ```
 
