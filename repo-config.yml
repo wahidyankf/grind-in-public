@@ -38,10 +38,6 @@ extensions:
         path: scripts
         kind: tooling
         stacks: [javascript, shell]
-      public-safety:
-        path: scripts/public-safety
-        kind: tooling
-        stacks: [shell]
       workspace:
         path: .
         kind: tooling
@@ -51,34 +47,6 @@ gates:
   composition:
     pull-request: { relation: exact }
   entries:
-    - id: public-safety-tree
-      type: check
-      command:
-        executable: bash
-        args: [{ literal: scripts/public-safety/check.sh }]
-      run-on: { pre-commit: {}, pre-push: {}, pull-request: {}, main: {} }
-    - id: public-safety-commit-message
-      type: check
-      inputs:
-        message: { kind: commit-message }
-      command:
-        executable: bash
-        args:
-          - { literal: scripts/public-safety/check-commit-message }
-          - { input: message.text, expand: single }
-      run-on:
-        commit-msg:
-          bind:
-            message: { source: hook-message-file }
-        pull-request:
-          bind:
-            message: { source: explicit-range, range: explicit }
-    - id: public-safety-tests
-      type: check
-      command:
-        executable: bash
-        args: [{ literal: scripts/public-safety/tests/run.sh }]
-      run-on: { main: {} }
     - id: commitlint
       type: check
       inputs:

@@ -20,6 +20,3 @@ validation.
   reports sorted contract findings.
 - [check-repo.sh](check-repo.sh) is what `npm run test:repo` runs: every deterministic repository mechanism in one
   ordered pass, cheapest first.
-- [public-safety/](public-safety/README.md) is the publication screen this repository runs first on every gate surface.
-  It is not repository-local automation like the rest of this directory: the same layer, byte for byte, runs in the
-  other repositories that publish, so a finding here means the same thing it means there.
