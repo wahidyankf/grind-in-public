@@ -54,10 +54,11 @@ Repository checks, including Markdown links and line length, are run through
 [RHINO](https://github.com/wahidyankf/rhino), a Rust CLI consumed through a checksum-pinned wrapper and configured
 entirely by `repo-config.yml`. Run `npm run test:repo` for the deterministic repository checks.
 
-One application lives here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and it holds
-the repository's single authoritative CV record — the practice workspace and its public face maintained under one set of
-rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99% line-coverage
-floor.
+Two groups of applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and
+it holds the repository's single authoritative CV record — the practice workspace and its public face maintained under
+one set of rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99%
+line-coverage floor. The `edutech-*` apps are standalone and do not follow those rules. Their local Postgres runs from
+[`infra/`](infra/README.md).
 
 ## Specs
 
