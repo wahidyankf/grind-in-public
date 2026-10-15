@@ -7,11 +7,9 @@ import {
   Briefcase,
   Download,
   FileCheck,
-  GithubIcon,
   Globe,
   GraduationCap,
   Languages,
-  Linkedin,
   Mail,
   Sparkles,
   Star,
@@ -21,6 +19,7 @@ import {
   Code,
   Package,
 } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/features/ui/shell/brand-icons";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -352,7 +351,7 @@ const CVEntryComponent = ({
           >
             {key === "github" && <GithubIcon className="mr-1 h-4 w-4" />}
             {key === "githubOrg" && <GithubIcon className="mr-1 h-4 w-4" />}
-            {key === "linkedin" && <Linkedin className="mr-1 h-4 w-4" />}
+            {key === "linkedin" && <LinkedinIcon className="mr-1 h-4 w-4" />}
             {key === "website" && <Globe className="mr-1 h-4 w-4" />}
             {key === "email" && <Mail className="mr-1 h-4 w-4" />}
             {key === "credential" && <FileCheck className="mr-1 h-4 w-4" />}

@@ -6,25 +6,18 @@ import {
   filterProjects,
 } from "@/features/personal-projects/core/projects";
 import { calculateDuration, formatDuration } from "@/features/cv/core/data";
-import {
-  Code,
-  Github,
-  Globe,
-  Package,
-  Sparkles,
-  Star,
-  Youtube,
-} from "lucide-react";
+import { Code, Globe, Package, Sparkles, Star } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SearchComponent, HighlightText } from "@/features/ui/shell";
+import { GithubIcon, YoutubeIcon } from "@/features/ui/shell/brand-icons";
 
 const LinkIcon = ({ type }: { type: string }) => {
   switch (type.toLowerCase()) {
     case "repository":
-      return <Github className="mr-1 inline-block h-4 w-4" />;
+      return <GithubIcon className="mr-1 inline-block h-4 w-4" />;
     case "youtube":
-      return <Youtube className="mr-1 inline-block h-4 w-4" />;
+      return <YoutubeIcon className="mr-1 inline-block h-4 w-4" />;
     default:
       return <Globe className="mr-1 inline-block h-4 w-4" />;
   }
