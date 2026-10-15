@@ -1,0 +1,54 @@
+@backend = http://localhost:8100
+@web = http://localhost:3100
+
+### Backend: health check (FastAPI, run with `npx nx dev edutech-be`)
+GET {{backend}}/health
+
+### Web: health check (Next.js route, run with `npx nx dev edutech-web`)
+GET {{web}}/api/health
+
+### Backend: register (creates the user; same response if the email exists)
+POST {{backend}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "correct horse"
+}
+
+### Backend: login (run this first; the requests below use its tokens)
+# @name login
+POST {{backend}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "correct horse"
+}
+
+> {%
+  var body = typeof response.body === "string" ? JSON.parse(response.body) : response.body;
+  client.global.set("access_token", body.access_token);
+  client.global.set("refresh_token", body.refresh_token);
+%}
+
+### Backend: current user
+GET {{backend}}/auth/me
+Authorization: Bearer {{access_token}}
+
+### Backend: refresh access token
+POST {{backend}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{refresh_token}}"
+}
+
+### Backend: logout (revokes both tokens from login)
+POST {{backend}}/auth/logout
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "refresh_token": "{{refresh_token}}"
+}

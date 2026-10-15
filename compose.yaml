@@ -1,0 +1,22 @@
+# Local Postgres for edutech-be. Start it with `npx nx db:up edutech-be`.
+# The defaults match DEFAULT_DATABASE_URL in apps/edutech-be/edutech_be/config.py.
+# Set the variables in a root .env file to change them. Do not use these values outside local development.
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-edutech_be}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-edutech_be}
+      POSTGRES_DB: ${POSTGRES_DB:-edutech_be}
+    ports:
+      - "${POSTGRES_PORT:-5132}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  postgres-data:
