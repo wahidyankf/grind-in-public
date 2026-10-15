@@ -1,13 +1,13 @@
 # wahidyankf-www Behaviour
 
-The canonical Gherkin corpus for `wahidyankf-www`. Twelve feature files carry 55 scenario declarations and 70 expanded
+The canonical Gherkin corpus for `wahidyankf-www`. Eleven feature files carry 49 scenario declarations and 53 expanded
 scenarios. A scenario added here must have one Unit row, one Integration row or valid `@integration-exempt`, and one
 browser row or valid `@e2e-exempt`; `test:coverage:behaviour` enforces that contract.
 
-Nine of the twelve describe the site itself and bind under `apps/wahidyankf-www/tests/bdd/`. Two more describe the
+The site's own features bind under `apps/wahidyankf-www/tests/bdd/`. `tier-env-loading.feature` describes the
 environment loader that was inlined into the application during the migration and would otherwise have arrived with no
-corpus at all: `tier-env-loading.feature` and `port-resolver.feature`. They are here rather than under a `libs/` corpus
-because this repository publishes no libraries and the module they specify now lives inside the app.
+corpus at all. It is here rather than under a `libs/` corpus because this repository publishes no libraries and the
+module it specifies now lives inside the app.
 
 Local-boundary features execute the same thin adapter in two modes. Unit uses injected filesystem or environment seams;
 Integration uses isolated real temporary directories, `process.env`, or child processes under the Node environment.
@@ -32,7 +32,6 @@ undefined, ambiguous, or unused browser bindings.
 - [env-loader.feature](env-loader.feature) — the application's own tier-aware environment loading.
 - [home.feature](home.feature) — the landing page and its entry points.
 - [personal-projects.feature](personal-projects.feature) — the projects listing and its detail routes.
-- [port-resolver.feature](port-resolver.feature) — runtime listener port resolution, from the inlined loader module.
 - [responsive.feature](responsive.feature) — layout across viewport widths.
 - [search.feature](search.feature) — site search and its result set.
 - [static-filterable-routes.feature](static-filterable-routes.feature) — the statically generated filtered portfolio

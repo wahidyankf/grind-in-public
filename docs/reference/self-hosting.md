@@ -17,12 +17,14 @@ you change config or secrets. It has no short summary on purpose: a wrong settin
 
 The port is chosen in this order:
 
-1. The `--port` flag, if you pass one. It wins over everything else.
+1. The `--port` flag, if you pass one after `--`, for example `npx nx run wahidyankf-www:dev -- --port 4000`. It wins
+   over everything else.
 2. `WAHIDYANKF_WWW_PORT`, if it is set.
 3. 3201, the built-in default.
 
-A bare `PORT` variable is not read. The wrapper in `scripts/next-with-port.mjs` resolves the port and passes it to
-Next.js.
+A bare `PORT` variable is not read. The port is passed to `next` as `--port`, which takes precedence over `PORT`. Pass a
+real port number. A value that is not one, such as `0` or `0x10`, is passed to Next.js unchanged, and Next may pick a
+random port instead of failing.
 
 ## Environment tiers
 

@@ -16,7 +16,7 @@ as-built boundaries.
 ## Current Specifications
 
 One subject carries specifications. [wahidyankf-www](apps/wahidyankf-www/README.md) has a canonical
-[C4 model](apps/wahidyankf-www/architecture.md) and a twelve-feature corpus, consumed by Unit, local Integration, and
+[C4 model](apps/wahidyankf-www/architecture.md) and an eleven-feature corpus, consumed by Unit, local Integration, and
 browser E2E adapters, with its public-boundary harness in a dedicated project. Every adapter fails when a feature, step,
 binding, exemption, or adapter drifts.
 

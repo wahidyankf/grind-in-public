@@ -79,15 +79,15 @@ policy requires this public boundary to live in its dedicated E2E project.
 
 The application is organized by feature, each component under `src/features/<component>/`, with routes in `src/app/`.
 
-| Component           | Responsibility                                                                              |
-| ------------------- | ------------------------------------------------------------------------------------------- |
-| `app-shell`         | Navigation chrome: sidebar on desktop, bottom tab bar on mobile.                            |
-| `home`              | The landing page — top skills, languages, frameworks, and the about-me summary.             |
-| `cv`                | The CV page and the CV record itself.                                                       |
-| `personal-projects` | The projects listing and its technology-tag filter.                                         |
-| `search`            | Client-side search across every other component's content.                                  |
-| `ui/shell`          | The presentation primitives the shell renders — inlined during the migration.               |
-| `env/core`          | Tier-aware environment loading and listener-port resolution — inlined during the migration. |
+| Component           | Responsibility                                                                  |
+| ------------------- | ------------------------------------------------------------------------------- |
+| `app-shell`         | Navigation chrome: sidebar on desktop, bottom tab bar on mobile.                |
+| `home`              | The landing page — top skills, languages, frameworks, and the about-me summary. |
+| `cv`                | The CV page and the CV record itself.                                           |
+| `personal-projects` | The projects listing and its technology-tag filter.                             |
+| `search`            | Client-side search across every other component's content.                      |
+| `ui/shell`          | The presentation primitives the shell renders — inlined during the migration.   |
+| `env/core`          | Tier-aware environment loading — inlined during the migration.                  |
 
 ```text
                         +-----------------+
@@ -151,7 +151,6 @@ file when the tier is anything other than `local`. The E2E adapter pins its tier
 | [env-loader.feature](behaviours/env-loader.feature)               | `env/core`                                   |
 | [home.feature](behaviours/home.feature)                           | `home`                                       |
 | [personal-projects.feature](behaviours/personal-projects.feature) | `personal-projects`                          |
-| [port-resolver.feature](behaviours/port-resolver.feature)         | `env/core`                                   |
 | [responsive.feature](behaviours/responsive.feature)               | `app-shell`                                  |
 | [search.feature](behaviours/search.feature)                       | `search`                                     |
 | [static-filterable-routes.feature][static-routes]                 | `personal-projects`, at the routing boundary |

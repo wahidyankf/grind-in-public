@@ -18,9 +18,8 @@ rtk npm exec -- \
 rtk npm exec -- nx run -p wahidyankf-www -t start
 ```
 
-The listener port resolves in one order everywhere — an explicit `--port` flag, then `WAHIDYANKF_WWW_PORT`, then the
-compiled-in `3201`. A bare `PORT` never moves it. See `src/features/env/core/port-resolver.ts` for why the wrapper at
-`scripts/next-with-port.mjs` exists at all.
+The listener port comes from an explicit `--port` flag, then `WAHIDYANKF_WWW_PORT`, then the built-in `3201`. A bare
+`PORT` never moves it. `dev` and `start` pass the port to `next` directly in `project.json`.
 
 ## Check your changes
 
@@ -87,9 +86,8 @@ only `src/features/cv/core/pdf.ts` and `src/features/cv/shell/pdf.ts`, the modul
 other `src/**` module is left out of that run: no integration test reaches it, and the unit run measures it against its
 own floor. The flag rides on the target because Vitest 4 lets no project config set `coverage`.
 
-`test:coverage:unit` runs the `behaviour-unit` project alongside `unit`, because `src/features/env/core/tier-env.ts` and
-`port-resolver.ts` are exercised only through their Gherkin bindings and would otherwise report zero against a
-whole-`src/**` denominator.
+`test:coverage:unit` runs the `behaviour-unit` project alongside `unit`, because `src/features/env/core/tier-env.ts` is
+exercised only through its Gherkin binding and would otherwise report zero against a whole-`src/**` denominator.
 
 ## Code map
 

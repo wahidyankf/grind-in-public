@@ -84,7 +84,6 @@ export default defineConfig({
           include: [
             "tests/integration/**/*.{ts,tsx}",
             "tests/bdd/env-loader.steps.ts",
-            "tests/bdd/port-resolver.behaviour.test.ts",
             "tests/bdd/tier-env.behaviour.test.ts",
           ],
           exclude: ["node_modules"],

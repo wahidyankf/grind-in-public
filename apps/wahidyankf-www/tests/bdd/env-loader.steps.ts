@@ -45,23 +45,13 @@ function runNextBuildFixture(appDir: string): string {
   const fixtureLibrary = path.join(appDir, "lib");
   mkdirSync(appDirectory, { recursive: true });
   mkdirSync(fixtureLibrary, { recursive: true });
-  for (const source of ["tier-env.ts", "port-resolver.ts"]) {
-    copyFileSync(
-      path.join(
-        workspaceRoot,
-        "apps/wahidyankf-www/src/features/env/core",
-        source,
-      ),
-      path.join(fixtureLibrary, source),
-    );
-  }
-  const tierEnvFixture = path.join(fixtureLibrary, "tier-env.ts");
-  writeFileSync(
-    tierEnvFixture,
-    readFileSync(tierEnvFixture, "utf8").replace(
-      'from "./port-resolver";',
-      'from "./port-resolver.ts";',
+  copyFileSync(
+    path.join(
+      workspaceRoot,
+      "apps/wahidyankf-www/src/features/env/core",
+      "tier-env.ts",
     ),
+    path.join(fixtureLibrary, "tier-env.ts"),
   );
   writeFileSync(
     path.join(appDir, "package.json"),

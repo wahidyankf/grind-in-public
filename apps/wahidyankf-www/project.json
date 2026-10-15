@@ -10,12 +10,12 @@
       "outputs": ["{projectRoot}/.next"]
     },
     "dev": {
-      "command": "node ../../scripts/next-with-port.mjs dev --env WAHIDYANKF_WWW_PORT --default 3201",
+      "command": "next dev --port ${WAHIDYANKF_WWW_PORT:-3201}",
       "options": { "cwd": "{projectRoot}" },
       "cache": false
     },
     "start": {
-      "command": "node ../../scripts/next-with-port.mjs start --env WAHIDYANKF_WWW_PORT --default 3201",
+      "command": "next start --port ${WAHIDYANKF_WWW_PORT:-3201}",
       "options": { "cwd": "{projectRoot}" },
       "cache": false
     },
@@ -48,8 +48,7 @@
       "options": { "cwd": "{projectRoot}" },
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
       ]
     },
     "test:integration": {
@@ -58,8 +57,7 @@
       "cache": false,
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
       ]
     },
     "test:coverage:unit": {
@@ -68,8 +66,7 @@
       "outputs": ["{projectRoot}/coverage"],
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
       ]
     },
     "test:coverage:integration": {
@@ -78,8 +75,7 @@
       "cache": false,
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
       ]
     },
     "test:coverage:behaviour:wahidyankf-www": {
@@ -88,8 +84,7 @@
       "cache": true,
       "inputs": [
         "default",
-        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs"
+        "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature"
       ]
     },
     "test:coverage:behaviour": {
@@ -105,7 +100,6 @@
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs",
         "{workspaceRoot}/apps/wahidyankf-www-e2e/**/*"
       ]
     },
@@ -122,7 +116,6 @@
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs",
         "{workspaceRoot}/apps/wahidyankf-www-e2e/**/*"
       ]
     },
@@ -147,7 +140,6 @@
       "inputs": [
         "default",
         "{workspaceRoot}/specs/apps/wahidyankf-www/behaviours/**/*.feature",
-        "{workspaceRoot}/scripts/next-with-port.mjs",
         "{workspaceRoot}/apps/wahidyankf-www-e2e/**/*"
       ]
     },

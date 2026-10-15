@@ -86,7 +86,6 @@ async function main() {
   ].toSorted();
   const sharedIntegrationAdapters = new Set([
     "env-loader.steps.ts",
-    "port-resolver.behaviour.test.ts",
     "tier-env.behaviour.test.ts",
   ]);
   const integrationAdapterFiles = [

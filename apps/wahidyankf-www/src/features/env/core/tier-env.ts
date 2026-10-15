@@ -127,11 +127,3 @@ export function loadTierEnv(options: LoadTierEnvOptions = {}): void {
     });
   }
 }
-
-/**
- * The runtime port contract lives in its own dependency-free module so
- * `scripts/next-with-port.mjs` can import it without dragging `dotenv`, and therefore
- * `node_modules`, along — see `./port-resolver.ts` for why that matters. Re-exported here so app
- * code has one import site.
- */
-export { resolvePort, type ResolvePortOptions } from "./port-resolver";
