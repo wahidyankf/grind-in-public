@@ -9,3 +9,6 @@ and application-specific documentation; shared packages belong in [`libs/`](../l
   authoritative CV record.
 - [`wahidyankf-www-e2e`](wahidyankf-www-e2e/README.md) — the dedicated Playwright harness for the website's canonical
   behaviour corpus.
+- `edutech-be` — the FastAPI backend (Python 3.13, uv, Postgres), with auth endpoints.
+- `edutech-web` — the Next.js frontend for the edutech backend.
+- `edutech-web-e2e` — the Playwright suite for `edutech-web`.
