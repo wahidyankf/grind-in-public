@@ -7,7 +7,8 @@ user. Keep changes small.
 
 - `apps/` runnable applications: `wahidyankf-www` (Next.js site) and `wahidyankf-www-e2e` (Playwright suite). The
   `edutech-*` apps are standalone, see Projects and targets.
-- `compose.yaml` and `api.http` at the root: the local Postgres for `edutech-be`, and manual HTTP requests.
+- `compose.yaml` at the root: the local Postgres for `edutech-be`. Each app keeps its manual HTTP requests in
+  `api.http`, next to its code, so the requests can be updated with the routes they call.
 - `libs/` reusable packages. None yet.
 - `docs/` human-facing documentation. Only the index READMEs and `reference/self-hosting.md` are kept.
 - `specs/` Gherkin scenarios and C4 architecture for `wahidyankf-www`.

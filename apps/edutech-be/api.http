@@ -1,14 +1,10 @@
-@backend = http://localhost:8100
-@web = http://localhost:3100
+@baseUrl = http://localhost:8100
 
-### Backend: health check (FastAPI, run with `npx nx dev edutech-be`)
-GET {{backend}}/health
-
-### Web: health check (Next.js route, run with `npx nx dev edutech-web`)
-GET {{web}}/api/health
+### Health check (FastAPI, run with `npx nx dev edutech-be`)
+GET {{baseUrl}}/health
 
 ### Backend: register (creates the user; same response if the email exists)
-POST {{backend}}/auth/register
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
@@ -18,7 +14,7 @@ Content-Type: application/json
 
 ### Backend: login (run this first; the requests below use its tokens)
 # @name login
-POST {{backend}}/auth/login
+POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
@@ -33,11 +29,11 @@ Content-Type: application/json
 %}
 
 ### Backend: current user
-GET {{backend}}/auth/me
+GET {{baseUrl}}/auth/me
 Authorization: Bearer {{access_token}}
 
 ### Backend: refresh access token
-POST {{backend}}/auth/refresh
+POST {{baseUrl}}/auth/refresh
 Content-Type: application/json
 
 {
@@ -45,7 +41,7 @@ Content-Type: application/json
 }
 
 ### Backend: logout (revokes both tokens from login)
-POST {{backend}}/auth/logout
+POST {{baseUrl}}/auth/logout
 Authorization: Bearer {{access_token}}
 Content-Type: application/json
 

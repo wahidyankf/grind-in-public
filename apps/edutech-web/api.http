@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:3100
+
+### Health check (Next.js route, run with `npx nx dev edutech-web`)
+GET {{baseUrl}}/api/health
