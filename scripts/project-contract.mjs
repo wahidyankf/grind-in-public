@@ -171,6 +171,26 @@ function checkE2E(project, ownerName, findings) {
   );
 }
 
+// Standalone apps only need a valid Nx shape and the targets they run themselves.
+// They do not follow the Gherkin corpus or the owner/E2E coverage split.
+const standaloneTargets = new Map([
+  ["edutech-be", ["lint", "test:quick", "test:unit", "typecheck"]],
+  ["edutech-web", ["lint", "test:quick", "test:unit", "typecheck"]],
+  ["edutech-web-e2e", ["lint", "test:e2e", "test:quick", "typecheck"]],
+]);
+
+function checkStandalone(project, requiredTargets, findings) {
+  if (project.$schema !== schema)
+    findings.push(`${project.name}: invalid Nx schema path`);
+  if (project.projectType !== "application")
+    findings.push(`${project.name}: projectType must be application`);
+  if (!String(project.sourceRoot ?? "").startsWith(`apps/${project.name}`))
+    findings.push(
+      `${project.name}: sourceRoot must be under apps/${project.name}`,
+    );
+  checkTargetSet(project, requiredTargets, findings);
+}
+
 /** Validates the fixed owner/E2E project contract without I/O or subprocesses. */
 export function validateProjectContract(projects) {
   const findings = [];
@@ -190,8 +210,16 @@ export function validateProjectContract(projects) {
       checkE2E(e2e, ownerName, findings);
     }
   }
+  for (const [name, requiredTargets] of standaloneTargets) {
+    const project = byName.get(name);
+    if (project === undefined) findings.push(`workspace: missing ${name}`);
+    else checkStandalone(project, requiredTargets, findings);
+  }
   for (const project of projects) {
-    if (!pairs.flat().includes(project.name))
+    if (
+      !pairs.flat().includes(project.name) &&
+      !standaloneTargets.has(project.name)
+    )
       findings.push(`workspace: unexpected project ${project.name}`);
   }
   return findings.toSorted();

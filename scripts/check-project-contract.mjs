@@ -5,6 +5,9 @@ import { validateProjectContract } from "./project-contract.mjs";
 const projectPaths = [
   "apps/wahidyankf-www/project.json",
   "apps/wahidyankf-www-e2e/project.json",
+  "apps/edutech-be/project.json",
+  "apps/edutech-web/project.json",
+  "apps/edutech-web-e2e/project.json",
 ];
 const workspaceRoot = new URL("../", import.meta.url);
 

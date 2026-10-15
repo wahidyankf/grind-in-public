@@ -107,8 +107,54 @@ function validWorkspace() {
   ];
 }
 
-test("accepts the owner and E2E project contract", () => {
-  assert.deepEqual(validateProjectContract(validWorkspace()), []);
+function standalone(name, targetNames) {
+  return {
+    $schema: "../../node_modules/nx/schemas/project-schema.json",
+    name,
+    projectType: "application",
+    sourceRoot: `apps/${name}`,
+    targets: Object.fromEntries(targetNames.map((name) => [name, target()])),
+  };
+}
+
+function validStandalone() {
+  const web = ["lint", "test:quick", "test:unit", "typecheck"];
+  return [
+    standalone("edutech-be", web),
+    standalone("edutech-web", web),
+    standalone("edutech-web-e2e", [
+      "lint",
+      "test:e2e",
+      "test:quick",
+      "typecheck",
+    ]),
+  ];
+}
+
+test("accepts the owner, E2E, and standalone project contract", () => {
+  const projects = [...validWorkspace(), ...validStandalone()];
+  assert.deepEqual(validateProjectContract(projects), []);
+});
+
+test("rejects a standalone app missing a required target", () => {
+  const projects = [...validWorkspace(), ...validStandalone()];
+  delete projects.find((project) => project.name === "edutech-be").targets[
+    "test:quick"
+  ];
+  assert.deepEqual(validateProjectContract(projects), [
+    "edutech-be: missing test:quick",
+  ]);
+});
+
+test("still rejects other unknown projects", () => {
+  const projects = [
+    ...validWorkspace(),
+    ...validStandalone(),
+    standalone("other-app", ["lint"]),
+  ];
+  assert.deepEqual(validateProjectContract(projects), [
+    "workspace: unexpected project other-app",
+  ]);
 });
 
 test("rejects reverse ownership and E2E layer placeholders", () => {
@@ -140,6 +186,6 @@ test("rejects cache, corpus input, and quick-order drift", () => {
 test("returns findings in deterministic order", () => {
   const findings = validateProjectContract([]);
   assert.deepEqual(findings, [...findings].toSorted());
-  // One missing-project finding per half of each declared pair.
-  assert.equal(findings.length, 2);
+  // One missing-project finding per half of each pair, plus one per standalone app.
+  assert.equal(findings.length, 5);
 });
