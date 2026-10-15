@@ -54,6 +54,11 @@ Markdown links and diagrams are checked by [RHINO](https://github.com/wahidyankf
 checksum-pinned wrapper. Its policy lives in `repo-config.yml`. Markdown line length is checked by markdownlint. Git
 hooks use husky, and Nx runs the tests. Run `npm run test:repo` for the deterministic repository checks.
 
+Node and npm versions are pinned with [Volta](https://volta.sh) in the root `package.json`. Install Volta, then run
+`npm install` from the repository root. Biome lints, and Prettier formats. Every app pins exact dependency versions, and
+a package shared by two apps has the same version in both. Each version is more than a week old and has no known
+advisory.
+
 Two groups of applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and
 it holds the repository's single authoritative CV record — the practice workspace and its public face maintained under
 one set of rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99%

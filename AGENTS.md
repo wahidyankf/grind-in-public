@@ -35,6 +35,33 @@ The `pre-push` hook runs the Markdown checks, then `nx affected -t test:quick` a
 `npm run test:repo` only when the pushed range changes `specs`, `scripts`, `.github`, `.husky`, `package.json`,
 `nx.json`, `repo-config.yml`, `rhino`, `rhino.lock`, or an app's `project.json`. It needs a local `origin/main`.
 
+## Toolchain and dependencies
+
+- Volta pins Node and npm in the root `package.json` (`volta.node`, `volta.npm`). `engines.node` sets the allowed range.
+  There is no `.nvmrc`. CI reads the same pin.
+- One root `package-lock.json` serves every app. Run `npm install` from the repository root.
+- Pin exact versions, with no `^` or `~`. A package used by more than one app has the same version in every
+  `package.json`.
+- Pick a release that is more than 7 days old, has no known advisory, and is the latest LTS when an LTS exists. Check
+  with `npm view <package> time` and `npm audit`. Never run `npm audit fix --force`.
+- Keep one copy of each shared package at the root. After a change, run `npm ls <package>` and look for stale copies
+  under `apps/*/node_modules`. A second React copy causes "Invalid hook call".
+- Biome is the only linter. The root `biome.json` is shared, and each app has a nested `biome.json` with `"root": false`
+  and `"extends": "//"`. There is no ESLint, so no tool checks JSDoc comments.
+- Every JS app extends `tsconfig.base.json`.
+
+Versions held back on purpose. Check the reason before you bump them:
+
+- `vitest` and `@vitest/coverage-v8` stay on 4.1.11, and `@amiceli/vitest-cucumber` on 7.0.0. Vitest 5 with cucumber 8
+  broke four behaviour tests.
+- `@types/node` stays on 24 to match the Node 24 LTS runtime.
+- `vitest.config.ts` is excluded from the `wahidyankf-www` typecheck, because the `@vitejs/plugin-react` declaration
+  file does not parse in `tsc`.
+- The GitHub, LinkedIn, and YouTube icons live in `apps/wahidyankf-www/src/features/ui/shell/brand-icons.tsx`, because
+  Lucide 1.x has no brand icons.
+- `npm audit` reports 9 findings, all in the `markdownlint-cli2` chain. It is the latest version, and the only "fix" is
+  a downgrade.
+
 ## Projects and targets
 
 Run one target with `npx nx <target> <project>`. Every app is an Nx project with its own `project.json`.
