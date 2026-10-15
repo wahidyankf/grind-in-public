@@ -7,8 +7,9 @@ user. Keep changes small.
 
 - `apps/` runnable applications: `wahidyankf-www` (Next.js site) and `wahidyankf-www-e2e` (Playwright suite). The
   `edutech-*` apps are standalone, see Projects and targets.
-- `compose.yaml` at the root: the local Postgres for `edutech-be`. Each app keeps its manual HTTP requests in
-  `api.http`, next to its code, so the requests can be updated with the routes they call.
+- `infra/` local infrastructure. `infra/edutech/compose.yaml` runs the local Postgres for `edutech-be`.
+- Each app keeps its manual HTTP requests in `api.http`, next to its code, so the requests can be updated with the
+  routes they call.
 - `libs/` reusable packages. None yet.
 - `docs/` human-facing documentation. Only the index READMEs and `reference/self-hosting.md` are kept.
 - `specs/` Gherkin scenarios and C4 architecture for `wahidyankf-www`.
@@ -56,7 +57,7 @@ Run one target with `npx nx <target> <project>`. Every app is declared in `repo-
   - `dev` and `start`: run uvicorn on port 8100. `dev` reloads on change.
   - `lint`: ruff. `typecheck`: pyright. `test:unit`: pytest, without the `integration` tests.
   - `test:integration`: pytest for the Postgres tests. Run `db:up` first.
-  - `db:up` and `db:down`: start and stop Postgres on port 5132, from the root `compose.yaml`. `db:migrate` applies
+  - `db:up` and `db:down`: start and stop Postgres on port 5132, from `infra/edutech/compose.yaml`. `db:migrate` applies
     Alembic migrations. `db:reset` deletes all data, then starts and migrates again.
   - `test:quick`: typecheck, lint, then unit tests. It does not need Postgres.
 - `edutech-web` (`apps/edutech-web`, Next.js):

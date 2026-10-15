@@ -1,6 +1,8 @@
+name: gip-edutech
+
 # Local Postgres for edutech-be. Start it with `npx nx db:up edutech-be`.
 # The defaults match DEFAULT_DATABASE_URL in apps/edutech-be/edutech_be/config.py.
-# Set the variables in a root .env file to change them. Do not use these values outside local development.
+# Set the variables in an .env file next to this file to change them. Do not use these values outside local development.
 services:
   postgres:
     image: postgres:18

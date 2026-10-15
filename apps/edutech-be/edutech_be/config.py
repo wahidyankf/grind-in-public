@@ -2,7 +2,7 @@ import os
 from collections.abc import Mapping
 from dataclasses import dataclass
 
-# Matches the defaults in the root compose.yaml, so db:up works without setup.
+# Matches the defaults in infra/edutech/compose.yaml, so db:up works without setup.
 DEFAULT_DATABASE_URL = "postgresql+psycopg://edutech_be:edutech_be@localhost:5132/edutech_be"
 
 # Short access tokens limit the harm from a leak; refresh tokens keep users signed in.

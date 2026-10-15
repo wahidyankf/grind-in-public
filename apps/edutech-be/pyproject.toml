@@ -25,7 +25,7 @@ testpaths = ["edutech_be"]
 python_files = ["*_tests.py"]
 addopts = "--ignore-glob=*_production_tests.py"
 pythonpath = ["."]
-markers = ["integration: needs the Postgres container from compose.yaml"]
+markers = ["integration: needs the Postgres container from infra/edutech/compose.yaml"]
 
 [tool.ruff]
 line-length = 88
