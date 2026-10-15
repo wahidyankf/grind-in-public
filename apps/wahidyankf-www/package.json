@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3201",
+    "dev": "next dev --port ${WAHIDYANKF_WWW_PORT:-3201}",
     "build": "next build",
-    "start": "next start --port 3201"
+    "start": "next start --port ${WAHIDYANKF_WWW_PORT:-3201}"
   },
   "dependencies": {
     "@next/third-parties": "16.3.3",
