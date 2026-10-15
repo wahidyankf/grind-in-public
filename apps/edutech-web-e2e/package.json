@@ -1,0 +1,15 @@
+{
+  "name": "edutech-web-e2e",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^24.19.2",
+    "typescript": "^7.0.2"
+  }
+}

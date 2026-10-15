@@ -1,0 +1,55 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "edutech-web-e2e",
+  "projectType": "application",
+  "sourceRoot": "apps/edutech-web-e2e/tests",
+  "implicitDependencies": ["edutech-web"],
+  "targets": {
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsc --noEmit",
+        "cwd": "apps/edutech-web-e2e"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx biome lint .",
+        "cwd": "apps/edutech-web-e2e"
+      }
+    },
+    "test:e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test",
+        "cwd": "apps/edutech-web-e2e"
+      }
+    },
+    "test:e2e:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --ui",
+        "cwd": "apps/edutech-web-e2e"
+      }
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx typecheck edutech-web-e2e",
+          "npx nx lint edutech-web-e2e"
+        ],
+        "cwd": ".",
+        "parallel": false
+      }
+    },
+    "test:quick:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=edutech-web-e2e --initialRun -- npx nx run-many -t typecheck lint -p edutech-web-e2e --output-style=stream",
+        "cwd": "."
+      }
+    }
+  }
+}
