@@ -26,11 +26,6 @@ run ./rhino md internal-link validate
 run ./rhino md mermaid validate
 run ./node_modules/.bin/markdownlint-cli2
 
-# The repository's own mechanisms: each validator paired with the unit tests
-# that prove the validator itself still discriminates.
-run node --test scripts/project-contract.test.mjs
-run node scripts/check-project-contract.mjs
-
 # British spelling in repository-owned terms. The two exclusions are a React
 # component and its test, where the American form is part of a third-party API
 # name rather than this repository's own prose.

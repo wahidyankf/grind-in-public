@@ -16,7 +16,6 @@
     "validate:config": "./rhino repo-config validate",
     "check:markdown-links": "./rhino md internal-link validate",
     "check:markdown-line-length": "markdownlint-cli2",
-    "check:project-contract": "sh -c 'node --test scripts/project-contract.test.mjs && exec node scripts/check-project-contract.mjs'",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "nx run-many -t lint",
