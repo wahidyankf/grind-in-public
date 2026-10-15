@@ -9,15 +9,9 @@ The tree mirrors the workspace — `specs/apps/<name>/` and `specs/libs/<name>/`
 detail it genuinely needs. Every non-drill application also has a root `architecture.md` C4 model of its current
 as-built boundaries.
 
-For the structure, the Gherkin cardinality rule, and when specs are required, read the
-[specs policy](../repo-governance/development/specs-policy.md). For how scenarios bind to tests, read the
-[TDD policy](../repo-governance/development/tdd-policy.md) and the
-[BDD policy](../repo-governance/development/behaviour-driven-development-policy.md).
-
 ## Directory Map
 
 - [Applications](apps/README.md) — the per-application C4 models and behaviour corpora.
-- [Fixtures](fixtures/README.md) — synthetic validator corpora, including the shared plan-structure corpus.
 
 ## Current Specifications
 

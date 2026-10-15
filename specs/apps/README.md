@@ -2,8 +2,7 @@
 
 Each application in `apps/` that carries specifications has a directory here under the same name, holding its as-built
 C4 model and its executable Gherkin corpus. A directory appears here when the application it mirrors gains a
-specification, not before; see the [specs policy](../../repo-governance/development/specs-policy.md) for when one is
-required.
+specification, not before.
 
 ## Directory Map
 
