@@ -1,0 +1,111 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "edutech-be",
+  "projectType": "application",
+  "sourceRoot": "apps/edutech-be/edutech_be",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run uvicorn edutech_be.main:app --reload --port 8100",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run uvicorn edutech_be.main:app --port 8100",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run ruff check .",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run ruff format --check .",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run pyright",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "test:unit": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run pytest -m \"not integration\"",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "test:integration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run pytest -m integration",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "db:up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose up -d --wait",
+        "cwd": "."
+      }
+    },
+    "db:down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose down",
+        "cwd": "."
+      }
+    },
+    "db:reset": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f ../../compose.yaml down -v && docker compose -f ../../compose.yaml up -d --wait && uv run alembic upgrade head",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "db:migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run alembic upgrade head",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "test:unit:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "uv run ptw .",
+        "cwd": "apps/edutech-be"
+      }
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx typecheck edutech-be",
+          "npx nx lint edutech-be",
+          "npx nx test:unit edutech-be"
+        ],
+        "cwd": ".",
+        "parallel": false
+      }
+    },
+    "test:quick:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=edutech-be --initialRun -- npx nx run-many -t typecheck lint test:unit -p edutech-be --output-style=stream",
+        "cwd": "."
+      }
+    }
+  }
+}
