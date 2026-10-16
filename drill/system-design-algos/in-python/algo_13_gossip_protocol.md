@@ -42,6 +42,11 @@ flowchart TD
   E --> F["peer.merge(node snapshot)"]
   F --> G["next node"]
   G --> B
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class A blue
 ```
 
 ```mermaid
@@ -56,6 +61,13 @@ flowchart TD
   D -->|yes| E["run_round(), check again"]
   E --> B
   D -->|no| F["return None"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,D orange
+  class A blue
+  class C,F teal
 ```
 
 ## Example

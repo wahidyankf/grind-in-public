@@ -38,6 +38,12 @@ flowchart LR
   }
   V["Visitor (Person)"] -->|HTTPS| W["wahidyankf-www"]
   W -->|built and served by| VC["Vercel (External System)"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class V blue
+  class VC teal
 ```
 
 ## Containers
@@ -56,6 +62,12 @@ flowchart LR
   }
   V["Visitor (Person)"] -->|HTTPS| WEB["web (Next.js 16, static)"]
   E2E["wahidyankf-www-e2e (test only)"] -->|starts and drives| WEB
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class V,E2E blue
+  class WEB teal
 ```
 
 The E2E adapter is drawn because it is a real process boundary: it starts the application through `next start` and
@@ -89,6 +101,12 @@ flowchart TD
   S[search] -->|conformist| H
   S -->|conformist| PP
   S -->|conformist| CV[cv]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class S blue
+  class PP,CV teal
 ```
 
 `search` is a conformist to the three components it indexes: it reads their content as they publish it and imposes no

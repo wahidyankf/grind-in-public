@@ -45,6 +45,13 @@ flowchart TD
   B -->|no| D
   D -->|yes| E["return False (refused)"]
   D -->|no| F["append item, return True"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,D orange
+  class A blue
+  class E,F teal
 ```
 
 ```mermaid
@@ -61,6 +68,13 @@ flowchart TD
   E -->|yes| F["credit = 0"]
   E -->|no| G[return output]
   F --> G
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C,E orange
+  class A blue
+  class G teal
 ```
 
 ## Example

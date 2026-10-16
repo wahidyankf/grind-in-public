@@ -44,6 +44,13 @@ flowchart TD
   C -->|no| D["done"]
   C -->|yes| E["flush memtable as sorted run"]
   E --> F["clear memtable"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C orange
+  class A blue
+  class D,F teal
 ```
 
 ```mermaid
@@ -59,6 +66,13 @@ flowchart TD
   D -->|no| F{"any runs left?"}
   F -->|yes| D
   F -->|no| G["return None"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,D,F orange
+  class A blue
+  class C,E,G teal
 ```
 
 ## Example

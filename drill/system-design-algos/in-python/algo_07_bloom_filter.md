@@ -46,6 +46,12 @@ flowchart TD
   }
   A["add(item)"] --> B["compute k positions"]
   B --> C["set those k bits to 1"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class A blue
+  class C teal
 ```
 
 might_contain:
@@ -60,6 +66,13 @@ flowchart TD
   B --> C{"every bit is 1?"}
   C -->|no| D["False: definitely not here"]
   C -->|yes| E["True: probably here"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C orange
+  class A blue
+  class D,E teal
 ```
 
 ## Example

@@ -37,6 +37,12 @@ flowchart TD
   A["add(doc_id, text)"] --> B["tokenize text into unique words"]
   B --> C["for each word"]
   C --> D["insert doc_id into posting list"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class A blue
+  class D teal
 ```
 
 ```mermaid
@@ -49,6 +55,12 @@ flowchart TD
   B --> C["result = postings[quick]"]
   C --> D["intersect with postings[dog]"]
   D --> E["return result"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class A blue
+  class E teal
 ```
 
 ## Example

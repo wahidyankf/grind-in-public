@@ -42,6 +42,13 @@ flowchart TD
   B -->|no| Z["return None"]
   B -->|yes| C["unlink node, put at head"]
   C --> D["return node.value"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B orange
+  class A blue
+  class Z,D teal
 ```
 
 put:
@@ -59,6 +66,13 @@ flowchart TD
   D -->|yes| E["remove tail, delete key from map"]
   E --> F["create node at head, add to map"]
   D -->|no| F
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,D orange
+  class A blue
+  class Z,F teal
 ```
 
 ## Example

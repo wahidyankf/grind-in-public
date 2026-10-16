@@ -44,6 +44,12 @@ flowchart LR
   Q -->|"dequeue"| O1["first out: x"]
   O1 -->|"dequeue"| O2["then y"]
   O2 -->|"dequeue"| O3["then z"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class E blue
+  class O3 teal
 ```
 
 Append-only log:
@@ -62,6 +68,12 @@ flowchart LR
   B["billing group, committed 2"] -->|"reads c, d"| R2
   B -.->|"after commit(4)"| R4
   S["search group, committed 0"] -->|"reads a to e"| R0
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,S blue
+  class M teal
 ```
 
 ## Example

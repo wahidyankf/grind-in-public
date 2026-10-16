@@ -106,8 +106,9 @@ Run one target with `npx nx <target> <project>`. Every app is an Nx project with
 - Commit messages follow Conventional Commits. `commitlint` checks them.
 - Commit and push only when the owner asks. Landing on `main` is not deploying.
 - Keep test data synthetic and isolated.
-- Diagrams are Mermaid with `accTitle` and `accDescr`. Keep labels short and plain, and add no colours. ASCII is kept
-  only for file trees.
+- Diagrams are Mermaid with `accTitle` and `accDescr`. Keep labels short and plain. Colours come only from the
+  accessible palette in `repo-config.yml`, and each flowchart declares `classDef default`. Decisions are orange, start
+  nodes blue, and end nodes teal. ASCII is kept only for file trees.
 - Behaviour work starts from a Gherkin scenario in `specs/`, written test-first.
 - Keep comments, commit messages, and notes brief. Explain why the code is needed, not what it does.
 

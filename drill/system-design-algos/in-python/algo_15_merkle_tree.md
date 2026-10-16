@@ -44,6 +44,13 @@ flowchart TD
   C -->|yes| D["parent = hash(left, right)"]
   D -->|next level| C
   C -->|no| E[root = the single hash left]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C orange
+  class A blue
+  class E teal
 ```
 
 ```mermaid
@@ -61,6 +68,13 @@ flowchart TD
   G -->|yes| H[record its index]
   G -->|no| I[visit both children]
   I -->|each child| D
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,E,G orange
+  class A blue
+  class C,F,H teal
 ```
 
 ## Example
@@ -79,6 +93,12 @@ flowchart TD
   P1 --> L2["H2 (block 2)"]
   P2 --> L3["H3 (block 3)"]
   P2 --> L4["H4 (block 4)"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class R blue
+  class L1,L2,L3,L4 teal
 ```
 
 Proof for block 2 (index 1): sibling `H1` on the left, then sibling `H34` on the right. To verify, compute `H(H1 + H2)`,

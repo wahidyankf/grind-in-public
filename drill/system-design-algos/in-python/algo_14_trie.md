@@ -48,6 +48,13 @@ flowchart TD
   J -->|no| F
   J -->|yes| K["sort by (-frequency, word)"]
   K --> L["return first limit words"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C,G,J orange
+  class A blue
+  class D,L teal
 ```
 
 ## Example
@@ -66,6 +73,12 @@ flowchart TD
   D --> E["t [cart: 2]"]
   D --> F["e [care: 5]"]
   C --> G["t [cat: 1]"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class A blue
+  class E,F,G teal
 ```
 
 - `search("car")` is true. `search("ca")` is false, because no word ends at `a`.

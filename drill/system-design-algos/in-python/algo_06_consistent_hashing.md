@@ -47,6 +47,13 @@ flowchart TD
   D -->|yes| E["i = 0, wrap around"]
   E --> F["return owner of ring[i]"]
   D -->|no| F
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class D orange
+  class A blue
+  class F teal
 ```
 
 ## Example
@@ -65,6 +72,10 @@ flowchart TD
   P40 --> P70["70: B"]
   P70 --> P90["90: A"]
   P90 -->|"wraps around"| P10
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
 ```
 
 - Key at 33: the next position above is 40, so the owner is C.

@@ -20,6 +20,12 @@ flowchart LR
   U["bit 63: unused"] --> T["bits 62..22: time in ms (41)"]
   T --> W["bits 21..12: worker id (10)"]
   W --> S["bits 11..0: sequence (12)"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class U blue
+  class S teal
 ```
 
 - **Time** comes first, so later IDs are bigger. Sorting by ID sorts by creation time, roughly.
@@ -57,6 +63,13 @@ flowchart TD
   H -->|no| J
   F --> J
   J --> K[return packed 64-bit ID]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C,E,H orange
+  class A blue
+  class D,K teal
 ```
 
 ## Example

@@ -36,6 +36,13 @@ flowchart TD
   E --> F{"size / buckets > 0.75?"}
   F -->|no| Z
   F -->|yes| G["double buckets, rehash all"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C,F orange
+  class A blue
+  class Z,G teal
 ```
 
 ## Example
@@ -53,6 +60,12 @@ flowchart TD
   B2 --> B3["bucket 3: apple = 5, pear = 7"]
   B3 --> B4["buckets 4 to 6: not shown"]
   B4 --> B7["bucket 7: empty"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B0 blue
+  class B7 teal
 ```
 
 `get("pear")` computes index 3, scans two pairs, and returns `7`.

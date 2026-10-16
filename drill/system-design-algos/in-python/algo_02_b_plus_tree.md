@@ -53,6 +53,13 @@ flowchart TD
   I --> Z
   H -->|no| J["parent gets the new key"]
   J --> F
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class C,F,G,H orange
+  class A blue
+  class Z teal
 ```
 
 ## Example
@@ -79,6 +86,12 @@ flowchart TD
   R --> L3["leaf: 5 6"]
   L1 -.->|"next"| L2
   L2 -.->|"next"| L3
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class R blue
+  class L3 teal
 ```
 
 Search 4: at the root, `bisect_right([3, 5], 4)` is 1, so go to the middle leaf and find 4.

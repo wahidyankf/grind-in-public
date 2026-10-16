@@ -64,6 +64,13 @@ flowchart TD
   G --> H[move stored points down]
   H --> I[insert into the first child]
   D -->|yes| I
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B,D,E orange
+  class A blue
+  class C,F,I teal
 ```
 
 ```mermaid
@@ -76,6 +83,13 @@ flowchart TD
   B -->|no| C[return empty list]
   B -->|yes| D[collect stored points in area]
   D --> E[query each child]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class B orange
+  class A blue
+  class C,E teal
 ```
 
 ## Example
@@ -94,6 +108,12 @@ flowchart TD
   R --> NW["NW (0..50, 50..100): B"]
   R --> SE["SE (50..100, 0..50): C"]
   R --> NE["NE (50..100, 50..100): empty"]
+  classDef default fill:#FFFFFF,stroke:#000000,color:#000000,stroke-width:2px
+  classDef blue fill:#0173B2,stroke:#000000,color:#FFFFFF,stroke-width:2px
+  classDef orange fill:#DE8F05,stroke:#000000,color:#000000,stroke-width:2px
+  classDef teal fill:#029E73,stroke:#000000,color:#000000,stroke-width:2px
+  class R blue
+  class SW,NW,SE,NE teal
 ```
 
 Query (0..30, 0..30): NE does not overlap, so skip it. Check SW: A is inside.
