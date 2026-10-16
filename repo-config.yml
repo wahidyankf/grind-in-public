@@ -18,7 +18,7 @@ policies:
     internal-link:
       exclude-sources: []
     mermaid:
-      authoring-rule: plain-text
+      authoring-rule: rendered
       node-label-graphemes: 32
       edge-label-graphemes: 24
       fill-colors: []
