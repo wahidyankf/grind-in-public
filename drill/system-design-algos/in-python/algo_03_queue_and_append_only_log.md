@@ -34,31 +34,34 @@ Append-only log:
 
 Work queue:
 
-```text
-enqueue(x)   enqueue(y)   enqueue(z)
-   |            |            |
-   v            v            v
- front  [ x | y | z ]  back
-   |
-   v
-dequeue() -> x, then y, then z
+```mermaid
+flowchart LR
+  accTitle: Work queue, first in first out
+  accDescr {
+    Items join at the back and leave from the front. Dequeue returns x first, then y, then z.
+  }
+  E["enqueue x, y, z"] --> Q["queue, front to back: x y z"]
+  Q -->|"dequeue"| O1["first out: x"]
+  O1 -->|"dequeue"| O2["then y"]
+  O2 -->|"dequeue"| O3["then z"]
 ```
 
 Append-only log:
 
-```text
 producer: append(record) at the end
 
-offset:      0      1      2      3      4
-          [ a ]  [ b ]  [ c ]  [ d ]  [ e ]  ...  (never removed)
-
-group "billing": committed = 2
-    poll(limit=2) reads offsets 2 and 3 -> c, d
-    commit(4)     -> next poll starts at offset 4
-
-group "search": committed = 0
-    poll(limit=10) reads offsets 0 to 4 -> a, b, c, d, e
-    (each group moves at its own pace)
+```mermaid
+flowchart LR
+  accTitle: Append-only log with two groups
+  accDescr {
+    Records stay in the log from offset 0 on.
+    The billing group reads from offset 2 and the search group reads from offset 0,
+    each at its own pace.
+  }
+  R0["0: a"] --> R1["1: b"] --> R2["2: c"] --> R3["3: d"] --> R4["4: e"] --> M["more, never removed"]
+  B["billing group, committed 2"] -->|"reads c, d"| R2
+  B -.->|"after commit(4)"| R4
+  S["search group, committed 0"] -->|"reads a to e"| R0
 ```
 
 ## Example

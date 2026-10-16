@@ -28,57 +28,57 @@ Search for `"w1 w2 ... wn"`:
 
 ## Flow
 
-```text
-add(doc_id, text)
-   |
-   v
-tokenize text -> unique words
-   |
-   v
-for each word:
-   insert doc_id into its posting list (sorted, no duplicates)
+```mermaid
+flowchart TD
+  accTitle: Inverted index add
+  accDescr {
+    Shows a document being split into unique words, then added to the posting list of each word.
+  }
+  A["add(doc_id, text)"] --> B["tokenize text into unique words"]
+  B --> C["for each word"]
+  C --> D["insert doc_id into posting list"]
+```
 
-
-search("quick dog")
-   |
-   v
-tokens = [quick, dog]
-   |
-   v
-result = postings[quick]
-   |
-   v
-result = intersect(result, postings[dog])
-   |
-   v
-return result
+```mermaid
+flowchart TD
+  accTitle: Inverted index search
+  accDescr {
+    Shows a two-word search that reads the first posting list, then intersects it with the second.
+  }
+  A["search('quick dog')"] --> B["tokens = [quick, dog]"]
+  B --> C["result = postings[quick]"]
+  C --> D["intersect with postings[dog]"]
+  D --> E["return result"]
 ```
 
 ## Example
 
 Three documents:
 
-```text
-doc 1: "The quick brown fox"
-doc 2: "The lazy dog sleeps"
-doc 3: "A quick dog runs quickly"
+| Doc | Text                       |
+| --- | -------------------------- |
+| 1   | "The quick brown fox"      |
+| 2   | "The lazy dog sleeps"      |
+| 3   | "A quick dog runs quickly" |
 
 postings:
-  quick  -> [1, 3]
-  dog    -> [2, 3]
-  fox    -> [1]
-  ...
-```
+
+| Term  | Posting list |
+| ----- | ------------ |
+| quick | [1, 3]       |
+| dog   | [2, 3]       |
+| fox   | [1]          |
+| ...   | ...          |
 
 Intersect `[1, 3]` with `[2, 3]` using two pointers. Each list only moves forward:
 
-```text
-left  = [1, 3]        right = [2, 3]
-step 1: 1 < 2  -> advance left
-step 2: 3 > 2  -> advance right
-step 3: 3 = 3  -> match, add 3 to result, advance both
+| Step | Compare | Action                               |
+| ---- | ------- | ------------------------------------ |
+| 1    | 1 < 2   | advance left                         |
+| 2    | 3 > 2   | advance right                        |
+| 3    | 3 = 3   | match, add 3 to result, advance both |
+
 result: [3]
-```
 
 ## Complexity
 

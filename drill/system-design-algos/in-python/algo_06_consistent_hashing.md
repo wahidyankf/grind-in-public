@@ -34,33 +34,37 @@ Remove a node: delete all of its virtual positions. Keys that pointed to them no
 
 ## Flow
 
-```text
-get_node(key)
-     |
-     v
-p = hash(key)
-     |
-     v
-i = first index with ring[i] > p      (bisect_right)
-     |
-     v
-i == len(ring)? --yes--> i = 0          (wrap around)
-     |
-     no
-     v
-return owner of ring[i]
+```mermaid
+flowchart TD
+  accTitle: Consistent hashing get_node
+  accDescr {
+    Shows how get_node hashes the key, finds the first ring position above it,
+    and wraps to the start when there is none.
+  }
+  A["get_node(key)"] --> B["p = hash(key)"]
+  B --> C["i = bisect_right(ring, p)"]
+  C --> D{"i == len(ring)?"}
+  D -->|yes| E["i = 0, wrap around"]
+  E --> F["return owner of ring[i]"]
+  D -->|no| F
 ```
 
 ## Example
 
 The ring has five virtual positions, each with an owner:
 
-```text
-position:   10     25     40     70     90
-owner:      B      A      C      B      A
-
-  0 ----10-----25-----40----------70-------90------- 100 (wraps to 0)
-        B      A      C          B        A
+```mermaid
+flowchart TD
+  accTitle: Consistent hashing ring with five positions
+  accDescr {
+    Positions 10, 25, 40, 70 and 90 go clockwise with owners B, A, C, B and A.
+    The last position wraps back to 10.
+  }
+  P10["10: B"] --> P25["25: A"]
+  P25 --> P40["40: C"]
+  P40 --> P70["70: B"]
+  P70 --> P90["90: A"]
+  P90 -->|"wraps around"| P10
 ```
 
 - Key at 33: the next position above is 40, so the owner is C.

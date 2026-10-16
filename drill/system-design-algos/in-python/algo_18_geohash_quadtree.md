@@ -20,15 +20,14 @@ Each step cuts the current range in half and records which half holds the point:
 
 More characters means a smaller cell. Two points in the same cell share the same prefix.
 
-```text
-start:  lon [-180 ... 180]   lat [-90 ... 90]
-
-bit 1 (lon): point lon 10.4 is in the upper half  -> 1
-bit 2 (lat): point lat 57.6 is in the upper half  -> 1
-bit 3 (lon): 10.4 is in the lower half of [0 ... 180]  -> 0
-...
-every 5 bits -> one character
-```
+| Step         | Axis        | Check                                    | Bit           |
+| ------------ | ----------- | ---------------------------------------- | ------------- |
+| Start        | lon and lat | lon [-180 ... 180], lat [-90 ... 90]     | -             |
+| 1            | lon         | point lon 10.4 is in the upper half      | 1             |
+| 2            | lat         | point lat 57.6 is in the upper half      | 1             |
+| 3            | lon         | 10.4 is in the lower half of [0 ... 180] | 0             |
+| ...          | ...         | ...                                      | ...           |
+| Every 5 bits | -           | -                                        | One character |
 
 ## How it works: geohash
 
@@ -50,45 +49,54 @@ A query for a rectangle skips every box that does not overlap it.
 
 ## Flow
 
-```text
-quadtree.insert(point)
-   |
-   v
-point outside this box? --yes--> return False
-   | no
-   v
-has children? --no--> room left (or max depth)? --yes--> store point, return True
-   |                       |
-   |                      no
-   |                       v
-   |                  split into 4 quadrants, move stored points down
-   v
-insert into the first child that contains the point
+```mermaid
+flowchart TD
+  accTitle: Quadtree insert
+  accDescr {
+    Shows how insert stores a point, or splits a full box and passes the point down.
+  }
+  A["quadtree.insert(point)"] --> B{point outside this box?}
+  B -->|yes| C[return False]
+  B -->|no| D{has children?}
+  D -->|no| E{room left or max depth?}
+  E -->|yes| F["store point, return True"]
+  E -->|no| G[split into 4 quadrants]
+  G --> H[move stored points down]
+  H --> I[insert into the first child]
+  D -->|yes| I
+```
 
-
-quadtree.query(area)
-   |
-   v
-box does not overlap area? --yes--> return []
-   | no
-   v
-collect stored points inside area, then query each child
+```mermaid
+flowchart TD
+  accTitle: Quadtree query
+  accDescr {
+    Shows how query skips a box that does not overlap the area, and checks the rest.
+  }
+  A["quadtree.query(area)"] --> B{box overlaps area?}
+  B -->|no| C[return empty list]
+  B -->|yes| D[collect stored points in area]
+  D --> E[query each child]
 ```
 
 ## Example
 
 A box `(0, 0) to (100, 100)` with capacity 2. Insert `A(10, 10)`, `B(20, 80)`, `C(70, 30)`:
 
-```text
-insert A, B   -> root holds [A, B]
-insert C      -> root is full, split into four quadrants:
-                 SW (0..50, 0..50)    holds A
-                 NW (0..50, 50..100)  holds B
-                 SE (50..100, 0..50)  holds C
-                 NE (50..100, 50..100) empty
+Insert A and B: the root holds both. Insert C: the root is full, so it splits into four quadrants:
 
-query (0..30, 0..30):  NE does not overlap, skip it. Check SW: A is inside.
+```mermaid
+flowchart TD
+  accTitle: Quadtree split example
+  accDescr {
+    Shows the full root box splitting into four quadrants when point C is inserted.
+  }
+  R["root: A, B (full)"] --> SW["SW (0..50, 0..50): A"]
+  R --> NW["NW (0..50, 50..100): B"]
+  R --> SE["SE (50..100, 0..50): C"]
+  R --> NE["NE (50..100, 50..100): empty"]
 ```
+
+Query (0..30, 0..30): NE does not overlap, so skip it. Check SW: A is inside.
 
 ## Complexity
 

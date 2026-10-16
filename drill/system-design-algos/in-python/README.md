@@ -9,7 +9,7 @@ design discussions. That order is a judgment, not measured data.
 
 ## Layout
 
-- `algo_NN_<name>.md` explains how the algorithm works, with ASCII flow charts, an example, and why it is useful.
+- `algo_NN_<name>.md` explains how the algorithm works, with Mermaid diagrams, an example, and why it is useful.
 - `algo_NN_<name>.py` holds the implementation.
 - `algo_NN_<name>_test.py` holds its pytest tests, in the same folder so the two files open side by side.
 - The `algo_` prefix is there because Python cannot import a module whose name starts with a digit. Without it, the

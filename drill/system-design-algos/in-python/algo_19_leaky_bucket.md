@@ -33,48 +33,48 @@ Drain (called by the sender):
 
 ## Flow
 
-```text
-offer(item)
-   |
-   v
-queue empty? --yes--> credit = 0, last = now
-   |
-   v
-queue full? --yes--> return False (refused)
-   | no
-   v
-append item to back, return True
+```mermaid
+flowchart TD
+  accTitle: Leaky bucket offer
+  accDescr {
+    Shows how offer refuses an item when the queue is full, and otherwise queues it.
+  }
+  A["offer(item)"] --> B{queue empty?}
+  B -->|yes| C["credit = 0, last = now"]
+  C --> D{queue full?}
+  B -->|no| D
+  D -->|yes| E["return False (refused)"]
+  D -->|no| F["append item, return True"]
+```
 
-
-drain()
-   |
-   v
-credit += (now - last) * leak_rate;  last = now
-   |
-   v
-queue not empty and credit >= 1? --yes--> pop front, credit -= 1, add to output
-   |                                              (repeat)
-   | no
-   v
-queue empty? --yes--> credit = 0
-   |
-   v
-return output
+```mermaid
+flowchart TD
+  accTitle: Leaky bucket drain
+  accDescr {
+    Shows how drain adds credit, releases items, and resets credit when the queue is empty.
+  }
+  A["drain()"] --> B["credit += elapsed * leak_rate"]
+  B --> C{"queue not empty and credit >= 1?"}
+  C -->|yes| D["pop front, credit -= 1"]
+  D --> C
+  C -->|no| E{queue empty?}
+  E -->|yes| F["credit = 0"]
+  E -->|no| G[return output]
+  F --> G
 ```
 
 ## Example
 
 Capacity 3, leak rate 2 items per second.
 
-```text
-time  call                  result                    queue after
-0.0   offer(a)              True                      [a]
-0.0   offer(b)              True                      [a, b]
-0.0   offer(c)              True                      [a, b, c]
-0.0   offer(d)              False (full)              [a, b, c]
-1.0   drain()              [a, b]  (credit 2)         [c]
-1.5   drain()              [c]     (credit 1)         []
-```
+| Time | Call     | Result            | Queue after |
+| ---- | -------- | ----------------- | ----------- |
+| 0.0  | offer(a) | True              | [a]         |
+| 0.0  | offer(b) | True              | [a, b]      |
+| 0.0  | offer(c) | True              | [a, b, c]   |
+| 0.0  | offer(d) | False (full)      | [a, b, c]   |
+| 1.0  | drain()  | [a, b] (credit 2) | [c]         |
+| 1.5  | drain()  | [c] (credit 1)    | []          |
 
 ## Complexity
 

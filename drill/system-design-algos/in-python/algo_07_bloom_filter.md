@@ -36,26 +36,30 @@ Sizing: for `n` expected items and a target false-positive rate `p`:
 
 ## Flow
 
-```text
-add(item)
-   |
-   v
-compute k positions
-   |
-   v
-set every bit at those positions to 1
+add:
 
+```mermaid
+flowchart TD
+  accTitle: Bloom filter add
+  accDescr {
+    Shows how add computes the k bit positions for an item and sets each of those bits to 1.
+  }
+  A["add(item)"] --> B["compute k positions"]
+  B --> C["set those k bits to 1"]
+```
 
-might_contain(item)
-   |
-   v
-compute k positions
-   |
-   v
-is every bit at those positions 1? --no--> return False (definitely not here)
-   | yes
-   v
-return True (probably here)
+might_contain:
+
+```mermaid
+flowchart TD
+  accTitle: Bloom filter might_contain
+  accDescr {
+    Shows how a check answers False when any bit is 0, and True when all of its bits are 1.
+  }
+  A["might_contain(item)"] --> B["compute k positions"]
+  B --> C{"every bit is 1?"}
+  C -->|no| D["False: definitely not here"]
+  C -->|yes| E["True: probably here"]
 ```
 
 ## Example
@@ -63,20 +67,15 @@ return True (probably here)
 Bit array with 10 bits. Assume `"cat"` maps to positions 1, 4, and 8, and `"dog"` maps to 4, 6, and 9. These positions
 are for illustration.
 
-```text
-index:    0  1  2  3  4  5  6  7  8  9
-bits:     0  0  0  0  0  0  0  0  0  0      empty
+| Step                    | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
+| ----------------------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| empty                   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   |
+| add("cat") sets 1, 4, 8 | 0   | 1   | 0   | 0   | 1   | 0   | 0   | 0   | 1   | 0   |
 
-add("cat")  sets 1, 4, 8
-bits:     0  1  0  0  1  0  0  0  1  0
-
-might_contain("dog")?  positions 4, 6, 9
-          bit 4 = 1, bit 6 = 0 --> False, definitely not added
-
-might_contain("fox")?  positions 1, 4, 8 (happens to match "cat")
-          all three bits are 1 --> True, but "fox" was never added
-                                   (a false positive)
-```
+| Check                 | Positions        | Bits                 | Result                                           |
+| --------------------- | ---------------- | -------------------- | ------------------------------------------------ |
+| might_contain("dog")? | 4, 6, 9          | bit 4 = 1, bit 6 = 0 | False, definitely not added                      |
+| might_contain("fox")? | 1, 4, 8 (as cat) | all three bits are 1 | True, but "fox" was never added (false positive) |
 
 ## Complexity
 

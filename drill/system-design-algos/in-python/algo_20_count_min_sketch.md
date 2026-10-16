@@ -37,45 +37,56 @@ Heavy hitters (`observe`):
 
 ## Flow
 
-```text
-add(item, count)
-   |
-   v
-for each row r:
-   column = hash_r(item) mod width
-   table[r][column] += count
+```mermaid
+flowchart TD
+  accTitle: Count-min add
+  accDescr {
+    Shows how add goes through each row and adds the count to one cell per row.
+  }
+  A["add(item, count)"] --> B["for each row r"]
+  B --> C["column = hash_r(item) mod width"]
+  C --> D["table[r][column] += count"]
+  D -->|next row| B
+  B -->|all rows done| E[done]
+```
 
-
-estimate(item)
-   |
-   v
-for each row r:
-   value_r = table[r][hash_r(item) mod width]
-   |
-   v
-return min(value_1 ... value_depth)
+```mermaid
+flowchart TD
+  accTitle: Count-min estimate
+  accDescr {
+    Shows how estimate reads one cell per row and returns the smallest value.
+  }
+  A["estimate(item)"] --> B["for each row r"]
+  B --> C["read table[r][hash_r(item)]"]
+  C -->|next row| B
+  B -->|all rows read| D["return min of the values"]
 ```
 
 ## Example
 
 A sketch with 3 rows and 8 columns. Assume these column choices (illustrative):
 
-```text
-           col: 0  1  2  3  4  5  6  7
-row 0 (cat):    .  .  .  .  .  .  .  .
-row 1 (cat):    .  .  .  .  .  .  .  .
-row 2 (cat):    .  .  .  .  .  .  .  .
+Start with every cell at 0. Then:
 
-add("cat", 3)   cat's cell is row0 col 2, row1 col 5, row2 col 0 -> each becomes 3
+| Call          | Cells updated                                           | Effect            |
+| ------------- | ------------------------------------------------------- | ----------------- |
+| add("cat", 3) | row 0 col 2, row 1 col 5, row 2 col 0                   | each becomes 3    |
+| add("dog", 2) | row 0 col 6, row 1 col 5 (shares with cat), row 2 col 4 | each goes up by 2 |
 
-add("dog", 2)   dog's cells: row0 col 6, row1 col 5 (shares with cat), row2 col 4
+After both adds, the grid is:
 
-estimate("cat")   row0 col 2 = 3, row1 col 5 = 5 (3 + 2), row2 col 0 = 3
-                  minimum = 3, exact
+| Row   | Col 0 | Col 1 | Col 2 | Col 3 | Col 4 | Col 5 | Col 6 | Col 7 |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| Row 0 | 0     | 0     | 3     | 0     | 0     | 0     | 2     | 0     |
+| Row 1 | 0     | 0     | 0     | 0     | 0     | 5     | 0     | 0     |
+| Row 2 | 3     | 0     | 0     | 0     | 2     | 0     | 0     | 0     |
 
-estimate("fox")   fox's cells: row0 col 6 (= 2, dog's), row1 col 1 (= 0), row2 col 7 (= 0)
-                  minimum = 0, correct, because fox was never added
-```
+Estimates:
+
+| Call            | Row 0 cell        | Row 1 cell        | Row 2 cell | Minimum | Result                       |
+| --------------- | ----------------- | ----------------- | ---------- | ------- | ---------------------------- |
+| estimate("cat") | col 2 = 3         | col 5 = 5 (3 + 2) | col 0 = 3  | 3       | exact                        |
+| estimate("fox") | col 6 = 2 (dog's) | col 1 = 0         | col 7 = 0  | 0       | correct, fox was never added |
 
 The shared cell in row 1 was too big for cat, but row 0 and row 2 were exact. The minimum fixes it.
 

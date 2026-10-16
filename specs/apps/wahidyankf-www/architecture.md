@@ -30,20 +30,14 @@ One external system:
 
 ## System Context
 
-```text
-   +-----------+                          +-------------------------+
-   |  Visitor  |  browses the portfolio   |     wahidyankf-www      |
-   | [Person]  | -----------------------> |   [Software System]     |
-   +-----------+          HTTPS           |  Static Next.js site    |
-                                          +-------------------------+
-                                                       |
-                                                built and served by
-                                                       v
-                                          +-------------------------+
-                                          |         Vercel          |
-                                          |   [External System]     |
-                                          |  Build, TLS, edge cache |
-                                          +-------------------------+
+```mermaid
+flowchart LR
+  accTitle: System context of wahidyankf-www
+  accDescr {
+    A visitor browses the static site over HTTPS. Vercel builds the site from main and serves it.
+  }
+  V["Visitor (Person)"] -->|HTTPS| W["wahidyankf-www"]
+  W -->|built and served by| VC["Vercel (External System)"]
 ```
 
 ## Containers
@@ -54,20 +48,14 @@ One container. There is no backend, no database, and no message bus; all content
 | --------- | ---------- | -------------- | ------------------------------------------------------------------------- |
 | `web`     | Next.js 16 | Vercel, static | The whole site: every route, the client-side search index, the CV record. |
 
-```text
-   +-----------+                +----------------------------------+
-   |  Visitor  | -- HTTPS ----> |               web                |
-   | [Person]  |                |  [Container: Next.js 16]         |
-   +-----------+                |  Statically rendered at build    |
-                                +----------------------------------+
-                                                 ^
-                                                 | starts and drives
-                                                 | over a local port
-                                  +--------------------------------+
-                                  | wahidyankf-www-e2e [Test only] |
-                                  | Playwright public-boundary     |
-                                  | adapter, separate Nx project   |
-                                  +--------------------------------+
+```mermaid
+flowchart LR
+  accTitle: Container view of wahidyankf-www
+  accDescr {
+    One Next.js container serves every route. The E2E project starts it over a local port.
+  }
+  V["Visitor (Person)"] -->|HTTPS| WEB["web (Next.js 16, static)"]
+  E2E["wahidyankf-www-e2e (test only)"] -->|starts and drives| WEB
 ```
 
 The E2E adapter is drawn because it is a real process boundary: it starts the application through `next start` and
@@ -89,25 +77,18 @@ The application is organized by feature, each component under `src/features/<com
 | `ui/shell`          | The presentation primitives the shell renders — inlined during the migration.   |
 | `env/core`          | Tier-aware environment loading — inlined during the migration.                  |
 
-```text
-                        +-----------------+
-                        |    app-shell    |
-                        | navigation only |
-                        +-----------------+
-
-   +--------+  customer/supplier   +---------------------+
-   |  home  | -------------------> | personal-projects   |
-   +--------+                      +---------------------+
-       ^                                     ^
-       | conformist                          | conformist
-       |            +----------+             |
-       +----------- |  search  | ------------+
-                    +----------+
-                         |  conformist
-                         v
-                    +----------+
-                    |    cv    |
-                    +----------+
+```mermaid
+flowchart TD
+  accTitle: Component relationships of wahidyankf-www
+  accDescr {
+    Home depends on personal-projects. Search is a conformist to home, personal-projects, and cv.
+    The app shell has no links to the other components.
+  }
+  AS["app-shell (navigation only)"]
+  H[home] -->|customer/supplier| PP[personal-projects]
+  S[search] -->|conformist| H
+  S -->|conformist| PP
+  S -->|conformist| CV[cv]
 ```
 
 `search` is a conformist to the three components it indexes: it reads their content as they publish it and imposes no

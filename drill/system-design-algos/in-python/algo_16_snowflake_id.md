@@ -11,13 +11,15 @@ Code: [algo_16_snowflake_id.py](algo_16_snowflake_id.py). Tests:
 
 The bit layout, from the highest bit to the lowest:
 
-```text
- bit 63   bits 62..22          bits 21..12         bits 11..0
-+--------+--------------------+-------------------+----------------+
-|   0    |  time in ms (41)   |  worker id (10)   |  sequence (12) |
-+--------+--------------------+-------------------+----------------+
- unused   ms since 2024-01-01   which machine        counter within
-                                (0 to 1023)          one millisecond
+```mermaid
+flowchart LR
+  accTitle: Snowflake bit layout
+  accDescr {
+    Shows the 64-bit ID as four fields, from the highest bit to the lowest.
+  }
+  U["bit 63: unused"] --> T["bits 62..22: time in ms (41)"]
+  T --> W["bits 21..12: worker id (10)"]
+  W --> S["bits 11..0: sequence (12)"]
 ```
 
 - **Time** comes first, so later IDs are bigger. Sorting by ID sorts by creation time, roughly.
@@ -37,40 +39,35 @@ The bit layout, from the highest bit to the lowest:
 
 ## Flow
 
-```text
-next_id()
-   |
-   v
-now = current time in ms
-   |
-   v
-now < last time? --yes--> raise error (clock moved backwards)
-   | no
-   v
-now == last time? --no--> sequence = 0
-   | yes
-   v
-sequence = (sequence + 1) mod 4096
-   |
-   v
-sequence == 0? --yes--> wait until clock > last time, use new time
-   |
-   v
-last time = now
-   |
-   v
-return (time << 22) | (worker << 12) | sequence
+```mermaid
+flowchart TD
+  accTitle: Snowflake next_id
+  accDescr {
+    Shows how next_id checks the clock, updates the sequence, and packs the ID.
+  }
+  A["next_id()"] --> B["now = current time in ms"]
+  B --> C{"now < last time?"}
+  C -->|yes| D["error: clock moved backwards"]
+  C -->|no| E{"now == last time?"}
+  E -->|no| F[sequence = 0]
+  E -->|yes| G["sequence += 1 mod 4096"]
+  G --> H{"sequence == 0?"}
+  H -->|yes| I["wait until clock > last time"]
+  I --> J[last time = now]
+  H -->|no| J
+  F --> J
+  J --> K[return packed 64-bit ID]
 ```
 
 ## Example
 
 Worker 5 at time T (in ms since the epoch), three IDs in the same millisecond:
 
-```text
-id 1: time T, worker 5, sequence 0
-id 2: time T, worker 5, sequence 1
-id 3: time T, worker 5, sequence 2
-```
+| ID   | Time | Worker | Sequence |
+| ---- | ---- | ------ | -------- |
+| id 1 | T    | 5      | 0        |
+| id 2 | T    | 5      | 1        |
+| id 3 | T    | 5      | 2        |
 
 Then time T+1: the sequence resets to 0. The ID is bigger, because the time bits are bigger.
 

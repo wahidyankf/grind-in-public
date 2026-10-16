@@ -26,36 +26,33 @@ Refill is calculated from the time gap, not with a timer. Nothing runs in the ba
 
 ## Flow
 
-```text
-allow(cost)
-   |
-   v
-tokens = min(capacity, tokens + (now - last) * refill_rate)
-last = now
-   |
-   v
-tokens >= cost? --no--> return False (request refused)
-   | yes
-   v
-tokens -= cost
-   |
-   v
-return True (request allowed)
+```mermaid
+flowchart TD
+  accTitle: Token bucket allow
+  accDescr {
+    Shows allow adding the refilled tokens, capping them, and taking tokens only when there are enough.
+  }
+  A["allow(cost)"] --> B["tokens += elapsed * refill_rate"]
+  B --> C["cap tokens at capacity"]
+  C --> D["last = now"]
+  D --> E{"tokens >= cost?"}
+  E -->|no| F["return False (request refused)"]
+  E -->|yes| G["tokens -= cost"]
+  G --> H["return True (request allowed)"]
 ```
 
 ## Example
 
 Capacity 3, refill rate 1 token per second. The bucket starts full.
 
-```text
-time   event             tokens before   result        tokens after
-0.0    allow()           3.0             allowed       2.0
-0.0    allow()           2.0             allowed       1.0
-0.0    allow()           1.0             allowed       0.0
-0.0    allow()           0.0             refused       0.0
-1.0    allow()           1.0             allowed       0.0   (one token refilled)
-5.0    allow()           3.0             allowed       2.0   (capped at capacity)
-```
+| Time | Event   | Tokens before | Result  | Tokens after             |
+| ---- | ------- | ------------- | ------- | ------------------------ |
+| 0.0  | allow() | 3.0           | allowed | 2.0                      |
+| 0.0  | allow() | 2.0           | allowed | 1.0                      |
+| 0.0  | allow() | 1.0           | allowed | 0.0                      |
+| 0.0  | allow() | 0.0           | refused | 0.0                      |
+| 1.0  | allow() | 1.0           | allowed | 0.0 (one token refilled) |
+| 5.0  | allow() | 3.0           | allowed | 2.0 (capped at capacity) |
 
 ## Complexity
 

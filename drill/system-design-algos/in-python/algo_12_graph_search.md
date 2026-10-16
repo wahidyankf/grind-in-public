@@ -36,49 +36,47 @@ Dijkstra:
 
 ## Flow
 
-```text
-BFS(start, goal)
-   |
-   v
-queue = [start]
-   |
-   v
-pop front node
-   |
-   v
-node == goal? --yes--> rebuild path from "came from" links --> return path
-   | no
-   v
-for each unseen neighbour: mark, remember parent, push to back
-   |
-   v
-queue empty? --yes--> return None
-   | no
-   +--------> back to "pop front node"
+```mermaid
+flowchart TD
+  accTitle: BFS shortest path
+  accDescr {
+    Shows breadth-first search from the start node, stopping at the goal or when the queue is empty.
+  }
+  A["BFS(start, goal)"] --> B["queue = [start]"]
+  B --> C["pop front node"]
+  C --> D{"node == goal?"}
+  D -->|yes| E["rebuild path from came-from"]
+  E --> F["return path"]
+  D -->|no| G["for each unseen neighbour"]
+  G --> H["mark, remember parent"]
+  H --> I["push to back of queue"]
+  I --> J{"queue empty?"}
+  J -->|yes| K["return None"]
+  J -->|no| C
 ```
 
 ## Example
 
 BFS on edges `a -> b`, `b -> c`, `c -> d`, `a -> d`. Find the path from `a` to `d`:
 
-```text
-queue          visit   new neighbours      came from
-[a]            a       b, d                b<-a, d<-a
-[b, d]         b       c                   c<-b
-[d, c]         d       goal reached
+| Queue  | Visit | New neighbours | Came from  |
+| ------ | ----- | -------------- | ---------- |
+| [a]    | a     | b, d           | b<-a, d<-a |
+| [b, d] | b     | c              | c<-b       |
+| [d, c] | d     | goal reached   |            |
+
 path: d <- a, so [a, d]
-```
 
 Dijkstra on edges `a -> b (1)`, `b -> c (1)`, `a -> c (5)`:
 
-```text
-heap           pop    update
-(0, a)         a      b = 1, c = 5
-(1, b)         b      c via b = 2, which is less than 5, so c = 2
-(2, c)         c      nothing new
-(5, c)         skipped, because 5 > 2
+| Heap   | Pop                    | Update                                      |
+| ------ | ---------------------- | ------------------------------------------- |
+| (0, a) | a                      | b = 1, c = 5                                |
+| (1, b) | b                      | c via b = 2, which is less than 5, so c = 2 |
+| (2, c) | c                      | nothing new                                 |
+| (5, c) | skipped, because 5 > 2 |                                             |
+
 result: a = 0, b = 1, c = 2
-```
 
 Topological order for `wake -> shower -> dress` and `wake -> breakfast -> dress`: one valid result is
 `wake, breakfast, shower, dress`.

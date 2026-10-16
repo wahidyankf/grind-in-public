@@ -22,39 +22,37 @@ separate chaining.
 
 ## Flow
 
-```text
-put(key, value)
-      |
-      v
-index = hash(key) % bucket_count
-      |
-      v
-key already in bucket? ----yes----> replace value ----> done
-      |
-      no
-      v
-append (key, value), size += 1
-      |
-      v
-size / bucket_count > 0.75 ? ----no----> done
-      |
-     yes
-      v
-double bucket_count and re-insert every pair
+```mermaid
+flowchart TD
+  accTitle: Hash table put
+  accDescr {
+    Shows how put finds the bucket, replaces or appends the pair, and doubles the buckets when the load is above 0.75.
+  }
+  A["put(key, value)"] --> B["index = hash(key) % buckets"]
+  B --> C{"key already in bucket?"}
+  C -->|yes| D["replace value"]
+  D --> Z["done"]
+  C -->|no| E["append (key, value), size += 1"]
+  E --> F{"size / buckets > 0.75?"}
+  F -->|no| Z
+  F -->|yes| G["double buckets, rehash all"]
 ```
 
 ## Example
 
 The bucket count is 8. The keys `"apple"` and `"pear"` both hash to bucket 3:
 
-```text
-index  bucket
-  0    []
-  1    [("kiwi", 2)]
-  2    []
-  3    [("apple", 5), ("pear", 7)]     <- collision, so the pairs are chained
-  ...
-  7    []
+```mermaid
+flowchart TD
+  accTitle: Hash table buckets with a collision
+  accDescr {
+    Bucket 3 holds two pairs, apple and pear, because both keys hash to bucket 3. The pairs are chained in that bucket.
+  }
+  B0["bucket 0: empty"] --> B1["bucket 1: kiwi = 2"]
+  B1 --> B2["bucket 2: empty"]
+  B2 --> B3["bucket 3: apple = 5, pear = 7"]
+  B3 --> B4["buckets 4 to 6: not shown"]
+  B4 --> B7["bucket 7: empty"]
 ```
 
 `get("pear")` computes index 3, scans two pairs, and returns `7`.

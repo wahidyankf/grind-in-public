@@ -30,43 +30,48 @@ A hash map alone cannot tell which item is oldest. A list alone cannot find an i
 
 ## Flow
 
-```text
-get(key)
-   |
-   v
-node = map[key] ? --no--> return None
-   | yes
-   v
-unlink node, put it at the head
-   |
-   v
-return node.value
+get:
 
+```mermaid
+flowchart TD
+  accTitle: LRU cache get
+  accDescr {
+    Shows how get returns None on a miss, or moves the node to the head and returns its value.
+  }
+  A["get(key)"] --> B{"node = map[key]?"}
+  B -->|no| Z["return None"]
+  B -->|yes| C["unlink node, put at head"]
+  C --> D["return node.value"]
+```
 
-put(key, value)
-   |
-   v
-key in map? --yes--> update value, move node to head --> done
-   | no
-   v
-cache full? --yes--> remove tail node, delete its key from map
-   |
-   v
-create node, put it at the head, add it to map
+put:
+
+```mermaid
+flowchart TD
+  accTitle: LRU cache put
+  accDescr {
+    Shows how put updates an existing key, or evicts the tail when the cache is full before it adds a new node.
+  }
+  A["put(key, value)"] --> B{"key in map?"}
+  B -->|yes| C["update value, move node to head"]
+  C --> Z["done"]
+  B -->|no| D{"cache full?"}
+  D -->|yes| E["remove tail, delete key from map"]
+  E --> F["create node at head, add to map"]
+  D -->|no| F
 ```
 
 ## Example
 
 Capacity 2. The list runs from the head (most recent) on the left to the tail (least recent) on the right.
 
-```text
-put("a", 1)     head [a] tail
-put("b", 2)     head [b] <-> [a] tail
-get("a")        head [a] <-> [b] tail        a moves to the head
-put("c", 3)     cache is full, so evict the tail "b"
-                head [c] <-> [a] tail        "b" is gone
-get("b")        None
-```
+| Step        | List, head to tail | Note                                 |
+| ----------- | ------------------ | ------------------------------------ |
+| put("a", 1) | [a]                |                                      |
+| put("b", 2) | [b] <-> [a]        |                                      |
+| get("a")    | [a] <-> [b]        | "a" moves to the head                |
+| put("c", 3) | [c] <-> [a]        | cache is full, so evict the tail "b" |
+| get("b")    | [c] <-> [a]        | returns None, since "b" is gone      |
 
 ## Complexity
 

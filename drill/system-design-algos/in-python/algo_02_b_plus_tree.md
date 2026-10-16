@@ -31,55 +31,54 @@ Insert: go down the same path. Put the key in the leaf in sorted order, then spl
 
 ## Flow
 
-```text
-insert(key, value)
-      |
-      v
-walk down: at each internal node, pick the child with bisect_right
-      |
-      v
-leaf: key already there? --yes--> overwrite value --> done
-      |
-      no
-      v
-insert key in sorted position
-      |
-      v
-leaf has more than `order` keys? --no--> done
-      |
-     yes
-      v
-split leaf in half; copy first key of right half up to parent
-      |
-      v
-parent has more than `order` children? --no--> done
-      |
-     yes
-      v
-split parent; middle key moves up
-      |
-      v
-root was split? --yes--> create new root with 2 children
+```mermaid
+flowchart TD
+  accTitle: B+ tree insert
+  accDescr {
+    Shows how insert walks down, then splits each node that is too full and passes its middle key up.
+  }
+  A["insert(key, value)"] --> B["walk down with bisect_right"]
+  B --> C{"key already in leaf?"}
+  C -->|yes| D["overwrite value"]
+  D --> Z["done"]
+  C -->|no| E["insert key in sorted position"]
+  E --> F{"node over its limit?"}
+  F -->|no| Z
+  F -->|yes| G{"is it a leaf?"}
+  G -->|yes| L["split leaf, copy first key up"]
+  G -->|no| N["split internal, middle key up"]
+  L --> H{"was it the root?"}
+  N --> H
+  H -->|yes| I["create new root with 2 children"]
+  I --> Z
+  H -->|no| J["parent gets the new key"]
+  J --> F
 ```
 
 ## Example
 
 Order 3. Insert 1, 2, 3, 4, 5, 6 in that order.
 
-```text
-insert 1, 2, 3         [1 2 3]                         one leaf, full
-insert 4               [1 2 3 4] overflows, split:
-                        left [1 2], right [3 4], copy 3 up
-insert 5               [3 4 5]
-insert 6               [3 4 5 6] overflows, split:
-                        left [3 4], right [5 6], copy 5 up
+| Step           | Result                                                         |
+| -------------- | -------------------------------------------------------------- |
+| insert 1, 2, 3 | [1 2 3], one leaf, full                                        |
+| insert 4       | [1 2 3 4] overflows, split: left [1 2], right [3 4], copy 3 up |
+| insert 5       | [3 4 5]                                                        |
+| insert 6       | [3 4 5 6] overflows, split: left [3 4], right [5 6], copy 5 up |
 
 final tree:
 
-              [ 3 | 5 ]                   internal node: separator keys
-             /     |     \
-            v      v      v
-     [1 2]  --->  [3 4]  --->  [5 6]       leaves, linked left to right
+```mermaid
+flowchart TD
+  accTitle: B+ tree after inserts 1 to 6
+  accDescr {
+    The root holds separator keys 3 and 5. Three leaves hold the keys, and each leaf links to the next leaf.
+  }
+  R["internal: 3 | 5"] --> L1["leaf: 1 2"]
+  R --> L2["leaf: 3 4"]
+  R --> L3["leaf: 5 6"]
+  L1 -.->|"next"| L2
+  L2 -.->|"next"| L3
 ```
 
 Search 4: at the root, `bisect_right([3, 5], 4)` is 1, so go to the middle leaf and find 4.

@@ -10,17 +10,16 @@ Code: [algo_11_raft.py](algo_11_raft.py). Tests: [algo_11_raft_test.py](algo_11_
 
 Each node is in one of three roles:
 
-```text
-                 times out, starts election
-  +----------+  ------------------------->  +-----------+
-  | follower |                              | candidate |
-  +----------+  <-------------------------  +-----------+
-        ^          loses, or sees a higher         |
-        |          term                            | wins a majority
-        |                                          v
-        |                                     +--------+
-        +-------------------------------------| leader |
-             sees a higher term               +--------+
+```mermaid
+stateDiagram-v2
+  accTitle: Raft node roles
+  accDescr {
+    Shows the three roles a node moves between: follower, candidate, and leader.
+  }
+  follower --> candidate: timeout starts election
+  candidate --> follower: loses or sees newer term
+  candidate --> leader: wins a majority
+  leader --> follower: sees a higher term
 ```
 
 - Time is split into **terms**. Each term has at most one leader.
@@ -49,43 +48,41 @@ Replication (`replicate`):
 
 ## Flow
 
-```text
-leader receives command
-      |
-      v
-append to own log
-      |
-      v
-send missing entries to each follower
-      |
-      v
-follower has the previous entry?
-   no  --> leader moves back one entry, retries
-   yes --> follower stores entries, replies success
-      |
-      v
-majority stores an entry from the current term? --no--> wait for more replies
-      | yes
-      v
-commit it, apply it to the state machine
+```mermaid
+flowchart TD
+  accTitle: Raft replicate
+  accDescr {
+    Shows the leader sending entries, backing up on a mismatch, and committing once a majority stores one.
+  }
+  A["leader receives command"] --> B["append to own log"]
+  B --> C["send missing entries"]
+  C --> D{"follower has previous entry?"}
+  D -->|no| E["leader moves back one entry"]
+  E -->|retry| C
+  D -->|yes| F["follower stores, replies success"]
+  F --> G{"majority has current term entry?"}
+  G -->|no| H["wait for more replies"]
+  G -->|yes| I["commit it"]
+  I --> J["apply it to state machine"]
 ```
 
 ## Example
 
 Three nodes: 0, 1, 2. Node 0 wins term 1.
 
-```text
-step                       node 0 log      node 1 log      node 2 log
-elect(0)                   []              []              []
-submit("a")                [a@1]           [a@1]           [a@1]
-  majority (3 of 3) stores a -> commit a on the leader; followers learn it next round
+| Step                   | Node 0 log | Node 1 log | Node 2 log |
+| ---------------------- | ---------- | ---------- | ---------- |
+| elect(0)               | []         | []         | []         |
+| submit("a")            | [a@1]      | [a@1]      | [a@1]      |
+| node 0 fails, elect(1) | fails      | [a@1]      | [a@1]      |
+| submit("b")            | [a@1]      | [a@1, b@2] | [a@1, b@2] |
 
-node 0 fails. elect(1)     term 2, node 1 has [a@1], so its log is up to date
-                           node 2 votes for node 1: 2 of 3 is a majority
-submit("b")                [a@1]           [a@1, b@2]      [a@1, b@2]
+Notes on the rows above:
+
+- submit("a"): majority (3 of 3) stores a, so the leader commits a. Followers learn it next round.
+- elect(1): term 2. Node 1 has [a@1], so its log is up to date. Node 2 votes for node 1: 2 of 3 is a majority.
 
 result: "a" survives the leader change, and "b" commits under the new leader.
-```
 
 ## Complexity
 

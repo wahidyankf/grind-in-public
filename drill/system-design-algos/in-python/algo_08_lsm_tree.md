@@ -33,51 +33,46 @@ non-tombstone entries, sorted.
 
 ## Flow
 
-```text
-put(key, value)  or  delete(key)  (delete stores None)
-      |
-      v
-memtable[key] = value
-      |
-      v
-memtable has reached the limit? --no--> done
-      |
-     yes
-      v
-flush: write memtable as a sorted run, then clear memtable
+```mermaid
+flowchart TD
+  accTitle: LSM tree put and delete
+  accDescr {
+    Shows a write going into the memtable, and a full memtable being flushed as a sorted run.
+  }
+  A["put(key, value) or delete(key)"] --> B["memtable[key] = value or None"]
+  B --> C{"memtable at limit?"}
+  C -->|no| D["done"]
+  C -->|yes| E["flush memtable as sorted run"]
+  E --> F["clear memtable"]
+```
 
-
-get(key)
-   |
-   v
-key in memtable? --yes--> return memtable[key]
-   | no
-   v
-for each run, newest first:
-   key in run? --yes--> return its value (None if tombstone)
-   |
-   v
-return None
+```mermaid
+flowchart TD
+  accTitle: LSM tree get
+  accDescr {
+    Shows get checking the memtable first, then each run from newest to oldest.
+  }
+  A["get(key)"] --> B{"key in memtable?"}
+  B -->|yes| C["return memtable[key]"]
+  B -->|no| D{"key in next run, newest first?"}
+  D -->|yes| E["return value (None = deleted)"]
+  D -->|no| F{"any runs left?"}
+  F -->|yes| D
+  F -->|no| G["return None"]
 ```
 
 ## Example
 
 `memtable_limit = 3`.
 
-```text
-put a=1, b=2, c=3           memtable full -> flush
-                            run 1: [a=1, b=2, c=3]
-
-put a=10, delete b, put d=4 memtable full -> flush
-                            run 2: [a=10, b=None, d=4]
-
-get("a")   -> not in memtable, run 2 has a=10          -> 10
-get("b")   -> run 2 has a tombstone                    -> None
-get("c")   -> run 2 has no c, run 1 has c=3            -> 3
-
-compact    -> merge run 1 and run 2, newest wins, drop tombstone
-              run 1: [a=10, c=3, d=4]
-```
+| Step | Action                      | What happens                                       | Result                     |
+| ---- | --------------------------- | -------------------------------------------------- | -------------------------- |
+| 1    | put a=1, b=2, c=3           | memtable full, flush                               | run 1: [a=1, b=2, c=3]     |
+| 2    | put a=10, delete b, put d=4 | memtable full, flush                               | run 2: [a=10, b=None, d=4] |
+| 3    | get("a")                    | not in memtable, run 2 has a=10                    | 10                         |
+| 4    | get("b")                    | run 2 has a tombstone                              | None                       |
+| 5    | get("c")                    | run 2 has no c, run 1 has c=3                      | 3                          |
+| 6    | compact                     | merge run 1 and run 2, newest wins, drop tombstone | run 1: [a=10, c=3, d=4]    |
 
 ## Complexity
 

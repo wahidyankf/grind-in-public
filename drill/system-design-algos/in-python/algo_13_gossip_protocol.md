@@ -29,36 +29,33 @@ Check convergence: all nodes have the same state dictionary.
 
 ## Flow
 
-```text
-run_round()
-   |
-   v
-for each node:
-   |
-   v
-pick random peer
-   |
-   v
-snapshot node.state and peer.state
-   |
-   v
-node.merge(peer snapshot)
-peer.merge(node snapshot)
-   |
-   v
-next node
+```mermaid
+flowchart TD
+  accTitle: Gossip run round
+  accDescr {
+    Shows one round, where each node picks a random peer and both sides merge the other's snapshot.
+  }
+  A["run_round()"] --> B["for each node"]
+  B --> C["pick random peer"]
+  C --> D["snapshot both states"]
+  D --> E["node.merge(peer snapshot)"]
+  E --> F["peer.merge(node snapshot)"]
+  F --> G["next node"]
+  G --> B
+```
 
-
-run_until_converged(max_rounds)
-   |
-   v
-converged? --yes--> return round number
-   | no
-   v
-round < max_rounds? --yes--> run_round(), check again
-   | no
-   v
-return None
+```mermaid
+flowchart TD
+  accTitle: Gossip run until converged
+  accDescr {
+    Shows the loop that runs rounds until all nodes match or the round limit is reached.
+  }
+  A["run_until_converged(max_rounds)"] --> B{"converged?"}
+  B -->|yes| C["return round number"]
+  B -->|no| D{"round < max_rounds?"}
+  D -->|yes| E["run_round(), check again"]
+  E --> B
+  D -->|no| F["return None"]
 ```
 
 ## Example
@@ -66,12 +63,12 @@ return None
 Eight nodes. Node 0 writes `config = v1`. Each round, the number of nodes that know the value roughly doubles. One
 possible spread:
 
-```text
-round 0:  {0}
-round 1:  {0, 3}            node 0 picked node 3
-round 2:  {0, 1, 3, 6}      0 picked 1, 3 picked 6
-round 3:  {0, 1, 2, 3, 4, 5, 6, 7}    all nodes know v1
-```
+| Round | Nodes that know config = v1 | Note                   |
+| ----- | --------------------------- | ---------------------- |
+| 0     | {0}                         |                        |
+| 1     | {0, 3}                      | node 0 picked node 3   |
+| 2     | {0, 1, 3, 6}                | 0 picked 1, 3 picked 6 |
+| 3     | {0, 1, 2, 3, 4, 5, 6, 7}    | all nodes know v1      |
 
 The exact rounds depend on the random choices. The seed in the code makes the same run repeat.
 

@@ -29,48 +29,43 @@ Autocomplete (prefix, limit):
 
 ## Flow
 
-```text
-autocomplete(prefix, limit)
-   |
-   v
-node = walk(prefix)
-   |
-   v
-node missing? --yes--> return []
-   | no
-   v
-stack = [(node, prefix)]
-   |
-   v
-pop (node, text)
-   |
-   v
-node.frequency > 0? --yes--> record (frequency, text)
-   |
-   v
-push every child as (child, text + char)
-   |
-   v
-stack empty? --no--> back to "pop"
-   | yes
-   v
-sort by (-frequency, word), return the first `limit` words
+```mermaid
+flowchart TD
+  accTitle: Trie autocomplete
+  accDescr {
+    Shows autocomplete walking to the prefix node, collecting words with a stack, then sorting them.
+  }
+  A["autocomplete(prefix, limit)"] --> B["node = walk(prefix)"]
+  B --> C{"node missing?"}
+  C -->|yes| D["return []"]
+  C -->|no| E["stack = [(node, prefix)]"]
+  E --> F["pop (node, text)"]
+  F --> G{"node.frequency > 0?"}
+  G -->|yes| H["record (frequency, text)"]
+  G -->|no| I["push children with text + char"]
+  H --> I
+  I --> J{"stack empty?"}
+  J -->|no| F
+  J -->|yes| K["sort by (-frequency, word)"]
+  K --> L["return first limit words"]
 ```
 
 ## Example
 
 Insert `car` (5), `cart` (2), `care` (5), `cat` (1):
 
-```text
-(root)
-  |
-  c
-  |
-  a
-  +-- r  [car: 5]
-  |   +-- t  [cart: 2]
-  |   +-- e  [care: 5]
-  +-- t  [cat: 1]
+```mermaid
+flowchart TD
+  accTitle: Trie with four words
+  accDescr {
+    Shows the words car, cart, care, and cat as paths from the root. Each word end shows its count.
+  }
+  A["(root)"] --> B["c"]
+  B --> C["a"]
+  C --> D["r [car: 5]"]
+  D --> E["t [cart: 2]"]
+  D --> F["e [care: 5]"]
+  C --> G["t [cat: 1]"]
 ```
 
 - `search("car")` is true. `search("ca")` is false, because no word ends at `a`.

@@ -35,40 +35,37 @@ Estimate:
 
 ## Flow
 
-```text
-add(item)
-   |
-   v
-h = 64-bit hash of item
-   |
-   v
-index = top p bits of h
-rank  = position of first 1 bit in the remaining bits
-   |
-   v
-registers[index] = max(registers[index], rank)
+```mermaid
+flowchart TD
+  accTitle: HyperLogLog add
+  accDescr {
+    Shows how add hashes an item and keeps the highest rank in one register.
+  }
+  A["add(item)"] --> B["h = 64-bit hash of item"]
+  B --> C["index = top p bits of h"]
+  C --> D["rank = position of first 1 bit"]
+  D --> E["register = max(old, rank)"]
+```
 
-
-estimate()
-   |
-   v
-raw = alpha * m^2 / sum(2^-register)
-   |
-   v
-raw small and some registers are 0? --yes--> m * ln(m / empty registers)
-   | no
-   v
-raw
+```mermaid
+flowchart TD
+  accTitle: HyperLogLog estimate
+  accDescr {
+    Shows the raw estimate, and linear counting when the raw value is small.
+  }
+  A["estimate()"] --> B["raw = alpha * m^2 / sum(2^-reg)"]
+  B --> C{"raw small and empty registers?"}
+  C -->|yes| D["m * ln(m / empty registers)"]
+  C -->|no| E[raw]
 ```
 
 ## Example
 
 Four registers (`p = 2`), with these values after many adds:
 
-```text
-register:   0    1    2    3
-value:      3    1    5    2
-```
+| Register | 0   | 1   | 2   | 3   |
+| -------- | --- | --- | --- | --- |
+| Value    | 3   | 1   | 5   | 2   |
 
 Sum of `2^-value`: 1/8 + 1/2 + 1/32 + 1/4 = 0.906. With `alpha` = 0.568 for four registers, the raw estimate is about
 0.568 * 16 / 0.906 = 10. The estimate is about 10 distinct items.

@@ -35,48 +35,50 @@ than k items, pop the smallest. At the end, the heap holds the k largest.
 
 Sift up after a push:
 
-```text
-push(x): append x at index i
-      |
-      v
-i > 0 and x < parent(i)? --no--> done
-      |
-     yes
-      v
-swap x with its parent, i = parent index
-      |
-      +---------> (loop back to the check)
+```mermaid
+flowchart TD
+  accTitle: Min-heap sift up after a push
+  accDescr {
+    Shows how a new item moves up while it is smaller than its parent.
+  }
+  A["push(x): append x at index i"] --> B{"i > 0 and x < parent(i)?"}
+  B -->|no| Z["done"]
+  B -->|yes| C["swap, then i = parent index"]
+  C --> B
 ```
 
 Pop:
 
-```text
-pop():
-  top = items[0]
-      |
-      v
-  move last item to index 0
-      |
-      v
-  sift down: pick the smaller child
-  if a child is smaller than the current item, swap and repeat
-      |
-      v
-  return top
+```mermaid
+flowchart TD
+  accTitle: Min-heap pop
+  accDescr {
+    Shows how pop keeps the top item, moves the last item to index 0, and sifts it down.
+  }
+  A["pop()"] --> B["remember top = items[0]"]
+  B --> C["move last item to index 0"]
+  C --> D["sift down: pick smaller child"]
+  D --> E{"child smaller than item?"}
+  E -->|yes| F["swap with that child"]
+  F --> D
+  E -->|no| G["return top"]
 ```
 
 ## Example
 
 Push 5, 1, 9, 3 in that order. The tree after the pushes:
 
-```text
 array: [1, 3, 9, 5]
 
-          1
-        /   \
-       3     9
-      /
-     5
+```mermaid
+flowchart TD
+  accTitle: Min-heap after pushes 5, 1, 9, 3
+  accDescr {
+    The smallest item, 1, is at the top. Each parent is smaller than its children.
+  }
+  A["1 at index 0"] --> B["3 at index 1"]
+  A --> C["9 at index 2"]
+  B --> D["5 at index 3"]
 ```
 
 - Push 5: `[5]`.
@@ -89,15 +91,14 @@ Pop returns 1. The last item, 5, moves to the top: `[5, 3, 9]`. Sift down swaps 
 
 Top-2 of `[3, 8, 1, 9, 4, 7]` with a heap of size 2:
 
-```text
-item   heap after push    too big? pop smallest    heap
- 3     {3}                no                       {3}
- 8     {3, 8}             no                       {3, 8}
- 1     {1, 3, 8}          yes, pop 1               {3, 8}
- 9     {3, 8, 9}          yes, pop 3               {8, 9}
- 4     {4, 8, 9}          yes, pop 4               {8, 9}
- 7     {7, 8, 9}          yes, pop 7               {8, 9}
-```
+| Item | Heap after push | Too big? | Pop smallest | Heap   |
+| ---- | --------------- | -------- | ------------ | ------ |
+| 3    | {3}             | no       | none         | {3}    |
+| 8    | {3, 8}          | no       | none         | {3, 8} |
+| 1    | {1, 3, 8}       | yes      | pop 1        | {3, 8} |
+| 9    | {3, 8, 9}       | yes      | pop 3        | {8, 9} |
+| 4    | {4, 8, 9}       | yes      | pop 4        | {8, 9} |
+| 7    | {7, 8, 9}       | yes      | pop 7        | {8, 9} |
 
 The heap holds `{8, 9}`, which are the two largest items. Sorted from largest, the result is `[9, 8]`.
 
