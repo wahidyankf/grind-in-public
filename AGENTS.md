@@ -106,6 +106,8 @@ Run one target with `npx nx <target> <project>`. Every app is an Nx project with
 - Commit messages follow Conventional Commits. `commitlint` checks them.
 - Commit and push only when the owner asks. Landing on `main` is not deploying.
 - Keep test data synthetic and isolated.
+- Remove the test containers, volumes, and networks this work leaked only by exact name, found through their compose
+  label `com.docker.compose.project.working_dir` under this checkout, and never with a blanket prune.
 - Diagrams are Mermaid with `accTitle` and `accDescr`. Keep labels short and plain. Colours come only from the
   accessible palette in `repo-config.yml`, and each flowchart declares `classDef default`. Decisions are orange, start
   nodes blue, and end nodes teal. ASCII is kept only for file trees.
