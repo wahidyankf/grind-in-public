@@ -20,16 +20,6 @@
       "options": {
         "printWidth": 80
       }
-    },
-    {
-      "files": [
-        "apps/wahidyankf-www/docs/cv-raw.md",
-        "apps/wahidyankf-www/docs/cv-linkedin.md",
-        "apps/wahidyankf-www/docs/linkedin-projects.md"
-      ],
-      "options": {
-        "proseWrap": "preserve"
-      }
     }
   ]
 }

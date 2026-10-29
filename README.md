@@ -59,10 +59,7 @@ Node and npm versions are pinned with [Volta](https://volta.sh) in the root `pac
 a package shared by two apps has the same version in both. Each version is more than a week old and has no known
 advisory.
 
-Two groups of applications live here. [wahidyankf-www](apps/wahidyankf-www/README.md) is the Next.js personal site, and
-it holds the repository's single authoritative CV record — the practice workspace and its public face maintained under
-one set of rules. It is held to the repository's gates: a Gherkin corpus under [`specs/`](specs/README.md), and a 99%
-line-coverage floor. The `edutech-*` apps are standalone and do not follow those rules. Their local Postgres runs from
+The `edutech-*` apps live here. They are standalone and carry no Gherkin corpus. Their local Postgres runs from
 [`infra/`](infra/README.md).
 
 ## Specs

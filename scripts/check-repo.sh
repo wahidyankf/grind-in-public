@@ -26,14 +26,10 @@ run ./rhino md internal-link validate
 run ./rhino md mermaid validate
 run ./node_modules/.bin/markdownlint-cli2
 
-# British spelling in repository-owned terms. The two exclusions are a React
-# component and its test, where the American form is part of a third-party API
-# name rather than this repository's own prose.
+# British spelling in repository-owned terms.
 printf '\n[repo] British spelling\n'
 if rg -n -i 'behavio[r]' \
-	apps specs scripts .github .husky \
-	--glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.tsx' \
-	--glob '!apps/wahidyankf-www/src/features/ui/shell/scroll-to-top.unit.test.tsx'; then
+	apps specs scripts .husky; then
 	echo 'ERROR: repository-owned terms must use the British spelling behaviour' >&2
 	exit 1
 fi

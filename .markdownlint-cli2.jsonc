@@ -19,9 +19,6 @@
   "ignores": [
     "**/node_modules/**",
     "worktrees/**",
-    "apps/wahidyankf-www/docs/cv-raw.md",
-    "apps/wahidyankf-www/docs/cv-linkedin.md",
-    "apps/wahidyankf-www/docs/linkedin-projects.md",
     // Next.js starter docs. `next dev` rewrites the AGENTS.md block, so its long lines stay as generated.
     "apps/edutech-web/AGENTS.md",
     "apps/edutech-web/README.md",

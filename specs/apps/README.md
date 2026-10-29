@@ -6,5 +6,4 @@ specification, not before.
 
 ## Directory Map
 
-- [wahidyankf-www](wahidyankf-www/README.md) — the personal portfolio and CV site: its C4 model and eleven-feature
-  behaviour corpus, bound by owner Unit/Integration adapters and a dedicated browser E2E project.
+No application carries specifications at present, so no directory appears here.
