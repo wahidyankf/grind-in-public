@@ -70,3 +70,7 @@ application's current as-built architecture and separate from the code that impl
 ## Documentation
 
 Human-facing project documentation is organized with the [Diátaxis framework](docs/README.md).
+
+## Contributing
+
+External contributions are currently closed.
