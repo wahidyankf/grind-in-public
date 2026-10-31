@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.14.0/schemas/repo-config/v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/wahidyankf/rhino/v0.16.3/schemas/repo-config/v2.schema.json
 # Read only by RHINO's Markdown checks (internal links and Mermaid). Nothing else reads this file.
 schema: rhino/repo-config/v2
 
