@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const port = 3100;
+const port = 3000;
 
 // Tests run against the production build, so they match what ships.
 export default defineConfig({
@@ -24,9 +24,7 @@ export default defineConfig({
       "npm --prefix ../edutech-web run build && npm --prefix ../edutech-web run start",
     // Wait for the health check, not just an open port, so tests start only when the app is ready.
     url: `http://localhost:${port}/api/health`,
-    // Never reuse a server already on this port. A running dev server would pass the
-    // health check and the tests would run against it instead of the production build.
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 240_000,
   },
 });

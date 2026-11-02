@@ -7,14 +7,14 @@
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "uv run uvicorn edutech_be.main:app --reload --port 8100",
+        "command": "uv run uvicorn edutech_be.main:app --reload",
         "cwd": "apps/edutech-be"
       }
     },
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "uv run uvicorn edutech_be.main:app --port 8100",
+        "command": "uv run uvicorn edutech_be.main:app",
         "cwd": "apps/edutech-be"
       }
     },
@@ -56,21 +56,21 @@
     "db:up": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker compose up -d --wait",
-        "cwd": "infra/edutech"
+        "command": "docker compose -f compose.edutech.yaml up -d --wait",
+        "cwd": "."
       }
     },
     "db:down": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker compose down",
-        "cwd": "infra/edutech"
+        "command": "docker compose -f compose.edutech.yaml down",
+        "cwd": "."
       }
     },
     "db:reset": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "docker compose -f ../../infra/edutech/compose.yaml down -v && docker compose -f ../../infra/edutech/compose.yaml up -d --wait && uv run alembic upgrade head",
+        "command": "docker compose -f ../../compose.edutech.yaml down -v && docker compose -f ../../compose.edutech.yaml up -d --wait && uv run alembic upgrade head",
         "cwd": "apps/edutech-be"
       }
     },

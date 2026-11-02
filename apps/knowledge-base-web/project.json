@@ -1,0 +1,78 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "knowledge-base-web",
+  "projectType": "application",
+  "sourceRoot": "apps/knowledge-base-web",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run dev",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "npm run build",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "npm run start",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run lint",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run typecheck",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "test:unit": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest run",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "test:unit:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest",
+        "cwd": "apps/knowledge-base-web"
+      }
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx typecheck knowledge-base-web",
+          "npx nx lint knowledge-base-web",
+          "npx nx test:unit knowledge-base-web"
+        ],
+        "cwd": ".",
+        "parallel": false
+      }
+    },
+    "test:quick:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=knowledge-base-web --initialRun -- npx nx run-many -t typecheck lint test:unit -p knowledge-base-web --output-style=stream",
+        "cwd": "."
+      }
+    }
+  }
+}

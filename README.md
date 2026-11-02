@@ -59,8 +59,8 @@ Node and npm versions are pinned with [Volta](https://volta.sh) in the root `pac
 a package shared by two apps has the same version in both. Each version is more than a week old and has no known
 advisory.
 
-The `edutech-*` apps live here. They are standalone and carry no Gherkin corpus. Their local Postgres runs from
-[`infra/`](infra/README.md).
+The `edutech-*` and `knowledge-base-*` apps live here. They are standalone and carry no Gherkin corpus. Their local
+Postgres databases run from the root Compose files `compose.edutech.yaml` and `compose.knowledge-base.yaml`.
 
 ## Specs
 

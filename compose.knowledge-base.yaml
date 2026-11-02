@@ -1,0 +1,23 @@
+# Local Postgres for knowledge-base-be. Start it with `npx nx db:up knowledge-base-be`.
+# The defaults match DEFAULT_DATABASE_URL in apps/knowledge-base-be/src/config.ts.
+# Set the variables in a root .env file to change them. Do not use these values outside local development.
+name: knowledge-base
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-knowledge_base_be}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-knowledge_base_be}
+      POSTGRES_DB: ${POSTGRES_DB:-knowledge_base_be}
+    ports:
+      - "${POSTGRES_PORT:-5232}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  postgres-data:

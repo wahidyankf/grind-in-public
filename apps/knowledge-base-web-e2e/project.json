@@ -1,0 +1,58 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "knowledge-base-web-e2e",
+  "projectType": "application",
+  "sourceRoot": "apps/knowledge-base-web-e2e/tests",
+  "implicitDependencies": ["knowledge-base-web", "knowledge-base-be"],
+  "targets": {
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsc --noEmit",
+        "cwd": "apps/knowledge-base-web-e2e"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx biome lint .",
+        "cwd": "apps/knowledge-base-web-e2e"
+      }
+    },
+    "test:e2e": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        { "target": "db:migrate", "projects": ["knowledge-base-be"] }
+      ],
+      "options": {
+        "command": "npx playwright test",
+        "cwd": "apps/knowledge-base-web-e2e"
+      }
+    },
+    "test:e2e:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --ui",
+        "cwd": "apps/knowledge-base-web-e2e"
+      }
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx typecheck knowledge-base-web-e2e",
+          "npx nx lint knowledge-base-web-e2e"
+        ],
+        "cwd": ".",
+        "parallel": false
+      }
+    },
+    "test:quick:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=knowledge-base-web-e2e --initialRun -- npx nx run-many -t typecheck lint -p knowledge-base-web-e2e --output-style=stream",
+        "cwd": "."
+      }
+    }
+  }
+}

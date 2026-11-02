@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8100
+@baseUrl = http://localhost:8000
 
 ### Health check (FastAPI, run with `npx nx dev edutech-be`)
 GET {{baseUrl}}/health

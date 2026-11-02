@@ -5,8 +5,9 @@ user. Keep changes small.
 
 ## Layout
 
-- `apps/` runnable applications: the `edutech-*` apps, see Projects and targets.
-- `infra/` local infrastructure. `infra/edutech/compose.yaml` runs the local Postgres for `edutech-be`.
+- `apps/` runnable applications: the `edutech-*` and `knowledge-base-*` apps, see Projects and targets.
+- `compose.edutech.yaml` and `compose.knowledge-base.yaml` run the local Postgres for each backend. Each file is its own
+  Compose project, so resetting one database never touches the other.
 - Each app keeps its manual HTTP requests in `api.http`, next to its code, so the requests can be updated with the
   routes they call.
 - `libs/` reusable packages. None yet.
@@ -40,45 +41,61 @@ The `pre-push` hook runs the Markdown checks, then `nx affected -t test:quick` a
 - Volta pins Node and npm in the root `package.json` (`volta.node`, `volta.npm`). `engines.node` sets the allowed range.
   There is no `.nvmrc`. CI reads the same pin.
 - One root `package-lock.json` serves every app. Run `npm install` from the repository root.
-- Pin exact versions, with no `^` or `~`. A package used by more than one app has the same version in every
-  `package.json`.
+- Use caret ranges (`^`) in `package.json`, as in the `super-*` reference repository. A package used by more than one
+  app uses the same range.
 - Pick a release that is more than 7 days old, has no known advisory, and is the latest LTS when an LTS exists. Check
   with `npm view <package> time` and `npm audit`. Never run `npm audit fix --force`.
 - Keep one copy of each shared package at the root. After a change, run `npm ls <package>` and look for stale copies
   under `apps/*/node_modules`. A second React copy causes "Invalid hook call".
 - Biome is the only linter. The root `biome.json` is shared, and each app has a nested `biome.json` with `"root": false`
   and `"extends": "//"`. There is no ESLint, so no tool checks JSDoc comments.
-- Every JS app extends `tsconfig.base.json`.
+- Each JS app has its own self-contained `tsconfig.json`. No app extends the root `tsconfig.base.json`.
 
 Versions held back on purpose. Check the reason before you bump them:
 
-- `vitest` stays on 4.1.11. Vitest 5 with cucumber 8 broke four behaviour tests.
 - `@types/node` stays on 24 to match the Node 24 LTS runtime.
-- `npm audit` reports 9 findings, all in the `markdownlint-cli2` chain. It is the latest version, and the only "fix" is
-  a downgrade.
+- `npm audit` reports findings in root tooling: `markdownlint-cli2` and its chain, `nx`, and `undici`. The offered fixes
+  are downgrades or major upgrades, so they are not applied without a separate review.
+- `node-pg-migrate` is not used. Its `glob` dependency has an open advisory, so `knowledge-base-be` runs its own small
+  migration runner (`src/migrate.ts`).
 
 ## Projects and targets
 
 Run one target with `npx nx <target> <project>`. Every app is an Nx project with its own `project.json`.
 
 - `edutech-be` (`apps/edutech-be`, FastAPI on Python 3.13). Run `uv sync` in `apps/edutech-be` before its targets.
-  - `dev` and `start`: run uvicorn on port 8100. `dev` reloads on change.
+  - `dev` and `start`: run uvicorn on port 8000. `dev` reloads on change.
   - `lint`: ruff. `typecheck`: pyright. `test:unit`: pytest, without the `integration` tests.
   - `test:integration`: pytest for the Postgres tests. Run `db:up` first.
-  - `db:up` and `db:down`: start and stop Postgres on port 5132, from `infra/edutech/compose.yaml`. `db:migrate` applies
+  - `db:up` and `db:down`: start and stop Postgres on port 5432, from `compose.edutech.yaml`. `db:migrate` applies
     Alembic migrations. `db:reset` deletes all data, then starts and migrates again.
   - `test:quick`: typecheck, lint, then unit tests. It does not need Postgres.
 - `edutech-web` (`apps/edutech-web`, Next.js):
-  - `dev` and `start`: run the site on port 3100. `start` runs after `build`.
+  - `dev` and `start`: run the site on port 3000. `start` runs after `build`.
   - `build`: make a production build.
   - `typecheck`, `lint` (Biome, which skips `public/`), and `test:unit` (Vitest).
   - `test:quick`: typecheck, lint, then unit tests.
 - `edutech-web-e2e` (`apps/edutech-web-e2e`, Playwright):
-  - `test:e2e`: run the browser tests. Its Playwright config builds and starts `edutech-web` on port 3100, then waits
+  - `test:e2e`: run the browser tests. Its Playwright config builds and starts `edutech-web` on port 3000, then waits
     for `/api/health`.
   - `lint`, `typecheck`, and `test:quick`.
-- The `edutech-*` apps are standalone. They use no Gherkin corpus. Their required targets are not checked by any script,
-  so review each `project.json` by hand when they change.
+- `knowledge-base-be` (`apps/knowledge-base-be`, Fastify on Node 24, TypeScript). Its REST API lives under `/api`.
+  - `dev` runs `tsx watch` on port 8200. `build` compiles to `dist/`, and `start` runs `dist/main.js` after `build`.
+  - `lint` (Biome), `format` (Prettier), `typecheck` (`tsc`), and `test:unit` (Vitest, with the in-memory store).
+  - `test:integration`: Vitest against Postgres. Run `db:up` and `db:migrate` first.
+  - `db:up` and `db:down`: start and stop Postgres on port 5232, from `compose.knowledge-base.yaml`. `db:migrate`
+    applies `migrations/*.sql` once each, in order. `db:reset` deletes all data, then starts and migrates again.
+  - `test:quick`: typecheck, lint, then unit tests. It does not need Postgres.
+- `knowledge-base-web` (`apps/knowledge-base-web`, TanStack Start in SPA mode, so pages render in the browser only, with
+  TanStack Router and TanStack Query):
+  - `dev` and `start` (Vite preview) run the site on port 3200. Both forward `/api` to the backend on port 8200.
+  - `build`, `typecheck`, `lint` (Biome), `test:unit` (Vitest with jsdom), and `test:quick`.
+- `knowledge-base-web-e2e` (`apps/knowledge-base-web-e2e`, Playwright):
+  - `test:e2e`: run the browser tests. It depends on `knowledge-base-be:db:migrate`. Its Playwright config builds and
+    starts the backend and the web app, then waits for `/api/health` on each.
+  - `lint`, `typecheck`, and `test:quick`.
+- The `edutech-*` and `knowledge-base-*` apps are standalone. They use no Gherkin corpus. Their required targets are not
+  checked by any script, so review each `project.json` by hand when they change.
 
 ## Conventions
 
@@ -106,3 +123,5 @@ Run one target with `npx nx <target> <project>`. Every app is an Nx project with
 
 - The `edutech-*` apps put unit tests next to the source as `*_tests.py` (pytest) and `*_tests.ts` or `*_tests.tsx`
   (Vitest). Their production-only checks use `*_production_tests.*`, which the `test:unit` targets skip.
+- The `knowledge-base-*` apps follow the same rule. Postgres tests are named `*_integration_tests.ts`, and only the
+  `test:integration` target runs them.

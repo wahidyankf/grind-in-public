@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:3200
+
+### Health check through the web proxy (run with `npx nx dev knowledge-base-web`)
+GET {{baseUrl}}/api/health
+
+### Register a user through the web proxy
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "correct horse"
+}
+
+### Login through the web proxy
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "correct horse"
+}

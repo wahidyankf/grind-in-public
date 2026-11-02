@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:8200
+
+### Health check (run with `npx nx dev knowledge-base-be`)
+GET {{baseUrl}}/api/health
+
+### Register a user
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "correct horse"
+}
+
+### Login (run this first if you want the token below)
+# @name login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "correct horse"
+}
+
+> {%
+  var body = typeof response.body === "string" ? JSON.parse(response.body) : response.body;
+  client.global.set("access_token", body.accessToken);
+%}

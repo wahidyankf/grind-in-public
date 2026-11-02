@@ -1,0 +1,121 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "knowledge-base-be",
+  "projectType": "application",
+  "sourceRoot": "apps/knowledge-base-be/src",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run dev",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "npm run build",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "npm run start",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run lint",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run format",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run typecheck",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "test:unit": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:unit",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "test:integration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run test:integration",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "db:up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f compose.knowledge-base.yaml up -d --wait",
+        "cwd": "."
+      }
+    },
+    "db:down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f compose.knowledge-base.yaml down",
+        "cwd": "."
+      }
+    },
+    "db:reset": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker compose -f ../../compose.knowledge-base.yaml down -v && docker compose -f ../../compose.knowledge-base.yaml up -d --wait && npm run db:migrate",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "db:migrate": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["db:up"],
+      "options": {
+        "command": "npm run db:migrate",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "test:unit:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vitest",
+        "cwd": "apps/knowledge-base-be"
+      }
+    },
+    "test:quick": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx typecheck knowledge-base-be",
+          "npx nx lint knowledge-base-be",
+          "npx nx test:unit knowledge-base-be"
+        ],
+        "cwd": ".",
+        "parallel": false
+      }
+    },
+    "test:quick:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx watch --projects=knowledge-base-be --initialRun -- npx nx run-many -t typecheck lint test:unit -p knowledge-base-be --output-style=stream",
+        "cwd": "."
+      }
+    }
+  }
+}
